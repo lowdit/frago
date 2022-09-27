@@ -1,13 +1,13 @@
 # Génération de rapports de synthèse pour le suivi et l’amélioration de l’accessibilité web.
 
 <p align="center">
-  <img width="243" height="272" src="/images/frago.png">
+  <img width="250" height="250" src="/images/frago.png">
 </p>
 
-![Dernière version](https://badgen.net/github/tag/DISIC/frago)
-![License](https://badgen.net/github/license/DISIC/frago)
-![Issues](https://badgen.net/github/issues/DISIC/frago)
-![Stars](https://badgen.net/github/stars/DISIC/frago)
+![Dernière version](https://badgen.net/github/tag/lowdit/frago)
+![License](https://badgen.net/github/license/lowdit/frago)
+![Issues](https://badgen.net/github/issues/lowdit/frago)
+![Stars](https://badgen.net/github/stars/lowdit/frago)
 
 ---
 > FRAGO : French Reports for Accessibility compliance with goHugo
