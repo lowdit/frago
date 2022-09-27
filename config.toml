@@ -1,8 +1,8 @@
-baseURL = "https://disic.github.io/frago/"
+baseURL = "https://lowdit.github.io/frago/"
 languageCode = "fr-FR"
 title = "Documentation"
 
-theme = ["documentago", "github.com/disic/frago"]
+theme = ["documentago", "github.com/lowdit/frago"]
 
 pygmentsCodeFences = true
 pygmentsCodefencesGuessSyntax = true
