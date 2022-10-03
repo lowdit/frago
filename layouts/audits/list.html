@@ -86,8 +86,10 @@
       {{- end -}}
     {{- end -}}
   {{- else -}}
-  <p class="no-print">← <a href="{{ .Parent.Permalink }}" class="link-more link-back">Retour à la liste des {{ .Parent.Title }}</a></p>
-    {{ with .Title }}<h1 class="text-center wrapper">{{ . }}</h1>{{ end }}
+  <p class="no-print">← <a href="{{ if eq (.Site.GetPage "/").Title "Accueil Audits" }}/{{ else }}{{ $.Site.BaseURL | default "/"}}audits{{ end }}" class="link-more link-back">Retour à la liste des services</a></p>
+    {{ with .Title }}
+      <h1 class="text-center fg-wrapper">{{ . }}</h1>
+    {{ end }}
     {{- if and (ne $project "audits") (not (partialCached "render/issimpleproject.html" "arg" "arg")) -}}
       {{- if and (not (in (path.Base .Path) "index.md")) -}}
         <article class="fg-wrapper narrow">

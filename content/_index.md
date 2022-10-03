@@ -1,5 +1,5 @@
 ---
-title: Accueil
+title: Accueil Audits
 outputs:
   - html
   - json

@@ -67,7 +67,7 @@
       {{- end -}}
     {{- end -}}
   {{- else -}}
-    <div class="fg-wrapper narrow"><p class="no-print">← <a href="{{ .Parent.Permalink }}" class="link-more link-back">Retour à la liste des {{ .Parent.Title }}</a></p></div>
+    <div class="fg-wrapper narrow"><p class="no-print">← <a href="{{ if eq (.Site.GetPage "/").Title "Accueil Audits" }}/{{ else }}{{ $.Site.BaseURL | default "/"}}audits{{ end }}" class="link-more link-back">Retour à la liste des services</a></p></div>
     {{ with .Title }}<h1 class="text-center fg-wrapper">{{ . }}</h1>{{ end }}
     {{- if and (not (in (path.Base .Path) "index.md")) -}}
       <article class="fg-wrapper narrow">
