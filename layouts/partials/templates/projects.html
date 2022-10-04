@@ -18,7 +18,7 @@
 
     {{- $accessibility  := fileExists (index (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "accessibility")  $project "accessibility") "auditfile-path") -}}
     {{- $ecoconception  := fileExists (index (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "ecoconception")  $project "rgesn") "auditfile-path") -}}
-    {{- $greenit        := fileExists (index (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "greenit")        $project "accessibility") "auditfile-path") -}}
+    {{- $greenit        := fileExists (index (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "greenit")        $project "greenit") "auditfile-path") -}}
     {{- $recommendation := fileExists (index (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "recommendation") $project "recommendation") "auditfile-path") -}}
     {{- $lighthouse     := fileExists (index (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "lighthouse")     $project "lighthouse") "auditfile-path") -}}
 
