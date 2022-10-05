@@ -12,13 +12,13 @@ Le thème Frago a pour objectif d’aider à la génération de synthèses pour 
 
 > Attention, goHugo est très sensible à l’architecture des contenus. Si les contenus sont absents ou présentent des erreurs le site peut planter. Si l’architecture du thème change, de même, il n’est plus possible d’utiliser les dernières versions du thème (sans modifier l’architecture de contenu).
 
-> Un maximum d’indications ont été ajoutés au code pour s’afficher dans la console (visible dans un terminal), si un cas mérite d’être signalé aller sur la page <https://github.com/DISIC/frago/issues>.
+> Un maximum d’indications ont été ajoutés au code pour s’afficher dans la console (visible dans un terminal), si un cas mérite d’être signalé aller sur la page <https://github.com/lowdit/frago/issues>.
 
 ## Démarrage (Configuration simplifiée)
 
 ### Architecture de contenu
 
-Exemple d'architecture d'un projet avec `goHugo`, voir : [L'exemple d’architecture](https://github.com/DISIC/frago/tree/master/exampleSite)
+Exemple d'architecture d'un projet avec `goHugo`, voir : [L'exemple d’architecture](https://github.com/lowdit/frago/tree/master/exampleSite)
 
 ```
 .
@@ -39,7 +39,7 @@ Exemple d'architecture d'un projet avec `goHugo`, voir : [L'exemple d’architec
                     └── context.yml // Déclarer le contexte de chaque audit
 ```
 
-Récupérer un exemple de structure de contenu : <https://github.com/DISIC/frago/tree/content>/
+Récupérer un exemple de structure de contenu : <https://github.com/lowdit/frago/tree/content>/
 
 ### Installer le thème
 
@@ -47,7 +47,7 @@ Récupérer un exemple de structure de contenu : <https://github.com/DISIC/frago
 
 Télécharger le thème sur votre dépôt dans `themes`: `themes/frago`.
 
-Lien de la dernière version du thème au format `.zip` : <https://github.com/DISIC/frago/archive/refs/heads/master.zip>.
+Lien de la dernière version du thème au format `.zip` : <https://github.com/lowdit/frago/archive/refs/heads/master.zip>.
 
 **Note :** Si vous le téléchargez, il ne sera pas synchronisé avec le dépôt GitHub, il faudra le mettre à jour à la main. Pour le mettre à jour, supprimer, puis recréer le thème déjà initialement présent.
 
@@ -67,7 +67,7 @@ cd themes
 
 **Cloner le thème**
 ```bash
-git clone https://github.com/DISIC/frago.git/
+git clone https://github.com/lowdit/frago.git/
 ```
 
 Le thème est présent dans le répertoire `themes/frago`. Vous pouvez le synchroniser avec `github` comme n'importe quel dépôt `.git`.
