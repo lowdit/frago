@@ -14,7 +14,7 @@
 
 ## Documentation
 
-Consultez la documentation pour découvrir l’outil : <https://disic.github.io/frago/docs/>
+Consultez la documentation pour découvrir l’outil : <https://lowdit.github.io/frago/docs/>
 
 ## Licence
 
