@@ -8,7 +8,7 @@ title = "Le titre de mon observatoire FRAGO"
 # Pour appeler le thème sous forme de module avec go
 [module]
   [[module.imports]]
-    path = "github.com/disic/frago"
+    path = "github.com/lowdit/frago"
 
 [params]
   organisation = "Mon organisation"
