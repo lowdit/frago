@@ -43,15 +43,21 @@
   {{ $data.Set "iCritNT" (len .) }}
 {{ end }}
 
-{{ $data.Set "CritCount" ($data.Get "CritC") }}
+{{ $data.Set "CritCount" slice }}
+
+{{ with ($data.Get "CritC") }}
+  {{ $data.Set "CritCount" ($data.Get "CritC") }}
+{{ end }}
 {{ with ($data.Get "CritNC") }}
   {{ $data.Set "CritCount" (merge ($data.Get "CritC") .)  }}
 {{ end }}
 
 {{ $data.Set "compliance" 0 }}
-{{ $data.Set "compliance"
-    (div (mul ($data.Get "iCritC") 100) (len ($data.Get "CritCount")))
-}}
+{{ if ne (len ($data.Get "CritCount")) 0 }}
+  {{ $data.Set "compliance"
+      (div (mul ($data.Get "iCritC") 100) (len ($data.Get "CritCount")))
+  }}
+{{ end }}
 
 {{ return (dict
   "isempty"       true
