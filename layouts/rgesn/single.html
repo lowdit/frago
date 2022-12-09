@@ -2,7 +2,7 @@
 {{- $patharray := split (path.Dir .Path) "/" -}}
 
 {{- $.Scratch.Set "guidelinename" "rgesn" -}}
-{{- $.Scratch.Set "guidelineversion" "0.1" -}}
+{{- $.Scratch.Set "guidelineversion" "1.0" -}}
 {{- if ge ($patharray) 2 -}}
   {{- $.Scratch.Set "guideline" (index $patharray 0) -}}
   {{- $.Scratch.Set "guidelinename" (index $patharray 0) -}}

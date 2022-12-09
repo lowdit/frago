@@ -35,7 +35,7 @@
   {{/* END Display page note if exists */}}
 
   {{- $data.Set "guidelinename" "rgesn" -}}
-  {{- $data.Set "guidelineversion" "0.1" -}}
+  {{- $data.Set "guidelineversion" "1.0" -}}
   {{- $criteriafile := (index (index $context.Site.Data ($data.Get "guidelinename")) ($data.Get "guidelineversion")).criteres -}}
 
   {{- if and ($data.Get "auditfile-csv") (ne ($data.Get "scores").isempty 0) -}}
