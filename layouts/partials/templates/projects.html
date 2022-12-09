@@ -2,7 +2,7 @@
 {{- $project       := (partial "render/projectpath" $context $context) -}}
 {{- $OutputFormats := cond (fileExists "content/audits/index.md") ($context.GetPage "/audits/index.md").OutputFormats .OutputFormats -}}
 
-{{- if and (ne $project "audits") (ne .Path "audits") -}}
+{{- if and (ne $project "audits") (ne .Path "audits") (ne $project "") -}}
 <section class="fg-wrapper narrow">
     {{/* Load lasts file */}}
     {{- $.Scratch.Set "accessibility-lastfile"  (partialCached "render/lastfile.html" (dict "context" . "project" $project "type" "accessibility" "datafilename" .Params.datafilename) $project "accessibility" .Params.datafilename) -}}
@@ -362,6 +362,12 @@
 {{/*- partial "list.html" (dict "context" . "section" "meetings") -*/}}
 {{/*- partial "list.html" (dict "context" . "section" "actions" "type" "dark") -*/}}
 {{- else -}}
-{{- $partial := (partialCached "templates/projects-list.html" . .) -}}
-{{- partialCached "elements/content.html" $partial "projectslist" -}}
+{{- if  eq (path.Dir .Path) "organism" -}}
+  {{- $partial := (partialCached "templates/organism-list.html" . .) -}}
+  {{- partialCached "elements/content.html" $partial "organismlist" -}}
+{{ end }}
+{{- if  eq (path.Dir .Path) "audits" -}}
+  {{- $partial := (partialCached "templates/projects-list.html" . .) -}}
+  {{- partialCached "elements/content.html" $partial "projectslist" -}}
+{{ end }}
 {{- end -}}

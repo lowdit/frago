@@ -1,5 +1,5 @@
 ---
-title: Accueil
+title: Services numériques
 outputs:
   - html
   - json
