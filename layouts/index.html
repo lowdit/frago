@@ -22,6 +22,15 @@
       {{- partialCached "elements/content.html" $partial "projects" -}}
     {{/* If several projects :: call list of projects */}}
     {{- else -}}
+      {{- if (fileExists "content/organism") -}}
+        {{- $partial := (partialCached "templates/organism-list.html" . .) -}}
+        {{- partialCached "elements/content.html" $partial "organismlist" -}}
+        <p class="text-center wrapper"><a href="/organism">Accéder à la page de l’organisme</a></p>
+        <br>
+        <hr>
+        <br>
+        <h2 class="text-center wrapper">Liste des Services numériques</h2>
+      {{- end -}}
       {{- $partial := (partialCached "templates/projects-list.html" . .) -}}
       {{- partialCached "elements/content.html" $partial "projectslist" -}}
     {{- end -}}

@@ -40,27 +40,24 @@
       {{ if ($.Scratch.Get "rangepages") }}
       {{- partialCached "utils/css.html" (dict "context" . "filefolder" "object" "filename" "card") "card" -}}
 
-      <nav class="list-unstyled" role="navigation">
-        <div class="card-inline card-border text-center">
-            <div>
-              <strong>Nombre de services numériques</strong><br>
-              {{ (len ($.Scratch.Get "aggregate").accessibility) }}<br>
-            </div>
-            <div>
-              <strong>Accessibilité</strong><br>
-              {{ div ($.Scratch.Get "aggregate").accessibilitysum (len ($.Scratch.Get "aggregate").accessibility) }}%<br>
-              Taux moyen
-            </div>
-            <div>
-              <strong>Éco-conception</strong><br>
-              {{ div ($.Scratch.Get "aggregate").ecoconceptionsum (len ($.Scratch.Get "aggregate").ecoconception) }}%<br>
-              Taux moyen
-            </div>
-            <div>
+      <h2>Liste des indicateurs</h2>
+        <ul class="list-unstyled" role="navigation">
+            <li class="enlarge-link card-inline card-shadow">
+              <h2 class="h3">Nombre de services numériques</h2>
+              <span class="flex flex-gap align-items-center text-center lh-1"><b class="font-bigger font-bold d-block">{{ (len ($.Scratch.Get "aggregate").accessibility) }}</b></span>
+            </li>
+            <li class="enlarge-link card-inline card-shadow">
+              <h2 class="h3">Accessibilité <small>Moyenne des services</small></h2>
+              <span class="flex flex-gap align-items-center text-center lh-1"><b class="font-bigger font-bold d-block">{{ div ($.Scratch.Get "aggregate").accessibilitysum (len ($.Scratch.Get "aggregate").accessibility) }}%</b></span>
+            </li>
+            <li class="enlarge-link card-inline card-shadow">
+              <h2 class="h3">Éco-conception <small>Moyenne des services</small></h2>
+              <span class="flex flex-gap align-items-center text-center lh-1"><b class="font-bigger font-bold d-block">{{ div ($.Scratch.Get "aggregate").ecoconceptionsum (len ($.Scratch.Get "aggregate").ecoconception) }}%</b></span>
+            </li>
+            <li class="enlarge-link card-inline card-shadow">
               {{- partialCached "components/scores/greenit-small" (dict "context" . "project" "") "" -}}
-            </div>
-        </div>
-      </nav>
+            </li>
+        </ul>
       {{- end -}}
     </div>
   </section>
