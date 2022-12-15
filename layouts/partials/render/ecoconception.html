@@ -9,9 +9,9 @@
     {{ range $id, $value2 := after 2 . }}
       {{ $value2 := lower (index (split . "|") 0) }}
       {{ $key := printf "%s.%s" (index $value1 0) (index $value1 1)}}
-      {{ if eq $value2 "oui"}}
+      {{ if or (eq $value2 "oui") (eq $value2 "c") (eq $value2 "conforme") }}
         {{ $data.SetInMap "CritC" (string $key) . }}
-      {{ else if eq $value2 "non"}}
+      {{ else if or (eq $value2 "non") (eq $value2 "nc") (eq $value2 "nonconforme") }}
         {{ $data.SetInMap "CritNC" (string $key) . }}
       {{ else if or ( eq $value2 "na") (eq $value2 "non applicable") }}
           {{ $data.SetInMap "CritNA" (string $key) . }}
