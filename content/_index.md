@@ -26,6 +26,7 @@ cascade:
     - recommendation
     - performance
     - accessibilitypage
+    - rawebpage
     - ecoindexpage
     - ecoconceptionpage
     - opquastpage
@@ -52,6 +53,7 @@ cascade:
     - declarationeco
     - declarationecopage
     - accessibility
+    - raweb
     - ecoindex
     - ecoconception
     - opquast
@@ -60,6 +62,7 @@ cascade:
     - recommendation
     - performance
     - accessibilitypage
+    - rawebpage
     - ecoindexpage
     - ecoconceptionpage
     - opquastpage
@@ -77,6 +80,7 @@ cascade:
     - html
     - json
     - accessibilitypage
+    - rawebpage
     - ecoindexpage
     - ecoconceptionpage
     - opquastpage

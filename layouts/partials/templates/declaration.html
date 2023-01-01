@@ -3,7 +3,7 @@
 {{- $path := "" }}{{ with .File }}{{ $path = .Path }}{{ end }}
 {{- $data     := newScratch -}}
 {{- $project  := (partialCached "render/projectpath" $context $context) -}}
-{{- $envTitle := (dict "desktop" "Ordinateur" "mobile" "Mobile") -}}
+  {{- $envTitle := (dict "desktop" "Ordinateur" "mobile" "Mobile") -}}
 {{- $ref          := $context.Site.Data.referential -}}
 
 {{- $referential              := (partialCached "render/referential-version.html" (dict "context" $context "referential" (index $ref "accessibility").referential) $context (index $ref "accessibility").referential).guideline -}}
@@ -91,6 +91,7 @@
           {{- $map := . -}}
           {{- if ne (len .compliance) 1 -}}
             {{/* Cumulated scores */}}
+            {{ warnf "%s" ($data.Get "context") }}
             <li>{{ .percentage }}% {{ with ($data.Get "scores").scores.criteria.total }}des {{ . }} critères {{ end }}{{ with ($data.Get "context").audit.guidelines }}du {{ . }}{{ end }} sont respectés sur l’ensemble des parcours.</li>
             {{- if ($data.Get "scores").criteria -}}
               <li>{{ ($data.Get "scores").scores.compliance }}% {{ with ($data.Get "scores").scores.criteria.total }}des {{ . }} critères{{ end }} {{ with (index ($data.Get "scores") "criteretotal") }}testés {{ end }}{{ with ($data.Get "context").audit.guidelines }}du {{ . }}{{ end }} sont respectés {{ with ($data.Get "context").website }}pour {{ . }}{{ end }} (le taux moyen est de {{ ($data.Get "scores").scores.complianceaverage }}%).</li>
@@ -141,40 +142,9 @@
               <h3>Environnement de test</h3>
               <p>Les vérifications de restitution de contenus ont été réalisées sur la base de la combinaison fournie
                 par la base de référence du RGAA, avec les versions suivantes :</p>
-
-                {{ if reflect.IsMap (index . 0) }}
-                  {{- range $key, $value := $envTitle -}}
-                  {{- with where $environment "type" $key -}}
-                    <table>
-                      <caption>Environnement de test {{ $value }}</caption>
-                      <thead>
-                        <th>Système d’exploitation</th>
-                        <th>Technologie d’assistance</th>
-                        <th>Navigateur</th>
-                      </thead>
-                      <tbody>
-                      {{- range . }}
-                        <tr>
-                          <td>{{ .OS }}</td>
-                          <td>{{ .screenreader }}</td>
-                          <td>{{ .browser }}</td>
-                        </tr>
-                      {{ end -}}
-                      </tbody>
-                    </table>
-                  {{- end -}}
-                  {{- end -}}
-                {{- else -}}
-                  {{ with . }}
-                  <ul>
-                  {{- range $id, $value := . -}}
-                    <li>{{ . }}</li>
-                  {{ end }}
-                  </ul>
-                  {{ end }}
-                {{ end }}
+              {{ partial "templates/context/environnement" . }}
             {{ end }}
-            {{/* END tools */}}
+            {{/* END environment */}}
             {{/* START tools */}}
             {{ with .tools }}
               <h3>Outils pour évaluer l’accessibilité</h3>

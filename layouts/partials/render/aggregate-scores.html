@@ -4,7 +4,7 @@
 {{ with .File }}{{ $path = .Path }}{{ end }}
 {{ $data          := newScratch }}
 {{ $time          := now.UnixMilli }}
-{{ $reflist       := (slice "accessibility" "ecoconception" "opquast" "publishing") }}
+{{ $reflist       := (slice "accessibility" "raweb" "ecoconception" "opquast" "publishing") }}
 
 {{/* Declare Var */}}
 {{ $data.Delete "allscores" }}
@@ -31,11 +31,14 @@
     {{/* START Loop over each referential :: calculate */}}
     {{ range $reflist }}
       {{ $type    := . }}
-      {{ with (index (partialCached "render/lastfile.html" (dict "context" . "project" $project "type" $type) $project .) "auditfile-all-path") }}
+      {{ $auditsfiles := (partialCached "render/lastfile.html" (dict "context" . "project" $project "type" $type) $project .) }}
+      {{ with (index $auditsfiles "auditfile-all-path") }}
       {{ if (not (in . "false")) }}
         {{ range $id, $file := last 1 (sort .) }}
+        {{ warnf "aasaad%s %s %s aaaa" . $type $auditsfiles }}
           {{/* Calculate the score for a referential */}}
-          {{ $render := (partialCached (printf "render/%s.html" $type) (dict "context" "aggregate" "auditfile" . ) .) }}
+          {{ $contextaudit := (partial "render/context.html" (dict "context" $context "project" $project "type" $type) $context $project $type) }}
+          {{ $render       := (partialCached (printf "render/%s.html" $type) (dict "context" "aggregate" "auditfile" . "auditname" (index $contextaudit (index $auditsfiles "auditfile-name")).guidelines.name) . (index $contextaudit (index $auditsfiles "auditfile-name")).guidelines.name)  }}
           {{/* Store each result un a map */}}
           {{ $data.SetInMap $project $type $render }}
           {{/* START Count the sum for each criteria */}}
@@ -123,6 +126,7 @@
           {{ end }}
 
           {{ $score := $render.scores.compliance }}
+          {{ $data.Set (printf "aggregate-%s-context" $type) $contextaudit }}
           {{ $data.Add (printf "aggregate-%s-list" $type) $score }}
           {{ $data.Add (printf "aggregate-%s-sum" $type) $score  }}
           {{ if lt $score 50 }}
@@ -167,6 +171,7 @@
   {{ $dict1 := dict }}
   {{ $dict2 := dict }}
 
+  {{ $data.SetInMap (printf "aggregate%s" .) "context"            ($data.Get (printf "aggregate-%s-context" .)) }}
   {{ $data.SetInMap (printf "aggregate%s" .) "all"                ($data.Get (printf "aggregate-%s-list" .)) }}
   {{ $data.SetInMap (printf "aggregate%s" .) "invalid"            ($data.Get (printf "aggregate-%s-nc" .)) }}
   {{ $data.SetInMap (printf "aggregate%s" .) "valid"              ($data.Get (printf "aggregate-%s-c" .)) }}
@@ -237,6 +242,7 @@
 {{ end }}
 
 {{ $data.SetInMap "aggregates" "accessibility"                  ($data.Get "aggregateaccessibility") }}
+{{ $data.SetInMap "aggregates" "raweb"                          ($data.Get "aggregateraweb") }}
 {{ $data.SetInMap "aggregates" "ecoconception"                  ($data.Get "aggregateecoconception") }}
 {{ $data.SetInMap "aggregates" "opquast"                        ($data.Get "aggregateopquast")       }}
 {{ $data.SetInMap "aggregates" "publishing"                     ($data.Get "aggregatepublishing")    }}

@@ -3,13 +3,14 @@
 {{ $path       := "" }}
 {{ $patharray  := (symdiff (split ($context.RelPermalink) "/") (slice ""))}}
 
-{{ $referential := cond (eq .referential "accessibility") "rgaa" .referential }}
-
+{{/* Only for accessibility because of differents guidelines :: RGAA, RAWeb, WCAG */}}
+{{ $referential := cond (and (eq .referential "any") (eq .Type "accessibility")) "rgaa" .referential }}
+{{ warnf "%s %s %s hjhjh" $referential .Type .context }}
 {{ $versionallarray := "" }}
 {{ $data.Set "versionallarray" slice }}
 
-{{/* Loop over all directories in a referential for finding all versions */}}
-{{ range $key, $value := (index .context.Site.Data $referential) }}
+{{/* Loop over all directories in a guidelines for finding all versions of this guideline */}}
+{{ range $key, $value := (index $context.Site.Data $referential) }}
   {{ if in $key "." }}
     {{ if ne $versionallarray (slicestr $key 0 3) }}{{ $data.Set "versionallarray" slice }}{{ end }}
     {{ $data.Add "versionallarray" $key }}
@@ -18,7 +19,7 @@
   {{ end }}
 {{ end }}
 
-{{ $data.Set "name" $referential }}
+{{ $data.Set "name"    $referential }}
 {{ $data.Set "version" (cond (not .version) (cond (not (delimit (last 1 ($data.Get "versionallarray")) "")) "ko" (delimit (last 1 ($data.Get "versionallarray")) "")) .version) }}
 
 {{ if and (ge ($patharray) 3) (ne (delimit (first 1 $patharray) "") "audits") (ne (delimit (first 1 $patharray) "") "organism") (index ($data.Get "versionall") (index $patharray 1)) }}
@@ -30,6 +31,5 @@
   "guideline" (dict
       "name"                ($data.Get "name")
       "version"             ($data.Get "version")
-      "versionall"          ($data.Get "versionall")
     )
 )}}

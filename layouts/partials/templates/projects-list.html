@@ -31,6 +31,7 @@
             {{- $accessibilitypath := "/false" -}}
             {{- $accessibilitypath := index (partialCached "render/lastfile.html" (dict "context" . "project" $project "type" "accessibility" "datafilename" .Params.datafilename) $project "accessibility") "auditfile-path" -}}
             {{- $accessibility     := fileExists (printf "%s" $accessibilitypath) -}}
+            {{- $raweb             := fileExists (printf "%s/raweb" $projectFolders) -}}
             {{- $ecoconception     := fileExists (printf "/%s/rgesn/" $projectFolders) -}}
             {{- $opquast           := fileExists (printf "/%s/opquast/" $projectFolders) -}}
             {{- $publishing        := fileExists (printf "/%s/publishing/" $projectFolders) -}}
@@ -46,6 +47,7 @@
                 </h2>
                 {{- if or $accessibility $recommendation $lighthouse $opquast $ecoconception -}}
                 <div class="flex flex-gap flex-small align-items-center text-center lh-1">
+
 
                   {{/* If Ecoindex exists */}}
                   {{- if $ecoindex -}}
@@ -86,7 +88,14 @@
                   {{- end -}}
 
                   {{/* If Accessibility exists */}}
+                  {{- if and $raweb -}}
+                    {{ ($.Store.Get "aggregates").raweb }}s
+                    <p class="mb-0">{{- partialCached "components/scores/indicator-small" (dict "context" . "project" $project "scores" (index (index ($.Store.Get "aggregates").allscores $project) "accessibility") "name" "RAWeb") $project "RAWeb" -}}</p>
+                  {{- end -}}
+
+                  {{/* If Accessibility exists */}}
                   {{- if and $accessibility -}}
+                  {{ ($.Store.Get "aggregates").accessibility.context }}
                     <p class="mb-0">{{- partialCached "components/scores/indicator-small" (dict "context" . "project" $project "scores" (index (index ($.Store.Get "aggregates").allscores $project) "accessibility") "name" "RGAA") $project "accessibility" -}}</p>
                   {{- end -}}
 

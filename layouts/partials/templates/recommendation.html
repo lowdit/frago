@@ -42,8 +42,8 @@
 {{ end -}}
 
 {{/* Call the same value as in templates/accessibility :: with cache */}}
-{{ $referential := (partialCached "render/referential-version.html" (dict "context" $context "referential" "rgaa" "patharray" $patharray) $context).guideline }}
-
+{{ $referential := (partial "render/referential-version.html" (dict "context" $context "referential" "rgaa" "patharray" $patharray) $context).guideline }}
+{{ $referential }}
 {{- $lastfile              := (partialCached "render/lastfile.html"        (dict "context" $context "project" $project "type" "recommendation" "datafilename" .context.Params.datafilename) $project "recommendation" .context.Params.datafilename) -}}
 {{- $data.Set "auditpath-csv" (index (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "accessibility") $project "accessibility") "auditfile-path") -}}
 {{- $data.Set "scores"        (partialCached "render/accessibility.html"   (dict "context" "recommendation" "auditfile" ($data.Get "auditpath-csv")) ($data.Get "auditpath-csv")) -}}
@@ -289,15 +289,17 @@
                 {{- $criteriafile := index (index (index $.context.Site.Data $referential.name) (string $referential.version)).criteria.topics -}}
                 {{- $thematiques  := index (split . ".") 0 -}}
                 {{- $criteria     := index (split . ".") 1 -}}
-                {{- $glossaire    := (printf "=\"%s%s/%s/glossaire/#" ($.context.Site.BaseURL | default "/") ($data.Get "guidelinename") ($data.Get "guidelineversion")) -}}
+                {{- $glossaire    := (printf "=\"%s%s/%s/glossaire/#" ($.context.Site.BaseURL | default "/") ($referential.name) (index (findRE `(\d+.\d)` $referential.version 1) 0)) -}}
+                {{ if $thematiques }}
                 {{- $s := where $criteriafile "number" "eq" (int ($thematiques)) -}}
                 <dd class="details mt-1 mb-1">
                   <p class="summary">
                     {{ (replaceRE "=\"#" $glossaire ((((index (index $s 0).criteria (sub (int ($criteria)) 1)).criterium).title) | markdownify) 100) | safeHTML  }}<br>
-                    Critère : <a href="{{ $.context.Site.BaseURL | default "/" }}{{- $data.Get "guidelinename" }}/{{- $data.Get "guidelineversion" }}/criteres/#{{ replace . "." "-" }}">{{ . | safeHTML }}</a> du {{ upper $referential.name }} {{ $referential.version }}.
+                    Critère : <a href="{{ $.context.Site.BaseURL | default "/" }}{{- $referential.name }}/{{- index (findRE `(\d+.\d)` $referential.version 1) 0 }}/criteres/#{{ replace . "." "-" }}">{{ . | safeHTML }}</a> du {{ upper $referential.name }} {{ $referential.version }}.
                     {{/* Pourcentage potentiel de correction du RGAA : {{ index ($data.Get "criteriavalue") (string .criterion) */}}
                   </p>
                 </dd>
+                {{- end -}}
               {{ end -}}
               {{ end -}}
               {{- else if (in .criterion "Pi") }}

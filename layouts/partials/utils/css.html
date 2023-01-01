@@ -8,7 +8,7 @@
     </style>
   {{- else -}}
     <link rel="preload" href="{{ $css.Permalink }}" as="style">
-    <link rel="stylesheet" href="{{ $css.Permalink }}" {{ with $css.Data.Integrity }}integrity="{{ . }}"{{- end -}} media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="{{ $css.Permalink }}" {{ with $css.Data.Integrity }}integrity="{{ . }}"{{- end -}} media="screen">
     <noscript>
       <link rel="stylesheet" href="{{ $css.Permalink }}" {{ with $css.Data.Integrity }}integrity="{{ . }}"{{- end -}} media="screen">
     </noscript>

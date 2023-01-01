@@ -20,6 +20,7 @@
   {{ $auditmethodology := (index (partialCached "render/methodology.html" (dict "auditfile" $auditfilecsv) $auditfilecsv) "methodology") }}
   {{ $pageslist        := (index (partialCached "render/methodology.html" (dict "auditfile" $auditfilecsv) $auditfilecsv) "pageslist") -}}
 
+
   {{ $data.Set (printf "%s%s" $scorekey "date")           (replace (path.Base .auditfile) (path.Ext .auditfile) "") }}
   {{ $data.Set "critValues"      0 }}
   {{ $data.Set "critValuesUniq"  0 }}
@@ -31,7 +32,7 @@
 
   {{ $data.Delete $scorekey }}
   {{ $data.SetInMap (printf "%s%s" $scorekey "pageC")  "0"  slice }}
-  {{ $data.SetInMap (printf "%s%s" $scorekey "pageNC") "0" slice }}
+  {{ $data.SetInMap (printf "%s%s" $scorekey "pageNC") "0"  slice }}
 
   {{/* START Range csv file per lines/criteria */}}
   {{ range $key1, $value1 := after 1 $auditfilecsv }}
@@ -185,11 +186,17 @@
         {{ end }}
 
         {{ if eq $valuelower "c"  }}
+          {{ if lt (int (index (split $id ".") 0)) 14 }}
+            {{ $data.SetInMap (printf "%s%s" $scorekey "critCRGAA") (string $id) . }}
+          {{ end }}
           {{ $data.SetInMap (printf "%s%s" $scorekey "critC") (string $id) . }}
           {{ $data.SetInMap "AllCriteria" (string $id) "c" }}
         {{ end }}
 
         {{ if eq $valuelower "nc" }}
+          {{ if lt (int (index (split $id ".") 0)) 14 }}
+            {{ $data.SetInMap (printf "%s%s" $scorekey "critNCRGAA") (string $id) . }}
+          {{ end }}
           {{ $data.SetInMap (printf "%s%s" $scorekey "critNC") (string $id) . }}
           {{ $data.SetInMap "AllCriteria" (string $id) "nc" }}
         {{ end }}
@@ -209,11 +216,17 @@
         {{ end }}
 
         {{ if ((and (eq (len (intersect $value (slice "c"))) 1) (eq (len (intersect $value (slice "25" "50" "81"))) 1))) }}
+          {{ if lt (int (index (split $id ".") 0)) 14 }}
+            {{ $data.SetInMap (printf "%s%s" $scorekey "critCRGAA") (string $id) . }}
+          {{ end }}
           {{ $data.SetInMap (printf "%s%s" $scorekey "critC") (string $id) . }}
           {{ $data.SetInMap "AllCriteria" (string $id) "c" }}
         {{ end }}
 
         {{ if ((and (eq (len (intersect $value (slice "nc"))) 1) (eq (len (intersect $value (slice "25" "50" "81"))) 1))) }}
+          {{ if lt (int (index (split $id ".") 0)) 14 }}
+            {{ $data.SetInMap (printf "%s%s" $scorekey "critNCRGAA") (string $id) . }}
+          {{ end }}
           {{ $data.SetInMap (printf "%s%s" $scorekey "critNC") (string $id) . }}
           {{ $data.SetInMap "AllCriteria" (string $id) "nc" }}
         {{ end }}
@@ -222,6 +235,9 @@
         {{ $symdiffna := $value | symdiff (slice "na" "c") }}
 
         {{ if eq (len $symdiffna) 0 }}
+          {{ if lt (int (index (split $id ".") 0)) 14 }}
+            {{ $data.SetInMap (printf "%s%s" $scorekey "critCRGAA") (string $id) . }}
+          {{ end }}
           {{ $data.SetInMap (printf "%s%s" $scorekey "critC") (string $id) . }}
           {{ $data.SetInMap "AllCriteria" (string $id) "c" }}
         {{ end }}
@@ -260,6 +276,9 @@
             {{ $data.SetInMap (printf "%s%s" $scorekey "critNT") (string $id) . }}
             {{ $data.SetInMap "AllCriteria" (string $id) "nc" }}
           {{ else if in $rendercritererest "nc" }}
+            {{ if lt (int (index (split $id ".") 0)) 14 }}
+              {{ $data.SetInMap (printf "%s%s" $scorekey "critNCRGAA") (string $id) . }}
+            {{ end }}
             {{ $data.SetInMap (printf "%s%s" $scorekey "critNC") (string $id) . }}
             {{ $data.SetInMap "AllCriteria" (string $id) "nc" }}
           {{ else }}
@@ -286,12 +305,21 @@
       {{ $data.Set "critCount" (merge ($data.Get (printf "%s%s" $scorekey "critC")) .) }}
     {{ end }}
 
+    {{ $data.Set "critCountBase" ($data.Get (printf "%s%s" $scorekey "critCRGAA")) }}
+    {{ with ($data.Get (printf "%s%s" $scorekey "critNCRGAA")) }}
+      {{ $data.Set "critCountBase" (merge ($data.Get (printf "%s%s" $scorekey "critCRGAA")) .) }}
+    {{ end }}
 
     {{/* START count number of criterion */}}
 
     {{ $data.Set (printf "%s" "iCritC") 0 }}
     {{ with ($data.Get (printf "%s%s" $scorekey "critC")) }}
       {{ $data.Set (printf "%s" "iCritC") (len .) }}
+    {{ end }}
+
+    {{ $data.Set (printf "%s" "iCritCRGAA") 0 }}
+    {{ with ($data.Get (printf "%s%s" $scorekey "critCRGAA")) }}
+      {{ $data.Set (printf "%s" "iCritCRGAA") (len .) }}
     {{ end }}
 
     {{ $data.Set (printf "%s%s" $scorekey "iCritNA") 0 }}
@@ -316,6 +344,17 @@
     {{ $data.Set (printf "%s%s" $scorekey "compliance")
         (div (mul ($data.Get (printf "%s" "iCritC")) 100) (len ($data.Get "critCount")))
     }}
+
+    {{ $data.Set (printf "%s%s" $scorekey "complianceBase") 0 }}
+    {{ $data.Set (printf "%s%s" $scorekey "complianceBase")
+      (div (mul ($data.Get (printf "%s" "iCritCRGAA")) 100) (len ($data.Get "critCountBase")))
+    }}
+
+    {{ if and (ne .auditname "rgaa") (eq ($data.Get (printf "%s%s" $scorekey "complianceBase")) 100) }}
+      {{ $data.Set (printf "%s%s" $scorekey "compliance")
+        (div (mul ($data.Get (printf "%s" "iCritC")) 100) (len ($data.Get "critCountBase")))
+      }}
+    {{ end }}
 
     {{/* If NC :: avoid div by 0 when any NC */}}
     {{ if ($data.Get "critNC") }}
@@ -360,6 +399,7 @@
                       )
                       "isempty"           ($data.Get (printf "%s" "render-is-empty"))
                       "compliance"        (int ($data.Get (printf "%s%s" $scorekey "compliance")))
+                      "complianceBase"    (int ($data.Get (printf "%s%s" $scorekey "complianceBase")))
                       "complianceaverage" (int ($data.Get (printf "%s%s" $scorekey "Average")))
                     )
   ) }}

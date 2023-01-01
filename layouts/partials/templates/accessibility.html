@@ -19,9 +19,9 @@
   {{- $data.Set "auditscore"    (partialCached "render/meta-scores.html" (dict "context" $context "project" $project "type" "accessibility") $project "accessibility") -}}
   {{- $data.Set "audits"        (index ($data.Get "auditscore") "auditfiles") -}}
   {{- $data.Set "auditpath-csv" (index ($data.Get "auditscore") "auditfile-path") -}}
-
+  {{ $context.Permalink }} <hr>
   {{/* Display declaration tpl when output format is set */}}
-  {{- if and (in .context.Permalink "declaration.html") ($data.Get "audits") -}}
+  {{- if and (in $context.Permalink "declaration.html") ($data.Get "audits") -}}
     {{- $partial := (partialCached "templates/declaration.html" (dict "context" $context "audits" ($data.Get "audits")) ($data.Get "audits")) -}}
     {{- partialCached "elements/content.html" $partial $partial -}}
   {{- else -}}
@@ -42,35 +42,14 @@
     {{- end -}}
     {{/* END Test if the csv file has a good name : YYYY-MM-DD.csv */}}
 
-    {{/* START Determine the version of the audit from the context declaration */}}
-    {{- $data.Set "guidelinename"    "" -}}
-    {{- $data.Set "guidelineversion" "" -}}
-    {{- $data.Set "context" (partialCached "render/context.html" (dict "context" $context "project" $project) $project) -}}
-    {{- with ($data.Get "context") -}}
-      {{- with (index ($data.Get "audits") "auditfile-name") -}}
-        {{- with (index ($data.Get "context") .) -}}
-          {{- with .audit -}}
-            {{- with .guidelines -}}
-              {{- $guideline := (replace (. | urlize) "-" "") -}}
-              {{- $data.Set "guidelinename"    (cond (in $guideline "rgaa") "rgaa" (cond (in $guideline "wcag") "wcag" "none")) -}}
-              {{- $data.Set "guidelineversion" (replace $guideline ($data.Get "guidelinename") "") -}}
-            {{- end -}}
-          {{- end -}}
-        {{- end -}}
-      {{- else -}}
-        {{- if ne (path.Dir $path) "audits/_index.md" -}}
-          {{- warnf "(index ($data.Get 'audits') 'auditfile-name') est vide" -}}
-        {{- end -}}
-      {{- end -}}
-    {{- end -}}
-    {{/* END Determine the version of the audit form the context declaration */}}
+    {{/* Call Guidelines name and version */}}
+    {{- $data.Set "context" ($data.Get "auditscore").context -}}
+    {{- $referential := (index ($data.Get "context") (index ($data.Get "audits") "auditfile-name")).guidelines -}}
 
-    {{/* Load the criteria file for the good audit version */}}
-    {{- $referential := (partialCached "render/referential-version.html" (dict "context" $context "referential" "rgaa" "version" ($data.Get "guidelineversion")) $context ).guideline -}}
     {{- $data.Set "criteriafile" (index (index $.context.Site.Data $referential.name) (string $referential.version)).criteria.topics -}}
 
     {{/* Load the glossary file for the good audit version */}}
-    {{- $data.Set "glossaire" (printf "=\"%s%s%s/glossaire/#" (site.BaseURL | default "/") $referential.name $referential.version) -}}
+    {{- $data.Set "glossaire" (printf "=\"%s%s/%s/glossaire/#" (site.BaseURL | default "/") $referential.name $referential.version) -}}
 
     {{- if $project -}}<p>← <a href="{{ site.BaseURL | default "/" }}{{- with $project -}}{{ printf "audits/%s/" (urlize .) }}{{- end -}}" class="link-more link-back" aria-label="Retour à la page {{ ($context.GetPage $project).Title }}">Retour à la page projet</a></p>{{- end -}}
     <h1>Audit Accessibilité{{ with $projectTitle }}<small> pour {{ partialCached "utils/isURL.html" (dict "context" $context "projectTitle" $projectTitle) $projectTitle }}</small>{{ end }}</h1>
@@ -138,7 +117,6 @@
       <time class="text-center" datetime="{{ ($data.Get "date").Format "2006-01-02T15:04:05Z07:00" | safeHTML }}">Le {{ ($data.Get "date").Day }} {{ index $.context.Site.Data.month (printf "%d" ($data.Get "date").Month) }} {{ ($data.Get "date").Year }}</time>
       {{- with $.context.OutputFormats.Get "declarationpage" -}}<p class="text-center"><a href="{{ .RelPermalink }}" aria-label="Accéder à la déclaration de {{ ($context.GetPage $project).Title }}">Accéder à la déclaration</a></p>{{- end -}}
 
-
       <h3 class="mb-0">Conformité globale selon les critères {{/* if le ($data.Get "scores").scores.compliance "75" }} {{ if and (ne ($data.Get "scores").scores.criteria.nonconforme 0) (ne ($data.Get "scores").scores.criteria.conforme 0) }}<small>({{ sub ((div (mul (add (len ($data.Get "scores").criteria.conforme) (($data.Get "scores").scores.criteria.nonconforme) ) 75) 100)) (len ($data.Get "scores").criteria.conforme) }}</b> critères pour atteindre 75%)</small>{{ end }}{{ end */}}</h3>
       {{/* Call accessibility scores partial */}}
       {{- partialCached "components/scores/accessibility" (dict "context" $context "score" ($data.Get "scores").scores.compliance) ($data.Get "scores") -}}
@@ -161,13 +139,22 @@
             {{ with .guidelines }}<strong>Version du référentiel&nbsp;: </strong>{{ . }}<br>{{ end }}
             {{ with .technologies }}<strong>Technologies utilisées sur le site&nbsp;: </strong>{{ delimit . ", " }}<br>{{ end }}
             {{ with .tools }}<strong>Outils pour réaliser l’audit&nbsp;: </strong>{{ delimit . ", " }}<br>{{ end }}
-            {{ with .environment }}<strong>Environnement de test&nbsp;: </strong>{{ delimit . ", " }}<br>{{ end }}
+            {{ with .environment }}{{ partial "templates/context/environnement" . }}{{ end }}
           </p>
+        {{- else -}}
+          {{- with .audit -}}
+          <h2>Contexte</h2>
+            <p>
+              {{ with .guidelines }}<strong>Version du référentiel&nbsp;: </strong>{{ . }}<br>{{ end }}
+              {{ with .technologies }}<strong>Technologies utilisées sur le site&nbsp;: </strong>{{ delimit . ", " }}<br>{{ end }}
+              {{ with .tools }}<strong>Outils pour réaliser l’audit&nbsp;: </strong>{{ delimit . ", " }}<br>{{ end }}
+              {{ with .environment }}{{ partial "templates/context/environnement" . }}<br>{{ end }}
+            </p>
+          {{- end -}}
         {{- end -}}
       {{- end -}}
       {{/* END Display audit context */}}
-
-      {{ if not ($data.Get "criteriafile") }}<p class="center">La version de référentiel RGAA n’est pas correcte</p>{{ end }}
+      {{ if not ($data.Get "criteriafile") }}<p class="center">La version de référentiel déclaré dans le contexte d’audit n’est pas correcte</p>{{ end }}
 
     <hr>
 
