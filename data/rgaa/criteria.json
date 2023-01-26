@@ -93,7 +93,7 @@
         {
           "criterium": {
             "number": 3,
-            "title": "Pour certaines pages web, les couleurs utilisées dans les [composants d’interface](#composant-d-interface) ou les éléments graphiques porteurs d’informations ne sont pas suffisamment contrastées"
+            "title": "Pour certaines pages web, les couleurs utilisées dans les [composants d’interface](#composant-d-interface) ou les éléments graphiques porteurs d’informations ne sont pas suffisamment contrastées."
           }
         }
       ]
