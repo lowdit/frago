@@ -11,7 +11,7 @@
       {{ $key := printf "%s.%s" (index $value1 0) (index $value1 1)}}
       {{ if or (eq $value2 "oui") (eq $value2 "c") (eq $value2 "conforme") }}
         {{ $data.SetInMap "CritC" (string $key) . }}
-      {{ else if or (eq $value2 "non") (eq $value2 "nc") (eq $value2 "nonconforme") }}
+      {{ else if or (eq $value2 "non") (eq $value2 "nc") (eq $value2 "non conforme") }}
         {{ $data.SetInMap "CritNC" (string $key) . }}
       {{ else if or ( eq $value2 "na") (eq $value2 "non applicable") }}
           {{ $data.SetInMap "CritNA" (string $key) . }}

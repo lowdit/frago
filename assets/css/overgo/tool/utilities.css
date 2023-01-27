@@ -35,6 +35,10 @@
   top: 0;
 }
 
+.p-top-line {
+  top: -1.5em;
+}
+
 .p-bottom {
   bottom: 0;
 }
@@ -45,6 +49,10 @@
 
 .p-right {
   right: 0;
+}
+
+.p-right-line {
+  transform: translate(50%);
 }
 
 .left {
@@ -103,6 +111,10 @@
 
 /* Margin */
 
+.m-auto {
+  margin: auto;
+}
+
 .m-0 {
   margin: 0;
 }
@@ -135,6 +147,10 @@
   margin-right: calc(var(--baseline,1.5em) / 2);
 }
 
+.mr-2 {
+  margin-right: var(--baseline,1.5em);
+}
+
 /* Padding */
 
 .p-0 {
@@ -158,6 +174,10 @@
 }
 
 /* Width */
+
+.w-max-content {
+  width: max-content;
+}
 
 .wd-100 {
   width: 100px;
