@@ -33,19 +33,22 @@
     {{ end }}
 
     {{/* START Range columns of the csv file */}}
-    {{ range $id, $value2 := after $auditmethodology . }}
+    {{ range $id, $testcontentvalue := after $auditmethodology . }}
 
-      {{ $value2 := lower (index (split . "|") 0) }}
-      {{ if or (eq $value2 "c") (eq $value2 "nc") }}
+      {{ $testvalue := lower (index (split . "|") 0) }}
+
+      {{ if or (eq $testvalue "c") (eq $testvalue "nc") }}
         {{ $data.Add (printf "%s%s" $scorekey "render-is-empty") 1 }}
       {{ end }}
-      {{ if or (eq $value2 "c") (eq $value2 "nc") (eq $value2 "na") (eq . "?") }}
+      {{ if or (eq $testvalue "c") (eq $testvalue "nc") (eq $testvalue "na") (eq . "?") }}
         {{ $data.Add (printf "%s%s" $scorekey "totalTest") 1 }}
         {{ $data.Add (printf "%s%s" $scorekey "iCrit") 1 }}
       {{ end }}
-      {{ if . }}
-        {{ $data.Add (printf "%s%s" $scorekey "critPageValue") . }}
-        {{ $data.Add (printf "%s%s" $scorekey "critPageValues") . }}
+      {{ if $testcontentvalue }}
+        {{/* Replace first Characters (when c, nc or na…) by the same lowerify characters */}}
+        {{ $testcontentvalue := (cond (le (len $testvalue) 3) (replace $testcontentvalue (first (len $testvalue) $testcontentvalue) (lower (first (len $testvalue) $testcontentvalue))) $testcontentvalue) }}
+        {{ $data.Add (printf "%s%s" $scorekey "critPageValue") $testcontentvalue }}
+        {{ $data.Add (printf "%s%s" $scorekey "critPageValues") $testcontentvalue }}
         {{/* Build array per pages */}}
         {{ $data.SetInMap
           (printf "%s%s" $scorekey (printf "%s%s" $scorekey "critValuesUniq"))
@@ -58,7 +61,7 @@
           (($data.Get (printf "%s%s" $scorekey "critPageValues")))
         }}
         {{/* If a page has only nt for all criteria */}}
-        {{ if (ne $value2 "nt") }}
+        {{ if (ne $testvalue "nt") }}
           {{ $data.SetInMap
               (printf "%s%s" $scorekey "pagelist")
               (string $id)
@@ -121,6 +124,7 @@
       {{ if eq (len $value) 1 }}
         {{/* Set each test case if the array as uniq values */}}
 
+        {{/* Set to lower but seems useless see line::49 */}}
         {{ $valuelower := lower (index (split (index $value 0) "|") 0) }}
 
         {{ if eq $valuelower "?" }}
@@ -202,6 +206,8 @@
           {{ if and (eq (len $rendercritererest) 1) (eq (index $rendercritererest 0) "c") }}
             {{ $data.SetInMap (printf "%s%s" $scorekey "critC") (string $id) . }}
             {{ $data.SetInMap "AllCriteria" (string $id) "c" }}
+          {{ else if and (eq (len $rendercritererest) 2) (in $rendercritererest "NA") }}
+            {{ warnf "%v" . }}
           {{ else if and (eq (len $rendercritererest) 1) (eq (index $rendercritererest 0) "na") }}
             {{ $data.SetInMap (printf "%s%s" $scorekey "critNA") (string $id) . }}
             {{ $data.SetInMap "AllCriteria" (string $id) "na" }}
