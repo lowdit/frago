@@ -41,7 +41,7 @@
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=p>[</span><span class=nx>module</span><span class=p>]</span>
 </span></span><span class=line><span class=cl>  <span class=p>[[</span><span class=nx>module</span><span class=p>.</span><span class=nx>imports</span><span class=p>]]</span>
-</span></span><span class=line><span class=cl>    <span class=nx>path</span> <span class=p>=</span> <span class=s2>&#34;github.com/disic/frago&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=nx>path</span> <span class=p>=</span> <span class=s2>&#34;github.com/lowdit/frago&#34;</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=c># Utilisés dans les documents légaux</span>
 </span></span><span class=line><span class=cl><span class=p>[</span><span class=nx>params</span><span class=p>]</span>
@@ -50,7 +50,7 @@
 </span></span><span class=line><span class=cl>    <span class=nx>email</span> <span class=p>=</span> <span class=s2>&#34;referent-accessibilite@douane.finances.gouv.fr&#34;</span>
 </span></span><span class=line><span class=cl>    <span class=nx>address</span> <span class=p>=</span> <span class=s2>&#34;11, rue des deux Communes, 93558 Montreuil, cedex FRANCE&#34;</span>
 </span></span></code></pre></div><h5 id=créer-le-fichier-gomod-commande-dans-le-terminal>Créer le fichier <code>go.mod</code> (commande dans le terminal)</h5><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>hugo mod init github.com/organisme/nomdepotgit
-</span></span></code></pre></div><h5 id=créer-le-fichier-gosum--commande-dans-le-terminal>Créer le fichier <code>go.sum</code> (commande dans le terminal)</h5><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>hugo mod get github.com/disic/frago
+</span></span></code></pre></div><h5 id=créer-le-fichier-gosum--commande-dans-le-terminal>Créer le fichier <code>go.sum</code> (commande dans le terminal)</h5><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>hugo mod get github.com/lowdit/frago
 </span></span></code></pre></div><h5 id=mettre-à-jour-le-thème-le-fichier-gosum--commande-dans-le-terminal>Mettre à jour le thème le fichier <code>go.sum</code> (commande dans le terminal)</h5><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>hugo mod get -u
 </span></span></code></pre></div><h3 id=génération-du-site-mise-en-ligne>Génération du site (mise en ligne)</h3><p>Ligne de commande pour lancer le serveur en local sur votre machine</p><p><strong>Serveur local : mode auditeur</strong></p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>hugo serve
 </span></span></code></pre></div><p><strong>Serveur local : mode synthèse (pour tester en local l&rsquo;environnement de production)</strong></p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=nv>HUGO_ENV</span><span class=o>=</span><span class=s2>&#34;production&#34;</span> hugo serve --buildFuture --gc --minify
