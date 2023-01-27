@@ -101,7 +101,7 @@ title = "Mon administration"
 
 [module]
   [[module.imports]]
-    path = "github.com/disic/frago"
+    path = "github.com/lowdit/frago"
 
 # Utilisés dans les documents légaux
 [params]
@@ -120,7 +120,7 @@ hugo mod init github.com/organisme/nomdepotgit
 ##### Créer le fichier `go.sum`  (commande dans le terminal)
 
 ```bash
-hugo mod get github.com/disic/frago
+hugo mod get github.com/lowdit/frago
 ```
 
 ##### Mettre à jour le thème le fichier `go.sum`  (commande dans le terminal)
