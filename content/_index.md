@@ -17,13 +17,11 @@ cascade:
     - declarationpage
     - accessibility
     - ecoconception
-    - greenit
     - quality
     - recommendation
     - performance
     - accessibilitypage
     - ecoconceptionpage
-    - greenitpage
     - qualitypage
     - recommendationpage
     - performancepage
@@ -42,17 +40,22 @@ cascade:
     - declaration
     - accessibility
     - ecoconception
-    - greenit
     - quality
     - recommendation
     - performance
     - accessibilitypage
     - ecoconceptionpage
-    - greenitpage
     - qualitypage
     - recommendationpage
     - performancepage
 - _target:
     path: /audits/index.md
   type: "audits"
+- _target:
+    path: /organism/**/_index.md
+  outputs:
+    - html
+    - json
+    - greenit
+    - greenitpage
 ---

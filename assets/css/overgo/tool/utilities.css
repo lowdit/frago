@@ -189,6 +189,10 @@
 
 /* Line-height */
 
+.lh-0 {
+  line-height: 1;
+}
+
 .lh-1 {
   line-height: 1.25;
 }
