@@ -37,7 +37,7 @@ Définir des personas et les afficher sur une même page pour les partager à l�
 
 Éditer : `static/nomdelademarche/personas.json`
 
-![Personas](/DISIC/frago/raw/master/images/personas.png)
+![Personas](/frago/images/personas.png)
 
 ## Parcours
 
@@ -45,13 +45,13 @@ Ajouter un parcours type par persona pour fournir une base visuelle à l’équi
 
 Éditer : `static/nomdelademarche/personas.json`
 
-![Parcours](/DISIC/frago/raw/master/images/parcours.png)
+![Parcours](/frago/images/parcours.png)
 
 ## Composants
 
 #### Scores
 
-![Scores](/DISIC/frago/raw/master/images/scores.png)
+![Scores](/frago/images/scores.png)
 
 ### Phases
 
@@ -59,7 +59,7 @@ Nécessite d’ajouter un type de catégorie dans le `config.toml` ; et d’ajou
 
 Les contenus listés sont donc hétérogènes.
 
-![Phases](/DISIC/frago/raw/master/images/phases.png)
+![Phases](/frago/images/phases.png)
 
 ## Shortcodes
 
@@ -100,7 +100,7 @@ Appel de la librairie *mermaid.JS*. Ajouter la syntaxe *Mermaid* dans le contenu
 {{"{{"}}< /mermaid >{{"}}"}}
 ```
 
-![graphiques](/DISIC/frago/raw/master/images/diagramme.png)
+![graphiques](/frago/images/diagramme.png)
 
 ### Graphiques
 
@@ -123,7 +123,7 @@ Petit aide pour l’affichage de graphiques. Passer les données dans le contenu
 }
 {{"{{"}}< /graphic >{{"}}"}}
 ```
-![graphiques](/DISIC/frago/raw/master/images/graphiques.png)
+![graphiques](/frago/images/graphiques.png)
 
 ## Personas
 

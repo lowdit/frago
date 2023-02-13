@@ -87,10 +87,10 @@ static
 
 ### Architecture complète (⚠️ Ancienne présente une architecture alternative, elle doit évoluer pour correspondre à tous les types de contenus)
 
-> Attention dans ce cas de figure: ⚠️ Le nom des pages projets `content/projects/projets1.md`, des répertoires projets `static/projet1/` et des répertoires des pages d’audits `content/audits/projets1/accessibility.md` doivent bien comporter la même clef ou slug, ici : `projet1`. ⚠️
+> Attention dans ce cas de figure: ⚠️ Le nom des pages projets `content/projects/projets1.md`, des répertoires projets `static/projet1/` et des répertoires des pages d’audits `content/audits/projets1/accessibility.md` doivent bien comporter la même clef ou slug, ici : `projet1`.  ⚠️
 > Un script devrait permettre de créer ces fichiers automatiquement à partir du moment un répertoire dans `static` est créé, mais il n’existe pas encore. La création doit se faire manuellement.
 
-```
+```txt
 .
 ├── config.toml
 ├── content
@@ -219,7 +219,7 @@ datafilename: etudiants // appelle le fichier nommé etudiants :: dans static/no
 ---
 ```
 
-![usertests](/DISIC/frago/raw/master//images/usertests.png)
+![usertests](/frago/images/usertests.png)
 
 #### Personas
 
@@ -229,7 +229,7 @@ Définir des personas et les afficher sur une même page pour les partager à l�
 
 Éditer : `static/nomdelademarche/personas.json`
 
-![Personas](/DISIC/frago/raw/master/images/personas.png)
+![Personas](/frago/images/personas.png)
 
 ### Parcours
 
@@ -237,13 +237,13 @@ Ajouter un parcours type par persona pour fournir une base visuelle à l’équi
 
 Éditer : `static/nomdelademarche/personas.json`
 
-![Parcours](/DISIC/frago/raw/master/images/parcours.png)
+![Parcours](/frago/images/parcours.png)
 
 ### Composants
 
 ##### Scores
 
-![Scores](/DISIC/frago/raw/master/images/scores.png)
+![Scores](/frago/images/scores.png)
 
 #### Phases
 
@@ -251,7 +251,7 @@ Nécessite d’ajouter un type de catégorie dans le `config.toml` ; et d’ajou
 
 Les contenus listés sont donc hétérogènes.
 
-![Phases](/DISIC/frago/raw/master/images/phases.png)
+![Phases](/frago/images/phases.png)
 
 ### Shortcodes
 
@@ -292,7 +292,7 @@ Appel de la librairie *mermaid.JS*. Ajouter la syntaxe *Mermaid* dans le contenu
 {{"{{"}}< /mermaid >{{"}}"}}
 ```
 
-![graphiques](/DISIC/frago/raw/master/images/diagramme.png)
+![graphiques](/frago/images/diagramme.png)
 
 #### Graphiques
 
@@ -315,7 +315,7 @@ Petit aide pour l’affichage de graphiques. Passer les données dans le contenu
 }
 {{"{{"}}< /graphic >{{"}}"}}
 ```
-![graphiques](/DISIC/frago/raw/master/images/graphiques.png)
+![graphiques](/frago/images/graphiques.png)
 
 ### Personas
 
