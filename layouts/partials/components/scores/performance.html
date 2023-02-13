@@ -2,7 +2,7 @@
 <div class="scores mb-1">
   <ul class="flex flex-gap flex-wrap">
     <li class="counter text-center {{ .counter.speedindexclass }}"><span>Page chargée<br><b>{{ div (.counter.LCP) 1000 | lang.NumFmt 1 }}s</b></span></li>
-    <li class="counter text-center"><span>Poids de la page<br><b>{{ div .counter.pageweight 1024 | lang.NumFmt 0 }}kb</b></span></li>
+    <li class="counter text-center"><span>Poids de la page<br><b>{{ .counter.pageweight | lang.NumFmt 0 }}kb</b></span></li>
     <li class="counter text-center"><span>Éléments sur la page<br><b>{{ .counter.domsize | lang.NumFmt 0 }}</b></span></li>
     <li class="counter text-center"><span>Nombre de requêtes<br><b>{{ .counter.requests }}</b></span></li>
   </ul>
