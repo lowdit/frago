@@ -34,9 +34,6 @@
       {{- $partial := (partialCached "templates/projects-list.html" . .) -}}
       {{- partialCached "elements/content.html" $partial "projectslist" -}}
     {{- end -}}
-    <section class="fg-wrapper narrow">
-      {{ partialCached "elements/content.html" .Content .Content }}
-    </section>
   {{- end -}}
 {{- end -}}
 

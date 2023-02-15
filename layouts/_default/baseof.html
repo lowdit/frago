@@ -56,31 +56,7 @@
   <style id="style-screen">
     {{ (slice $style $main $layout | resources.Concat "styles.css" | minify).Content | safeCSS }}
   </style>
-  {{- $.Scratch.Set "isCSS" false -}}
-  {{- $.Scratch.Set "isFONT" false -}}
-  {{- range readDir "./" -}}{{- if eq .Name "static" -}}{{- range readDir "./static" -}}
-    {{- if eq .Name "assets" -}}
-      {{- range readDir "./static/assets" -}}
-        {{- if eq .Name "css" }}{{- $.Scratch.Set "isCSS" (readDir "./static/assets/css") -}}{{- end -}}
-        {{- if eq .Name "fonts" -}}{{- $.Scratch.Set "isFONT" (readDir "./static/assets/fonts") -}}{{- end -}}
-      {{- end -}}
-    {{- end -}}
-  {{- end -}}{{- end -}}{{- end -}}
-  <!-- CSS style file -->
-  {{- with ($.Scratch.Get "isCSS") -}}
-  {{- range . }}
-  <link rel="stylesheet" href="{{ $.Site.BaseURL | default "/" }}assets/css/{{ .Name }}" media="print" onload="this.media='all'" />
-  <noscript>
-    <link rel="stylesheet" href="{{ $.Site.BaseURL | default "/" }}assets/css/{{ .Name }}" media="screen">
-  </noscript>
-  {{- end -}}
-  {{- else -}}
-  <link rel="preload" href="{{ $.Site.BaseURL | default "/" }}assets/css/fonts.css" as="style">
-  <link rel="stylesheet" href="{{ $.Site.BaseURL | default "/" }}assets/css/fonts.css" media="print" onload="this.media='all'" />
-  <noscript>
-    <link rel="stylesheet" href="{{ $.Site.BaseURL | default "/" }}assets/css/fonts.css" media="screen">
-  </noscript>
-  {{- end -}}
+
   <!-- Preload font files -->
   {{/* Find font files for preloading fonts */}}
   {{- with ($.Scratch.Get "isFONT") -}}
@@ -149,6 +125,32 @@
   {{ block "script" . }}{{- end -}}
   {{- if eq (getenv "HUGO_ENV") "dev" -}}
   {{- partial "debug/debug.html" (dict "context" .) -}}
+  {{- end -}}
+
+  <!-- CSS style file -->
+  {{- $.Scratch.Set "isCSS" false -}}
+  {{- $.Scratch.Set "isFONT" false -}}
+  {{- range readDir "./" -}}{{- if eq .Name "static" -}}{{- range readDir "./static" -}}
+    {{- if eq .Name "assets" -}}
+      {{- range readDir "./static/assets" -}}
+        {{- if eq .Name "css" }}{{- $.Scratch.Set "isCSS" (readDir "./static/assets/css") -}}{{- end -}}
+        {{- if eq .Name "fonts" -}}{{- $.Scratch.Set "isFONT" (readDir "./static/assets/fonts") -}}{{- end -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}{{- end -}}{{- end -}}
+  {{- with ($.Scratch.Get "isCSS") -}}
+  {{- range . }}
+  <link rel="stylesheet" href="{{ $.Site.BaseURL | default "/" }}assets/css/{{ .Name }}" media="print" onload="this.media='all'" />
+  <noscript>
+    <link rel="stylesheet" href="{{ $.Site.BaseURL | default "/" }}assets/css/{{ .Name }}" media="screen">
+  </noscript>
+  {{- end -}}
+  {{- else -}}
+  <link rel="preload" href="{{ $.Site.BaseURL | default "/" }}assets/css/fonts.css" as="style">
+  <link rel="stylesheet" href="{{ $.Site.BaseURL | default "/" }}assets/css/fonts.css" media="print" onload="this.media='all'" />
+  <noscript>
+    <link rel="stylesheet" href="{{ $.Site.BaseURL | default "/" }}assets/css/fonts.css" media="screen">
+  </noscript>
   {{- end -}}
 </body>
 </html>
