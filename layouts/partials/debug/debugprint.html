@@ -6,7 +6,6 @@
      {{/* partial "debug/debugprint.html" site.Menus */}}
      {{/* partial "debug/debugprint.html" .GitInfo */}}
      {{/* partial "debug/debugprint.html" .Resources */}}
-     {{/* partial "debug/debugprint.html" .File */}}
 -->
 <!-- Associated CSS file:
      https://github.com/kaushalmodi/hugo-debugprint/blob/master/layouts/partials/debugprint.css
@@ -139,7 +138,7 @@
   <!-- https://github.com/gohugoio/hugo/blob/master/hugolib/fileInfo.go (*hugolib.fileInfo - used by regular pages)  -->
   <!-- https://github.com/gohugoio/hugo/blob/master/source/fileInfo.go (*source.FileInfo - used by term pages) -->
   {{- $FileInfoVarNames   := (slice "UniqueID" "BaseFileName" "TranslationBaseName" "Lang" "Section" "LogicalName" "Dir" "Ext" "Path") -}}
-  {{- $FileInfoVarSymbols := (slice .UniqueID  .BaseFileName  .TranslationBaseName  .Lang  .Section  .LogicalName  .File.Dir  .Ext  .Path ) -}}
+  {{- $FileInfoVarSymbols := (slice .UniqueID  .BaseFileName  .TranslationBaseName  .Lang  .Section  .LogicalName  .File.Dir  .Ext   ) -}}
   <table class="debugprint">
     <tr>
       <th class="key">FileInfo Variable</th>

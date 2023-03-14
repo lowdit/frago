@@ -1,34 +1,11 @@
-{{- define "title" -}}
-  {{- $context      := . -}}
-  {{- $project      := partialCached "render/projectpath" . . -}}
-  {{- $projectPath  := cond (fileExists (printf "audits/%s/index.md" ($project))) (printf "audits/%s/index.md" ($project)) (printf "audits/%s/_index.md" ($project)) -}}
-  {{- $projectTitle := (.GetPage $projectPath).Title -}}
+{{- define "meta" -}}
+  {{- $meta := partialCached "elements/head-meta.html" . .Permalink -}}
+  {{ $meta.pretitle }} de {{ $meta.title }}
+{{- end -}}
 
-  {{- $alternate  := where (where .OutputFormats "Permalink" "eq" .Permalink) "Rel" "eq" "alternate" -}}
-  {{- if ne (len $alternate) 0 -}}
-    {{- with $alternate -}}
-      {{- range $key, $value := . -}}
-        {{- if eq .Format.BaseName "accessibility" -}}
-          Audit Accessibilité
-        {{- else if eq .Format.BaseName "ecoconception" -}}
-          Écoconception
-        {{- else if eq .Format.BaseName "greenit" -}}
-          GreenIT - 74 bonnes pratiques
-        {{- else if eq .Format.BaseName "quality" -}}
-          Recommandations
-        {{- else if eq .Format.BaseName "recommendation" -}}
-          Recommandations
-        {{- else if eq .Format.BaseName "performance" -}}
-          Audit Performance
-        {{- else if eq .Format.BaseName "declaration" -}}
-          Déclaration
-        {{- end -}}
-      {{- end -}}
-    {{- end -}}
-  {{- else -}}
-    Synthèse
-  {{- end -}}
-  {{ with $projectTitle }} pour {{ $projectTitle }} {{ else }} {{ (index (split (path.Dir .Path) "/") 1) }} {{ end }}
+{{- define "title" -}}
+  {{- $meta := partialCached "elements/head-meta.html" . .Permalink -}}
+  {{ $meta.pretitle }} de {{ $meta.title }}
 {{- end -}}
 
 {{- define "main" -}}
