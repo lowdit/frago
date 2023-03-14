@@ -22,6 +22,16 @@
   ))) -}}
 {{- end -}}
 {{- $img := ($.Scratch.Get "img") -}}
+{{- if $meta.pagetitle -}}
+  {{- $img = $img.Filter (images.Text $meta.pagetitle (dict
+    "font" $font
+    "color" "#000000"
+    "size" 350
+    "linespacing" 2
+    "x" 110
+    "y" 1200
+  )) -}}
+{{- end -}}
 {{/* Type d'audit */}}
 {{- $img = $img.Filter (images.Text $meta.pretitle (dict
   "font" $font
@@ -32,7 +42,7 @@
   "y" 300
 )) -}}
 {{/* Nom du site */}}
-{{ $textsize := cond (gt (len $meta.title) 60) (cond (gt (len $meta.title) 80) 200 250) 300 }}
+{{ $textsize := cond (ne $meta.pagetitle "") 250 (cond (gt (len $meta.title) 60) (cond (gt (len $meta.title) 80) 200 250) 300) }}
 {{- $img = $img.Filter (images.Text $meta.title (dict
   "font" $font
   "color" "#000000"

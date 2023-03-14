@@ -2,6 +2,7 @@
 {{- $project      := partialCached "render/projectpath" . . -}}
 {{- $projectPath  := cond (fileExists (printf "audits/%s/index.md" ($project))) (printf "audits/%s/index.md" ($project)) (printf "audits/%s/_index.md" ($project)) -}}
 {{- $projectTitle := (cond (or (in .Permalink "audits/") (in .Permalink "services/")) (.GetPage $projectPath).Title .Site.Title) -}}
+{{- $pageTitle    := (cond (or (in .Permalink "audits/") (in .Permalink "services/")) "" .Title) -}}
 
 {{- $.Scratch.Set "pretitle" (cond (or (in .Permalink "audits/") (in .Permalink "services/")) "Synthèse" "Suivi de conformité") -}} -}}
 {{- $.Scratch.Set "audit" "" -}}
@@ -43,6 +44,7 @@
   (dict
     "title"      (cond (ne $projectTitle "") $projectTitle (index (split (path.Dir .Path) "/") 1))
     "pretitle"   ($.Scratch.Get "pretitle")
+    "pagetitle"  ($pageTitle)
     "audit"      ($.Scratch.Get "audit")
     "type"       ($.Scratch.Get "type")
   )
