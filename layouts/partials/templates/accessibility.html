@@ -14,8 +14,10 @@
 {{- else -}}
   <article class="fg-wrapper narrow">
   {{/* Load the audit file */}}
-  {{- $data.Set "audits" (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "accessibility" "datafilename" .context.Params.datafilename) $project "accessibility" .context.Params.datafilename) -}}
-  {{- $data.Set "auditpath-csv" (index ($data.Get "audits") "auditfile-path") -}}
+  {{- $data.Set "auditscore" (partialCached "render/accessibility-scores.html" (dict "context" $context "project" $project "type" "accessibility" "datafilename" .context.Params.datafilename) $project "accessibility" .context.Params.datafilename) -}}
+  {{- $data.Set "audits" (index ($data.Get "auditscore") "auditfiles") -}}
+  {{- $data.Set "auditpath-csv" (index ($data.Get "auditscore") "auditfile-path") -}}
+
   {{/* Display declaration tpl when output format is set */}}
   {{- if and (in .context.Permalink "declaration.html") ($data.Get "audits") -}}
     {{- $partial := (partialCached "templates/declaration.html" (dict "context" $context "audits" ($data.Get "audits")) ($data.Get "audits")) -}}
@@ -23,10 +25,9 @@
   {{- else -}}
   {{/* START Test if audit file exists */}}
   {{- if and ($data.Get "auditpath-csv") (ne ($data.Get "auditpath-csv") "/false") -}}
-
     {{- $data.Set "auditfile-csv" (getCSV "," ($data.Get "auditpath-csv")) -}}
     {{/* Calculate accessibility compliance */}}
-    {{- $data.Set "scores" (partialCached "render/accessibility.html" (dict "auditfile" ($data.Get "auditpath-csv")) ($data.Get "auditpath-csv") ) -}}
+    {{- $data.Set "scores" (index ($data.Get "auditscore") "auditscores") -}}
 
     {{/* START Test if the csv file has a good name : YYYY-MM-DD.csv */}}
     {{- if ne "0" (printf "%v" (len (findRE "((?:19|20)\\d\\d)-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])" (index ($data.Get "audits") "auditfile-name")))) -}}
@@ -140,7 +141,7 @@
       {{- if gt (len ($data.Get "pageslist")) 1 -}}
         <h3 class="mb-0">Conformité détaillée de répartition</h3>
         {{/* Call accessibility graph */}}
-        {{- partialCached "components/scores/accessibility-graph" (dict "context" $context "auditfile" ($data.Get "auditfile-csv") "scores" ($data.Get "scores").criteria) ($data.Get "scores").criteria -}}
+        {{- partialCached "components/scores/accessibility-graph" (dict "context" $context "auditfile" ($data.Get " ") "scores" ($data.Get "scores").criteria) ($data.Get "scores").criteria -}}
       {{- end -}}
       {{/* END If several pages tested */}}
 
