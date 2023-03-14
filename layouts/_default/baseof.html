@@ -77,9 +77,9 @@
   {{/*- template "_internal/schema.html" . -*/}}
   {{/*- template "_internal/twitter_cards.html" . -*/}}
   {{ block "metacard" . }}
-
+    {{- if (eq (getenv "HUGO_ENV") "production" | or (eq .Site.Params.env "production")) -}}
     {{- partialCached "elements/head-card.html" . .Permalink -}}
-
+    {{- end -}}
   {{ end }}
   <meta property="og:title" content="{{ block "meta" . }}{{ .Title }}{{ end }}{{ with .Site.Title }}pour {{ . }}{{ end }}">
   <meta property="og:type" content="website">
