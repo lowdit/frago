@@ -22,6 +22,13 @@
 
 <article class="fg-wrapper narrow">
 <h1>{{ (index (index $.Site.Data ($.Scratch.Get "guidelinename")) ($.Scratch.Get "guidelineversion")).title | safeHTML }}</h1>
+  {{ $methodologies := (index (index .Site.Data "rgesn") "methodologies")}}
+  {{ range $key, $value := $methodologies }}
+    <h3>{{ $key }} :</h3>
+        {{ with .method }}<strong>Méthode :</strong> {{ . | markdownify }}{{ end }}
+        {{ with .tools }}<strong>Outils proposés:</strong><br>{{ range . }}{{ . }}, {{ end }}{{ end }}
+    <hr>
+  {{ end }}
   {{ partialCached "utils/css.html" (dict "context" . "filefolder" "element" "filename" "tableofcontents") "tableofcontents" }}
   <div class="tableofcontents">
     <h2>Thématiques</h2>
@@ -37,13 +44,20 @@
 {{- range $key1, $value1 := $.Scratch.Get "thematique" -}}
   <h2 id="{{ . | urlize }}" >{{ . }}</h2>
 {{- range $key2, $value2 := where $criteriafile "thematique" . -}}
-  <h3 id="{{ .critere | urlize }}" >{{ .critere }}</h3>
+  <h3 id="{{ .critere | urlize }}" class="lh-1">{{ .id }} - {{ replace .critere " ?" (htmlUnescape "&nbsp;?") }}</h3>
   <p>
-    <strong>{{ .objectif | markdownify }}</strong><br>
+    <strong>{{ .objectif | markdownify }}</strong>
+  </p>
+  <p>
+    <strong>Mise en œuvre :</strong><br>
     {{ .miseEnOeuvre | markdownify }}
   </p>
   <div class="note">
-    <p>{{ .controle | markdownify }}</p>
+    <p><strong>Moyen de test ou de contrôle</strong> : <br>{{ .controle | markdownify }}</p>
+    {{ with (index $methodologies .id) }}
+      {{ with .method }}<strong>Méthode possible:</strong> {{ . | markdownify }}{{ end }}
+      {{ with .tools }}<strong>Outils proposés:</strong><ol>{{ range . }}<li>{{ . }}</li>{{ end }}{{ end }}</ol>
+    {{ end }}
   </div>
   <hr>
 {{- end -}}
