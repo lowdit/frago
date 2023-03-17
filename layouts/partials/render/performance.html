@@ -1,6 +1,13 @@
 {{/* Determinate the performance value from lighthouse files */}}
-{{ $auditfile := .auditfile }}
-{{ $data      := newScratch }}
+{{ $scorekey      := sha1 (string now) }}
+{{ $data          := newScratch }}
+{{ $auditfile     := .auditfile }}
+{{ $time          := now.UnixMilli }}
+{{ $timepartial   := now.UnixMilli }}
+{{- if (eq (getenv "HUGO_ENV") "debugperf") -}}
+  {{ $data.Set "debugperf" (slice $auditfile) }}
+{{- end -}}
+
 {{/* START Test if audit file not false */}}
 {{ if (ne $auditfile "/false") }}
   {{/* START Test if audit file exists */}}
@@ -69,3 +76,7 @@
   {{/* END Test if audit file exists */}}
 {{ end }}
 {{/* END Test if audit file not false */}}
+
+{{- if (eq (getenv "HUGO_ENV") "debugperf") -}}
+  {{ warnf " => %s Total[%sms] Performance" (delimit ($data.Get "debugperf") " ") (string (sub now.UnixMilli $time)) }}
+{{- end -}}

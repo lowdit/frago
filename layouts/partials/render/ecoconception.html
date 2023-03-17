@@ -1,11 +1,18 @@
-{{ $data     := newScratch }}
+{{ $scorekey      := sha1 (string now) }}
+{{ $data          := newScratch }}
+{{ $auditfile     := .auditfile }}
+{{ $time          := now.UnixMilli }}
+{{ $timepartial   := now.UnixMilli }}
+{{- if (eq (getenv "HUGO_ENV") "debugperf") -}}
+  {{ $data.Set "debugperf" (slice $auditfile) }}
+{{- end -}}
 
 {{ if (ne .auditfile "/false") }}
-  {{ $auditfile        := (getCSV "," .auditfile) }}
+  {{ $auditfilecsv        := (getCSV "," .auditfile) }}
   {{ $data.Set "date" (replace (path.Base .auditfile) (path.Ext .auditfile) "") }}
 
 
-  {{ range $key1, $value1 := after 1 $auditfile }}
+  {{ range $key1, $value1 := after 1 $auditfilecsv }}
     {{ range $id, $value2 := after 2 . }}
       {{ $value2 := lower (index (split . "|") 0) }}
       {{ $key := printf "%s.%s" (index $value1 0) (index $value1 1)}}
@@ -79,3 +86,7 @@
                   )
   )
 }}
+
+{{- if (eq (getenv "HUGO_ENV") "debugperf") -}}
+  {{ warnf " => %s Total[%sms] Eco-conception" (string (sub now.UnixMilli $time)) }}
+{{- end -}}
