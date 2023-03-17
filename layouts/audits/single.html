@@ -32,7 +32,7 @@
           {{- $partial := (partialCached "templates/recommendation.html" (dict "context" $context) $context) -}}
           {{- partialCached "elements/content.html" $partial $partial -}}
         {{- else if eq .Format.BaseName "performance" -}}
-          {{- $partial := (partialCached "templates/performance.html" (dict "context" $context "project" $project) $project) -}}
+          {{- $partial := (partialCached "templates/performance.html" (dict "context" $context) $context) -}}
           {{- partialCached "elements/content.html" $partial $partial -}}
         {{- else if eq .Format.BaseName "declaration" -}}
           <article class="fg-wrapper narrow">

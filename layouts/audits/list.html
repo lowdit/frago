@@ -88,7 +88,7 @@
           {{- $partial := (partialCached "templates/recommendation.html" (dict "context" $context) $context) -}}
           {{- partialCached "elements/content.html" $partial $partial -}}
         {{- else if eq .Format.BaseName "performance" -}}
-          {{- $partial := (partialCached "templates/performance.html" (dict "context" $context "project" $project) $project) -}}
+          {{- $partial := (partialCached "templates/performance.html" (dict "context" $context) $context) -}}
           {{- partialCached "elements/content.html" $partial $partial -}}
         {{- else if eq .Format.BaseName "declaration" -}}
           <article class="fg-wrapper narrow">
@@ -99,18 +99,17 @@
         {{- end -}}
       {{- end -}}{{- end -}}
     {{- else -}}
+      {{- $partialprojects := (partialCached "templates/projects.html" $context $context) -}}
       {{- if and (ne $project "audits") (not (partialCached "render/issimpleproject.html" "arg" "arg")) -}}
         {{- if and (not (in (path.Base .Path) "index.md")) -}}
           <article class="fg-wrapper narrow">
             {{ partialCached "elements/content.html" .Content .Content }}
           </article>
         {{- else -}}
-          {{- $partialprojects := (partialCached "templates/projects.html" $context $context) -}}
           {{- partialCached "elements/content.html" $partialprojects $partialprojects -}}
         {{- end -}}
       {{- else -}}
         {{- if (partialCached "render/issimpleproject.html" . .) -}}
-          {{- $partialprojects := (partialCached "templates/projects.html" $context $context) -}}
           {{- partialCached "elements/content.html" $partialprojects $partialprojects -}}
         {{- else -}}
           {{- $partialdashboard := (partialCached "templates/dashboard.html" $context $context) -}}

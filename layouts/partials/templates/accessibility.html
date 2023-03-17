@@ -4,7 +4,7 @@
 {{- $projectPath  := cond (fileExists (printf "audits/%s/index.md" ($project))) (printf "audits/%s/index.md" ($project)) (printf "audits/%s/_index.md" ($project)) -}}
 {{- $projectTitle := ($context.GetPage $projectPath).Title -}}
 {{- $data.Set "pageslist" "" -}}
-{{- $data.Set "scores" "" -}}
+{{- $data.Set "scores"    "" -}}
 
 {{ if and (in "/audits/_index.md" $context.Path) (not (partialCached "render/issimpleproject.html" "arg" "arg")) }}
   <section class="fg-wrapper">

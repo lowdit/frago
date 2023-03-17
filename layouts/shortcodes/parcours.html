@@ -6,7 +6,7 @@
 {{- end -}}
 <div class="text-center">
 {{- range (getJSON (printf "/static/%s/personas.json" $project)) -}}
-  {{ partial "components/parcours/template.html" (dict "context" . "pages" $ "project" $project) }}
+  {{ partialCached "components/parcours/template.html" (dict "context" . "pages" $ "project" $project) }}
 {{- end -}}
 </div>
 {{- .Inner -}}

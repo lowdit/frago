@@ -23,7 +23,7 @@
     {{/* If several projects :: call list of projects */}}
     {{- else -}}
       {{- if (fileExists "content/organism") -}}
-        {{- $partial := (partialCached "templates/organism-list.html" . .) -}}
+        {{- $partial := (partialCached "templates/organism-list.html" . "organism") -}}
         {{- partialCached "elements/content.html" $partial "organismlist" -}}
         <p class="text-center wrapper"><a href="/organism">Accéder à la page de l’organisme</a></p>
         <br>
