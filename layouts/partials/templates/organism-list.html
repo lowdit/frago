@@ -1,97 +1,12 @@
-{{- $.Scratch.Delete "allscores" -}}
-{{- $.Scratch.Delete "projectfolders" -}}
+
 {{- $.Scratch.Set "rangepages" (where .Site.Pages "Section" "audits") -}}
 {{- if ($.Scratch.Get "rangepages") -}}
-  {{/* Build a map with all accessibility score for using it later in code :: maybe for catching progression or regression */}}
-  {{- $.Scratch.Set "aggregate-accessibility-list" slice }}
-  {{- $.Scratch.Set "aggregate-accessibility-nc" slice }}
-  {{- $.Scratch.Set "aggregate-accessibility-c" slice }}
-  {{- $.Scratch.Set "aggregate-accessibility-sum" 0 }}
-  {{- $.Scratch.Set "aggregate-ecoconception-list" slice }}
-  {{- $.Scratch.Set "aggregate-ecoconception-nc" slice }}
-  {{- $.Scratch.Set "aggregate-ecoconception-c" slice }}
-  {{- $.Scratch.Set "aggregate-ecoconception-sum" 0 }}
-  {{- $.Scratch.Set "aggregate-performance-list" slice }}
-  {{- $.Scratch.Set "aggregate-performance-sum" 0 }}
-  {{- range sort ($.Scratch.Get "rangepages") ".Title" "desc" -}}
-    {{- $project := partialCached "render/projectpath" . . -}}
-    {{- $context := . -}}
-    {{- if and (in (path.Base .Path) "index.md") (not (in "/audits/_index.md" .Path)) -}}
-      {{ with (index (partialCached "render/lastfile.html" (dict "context" . "project" $project "type" "accessibility" "datafilename" .Params.datafilename) $project "accessibility") "auditfile-all-path") }}
-      {{- range $id, $value := last 1 (sort .) -}}
-        {{- $.Scratch.SetInMap $project (string $id) (partialCached "render/accessibility.html" (dict "auditfile" . ) .) -}}
-        {{ $score := (partialCached "render/accessibility.html" (dict "auditfile" . ) .).scores.compliance }}
-        {{- $.Scratch.Add "aggregate-accessibility-list" $score -}}
-        {{- $.Scratch.Add "aggregate-accessibility-sum" $score -}}
-        {{- if lt $score 50 -}}
-          {{- $.Scratch.Add "aggregate-accessibility-nc" $score -}}
-        {{- end -}}
-        {{- if eq $score 100 -}}
-          {{- $.Scratch.Add "aggregate-accessibility-c" $score -}}
-        {{- end -}}
-      {{- end -}}
-      {{- end -}}
 
-      {{ with (index (partialCached "render/lastfile.html" (dict "context" . "project" $project "type" "ecoconception" "datafilename" .Params.datafilename) $project "ecoconception") "auditfile-all-path") }}
-      {{- range $id, $value := last 1 (sort .) -}}
-        {{ $score := (partialCached "render/ecoconception.html" (dict "context" $context "auditfile" .) $context .).scores.compliance }}
-        {{- $.Scratch.Add "aggregate-ecoconception-list" $score -}}
-        {{- $.Scratch.Add "aggregate-ecoconception-sum" $score -}}
-        {{- if lt $score 50 -}}
-          {{- $.Scratch.Add "aggregate-ecoconception-nc" $score -}}
-        {{- end -}}
-        {{- if eq $score 100 -}}
-          {{- $.Scratch.Add "aggregate-ecoconception-c" $score -}}
-        {{- end -}}
-      {{- end -}}
-      {{- end -}}
-
-      {{- with (index (partialCached "render/lastfile.html" (dict "context" . "project" $project "type" "performance" "datafilename" .Params.datafilename) $project "performance") "auditfile-all-path") }}
-      {{- range $id, $value := last 1 (sort .) -}}
-        {{ $score := (partialCached "render/performance.html" (dict "context" $context "auditfile" .) $context .).ecoscore }}
-        {{- $.Scratch.Add "aggregate-performance-list" $score -}}
-        {{- $.Scratch.Add "aggregate-performance-sum" $score -}}
-      {{- end -}}
-      {{- end -}}
-    {{- end -}}
-    {{- $.Scratch.SetInMap "allscores" $project           ($.Scratch.Get $project) -}}
-  {{- end -}}
-
-  {{- $.Scratch.SetInMap "aggregateaccessibility" "all"                ($.Scratch.Get "aggregate-accessibility-list") -}}
-  {{- $.Scratch.SetInMap "aggregateaccessibility" "invalid"            ($.Scratch.Get "aggregate-accessibility-nc") -}}
-  {{- $.Scratch.SetInMap "aggregateaccessibility" "valid"              ($.Scratch.Get "aggregate-accessibility-c") -}}
-  {{- $.Scratch.SetInMap "aggregateaccessibility" "sum"                ($.Scratch.Get "aggregate-accessibility-sum") -}}
-  {{- $.Scratch.SetInMap "aggregateaccessibility" "average"            (div ($.Scratch.Get "aggregate-accessibility-sum") (len ($.Scratch.Get "aggregate-accessibility-list"))) -}}
-  {{- $.Scratch.SetInMap "aggregateaccessibility" "average"            slice -}}
-  {{ with ($.Scratch.Get "aggregate-accessibility-list") }}
-    {{- $.Scratch.SetInMap "aggregateaccessibility" "average"            (div ($.Scratch.Get "aggregate-accessibility-sum") (len .)) -}}
-  {{ end }}
-
-  {{- $.Scratch.SetInMap "aggregateecoconception" "all"                ($.Scratch.Get "aggregate-ecoconception-list") -}}
-  {{- $.Scratch.SetInMap "aggregateecoconception" "invalid"            ($.Scratch.Get "aggregate-ecoconception-nc") -}}
-  {{- $.Scratch.SetInMap "aggregateecoconception" "valid"              ($.Scratch.Get "aggregate-ecoconception-c") -}}
-  {{- $.Scratch.SetInMap "aggregateecoconception" "sum"                ($.Scratch.Get "aggregate-ecoconception-sum") -}}
-  {{- $.Scratch.SetInMap "aggregateecoconception" "average"            slice -}}
-  {{ with ($.Scratch.Get "aggregate-ecoconception-list") }}
-    {{- $.Scratch.SetInMap "aggregateecoconception" "average"            (div ($.Scratch.Get "aggregate-ecoconception-sum") (len .)) -}}
-  {{ end }}
-
-  {{- $.Scratch.SetInMap "aggregateperformance" "all"                  ($.Scratch.Get "aggregate-performance-list") -}}
-  {{- $.Scratch.SetInMap "aggregateperformance" "sum"                  ($.Scratch.Get "aggregate-performance-sum") -}}
-  {{- $.Scratch.SetInMap "aggregateperformance" "average"            slice -}}
-  {{ with ($.Scratch.Get "aggregate-performance-list") }}
-    {{- $.Scratch.SetInMap "aggregateperformance" "average"              (div ($.Scratch.Get "aggregate-performance-sum") (len ($.Scratch.Get "aggregate-performance-list"))) -}}
-  {{ end }}
-
-  {{- $.Scratch.SetInMap "aggregates" "accessibility"                  ($.Scratch.Get "aggregateaccessibility") -}}
-  {{- $.Scratch.SetInMap "aggregates" "ecoconception"                  ($.Scratch.Get "aggregateecoconception") -}}
-  {{- $.Scratch.SetInMap "aggregates" "performance"                    ($.Scratch.Get "aggregateperformance") -}}
+  {{- $.Scratch.Set "aggregates" (partialCached "render/aggregate-scores.html" (dict "pages" ($.Scratch.Get "rangepages"))) -}}
 
   <section class="section text-center">
     <div class="fg-wrapper">
-
       {{- partialCached "utils/css.html" (dict "context" . "filefolder" "object" "filename" "card") "card" -}}
-
       {{ if gt (len ($.Scratch.Get "aggregates").accessibility.all) 0 }}
       <h2 class="lh-0">Liste des indicateurs<br><small>Pour {{ (len ($.Scratch.Get "aggregates").accessibility.all) }} services</small></h2>
         <ul class="list-unstyled" role="navigation">
@@ -153,7 +68,6 @@
               {{- partialCached "components/scores/greenit-small" (dict "context" . "project" "") "" -}}
             </li>
         </ul>
-
     </div>
   </section>
   {{- end -}}

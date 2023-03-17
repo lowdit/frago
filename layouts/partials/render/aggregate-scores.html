@@ -1,0 +1,107 @@
+{{/* Build a map with all accessibility score for using it later in code :: maybe for catching progression or regression */}}
+{{ $scorekey      := sha1 (string now) }}
+{{ $data          := newScratch }}
+{{ $time          := now.UnixMilli }}
+{{ $timepartial   := now.UnixMilli }}
+{{- if (eq (getenv "HUGO_ENV") "debugperf") -}}
+  {{ $data.Set "debugperf" slice }}
+{{- end -}}
+
+{{- $data.Delete "allscores" -}}
+{{- $data.Set "aggregate-accessibility-list" slice }}
+{{- $data.Set "aggregate-accessibility-nc" slice }}
+{{- $data.Set "aggregate-accessibility-c" slice }}
+{{- $data.Set "aggregate-accessibility-sum" 0 }}
+{{- $data.Set "aggregate-ecoconception-list" slice }}
+{{- $data.Set "aggregate-ecoconception-nc" slice }}
+{{- $data.Set "aggregate-ecoconception-c" slice }}
+{{- $data.Set "aggregate-ecoconception-sum" 0 }}
+{{- $data.Set "aggregate-performance-list" slice }}
+{{- $data.Set "aggregate-performance-sum" 0 }}
+{{- range sort .pages ".Title" "desc" -}}
+  {{- $project := partialCached "render/projectpath" . . -}}
+  {{- $context := . -}}
+  {{- if and (in (path.Base .Path) "index.md") (not (in "audits/_index.md" .File.Path)) (ne (len (split .File.Path "/")) 4) -}}
+
+    {{ with (index (partialCached "render/lastfile.html" (dict "context" . "project" $project "type" "accessibility") $project "accessibility") "auditfile-all-path") }}
+    {{- range $id, $value := last 1 (sort .) -}}
+      {{- $data.SetInMap $project (string $id) (partialCached "render/accessibility.html" (dict "auditfile" . ) .) -}}
+      {{ $score := (partialCached "render/accessibility.html" (dict "auditfile" . ) .).scores.compliance }}
+      {{- $data.Add "aggregate-accessibility-list" $score -}}
+      {{- $data.Add "aggregate-accessibility-sum" $score -}}
+      {{- if lt $score 50 -}}
+        {{- $data.Add "aggregate-accessibility-nc" $score -}}
+      {{- end -}}
+      {{- if eq $score 100 -}}
+        {{- $data.Add "aggregate-accessibility-c" $score -}}
+      {{- end -}}
+    {{- end -}}
+    {{- end -}}
+
+    {{ with (index (partialCached "render/lastfile.html" (dict "context" . "project" $project "type" "ecoconception") $project "ecoconception") "auditfile-all-path") }}
+    {{- range $id, $value := last 1 (sort .) -}}
+      {{ $score := (partialCached "render/ecoconception.html" (dict "context" $context "auditfile" .) $context .).scores.compliance }}
+      {{- $data.Add "aggregate-ecoconception-list" $score -}}
+      {{- $data.Add "aggregate-ecoconception-sum" $score -}}
+      {{- if lt $score 50 -}}
+        {{- $data.Add "aggregate-ecoconception-nc" $score -}}
+      {{- end -}}
+      {{- if eq $score 100 -}}
+        {{- $data.Add "aggregate-ecoconception-c" $score -}}
+      {{- end -}}
+    {{- end -}}
+    {{- end -}}
+
+    {{- with (index (partialCached "render/lastfile.html" (dict "context" . "project" $project "type" "performance") $project "performance") "auditfile-all-path") }}
+    {{- range $id, $value := last 1 (sort .) -}}
+      {{ $score := (partialCached "render/performance.html" (dict "context" $context "auditfile" .) $context .).ecoscore }}
+      {{- $data.Add "aggregate-performance-list" $score -}}
+      {{- $data.Add "aggregate-performance-sum" $score -}}
+    {{- end -}}
+    {{- end -}}
+
+    {{- if (eq (getenv "HUGO_ENV") "debugperf") -}}
+      {{ $data.Add "debugperf" (printf "%s %s [%sms]" $project (.File.Path) (string (sub now.UnixMilli $timepartial))) }}
+      {{ $timepartial   = now.UnixMilli }}
+    {{- end -}}
+
+  {{- end -}}
+  {{- $data.SetInMap "allscores" $project           ($data.Get $project) -}}
+{{- end -}}
+
+{{- $data.SetInMap "aggregateaccessibility" "all"                ($data.Get "aggregate-accessibility-list") -}}
+{{- $data.SetInMap "aggregateaccessibility" "invalid"            ($data.Get "aggregate-accessibility-nc") -}}
+{{- $data.SetInMap "aggregateaccessibility" "valid"              ($data.Get "aggregate-accessibility-c") -}}
+{{- $data.SetInMap "aggregateaccessibility" "sum"                ($data.Get "aggregate-accessibility-sum") -}}
+{{- $data.SetInMap "aggregateaccessibility" "average"            (div ($data.Get "aggregate-accessibility-sum") (len ($data.Get "aggregate-accessibility-list"))) -}}
+{{- $data.SetInMap "aggregateaccessibility" "average"            slice -}}
+{{ with ($data.Get "aggregate-accessibility-list") }}
+  {{- $data.SetInMap "aggregateaccessibility" "average"          (div ($data.Get "aggregate-accessibility-sum") (len .)) -}}
+{{ end }}
+
+{{- $data.SetInMap "aggregateecoconception" "all"                ($data.Get "aggregate-ecoconception-list") -}}
+{{- $data.SetInMap "aggregateecoconception" "invalid"            ($data.Get "aggregate-ecoconception-nc") -}}
+{{- $data.SetInMap "aggregateecoconception" "valid"              ($data.Get "aggregate-ecoconception-c") -}}
+{{- $data.SetInMap "aggregateecoconception" "sum"                ($data.Get "aggregate-ecoconception-sum") -}}
+{{- $data.SetInMap "aggregateecoconception" "average"            slice -}}
+{{ with ($data.Get "aggregate-ecoconception-list") }}
+  {{- $data.SetInMap "aggregateecoconception" "average"            (div ($data.Get "aggregate-ecoconception-sum") (len .)) -}}
+{{ end }}
+
+{{- $data.SetInMap "aggregateperformance" "all"                  ($data.Get "aggregate-performance-list") -}}
+{{- $data.SetInMap "aggregateperformance" "sum"                  ($data.Get "aggregate-performance-sum") -}}
+{{- $data.SetInMap "aggregateperformance" "average"              slice -}}
+{{ with ($data.Get "aggregate-performance-list") }}
+  {{- $data.SetInMap "aggregateperformance" "average"            (div ($data.Get "aggregate-performance-sum") (len ($data.Get "aggregate-performance-list"))) -}}
+{{ end }}
+
+{{- $data.SetInMap "aggregates" "accessibility"                  ($data.Get "aggregateaccessibility") -}}
+{{- $data.SetInMap "aggregates" "ecoconception"                  ($data.Get "aggregateecoconception") -}}
+{{- $data.SetInMap "aggregates" "performance"                    ($data.Get "aggregateperformance") -}}
+
+{{ return ($data.Get "aggregates") }}
+
+
+{{- if (eq (getenv "HUGO_ENV") "debugperf") -}}
+  {{ warnf " => %s Total[%sms] Aggregates" (delimit ($data.Get "debugperf") " ") (string (sub now.UnixMilli $time)) }}
+{{- end -}}
