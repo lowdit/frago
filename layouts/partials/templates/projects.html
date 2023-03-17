@@ -48,7 +48,7 @@
         {{- if or ($.Scratch.Get "audit").scores.compliance (eq ($.Scratch.Get "audit").scores.compliance 0) -}}
           {{- $pageauditpath := (printf "/content/audits/%s/accessibility.md" ($project | urlize)) -}}
           {{- if (fileExists $pageauditpath) -}}
-            <small> - <a href="{{ .Site.BaseURL | default "/" }}{{ urlize (replace (replace (replace $pageauditpath ".md" "/") "/content/" "") "//" "/") }}" aria-label="Accéder au rapport d’accessibilité">Accéder au rapport</a></small>
+            <small> - <a href="{{ $context.Site.BaseURL | default "/" }}{{ urlize (replace (replace (replace $pageauditpath ".md" "/") "/content/" "") "//" "/") }}" aria-label="Accéder au rapport d’accessibilité">Accéder au rapport</a></small>
           {{- else -}}
             {{- with (first 1 (where (where $OutputFormats "MediaType.Type" "eq" "text/html") "Format.BaseName" "eq" "accessibility")) }}
               {{- $AuditLink := cond (in $project (index . 0).Permalink) (index . 0).Permalink (printf "%saudits/%s%s.html" ($context.Site.BaseURL | default "/") (cond (not $project) "" (printf "%s/" (urlize $project))) (index . 0).Format.BaseName) -}}
@@ -129,7 +129,7 @@
         {{- if or ($.Scratch.Get "audit").scores.compliance (eq ($.Scratch.Get "audit").scores.compliance 0) -}}
           {{- $pageauditpath := (printf "/content/audits/%s/ecoconception.md" ($project | urlize)) -}}
           {{- if (fileExists $pageauditpath) -}}
-            <small> - <a href="{{ .Site.BaseURL | default "/" }}{{ replace (replace (replace $pageauditpath ".md" "/") "/content/" "") "//" "/" }}" aria-label="Accéder au rapport d’ecoconception">Accéder au rapport</a></small>
+            <small> - <a href="{{ $context.Site.BaseURL | default "/" }}{{ replace (replace (replace $pageauditpath ".md" "/") "/content/" "") "//" "/" }}" aria-label="Accéder au rapport d’ecoconception">Accéder au rapport</a></small>
           {{- else -}}
             {{- with (first 1 (where (where $OutputFormats "MediaType.Type" "eq" "text/html") "Format.BaseName" "eq" "ecoconception")) }}
               {{- $AuditLink := cond (in $project (index . 0).Permalink) (index . 0).Permalink (printf "%saudits/%s%s.html" ($context.Site.BaseURL | default "/") (cond (not $project) "" (printf "%s/" (urlize $project))) (index . 0).Format.BaseName) -}}
@@ -154,7 +154,7 @@
         {{- if or ($.Scratch.Get "audit").scores.compliance (eq ($.Scratch.Get "audit").scores.compliance 0) -}}
           {{- $pageauditpath := (printf "/content/audits/%s/greenit.md" ($project | urlize)) -}}
           {{- if (fileExists $pageauditpath) -}}
-            <small> - <a href="{{ site.BaseURL | default "/" }}{{ replace (replace (replace $pageauditpath ".md" "/") "/content/" "") "//" "/" }}" aria-label="Accéder au rapport greenit">Accéder au rapport</a></small>
+            <small> - <a href="{{ $context.Site.BaseURL | default "/" }}{{ replace (replace (replace $pageauditpath ".md" "/") "/content/" "") "//" "/" }}" aria-label="Accéder au rapport greenit">Accéder au rapport</a></small>
           {{- else -}}
             {{- with (first 1 (where (where $OutputFormats "MediaType.Type" "eq" "text/html") "Format.BaseName" "eq" "greenit")) }}
               {{- $AuditLink := cond (in $project (index . 0).Permalink) (index . 0).Permalink (printf "%saudits/%s%s.html" ($context.Site.BaseURL | default "/") (cond (not $project) "" (printf "%s/" (urlize $project))) (index . 0).Format.BaseName) -}}
@@ -185,7 +185,7 @@
         {{ $pagerecommendation := (printf "/content/audits/%s/recommendation.md" ($project | anchorize)) }}
         {{ $pageauditpath      := cond (fileExists $pagerecommendation) ($pagerecommendation) (cond (fileExists $pagequality) ($pagequality) false) -}}
         {{- if $pageauditpath -}}
-        <small> - <a href="{{ .Site.BaseURL | default "/" }}{{ replace (replace (replace $pageauditpath ".md" "/") "/content/" "") "//" "/" }}" aria-label="Accéder au rapport de recommandations">Accéder au rapport</a></small>
+        <small> - <a href="{{ $context.Site.BaseURL | default "/" }}{{ replace (replace (replace $pageauditpath ".md" "/") "/content/" "") "//" "/" }}" aria-label="Accéder au rapport de recommandations">Accéder au rapport</a></small>
         {{- end -}}
       </h3>
       {{- with index (partialCached "render/lastfile.html" (dict "context" . "project" $project "type" "recommendation") $project "recommendation") "auditfile-path" -}}
@@ -239,7 +239,7 @@
     {{- if $lighthouse -}}
       <h3 class="m-0">Performance {{ with (first 1 (where (where $OutputFormats "MediaType.Type" "eq" "text/html") "Format.BaseName" "eq" "performance"))   }}
         {{- $AuditLink := cond (in $project (index . 0).Permalink) (index . 0).Permalink (printf "%saudits/%s%s.html" ($context.Site.BaseURL | default "/") (cond (not $project) "" (printf "%s/" (urlize $project))) (index . 0).Format.BaseName) -}}
-        <small>- <a href="{{ $AuditLink }}" aria-label="Accéder au rapport de performance">Accéder au rapport</a></small>{{ end }}{{ $pageauditpath := (printf "/content/audits/%s/performance.md" ($project | anchorize)) }}{{- if (fileExists $pageauditpath) -}}<small>- <a href="{{ site.BaseURL | default "/" }}{{ replace (replace (replace $pageauditpath ".md" "/") "/content/" "") "//" "/" }}" aria-label="Accéder au rapport de performance">Accéder au rapport</a></small>{{- end -}}
+        <small>- <a href="{{ $AuditLink }}" aria-label="Accéder au rapport de performance">Accéder au rapport</a></small>{{ end }}{{ $pageauditpath := (printf "/content/audits/%s/performance.md" ($project | anchorize)) }}{{- if (fileExists $pageauditpath) -}}<small>- <a href="{{ $context.Site.BaseURL | default "/" }}{{ replace (replace (replace $pageauditpath ".md" "/") "/content/" "") "//" "/" }}" aria-label="Accéder au rapport de performance">Accéder au rapport</a></small>{{- end -}}
       </h3>
       {{- with index (partialCached "render/lastfile.html" (dict "context" . "project" $project "type" "lighthouse") $project "lighthouse") "auditfile-path" -}}
         {{- $performance := (partialCached "render/performance" (dict "project" $project "auditfile" .) $project .) -}}
@@ -313,7 +313,7 @@
       <h2 class="text-center">Services liés à la démarche</h2>
         {{- range $id, $value := .names -}}
         {{- $project := (index $map.project $id) -}}
-        <h3 class="m-0">Accessibilité {{- if ($.Scratch.Get "audit").scores.compliance -}}{{ with (first 1 (where (where $.OutputFormats "MediaType.Type" "eq" "text/html") "Format.BaseName" "eq" "accessibility")) }}<small>- <a href="{{ (index . 0).Permalink }}" aria-label="Accéder au rapport d’accessibilité">Accéder au rapport</a></small>{{ end }}{{ $pageauditpath := (printf "/content/audits/%s/accessibility.md" ($project | urlize)) }}{{- if (fileExists $pageauditpath) -}}<small>- <a href="{{ .Site.BaseURL | default "/" }}{{ replace (replace (replace $pageauditpath ".md" "/") "/content/" "") "//" "/" }}" aria-label="Accéder au rapport d’accessibilité">Accéder au rapport</a></small>{{- end -}}{{- end -}}</h3>
+        <h3 class="m-0">Accessibilité {{- if ($.Scratch.Get "audit").scores.compliance -}}{{ with (first 1 (where (where $.OutputFormats "MediaType.Type" "eq" "text/html") "Format.BaseName" "eq" "accessibility")) }}<small>- <a href="{{ (index . 0).Permalink }}" aria-label="Accéder au rapport d’accessibilité">Accéder au rapport</a></small>{{ end }}{{ $pageauditpath := (printf "/content/audits/%s/accessibility.md" ($project | urlize)) }}{{- if (fileExists $pageauditpath) -}}<small>- <a href="{{ $context.Site.BaseURL | default "/" }}{{ replace (replace (replace $pageauditpath ".md" "/") "/content/" "") "//" "/" }}" aria-label="Accéder au rapport d’accessibilité">Accéder au rapport</a></small>{{- end -}}{{- end -}}</h3>
           {{- partialCached "components/scores/accessibility" (dict "context" $context "score" (index $map.compliance $id)) . -}}
         {{- end -}}
       {{- end -}}
@@ -364,7 +364,7 @@
 {{/*- partial "list.html" (dict "context" . "section" "actions" "type" "dark") -*/}}
 {{- else -}}
 {{- if  eq (path.Dir .Path) "organism" -}}
-  {{- $partial := (partialCached "templates/organism-list.html" . .) -}}
+  {{- $partial := (partialCached "templates/organism-list.html" . "organism") -}}
   {{- partialCached "elements/content.html" $partial "organismlist" -}}
 {{ end }}
 {{- if  eq (path.Dir .Path) "audits" -}}
