@@ -1,4 +1,6 @@
-{{- $patharray := split (path.Dir .Path) "/" -}}
+{{ $path := "" }}
+{{ with .File }}{{ $path = .Path }}{{ else }}{{ $path = .Path }}{{ end }}
+{{- $patharray := split (path.Dir $path) "/" -}}
 {{- $context := . -}}
 {{- $project :=  (partialCached "render/projectpath" $context $context) -}}
 {{- $.Scratch.Delete "scores" -}}

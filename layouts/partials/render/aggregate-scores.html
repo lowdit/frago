@@ -21,7 +21,7 @@
 {{- range sort .pages ".Title" "desc" -}}
   {{- $project := partialCached "render/projectpath" . . -}}
   {{- $context := . -}}
-  {{- if and (in (path.Base .Path) "index.md") (not (in "audits/_index.md" .File.Path)) (ne (len (split .File.Path "/")) 4) -}}
+  {{- if and (in (path.Base .File.Path) "index.md") (not (in "audits/_index.md" .File.Path)) (ne (len (split .File.Path "/")) 4) -}}
 
     {{ with (index (partialCached "render/lastfile.html" (dict "context" . "project" $project "type" "accessibility") $project "accessibility") "auditfile-all-path") }}
     {{- range $id, $value := last 1 (sort .) -}}

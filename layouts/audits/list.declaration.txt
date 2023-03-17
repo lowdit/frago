@@ -1,5 +1,7 @@
-{{- $patharray := split (path.Dir .Path) "/" -}}
+{{ $path := "" }}
+{{ with .File }}{{ $path = .Path }}{{ else }}{{ $path = .Path }}{{ end }}
+{{- $patharray := split (path.Dir $path) "/" -}}
 {{- $context := . -}}
-{{- $project  := cond (eq (len (split $context.Path "/")) 1) "" (replace (path.Dir $context.Path) "audits/" "") -}}
+{{- $project  := cond (eq (len (split $context.File.Path "/")) 1) "" (replace (path.Dir $context.File.Path) "audits/" "") -}}
 {{- $.Scratch.Set "audits" (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "accessibility" "datafilename" .Params.datafilename) $project "accessibility") -}}
 {{- partialCached "templates/declaration.html" (dict "context" . "audits" ($.Scratch.Get "audits")) ($.Scratch.Get "audits") -}}

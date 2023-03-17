@@ -10,7 +10,7 @@
   {{- else -}}
     Éco conception
   {{- end -}}
-  {{- $projectTitle := (.GetPage "./").Title -}}{{ with $projectTitle }} pour {{ $projectTitle }}{{ else }}{{ (index (split (path.Dir .Path) "/") 1) }}{{ end }}
+  {{- $projectTitle := (.GetPage "./").Title -}}{{ with $projectTitle }} pour {{ $projectTitle }}{{ else }}{{ (index (split (path.Dir .File.Path) "/") 1) }}{{ end }}
 {{- end -}}
 
 {{- define "main" -}}

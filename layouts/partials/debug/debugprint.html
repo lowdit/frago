@@ -120,8 +120,8 @@
   </table>
   {{- else if $typeIsOutputFormat -}}
   <!-- https://github.com/gohugoio/hugo/blob/master/output/outputFormat.go -->
-  {{- $OutputFormatVarNames   := (slice "Name" "MediaType" "Path" "BaseName" "Rel" "Protocol" "IsPlainText" "IsHTML" "NoUgly" "NotAlternative") -}}
-  {{- $OutputFormatVarSymbols := (slice .Name  .MediaType  .Path  .BaseName  .Rel  .Protocol  .IsPlainText  .IsHTML  .NoUgly  .NotAlternative ) -}}
+  {{- $OutputFormatVarNames   := (slice "Name" "MediaType" "BaseName" "Rel" "Protocol" "IsPlainText" "IsHTML" "NoUgly" "NotAlternative") -}}
+  {{- $OutputFormatVarSymbols := (slice .Name  .MediaType  .BaseName  .Rel  .Protocol  .IsPlainText  .IsHTML  .NoUgly  .NotAlternative ) -}}
   <table class="debugprint">
     <tr>
       <th class="key">OutputFormat Variable</th>

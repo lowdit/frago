@@ -1,5 +1,5 @@
 {{- if (eq (getenv "HUGO_ENV") "production" | or (eq .Site.Params.env "production")) -}}
-{{- $patharray      := split (path.Dir .Path) "/" -}}
+{{- $patharray      := split (path.Dir .File.Path) "/" -}}
 {{- $context        := . -}}
 {{- $project :=  (partialCached "render/projectpath" $context $context) -}}
 {{- $.Scratch.Delete "score" -}}

@@ -44,7 +44,7 @@
 {{ end }}
 {{/* If context information doesn’t exist try to warn */}}
 {{ if not ($data.Get "context") }}
-  {{ warnf "Context is not declared for %s see the documentation" $context.Path }}
+  {{ warnf "Context is not declared for %s see the documentation" $context.File.Path }}
 {{ else }}
   {{ if and ($data.Get "datecontext") (index ($data.Get "context") ($data.Get "datecontext")).declared }}
     {{/*  if (cond (not .Params.accessibility.contacts) ($context.Site.Params.contacts) (.Params.accessibility.contacts)) }}
@@ -61,8 +61,8 @@
     {{ end }}
   {{ else }}
     {{/* This line Should debug "audits/_index.md" path for list.xxxx.json output */}}
-    {{ if and (ne (printf "%s/%s" (path.Dir $context.Path) (path.Base $context.Path)) "audits/_index.md") (partialCached "render/issimpleproject.html" "arg" "arg") }}
-      {{ warnf "Context is not declared for %s see the documentation - it can be done in files content/audits/%s or content/audits/%s/accessibility/context.yml" (cond (not $projectname) (printf "this project") (printf "the project %s" $project)) $context.Path $project }}
+    {{ if and (ne (printf "%s/%s" (path.Dir $context.File.Path) (path.Base $context.File.Path)) "audits/_index.md") (partialCached "render/issimpleproject.html" "arg" "arg") }}
+      {{ warnf "Context is not declared for %s see the documentation - it can be done in files content/audits/%s or content/audits/%s/accessibility/context.yml" (cond (not $projectname) (printf "this project") (printf "the project %s" $project)) $context.File.Path $project }}
     {{ end }}
   {{ end }}
 {{ end }}

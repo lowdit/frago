@@ -9,9 +9,9 @@
 {{- end -}}
 
 {{- define "main" -}}
-  {{- $patharray  := split (path.Dir .Path) "/" -}}
+  {{- $patharray  := split (path.Dir .File.Path) "/" -}}
   {{- $context    := . -}}
-  {{- $project    := cond (eq (len (split (path.Dir $context.Path) "/")) 1) "" (replace (path.Dir $context.Path) "audits/" "") -}}
+  {{- $project    := cond (eq (len (split (path.Dir $context.File.Path) "/")) 1) "" (replace (path.Dir $context.File.Path) "audits/" "") -}}
   {{- $alternate  := where (where .OutputFormats "Permalink" "eq" .Permalink) "Rel" "eq" "alternate" -}}
   {{- if ne (len $alternate) 0 -}}
     {{- with $alternate -}}
@@ -46,7 +46,7 @@
   {{- else -}}
     <div class="fg-wrapper narrow"><p class="no-print">← <a href="{{ if eq (.Site.GetPage "/").Title "Accueil Audits" }}/{{ else }}{{ $.Site.BaseURL | default "/"}}audits{{ end }}" class="link-more link-back">Retour à la liste des services</a></p></div>
     {{ with .Title }}<h1 class="text-center fg-wrapper">{{ . }}</h1>{{ end }}
-    {{- if and (not (in (path.Base .Path) "index.md")) -}}
+    {{- if and (not (in (path.Base .File.Path) "index.md")) -}}
       <article class="fg-wrapper narrow">
         {{ partialCached "elements/content.html" .Content .Content }}
       </article>

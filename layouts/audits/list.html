@@ -28,7 +28,7 @@
 {{- else -}}
   Synthèse
 {{- end -}}
-  {{ with $projectTitle }} de {{ $projectTitle }} {{ else }}{{ (index (split (path.Dir .Path) "/") 1) }}{{- end -}}
+  {{ with $projectTitle }} de {{ $projectTitle }} {{ else }}{{ (index (split (path.Dir .File.Path) "/") 1) }}{{- end -}}
 {{- end -}}
 
 {{- define "title" -}}
@@ -61,13 +61,13 @@
   {{- else -}}
     Synthèse
   {{- end -}}
-  {{ with $projectTitle }} de {{ $projectTitle }}{{ else }}{{ (index (split (path.Dir .Path) "/") 1) }}{{ end }}
+  {{ with $projectTitle }} de {{ $projectTitle }}{{ else }}{{ (index (split (path.Dir .File.Path) "/") 1) }}{{ end }}
 {{- end -}}
 
 {{- define "main" -}}
-{{- $patharray  := split (path.Dir .Path) "/" -}}
+{{- $patharray  := split (path.Dir .File.Path) "/" -}}
 {{- $context    := . -}}
-{{- $project    := cond (eq (len (split (path.Dir $context.Path) "/")) 1) "audits" (replace (path.Dir $context.Path) "audits/" "") -}}
+{{- $project    := cond (eq (len (split (path.Dir $context.File.Path) "/")) 1) "audits" (replace (path.Dir $context.File.Path) "audits/" "") -}}
 {{- if or (and (gt (len $patharray) 1) ($project)) (eq (len (split (.RelPermalink) "/")) 2) (eq (len $patharray) 1) -}}
   {{- $alternate := where (where .OutputFormats "Permalink" "eq" .Permalink) "Rel" "eq" "alternate" -}}
     {{ if ne (len $alternate) 0 }}
@@ -101,7 +101,7 @@
     {{- else -}}
       {{- $partialprojects := (partialCached "templates/projects.html" $context $context) -}}
       {{- if and (ne $project "audits") (not (partialCached "render/issimpleproject.html" "arg" "arg")) -}}
-        {{- if and (not (in (path.Base .Path) "index.md")) -}}
+        {{- if and (not (in (path.Base .File.Path) "index.md")) -}}
           <article class="fg-wrapper narrow">
             {{ partialCached "elements/content.html" .Content .Content }}
           </article>
@@ -123,7 +123,7 @@
       <h1 class="text-center fg-wrapper">{{ . }}</h1>
     {{ end }}
     {{- if and (ne $project "audits") (not (partialCached "render/issimpleproject.html" "arg" "arg")) -}}
-      {{- if and (not (in (path.Base .Path) "index.md")) -}}
+      {{- if and (not (in (path.Base .File.Path) "index.md")) -}}
         <article class="fg-wrapper narrow">
           {{ partialCached "elements/content.html" .Content .Content }}
         </article>

@@ -3,7 +3,7 @@
 {{ $project            := .project }}
 {{ $datalastfile       := newScratch }}
 {{ $type               := .type }}
-{{ $patharray          := split (path.Dir .context.Path) "/" }}
+{{ $patharray          := split (path.Dir .context.File.Path) "/" }}
 {{ $rootpath           := partialCached "render/rootpath" (dict "context" . "project" $project "type" "accessibility") $project "accessibility" }}
 {{ $path               := partialCached "render/filepath" (dict "context" $context "project" $project "type" .type) $context $project .type }}
 

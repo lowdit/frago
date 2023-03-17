@@ -19,7 +19,7 @@
     {{/* If subproject */}}
     {{ with .folder }}
       {{ $data.SetInMap "name" (string (add $id 1)) $name }}
-      {{ $project  := replace (printf "%s/%s" (path.Dir $context.Path) .) "audits" "" }}
+      {{ $project  := replace (printf "%s/%s" (path.Dir $context.File.Path) .) "audits" "" }}
       {{ $lastfile := (partialCached "render/lastfile.html" (dict "project" $project "type" "accessibility") $project "accessibility") }}
       {{ if index $lastfile "auditfile-name" }}
         {{ with index $lastfile "auditfile-path" }}

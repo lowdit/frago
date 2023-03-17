@@ -1,6 +1,8 @@
 {{- define "main" -}}
 {{/* Variables */}}
-{{- $patharray := split (path.Dir .Path) "/" -}}
+{{ $path := "" }}
+{{ with .File }}{{ $path = .Path }}{{ else }}{{ $path = .Path }}{{ end }}
+{{- $patharray := split (path.Dir $path) "/" -}}
 {{- $context   := . -}}
 {{- $project   :=  (partialCached "render/projectpath" $context $context) -}}
 {{- $path      := (partialCached "render/filepath" (dict "context" . "project" $project "type" "usertests") $project "usertests") -}}

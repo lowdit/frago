@@ -1,6 +1,6 @@
 
 {{/* Determine values from recommendation files */}}
-{{ $pathlen   := len (split (path.Dir .context.Path) "/") }}
+{{ $pathlen   := len (split (path.Dir .context.File.Path) "/") }}
 {{ $auditfile := .auditfile }}
 {{ $data      := newScratch }}
 {{/* START Test if audit file not false */}}
@@ -53,6 +53,6 @@
     )
   }}
 {{ else }}
-  {{ if ne .context.Path "_index.md" }}{{ warnf "Maybe recommendation file is missing in %s" .context.Path }}{{ end }}
+  {{ if ne .context.File.Path "_index.md" }}{{ warnf "Maybe recommendation file is missing in %s" .context.File.Path }}{{ end }}
 {{ end }}
 {{/* END Test if audit file not false */}}

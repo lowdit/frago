@@ -1,5 +1,5 @@
 {{/* Variables */}}
-{{- $pagedate := replace (path.Base .Path) (path.Ext .Path) "" -}}
+{{- $pagedate := replace (path.Base .File.Path) (path.Ext .File.Path) "" -}}
 {{- $kind     := .Kind -}}
 {{- $data     := newScratch -}}
 {{- $data.Set "datesAction" slice -}}

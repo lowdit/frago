@@ -1,5 +1,7 @@
 {{- define "main" -}}
-{{- $patharray := split (path.Dir .Path) "/" -}}
+{{ $path := "" }}
+{{ with .File }}{{ $path = .Path }}{{ else }}{{ $path = .Path }}{{ end }}
+{{- $patharray := split (path.Dir $path) "/" -}}
 
 {{- $.Scratch.Set "guidelinename" "rgaa" -}}
 {{- $.Scratch.Set "guidelineversion" "4.1" -}}
