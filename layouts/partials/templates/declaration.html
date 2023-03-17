@@ -2,6 +2,7 @@
 {{- $context  := .context -}}
 {{- $data     := newScratch -}}
 {{- $project  := (partialCached "render/projectpath" $context $context) -}}
+{{- $envTitle := (dict "desktop" "Ordinateur" "mobile" "Mobile") -}}
 
 {{/* START Determine the version of the audit from the context declaration */}}
   {{- $data.Set "guidelinename" "rgaa" -}}
@@ -74,11 +75,11 @@
           {{- with .plan -}}<li>Plan d’actions 2020-2021 : <a href="{{ . }}">Plan d’actions</a></li>{{ end }}
         </ul>
         {{- end -}}
-        {{- with .website -}}<p>Cette déclaration d’accessibilité s’applique à {{ . }}.</p>{{ end }}
+        {{- with .website -}}<p>Cette déclaration d’accessibilité s’applique à {{ partialCached "utils/isURL.html" (dict "context" $context "projectTitle" .) . }}.</p>{{ end }}
       {{ end }}
       {{/* END If "organisation" */}}
       <h2>État de conformité</h2>
-      <p>{{ with $data.Get "organisation" }}{{ . }}{{ end }}{{ with .website }}, {{ . }}{{ end }} est {{ if ($data.Get "scores") }}{{ if lt (index ($data.Get "scores") "compliance") 50 }}non{{ else if ge (index ($data.Get "scores") "compliance") 50 }}partiellement{{ else if eq (index ($data.Get "scores") "compliance") 100 }}totalement{{ end }}{{ end }} conforme avec le référentiel général d’amélioration de l’accessibilité (RGAA), version 4 en raison des non-conformités et des dérogations énumérées ci-dessous.</p>
+      <p>{{ with .website }}{{ partialCached "utils/isURL.html" (dict "context" $context "projectTitle" .) . }}{{ else }}{{ with $data.Get "organisation" }}{{ . }}{{ end }}{{ end }} est {{ if ($data.Get "scores") }}{{ if lt (index ($data.Get "scores") "compliance") 50 }}non{{ else if ge (index ($data.Get "scores") "compliance") 50 }}partiellement{{ else if eq (index ($data.Get "scores") "compliance") 100 }}totalement{{ end }}{{ end }} conforme avec le référentiel général d’amélioration de l’accessibilité (RGAA), version 4 en raison des non-conformités et des dérogations énumérées ci-dessous.</p>
       <h3>Résultats des tests</h3>
       {{/* START If criteria */}}
       {{- if ($data.Get "scores").criteria -}}
@@ -134,14 +135,38 @@
           {{ with ($data.Get "context").audit }}
             {{/* START environment */}}
             {{ with .environment }}
+              {{ $environment := . }}
               <h3>Environnement de test</h3>
               <p>Les vérifications de restitution de contenus ont été réalisées sur la base de la combinaison fournie
                 par la base de référence du RGAA, avec les versions suivantes :</p>
-              <ul>
-                {{- range $id, $value := . -}}
-                <li>{{ . }}</li>
-                {{- end -}}
-              </ul>
+
+                {{ if reflect.IsMap (index . 0) }}
+                  {{- range $key, $value := $envTitle -}}
+                  {{- with where $environment "type" $key -}}
+                    <table>
+                      <caption>Environnement de test {{ $value }}</caption>
+                      <thead>
+                        <th>Système d’exploitation</th>
+                        <th>Technologie d’assistance</th>
+                        <th>Navigateur</th>
+                      </thead>
+                      <tbody>
+                      {{- range . }}
+                        <tr>
+                          <td>{{ .OS }}</td>
+                          <td>{{ .screenreader }}</td>
+                          <td>{{ .browser }}</td>
+                        </tr>
+                      {{ end -}}
+                      </tbody>
+                    </table>
+                  {{- end -}}
+                  {{- end -}}
+                {{- else -}}
+                  {{- range $id, $value := . -}}
+                    <li>{{ . }}</li>
+                  {{ end }}
+                {{ end }}
             {{ end }}
             {{/* END tools */}}
             {{/* START tools */}}
@@ -172,7 +197,7 @@
       {{ if and ($data.Get "organisation") .contacts }}
         <h2>Retour d’information et contact</h2>
         <address>
-          <p>Si vous n’arrivez pas à accéder à un contenu ou à un service, vous pouvez contacter le responsable de {{ with ($data.Get "organisation") }}<strong>{{ . }}</strong>{{ end }}{{ with .website }}, {{ . }}{{ end }} pour être orienté vers une alternative accessible ou obtenir le contenu
+          <p>Si vous n’arrivez pas à accéder à un contenu ou à un service, vous pouvez contacter le responsable de {{ with ($data.Get "organisation") }}<strong>{{ . }}</strong>{{ end }} pour être orienté vers une alternative accessible ou obtenir le contenu
           sous une autre forme.</p>
 
           {{/* START contact */}}
