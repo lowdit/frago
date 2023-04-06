@@ -40,13 +40,13 @@
 
     {{/* START Determine the version of the audit from the context declaration */}}
     {{- $data.Set "guidelinename" "rgaa" -}}
-    {{- $data.Set "guidelineversion" "4.1" -}}
+    {{- $data.Set "guidelineversion" "4.1.1" -}}
     {{- $data.Set "context" (partialCached "render/context.html" (dict "context" $context "project" $project) $project) -}}
     {{- with ($data.Get "context") -}}
     {{- with (index ($data.Get "audits") "auditfile-name") -}}
     {{- with (index ($data.Get "context") .) -}}
       {{- with .audit -}}
-        {{- with .audit.guidelines -}}
+        {{- with .guidelines -}}
           {{- $guideline := (replace (. | urlize) "-" "") -}}
           {{- $data.Set "guidelinename"    (cond (in $guideline "rgaa") "rgaa" (cond (in $guideline "wcag") "wcag" "none")) -}}
           {{- $data.Set "guidelineversion" (replace $guideline ($data.Get "guidelinename") "") -}}
@@ -63,6 +63,7 @@
 
     {{/* Load the criteria file for the good audit version */}}
     {{- $data.Set "criteriafile" (index (index $.context.Site.Data ($data.Get "guidelinename")) ($data.Get "guidelineversion")).criteria.topics -}}
+
     {{/* Load the glossary file for the good audit version */}}
     {{- $data.Set "glossaire" (printf "=\"%s%s%s/glossaire/#" (site.BaseURL | default "/") ($data.Get "guidelinename") ($data.Get "guidelineversion")) -}}
 
@@ -131,6 +132,7 @@
       <time class="text-center" datetime="{{ ($data.Get "date").Format "2006-01-02T15:04:05Z07:00" | safeHTML }}">Le {{ ($data.Get "date").Day }} {{ index $.context.Site.Data.month (printf "%d" ($data.Get "date").Month) }} {{ ($data.Get "date").Year }}</time>
       {{- with $.context.OutputFormats.Get "declarationpage" -}}<p class="text-center"><a href="{{ .RelPermalink }}" aria-label="Accéder à la déclaration de {{ ($context.GetPage $project).Title }}">Accéder à la déclaration</a></p>{{- end -}}
 
+
       <h3 class="mb-0">Conformité globale selon les critères {{/* if le ($data.Get "scores").scores.compliance "75" }} {{ if and (ne ($data.Get "scores").scores.criteria.nonconforme 0) (ne ($data.Get "scores").scores.criteria.conforme 0) }}<small>({{ sub ((div (mul (add (len ($data.Get "scores").criteria.conforme) (($data.Get "scores").scores.criteria.nonconforme) ) 75) 100)) (len ($data.Get "scores").criteria.conforme) }}</b> critères pour atteindre 75%)</small>{{ end }}{{ end */}}</h3>
       {{/* Call accessibility scores partial */}}
       {{- partialCached "components/scores/accessibility" (dict "context" $context "score" ($data.Get "scores").scores.compliance) ($data.Get "scores") -}}
@@ -158,6 +160,8 @@
         {{- end -}}
       {{- end -}}
       {{/* END Display audit context */}}
+
+      {{ if not ($data.Get "criteriafile") }}<p class="center">La version de référentiel RGAA n’est pas correcte</p>{{ end }}
 
     <hr>
 
@@ -291,6 +295,7 @@
   {{- $criteria := index $value 1 -}}
   {{- $tests := index $value 2 -}}
   {{- if or $condcontentlen $condcontentnc -}}
+  {{- if ($data.Get "criteriafile") -}}
     {{- $data.Set "counterallpages" 1 -}}
     <p class="mb-0"><strong>
       {{- if $condcontentc -}}{{ end }}{{ if or $condcontentnc $condcontentlen }}{{ end }} {{ if eq ($data.Get "auditmethodology") 3 }}Test{{ else }}Critère{{ end }} {{ $thematiques }}.{{ $criteria }}{{ if eq ($data.Get "auditmethodology") 3 }}.{{ $tests }}{{ end }} <small hidden>- {{ if $condcontentc }}Conforme{{ end }}{{ if or $condcontentnc $condcontentlen }}Non conforme{{ end }}</small>
@@ -328,5 +333,7 @@
         {{- end -}}
       {{- end -}}
     {{- end -}}
+  {{- end -}}
+  {{- else -}}
   {{- end -}}
 {{- end -}}
