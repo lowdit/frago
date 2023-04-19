@@ -40,7 +40,7 @@
 
     {{/* START Determine the version of the audit from the context declaration */}}
     {{- $data.Set "guidelinename" "rgaa" -}}
-    {{- $data.Set "guidelineversion" "4.1.1" -}}
+    {{- $data.Set "guidelineversion" $context.Site.Params.rgaa.version -}}
     {{- $data.Set "context" (partialCached "render/context.html" (dict "context" $context "project" $project) $project) -}}
     {{- with ($data.Get "context") -}}
     {{- with (index ($data.Get "audits") "auditfile-name") -}}

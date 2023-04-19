@@ -12,6 +12,10 @@ enableGitInfo = true
 
 disableKinds = ["RSS", "sitemap", "taxonomy", "taxonomyTerm"]
 
+[params]
+  [params.rgaa]
+    version = "4.1.2"
+
 [outputformats]
   _merge = 'deep'
 

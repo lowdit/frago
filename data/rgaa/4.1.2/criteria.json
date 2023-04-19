@@ -1185,7 +1185,7 @@
             "title": "La consultation de chaque [média temporel](#media-temporel-type-son-video-et-synchronise) est-elle, si nécessaire, [contrôlable par le clavier et tout dispositif de pointage](#accessible-et-activable-par-le-clavier-et-tout-dispositif-de-pointage) ?",
             "tests": {
               "1": [
-                "Chaque [média temporel](#media-temporel-type-son-video-et-synchronise) a-t-il, si nécessaire, les fonctionnalités de contrôle de sa consultation ?"
+                "Chaque [média temporel](#media-temporel-type-son-video-et-synchronise) a-t-il, si nécessaire, les fonctionnalités de [contrôle de sa consultation](#controle-de-la-consultation-d-un-media-temporel) ?"
               ],
               "2": [
                 "Pour chaque [média temporel](#media-temporel-type-son-video-et-synchronise), chaque fonctionnalité vérifie-t-elle une de ces conditions ?",
@@ -1258,7 +1258,7 @@
                 "Une alternative [compatible avec une API d’accessibilité](#compatible-avec-les-technologies-d-assistance) permet d’accéder aux mêmes fonctionnalités."
               ],
               "2": [
-                "Chaque [média temporel](#media-temporel-type-son-video-et-synchronise)et [non temporel](#media-non-temporel) qui possède une alternative [compatible avec les technologies d’assistance](#compatible-avec-les-technologies-d-assistance), vérifie-t-il une de ces conditions ?",
+                "Chaque [média temporel](#media-temporel-type-son-video-et-synchronise) et [non temporel](#media-non-temporel) qui possède une alternative [compatible avec les technologies d’assistance](#compatible-avec-les-technologies-d-assistance), vérifie-t-il une de ces conditions ?",
                 "L’alternative est adjacente au [média temporel](#media-temporel-type-son-video-et-synchronise) ou [non temporel](#media-non-temporel) ;",
                 "L’alternative est accessible via un [lien ou bouton adjacent](#lien-ou-bouton-adjacent) ;",
                 "Un mécanisme permet de remplacer le [média temporel](#media-temporel-type-son-video-et-synchronise) ou [non temporel](#media-non-temporel) par son alternative."
@@ -3257,7 +3257,7 @@
             "references": [
               {
                 "wcag": [
-                  "3.3.3 Eror Suggestion (AA)"
+                  "3.3.3 Error Suggestion (AA)"
                 ]
               },
               {

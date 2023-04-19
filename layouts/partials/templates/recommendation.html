@@ -11,7 +11,7 @@
 {{ partialCached "utils/css.html" (dict "context" $.context "filefolder" "object" "filename" "summary") "summary" }}
 
 {{- $data.Set "guidelinename" "rgaa" -}}
-{{- $data.Set "guidelineversion" "4.1.1" -}}
+{{- $data.Set "guidelineversion" $context.Site.Params.rgaa.version -}}
 {{- with ($.context.GetPage (printf "/content/%saccessibility.md" .Dir)) -}}
 {{- with .Params.accessibility.guidelines -}}
   {{- $guideline := (replace (. | urlize) "-" "") -}}

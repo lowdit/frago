@@ -3,12 +3,24 @@
 {{ with .File }}{{ $path = .Path }}{{ else }}{{ $path = .Path }}{{ end }}
 {{- $patharray := split (path.Dir $path) "/" -}}
 
+{{/* Range all RGAA version according to data folder */}}
+{{ $guidelineallversionarray := "" }}
+{{- $.Scratch.Set "guidelineallversionarray" slice -}}
+{{ range $key, $value := .Site.Data.rgaa }}
+  {{- if in $key "." }}
+    {{- if ne $guidelineallversionarray (slicestr $key 0 3) }}{{- $.Scratch.Set "guidelineallversionarray" slice -}}{{ end -}}
+    {{- $.Scratch.Add "guidelineallversionarray" $key -}}
+    {{- $.Scratch.SetInMap "guidelineallversion" (slicestr $key 0 3) ($.Scratch.Get "guidelineallversionarray") -}}
+    {{- $guidelineallversionarray = (slicestr $key 0 3) -}}
+  {{ end }}
+{{ end }}
+
 {{- $.Scratch.Set "guidelinename" "rgaa" -}}
-{{- $.Scratch.Set "guidelineversion" "4.1.1" -}}
+{{- $.Scratch.Set "guidelineversion" .Site.Params.rgaa.version -}}
 {{- if ge ($patharray) 2 -}}
   {{- $.Scratch.Set "guideline" (index $patharray 0) -}}
   {{- $.Scratch.Set "guidelinename" (index $patharray 0) -}}
-  {{- $.Scratch.Set "guidelineversion" (index $patharray 1) -}}
+  {{- $.Scratch.Set "guidelineversion" (index (last 1 (index ($.Scratch.Get "guidelineallversion") (index $patharray 1))) 0) -}}
 {{- end -}}
 
 {{- $glossaire := printf "=\"/%s/%s/glossaire/#" ($.Scratch.Get "guidelinename") ($.Scratch.Get "guidelineversion") -}}
