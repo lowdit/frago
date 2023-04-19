@@ -1,7 +1,7 @@
 {{- $project := .project -}}
-{{- $.context.Scratch.Delete "pagesstatus-critical" -}}
-{{- $.context.Scratch.Set "lastfile-recommendation" (readFile (index (partialCached "render/lastfile.html" (dict "context" .context "project" $project "type" "recommendation" "datafilename" .datafilename) $project "recommendation" .datafilename) "auditfile-path") | transform.Unmarshal) -}}
+{{- $.context.Scratch.Delete "pagesstatus-critical" -}}) -}}
 
+{{- $.context.Scratch.Set "lastfile-recommendation" (readFile (index (partialCached "render/lastfile.html" (dict "context" .context "project" $project "type" "recommendation" "datafilename" .datafilename) $project "recommendation" .datafilename) "auditfile-path") | transform.Unmarshal) }}
 {{- $.context.Scratch.Set "delivery" slice -}}
 {{- $.context.Scratch.Set "pagesdelivery" slice -}}
 {{- range ($.context.Scratch.Get "lastfile-recommendation") -}}

@@ -43,7 +43,7 @@
     {{/* START - If accessibility */}}
     {{- if $accessibility -}}
       {{- $.Scratch.Set "render" slice -}}
-      {{- $.Scratch.Set "audit" (partialCached "render/accessibility.html" (dict "auditfile" ($.Scratch.Get "accessibility-path")) ($.Scratch.Get "accessibility-path")) -}}
+      {{- $.Scratch.Set "audit" (partialCached "render/accessibility.html" (dict "context" $context "auditfile" ($.Scratch.Get "accessibility-path")) ($.Scratch.Get "accessibility-path")) -}}
       <h3 class="m-0">Accessibilité
         {{- if or ($.Scratch.Get "audit").scores.compliance (eq ($.Scratch.Get "audit").scores.compliance 0) -}}
           {{- $pageauditpath := (printf "/content/audits/%s/accessibility.md" ($project | urlize)) -}}
@@ -66,7 +66,7 @@
 
       {{/* START - If several accessibility files */}}
       {{- with ($.Scratch.Get "accessibility-all-path") -}}
-        {{- range $id, $value := . -}}{{- ($.Scratch.Add "render" (slice (partialCached "render/accessibility.html" (dict "auditfile" . ) . ))) -}}{{- end -}}
+        {{- range $id, $value := . -}}{{- ($.Scratch.Add "render" (slice (partialCached "render/accessibility.html" (dict "context" "Graphique" "auditfile" . ) . ))) -}}{{- end -}}
       {{- end -}}
       {{- with ($.Scratch.Get "render") -}}
         {{- if gt (len .) 1 -}}
@@ -124,7 +124,7 @@
 
     {{/* START - If ecoconception */}}
     {{- if $ecoconception -}}
-      {{- $.Scratch.Set "audit" (partialCached "render/ecoconception.html" (dict "auditfile" ($.Scratch.Get "ecoconception-path")) ($.Scratch.Get "ecoconception-path")) -}}
+      {{- $.Scratch.Set "audit" (partialCached "render/ecoconception.html" (dict "context" "ecopartial" "auditfile" ($.Scratch.Get "ecoconception-path")) ($.Scratch.Get "ecoconception-path")) -}}
       <h3 class="m-0">Éco-conception
         {{- if or ($.Scratch.Get "audit").scores.compliance (eq ($.Scratch.Get "audit").scores.compliance 0) -}}
           {{- $pageauditpath := (printf "/content/audits/%s/ecoconception.md" ($project | urlize)) -}}

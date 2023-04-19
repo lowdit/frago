@@ -78,5 +78,5 @@
 {{/* END Test if audit file not false */}}
 
 {{- if (eq (getenv "HUGO_ENV") "debugperf") -}}
-  {{ warnf " => %s Total[%sms] Performance" (delimit ($data.Get "debugperf") " ") (string (sub now.UnixMilli $time)) }}
+  {{ warnf "=> Performance    Total[%sms] %s " (string (sub now.UnixMilli $time)) (delimit ($data.Get "debugperf") " ") }}
 {{- end -}}

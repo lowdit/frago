@@ -1,6 +1,7 @@
 {{/* Get values from accessibility files */}}
-{{ $scorekey      := sha1 (string now) }}
+{{ $scorekey      := "scorekey" }}
 {{ $data          := newScratch }}
+{{ $context       := .context }}
 {{ $auditfile     := .auditfile }}
 {{ $time          := now.UnixMilli }}
 {{ $timepartial   := now.UnixMilli }}
@@ -11,18 +12,18 @@
 {{/* START - (ne .auditfile "/false") */}}
 {{ if (ne .auditfile "/false") }}
 
-  {{ $auditfilecsv     := (getCSV "," .auditfile) }}
+  {{ $auditfilecsv     := (readFile .auditfile | transform.Unmarshal) }}
   {{ $auditmethodology := (index (partialCached "render/methodology.html" (dict "auditfile" $auditfilecsv) $auditfilecsv) "methodology") }}
   {{ $pageslist        := (index (partialCached "render/methodology.html" (dict "auditfile" $auditfilecsv) $auditfilecsv) "pageslist") -}}
 
   {{ $data.Set (printf "%s%s" $scorekey "date")           (replace (path.Base .auditfile) (path.Ext .auditfile) "") }}
-  {{ $data.Set (printf "%s%s" $scorekey "critValues")      0 }}
-  {{ $data.Set (printf "%s%s" $scorekey "critValuesUniq")  0 }}
-  {{ $data.Set (printf "%s%s" $scorekey "render-is-empty") 0 }}
-  {{ $data.Set (printf "%s%s" $scorekey "totalTest")       0 }}
-  {{ $data.Set (printf "%s%s" $scorekey "iCrit")           0 }}
-  {{ $data.Set (printf "%s%s" $scorekey "critere")        "" }}
-  {{ $data.Set (printf "%s%s" $scorekey "Average")         0 }}
+  {{ $data.Set "critValues"      0 }}
+  {{ $data.Set "critValuesUniq"  0 }}
+  {{ $data.Set (printf "%s" "render-is-empty") 0 }}
+  {{ $data.Set (printf "%s" "totalTest")       0 }}
+  {{ $data.Set (printf "%s" "iCrit")           0 }}
+  {{ $data.Set (printf "%s" "critere")        "" }}
+  {{ $data.Set (printf "%s" "Average")         0 }}
 
   {{ $data.Delete $scorekey }}
   {{ $data.SetInMap (printf "%s%s" $scorekey "pageC")  "0"  slice }}
@@ -34,7 +35,7 @@
     {{ $crit := printf "%s.%s" (index . 0) (index . 1) }}
 
     {{ if ne $crit ($data.Get (printf "%s%s" $scorekey "critere")) }}
-      {{ $data.Set (printf "%s%s" $scorekey "iCrit") 0 }}
+      {{ $data.Set (printf "%s" "iCrit") 0 }}
       {{ $data.Set (printf "%s%s" $scorekey "critPageValue") slice }}
     {{ end }}
 
@@ -44,28 +45,38 @@
       {{ $testvalue := lower (index (split . "|") 0) }}
 
       {{ if or (eq $testvalue "c") (eq $testvalue "nc") }}
-        {{ $data.Add (printf "%s%s" $scorekey "render-is-empty") 1 }}
+        {{ $data.Add (printf "%s" "render-is-empty") 1 }}
       {{ end }}
       {{ if or (eq $testvalue "c") (eq $testvalue "nc") (eq $testvalue "na") (eq . "?") }}
-        {{ $data.Add (printf "%s%s" $scorekey "totalTest") 1 }}
-        {{ $data.Add (printf "%s%s" $scorekey "iCrit") 1 }}
+        {{ $data.Add (printf "%s" "totalTest") 1 }}
+        {{ $data.Add (printf "%s" "iCrit") 1 }}
       {{ end }}
       {{ if $testcontentvalue }}
         {{/* Replace first Characters (when c, nc or na…) by the same lowerify characters */}}
+        {{- if (eq (getenv "HUGO_ENV") "debugperfline") -}}
+          {{ $timepartial   = now.UnixMilli }}
+        {{- end -}}
         {{ $testcontentvalue := (cond (le (len $testvalue) 3) (replace $testcontentvalue (first (len $testvalue) $testcontentvalue) (lower (first (len $testvalue) $testcontentvalue))) $testcontentvalue) }}
+
         {{ $data.Add (printf "%s%s" $scorekey "critPageValue") $testcontentvalue }}
         {{ $data.Add (printf "%s%s" $scorekey "critPageValues") $testcontentvalue }}
         {{/* Build array per pages */}}
         {{ $data.SetInMap
-          (printf "%s%s" $scorekey (printf "%s%s" $scorekey "critValuesUniq"))
+          (printf "%s%s" $scorekey "critValuesUniq")
           (string $crit)
           (uniq ($data.Get (printf "%s%s" $scorekey "critPageValue")))
         }}
         {{ $data.SetInMap
-          (printf "%s%s" $scorekey (printf "%s%s" $scorekey "critValues"))
+          (printf "%s%s" $scorekey "critValues")
           (string $crit)
           (($data.Get (printf "%s%s" $scorekey "critPageValues")))
         }}
+        {{- if (eq (getenv "HUGO_ENV") "debugperfline") -}}
+        {{ if gt (sub now.UnixMilli $timepartial) 30 }}
+          {{ warnf "Line[%sms] END %s %s %s" (string (sub now.UnixMilli $timepartial)) $context $value1 . }}
+          {{ $timepartial   = now.UnixMilli }}
+          {{- end -}}
+        {{- end -}}
         {{/* If a page has only nt for all criteria */}}
         {{ if (ne $testvalue "nt") }}
           {{ $data.SetInMap
@@ -75,17 +86,24 @@
           }}
         {{ end }}
       {{ end }}
+      {{- if (eq (getenv "HUGO_ENV") "debugperfline") -}}
+        {{/* warnf "Line[%sms] total %s %s %s" (string (sub now.UnixMilli  $timepartial)) $context $value1 . */}}
+        {{ $timepartial   = now.UnixMilli }}
+      {{- end -}}
     {{ end }}
     {{/* END Range columns of the csv file */}}
     {{ $data.Set (printf "%s%s" $scorekey "critere") $crit }}
+
   {{ end }}
   {{/* END Range csv file per lines/criteria */}}
+
   {{- if (eq (getenv "HUGO_ENV") "debugperf") -}}
     {{ $data.Add "debugperf" (printf "Lines[%sms]" (string (sub now.UnixMilli $time))) }}
     {{ $timepartial   = now.UnixMilli }}
   {{- end -}}
+
   {{/* START :: value criteria for each page */}}
-  {{ range $key, $array := ($data.Get (printf "%s%s" $scorekey (printf "%s%s" $scorekey "critValues"))) }}
+  {{ range $key, $array := ($data.Get (printf "%s%s" $scorekey "critValues")) }}
       {{ range $idx, $value := . }}
         {{ if eq (index (split $value "|") 0) "c" }}
           {{ $data.SetInMap (printf "%s%s%s" $scorekey $idx "iPageC") (string $key) $value }}
@@ -104,7 +122,7 @@
   {{ end }}
   {{/* END */}}
   {{/* Only if auditefile exists :: avoid problem when file is misread */}}
-  {{ if and $auditfilecsv ($data.Get (printf "%s%s" $scorekey "render-is-empty")) }}
+  {{ if and $auditfilecsv ($data.Get (printf "%s" "render-is-empty")) }}
     {{/* START Calculate average score :: Calcul du taux global (moyenne de conformité des pages) */}}
     {{ $lengthPageC := len ($data.Get (printf "%s%s" $scorekey "pageC")) }}
     {{ if ne (len (index ($data.Get (printf "%s%s" $scorekey "pageC")) "0")) 0 }}
@@ -124,7 +142,7 @@
     {{ $auditfilecsv := after 1 .auditfile }}
 
     {{/* START Range array with test result par pages */}}
-    {{ range $id, $value := ($data.Get (printf "%s%s" $scorekey (printf "%s%s" $scorekey "critValuesUniq"))) }}
+    {{ range $id, $value := ($data.Get (printf "%s%s" $scorekey "critValuesUniq")) }}
       {{/* START avoid criterion not tested */}}
       {{ $data.SetInMap "AllCriteria" (string $id) "?" }}
 
@@ -256,9 +274,9 @@
 
     {{/* START count number of criterion */}}
 
-    {{ $data.Set (printf "%s%s" $scorekey "iCritC") 0 }}
+    {{ $data.Set (printf "%s" "iCritC") 0 }}
     {{ with ($data.Get (printf "%s%s" $scorekey "critC")) }}
-      {{ $data.Set (printf "%s%s" $scorekey "iCritC") (len .) }}
+      {{ $data.Set (printf "%s" "iCritC") (len .) }}
     {{ end }}
 
     {{ $data.Set (printf "%s%s" $scorekey "iCritNA") 0 }}
@@ -281,12 +299,12 @@
     {{/* If any NC */}}
     {{ $data.Set (printf "%s%s" $scorekey "compliance") 0 }}
     {{ $data.Set (printf "%s%s" $scorekey "compliance")
-        (div (mul ($data.Get (printf "%s%s" $scorekey "iCritC")) 100) (len ($data.Get "critCount")))
+        (div (mul ($data.Get (printf "%s" "iCritC")) 100) (len ($data.Get "critCount")))
     }}
 
     {{/* If NC :: avoid div by 0 when any NC */}}
     {{ if ($data.Get "critNC") }}
-      {{ $data.Set (printf "%s%s" $scorekey "compliance") ((div (mul (($data.Get (printf "%s%s" $scorekey "iCritC"))) 100) (len ($data.Get (printf "%s%s" $scorekey "critNC"))))) }}
+      {{ $data.Set (printf "%s%s" $scorekey "compliance") ((div (mul (($data.Get (printf "%s" "iCritC"))) 100) (len ($data.Get (printf "%s%s" $scorekey "critNC"))))) }}
     {{ end }}
     {{/* END calculate compliance */}}
 
@@ -298,7 +316,7 @@
 
     {{ $data.Set "total"                                 (cond (not ($data.Get "critCount")) 0 (add (len ($data.Get "critCount")) (len (cond (not ($data.Get (printf "%s%s" $scorekey "critNA"))) slice ($data.Get (printf "%s%s" $scorekey "critNA")))))) }}
 
-    {{ $data.SetInMap $scorekey "testtotal"              ($data.Get (printf "%s%s" $scorekey "totalTest")) }}
+    {{ $data.SetInMap $scorekey "testtotal"              ($data.Get (printf "%s" "totalTest")) }}
     {{ $data.SetInMap $scorekey "all"                    ($data.Get "AllCriteria") }}
     {{ $data.SetInMap $scorekey "total"                  (cond (eq (index ($data.Get (printf "%s%s" $scorekey "critNAtest")) "0") "false") ($data.Get "critCount") (merge ($data.Get "critCount") ($data.Get (printf "%s%s" $scorekey "critNAtest")))) }}
     {{ $data.SetInMap $scorekey "conforme"               ($data.Get (printf "%s%s" $scorekey "critC")) }}
@@ -315,17 +333,18 @@
   {{/* END Range array with test result par pages */}}
 
   {{ return (dict
-    "isempty"       ($data.Get (printf "%s%s" $scorekey "render-is-empty"))
+    "isempty"       ($data.Get (printf "%s" "render-is-empty"))
     "date"          ($data.Get (printf "%s%s" $scorekey "date"))
     "criteria"      ($data.Get $scorekey)
     "scores"        (dict "criteria"
-                      (dict "total" ($data.Get "total")
-                            "conforme" ($data.Get (printf "%s%s" $scorekey "iCritC"))
+                      (dict "total"         ($data.Get "total")
+                            "conforme"      ($data.Get (printf "%s" "iCritC"))
                             "nonapplicable" ($data.Get (printf "%s%s" $scorekey "iCritNA"))
-                            "nonconforme" ($data.Get (printf "%s%s" $scorekey "iCritNC"))
-                            "nonteste" ($data.Get (printf "%s%s" $scorekey "iCritNT"))
+                            "nonconforme"   ($data.Get (printf "%s%s" $scorekey "iCritNC"))
+                            "nonteste"      ($data.Get (printf "%s%s" $scorekey "iCritNT"))
                       )
-                      "compliance" (int ($data.Get (printf "%s%s" $scorekey "compliance")))
+                      "isempty"           ($data.Get (printf "%s" "render-is-empty"))
+                      "compliance"        (int ($data.Get (printf "%s%s" $scorekey "compliance")))
                       "complianceaverage" (int ($data.Get (printf "%s%s" $scorekey "Average")))
                     )
   ) }}
@@ -334,5 +353,5 @@
 {{/* END - (ne .auditfile "/false") */}}
 
 {{- if (eq (getenv "HUGO_ENV") "debugperf") -}}
-  {{ warnf " => %s Total[%sms] Accessibility" (delimit ($data.Get "debugperf") " ") (string (sub now.UnixMilli $time)) }}
+  {{ warnf "=> Accessibility  Total[%sms] %q %#v" (string (sub now.UnixMilli $time)) .context (delimit ($data.Get "debugperf") " ") }}
 {{- end -}}

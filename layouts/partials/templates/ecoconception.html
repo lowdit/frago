@@ -11,7 +11,7 @@
 {{/* START Test if audit file exists */}}
 {{- if and ($data.Get "auditpath-csv") (ne ($data.Get "auditpath-csv") "/false") -}}
   {{- $data.Set "auditfile-csv" (getCSV "," ($data.Get "auditpath-csv")) -}}
-  {{- $data.Set "scores" (partialCached "render/ecoconception.html" (dict "auditfile" ($data.Get "auditpath-csv")) ($data.Get "auditpath-csv") ) -}}
+  {{- $data.Set "scores" (partialCached "render/ecoconception.html" (dict "context" "ecospage" "auditfile" ($data.Get "auditpath-csv")) ($data.Get "auditpath-csv") ) -}}
 
   {{/* START Test if the csv file has a good name : YYYY-MM-DD.csv */}}
     {{- if ne "0" (printf "%v" (len (findRE "((?:19|20)\\d\\d)-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])" (index ($data.Get "audits") "auditfile-name")))) -}}

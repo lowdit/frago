@@ -4,17 +4,7 @@
 {{- if ($.Scratch.Get "rangepages") -}}
   <section class="section text-center">
     <div class="fg-wrapper">
-      {{/* Build a map with all accessibility score for using it later in code :: maybe for catching progression or regression */}}
-      {{- range sort ($.Scratch.Get "rangepages") ".Title" "desc" -}}
-        {{- $project := partialCached "render/projectpath" . . -}}
-        {{- $context := . -}}
-        {{- if and (in (path.Base .File.Path) "index.md") (not (in "/audits/_index.md" .File.Path)) -}}
-          {{- range $id, $value := (index (partialCached "render/lastfile.html" (dict "context" . "project" $project "type" "accessibility" "datafilename" .Params.datafilename) $project "accessibility") "auditfile-all-path") -}}
-            {{- $.Scratch.SetInMap $project (string $id) (partialCached "render/accessibility.html" (dict "auditfile" . ) .) -}}
-          {{- end -}}
-        {{- end -}}
-        {{- $.Scratch.SetInMap "allscores" $project ($.Scratch.Get $project) -}}
-      {{- end -}}
+
       {{ if ($.Scratch.Get "rangepages") }}
       {{- partialCached "utils/css.html" (dict "context" . "filefolder" "object" "filename" "card") "card" -}}
 
@@ -73,8 +63,8 @@
                 {{- end -}}
 
                 {{/* If Accessibility exists */}}
-                {{- if and $accessibility (index ($.Scratch.Get "allscores") $project) -}}
-                  {{- $scoressmall := index (last 1 (sort (index ($.Scratch.Get "allscores") $project))) 0 -}}
+                {{- if and $accessibility -}}
+                  {{- $scoressmall := index (index (index (partialCached "render/aggregate-scores.html" (dict "pages" ($.Scratch.Get "rangepages"))) "allscores") $project) "0" -}}
                   <p class="mb-0">{{- partialCached "components/scores/accessibility-small" (dict "context" . "scores" $scoressmall) $project -}}</p>
                 {{- end -}}
               </div>

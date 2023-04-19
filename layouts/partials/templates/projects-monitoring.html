@@ -16,7 +16,7 @@
         {{- $project := (replace (index (split (path.Dir .File.Path) "/") 1) ".md" "") -}}
         {{- $context := . -}}
         {{- range $id, $value := (index (partialCached "render/lastfile.html" (dict "context" . "project" $project "type" "accessibility" "datafilename" .Params.datafilename) $project "accessibility") "auditfile-all-path") -}}
-          {{- $data.SetInMap $project (string $id) (partialCached "render/accessibility.html" (dict "context" $context "auditfile" . ) .) -}}
+          {{- $data.SetInMap $project (string $id) (partialCached "render/accessibility.html" (dict "context" "projectmonitoring" "auditfile" . ) .) -}}
         {{- end -}}
         {{- $data.SetInMap "allscores" $project ($data.Get $project) -}}
       {{- end -}}
