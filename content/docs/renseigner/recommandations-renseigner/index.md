@@ -6,7 +6,7 @@ summary: 'Renseigner des préconisations et les affecter à des lots de correcti
 
 Affiche les données du fichier plus récent dans `content/audits/nomdelademarche/quality/YYYY-MM-JJ.yml`.
 
-Le fichier de recommandation est fastidieux à remplir, mais permet de suivre des corrections de manière sereine avec une synthèse disponible sous format `HTML` et plus dans une `.doc`
+Le fichier de recommandation est fastidieux à remplir, mais permet de suivre des corrections de manière sereine avec une synthèse disponible sous format `HTML` et plus dans une `.doc`.
 
 ## Exemple de fichier
 
@@ -57,3 +57,15 @@ Le fichier de recommandation est fastidieux à remplir, mais permet de suivre de
 ```
 
 ![Qualité](/frago/images/qualite.png)
+
+## Captures d'écran
+
+Chaque erreur peut être enrichie d'une capture d'écran du site audité. Ces images doivent être
+déposées dans le dossier `static/images/${slug_projet}/quality/${date_audit}/` où ${slug_projet}
+réfère au nom du dossier dans lequel sont archivées les feuilles d'audit et ${date_audit}, au nom
+du fichier d'audit (sous forme de date yyyy-mm-dd).
+
+Afin de lier chaque capture d'écran à l'erreur, un nom d'image est généré automatiquement pour chaque
+erreur. Ce nom est affiché à côté de l'erreur lorsque le site est en cours d'élaboration (`hugo serve`).
+
+![Exemple de nom d'image généré automatiquement](/frago/images/nom-capture-recommandation.png)
