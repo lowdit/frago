@@ -108,3 +108,12 @@ header {
 .primary {
   color: var(--color-primary);
 }
+
+
+/* CHARTS
+   ----------------------------- */
+
+.chart-container {
+  margin-bottom: var(--baseline,1.5em);;
+  background: #fff;
+}
