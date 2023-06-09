@@ -158,7 +158,8 @@ h3 + time {
 .note {
   margin-bottom: var(--baseline,1.5em);
   padding: var(--baseline,1.5em) var(--baseline,1.5em) calc(var(--baseline,1.5em) / 2);
-  font-size: var(--smaller);
+  font-size: 1rem;
+  font-weight: normal;
   color: var(--text-color);
   border: 1px solid var(--color-primary-light);
   background: var(--color-primary-verylight);
@@ -167,6 +168,10 @@ h3 + time {
 .note p,
 .note ul {
   margin-bottom: calc(var(--baseline,1.5em) / 2);
+}
+
+.badge + div {
+  margin-top: var(--baseline,1.5em);
 }
 
 /* LOGO

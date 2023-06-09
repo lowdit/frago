@@ -1,24 +1,17 @@
-{{/* return the rootpath of the audits files */}}
-{{ $project := .project }}
-{{ $data    := newScratch }}
-{{ $data.Set "rootpath" "static" }}
-{{ $loop := (dict
-    "accessibility"   (slice "accessibility" "rgaa")
-    "greenit"         (slice "greenit")
-    "ecoconception"   (slice "rgesn")
-    "recommendation"  (slice "quality" "recommendation" "recommendations")
-    "quality"         (slice "quality" "recommendation" "recommendations")
-    "performance"     (slice "lighthouse" "performance")
-    "lighthouse"      (slice "lighthouse" "performance")
-  )
-}}
-{{ if ne "greenit" .type }}
+{{/* Return the rootpath of the audits files :: rootpath is where are stored files */}}
+{{ $project   := .project }}
+{{ $data      := newScratch }}
+{{/* Default rootpath is static folder */}}
+{{ $data.Set  "rootpath" "static" }}
+{{ $loop      := (partialCached "utils/keyaudits" "keyaudits" ) }}
+
+{{ if eq "greenit" .type }}
   {{ range $key, $value := index $loop .type }}
-    {{ $data.Set "rootpath" (cond (fileExists (printf "content/audits/%s/%s/" $project $value)) "content/audits" (cond (fileExists (printf "content/audits/%s/" $value)) "content/audits" ($data.Get "rootpath"))) }}
+    {{ $data.Set "rootpath" (cond (fileExists (printf "content/organism/%s/" $value)) "content/organism" (cond (fileExists (printf "content/organism/%s/" $value)) "content/organism" ($data.Get "rootpath"))) }}
   {{ end }}
 {{ else }}
   {{ range $key, $value := index $loop .type }}
-    {{ $data.Set "rootpath" (cond (fileExists (printf "content/organism/%s/" $value)) "content/organism" (cond (fileExists (printf "content/organism/%s/" $value)) "content/organism" ($data.Get "rootpath"))) }}
+    {{ $data.Set "rootpath" (cond (fileExists (printf "content/audits/%s/%s/" $project $value)) "content/audits" (cond (fileExists (printf "content/audits/%s/" $value)) "content/audits" ($data.Get "rootpath"))) }}
   {{ end }}
 {{ end }}
 {{/* if eq (getenv "HUGO_ENV") "dev" -}}

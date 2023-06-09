@@ -1,0 +1,19 @@
+{{/* Return the rootpath of the audits files :: rootpath is where are stored files */}}
+{{ $project       := .project }}
+{{ $filename      := .filename }}
+{{ $data          := newScratch }}
+{{/* Default rootpath is static folder */}}
+{{ $path          := printf "./static/images/%s/%s/" $project .type }}
+{{ $data.Set  "rootpath" $path }}
+{{ $loop          := (partialCached "utils/keyaudits" "keyaudits" ) }}
+
+{{- $data.Set "fileexist" false -}}
+{{- if (fileExists .pathimage) -}}
+  {{- range (readDir .pathimage) -}}
+    {{- if in (string .Name) (string $filename) }}
+      {{- $data.Set "fileexist" true -}}
+    {{ end -}}
+  {{ end -}}
+{{ end -}}
+
+{{ return ($data.Get "fileexist") }}

@@ -1,23 +1,16 @@
-{{/* return the filepath of the audits files */}}
-{{ $project := .project }}
-{{ $data := newScratch }}
-{{ $data.Set "filepath" (printf "static/%s/%s/" .project .type) }}
-{{ $loop := (dict
-    "accessibility"   (slice "accessibility" "rgaa")
-    "greenit"         (slice "greenit")
-    "ecoconception"   (slice "rgesn")
-    "recommendation"  (slice "quality" "recommendation" "recommendations")
-    "quality"         (slice "quality" "recommendation" "recommendations")
-    "lighthouse"      (slice "lighthouse" "performance")
-    "performance"     (slice "lighthouse" "performance")
-  )
-}}
+{{/* Return the filepath of the audits files */}}
+{{ $project   := .project }}
+{{ $data      := newScratch }}
+{{ $data.Set  "filepath" (printf "static/%s/%s/" .project .type) }}
 {{ $rootpath  := partialCached "render/rootpath" (dict "context" . "project" $project "type" .type) $project .type }}
+{{ $loop      := (partialCached "utils/keyaudits" "keyaudits" ) }}
+
 {{/* $return := replace (replace (replace (cond (fileExists $pathcontentmulti) $pathcontentmulti (cond (fileExists $pathcontentsingle) $pathcontentsingle $pathstatic)) "///" "/") "//" "/") "/audits/audits/" "/audits/" */}}
 {{ range $key, $value := index $loop .type }}
   {{ $data.Set "filepath" (cond (fileExists (printf "%s/%s/%s/" $rootpath $project $value)) (printf "%s/%s/%s/" $rootpath $project $value) (cond (fileExists (printf "%s/%s/" $rootpath $value)) (printf "%s/%s/" $rootpath $value) ($data.Get "filepath"))) }}
 {{ end }}
 
+{{/* Remove trailing slash */}}
 {{ $return := replace (replace (replace ($data.Get "filepath") "///" "/") "//" "/") "/audits/audits/" "/audits/"}}
 
 {{ return $return }}

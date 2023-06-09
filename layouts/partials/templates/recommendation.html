@@ -10,13 +10,43 @@
 
 {{ partialCached "utils/css.html" (dict "context" $.context "filefolder" "object" "filename" "summary") "summary" }}
 
+{{/* Style and Js :: for page and not alternate content pages */}}
+{{- $patharray := split (path.Dir $context.File.Path) "/" -}}
+{{- $alternate := where (where $context.OutputFormats "Permalink" "eq" $context.Permalink) "Rel" "eq" "alternate" -}}
+{{- if ne (len $alternate) 0 -}}
+  {{- with $alternate -}}{{- range $key, $value := . -}}{{ $data.Set "outputrecommendation" (or (eq .Format.BaseName "recommendation")) }}{{- end -}}{{- end -}}
+{{- end -}}
+{{- if and (ne (len $patharray) 1) (or (in $context "quality.md") (in $context "recommandation.md") (in $context "recommandations.md") ($data.Get "outputrecommendation")) -}}
+  {{- $lastfile := (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "recommendation" "datafilename" .Params.datafilename) $project "recommendation" .Params.datafilename) -}}
+  {{- if ne (index $lastfile "auditfile-path") "/false" -}}
+    {{- $data.Set "auditfile" (readFile (index $lastfile "auditfile-path") | transform.Unmarshal) -}}
+    {{- partialCached "utils/css.html" (dict "context" $context "filefolder" "object" "filename" "benchmark") "benchmark" -}}
+    {{- $csslightbox  := resources.Get "css/simple-lightbox.min.css" -}}
+    {{- $csshighlight := resources.Get "css/night-owl.min.css" -}}
+    {{- $jslightbox   := resources.Get "js/simple-lightbox.min.js" -}}
+    {{- $jshighlight  := resources.Get "js/highlight.min.js" -}}
+    {{- $css          := slice $csslightbox $csshighlight | resources.Concat "/assets/js/recommendationBundle.css" -}}
+    {{- $js           := slice $jslightbox $jshighlight | resources.Concat "/assets/js/recommendationBundle.js" -}}
+    <link rel="stylesheet" href="{{ $css.Permalink }}" media="print" onload="this.media='all'">
+    <script type="text/javascript" src="{{ $js.Permalink }}"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', (event) => {
+      document.querySelectorAll('pre code').forEach((block) => {
+        hljs.highlightBlock(block);
+      });
+    });
+    </script>
+  {{ end -}}
+{{ end -}}
+
+
 {{- $data.Set "guidelinename" "rgaa" -}}
 {{- $data.Set "guidelineversion" $context.Site.Params.rgaa.version -}}
 {{- with ($.context.GetPage (printf "/content/%saccessibility.md" .Dir)) -}}
-{{- with .Params.accessibility.guidelines -}}
-  {{- $guideline := (replace (. | urlize) "-" "") -}}
-  {{- $data.Set "guidelinename"    (cond (in $guideline "rgaa") "rgaa" (cond (in $guideline "wcag") "wcag" "none")) -}}
-  {{- $data.Set "guidelineversion" (replace $guideline ($data.Get "guidelinename") "") -}}
+  {{- with .Params.accessibility.guidelines -}}
+    {{- $guideline := (replace (. | urlize) "-" "") -}}
+    {{- $data.Set "guidelinename"    (cond (in $guideline "rgaa") "rgaa" (cond (in $guideline "wcag") "wcag" "none")) -}}
+    {{- $data.Set "guidelineversion" (replace $guideline ($data.Get "guidelinename") "") -}}
 {{- end -}}
 {{- end -}}
 
@@ -48,14 +78,16 @@
   {{- $data.Set "auditfile" (readFile (index $lastfile "auditfile-path") | transform.Unmarshal) -}}
   {{- $data.Set "auditfile-name" (index $lastfile "auditfile-name") -}}
 
-  {{/* Condition about structure level */}}
-  {{- $data.Set "pathimage" (replace (printf "./static/images/%s/quality/%s" $project ($data.Get "auditfile-name")) "//" "/")}}
+  {{/* Find the folder where images are stored */}}
+  {{- $data.Set "pathimage" (partialCached "render/rootpath-assets" (dict "context" . "project" $project "type" "recommendation" "auditfilename" ($data.Get "auditfile-name"))) }}
+
+
   {{- with index (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "recommendation") $project "recommendation") "auditfile-path" -}}
     {{- partial "components/scores/quality" (dict "context" $context "counter" (partialCached "render/recommendation" (dict "context" $context "project" $project "auditfile" .) .)) -}}
   {{- end -}}
 
-  {{/* START Display page content if exists */}}
-    {{- if gt (len .context.Content) 10 -}}
+  {{/* START :: Display page content if exists */}}
+  {{- if gt (len .context.Content) 10 -}}
     <h2>Notes correctives</h2>
     <div>
     {{- partialCached "elements/content.html" .context.Content .context.Content -}}
@@ -70,14 +102,14 @@
       </div>
     {{- end -}}
     {{- end -}}
-
-  {{/* END Display page content if exists */}}
+  {{/* END :: Display page content if exists */}}
 
   {{- $partial := (partialCached "components/recommendation/lot.html" (dict "context" $context "project" $project "datafilename" .Params.datafilename) $project "lot") -}}
   {{ with $partial }}
     <h2 class="page-break">Erreurs à corriger</h2>
     {{- partialCached "elements/content.html" . $project -}}
   {{ end }}
+
   {{/*- partial "components/recommendation/critical.html" (dict "context" $context "project" $project "datafilename" .Params.datafilename) -*/}}
 
   {{/* START :: Try to calculate the score gained if a bug is corrected
@@ -91,7 +123,7 @@
     {{- range $idpage, $s := .pages -}}
       {{- range $idblock, $b := .blocks -}}
         {{- if .errors -}}
-          {{- range $s:= .errors -}}
+          {{- range $iderror, $s:= .errors -}}
             {{- if not (or (in .criterion "Pi") (in .criterion "OP") (in .criterion "ER")) -}}
               {{- with .criterion -}}
               {{- $data.Add (printf "criterion-%s" .) 1 -}}
@@ -121,7 +153,7 @@
         {{- range $idblock, $b := .blocks -}}
           {{/* Range third level and count errors */}}
           {{- if .errors -}}
-          {{- range $s:= .errors -}}
+          {{- range $iderror, $s:= .errors -}}
             {{- $name := .name -}}
             {{- $data.Add "countererrorspage" 1 -}}
             {{- $data.SetInMap "countererrorspagelist" (string $idpage) ($data.Get "countererrorspage") -}}
@@ -136,7 +168,6 @@
                 {{- $data.SetInMap "countercriterionlist" (string $key) ($data.Get (printf "k-%s" $key)) -}}
                 {{- if $checked -}}
                   {{- $data.Add (printf "%s-checked" (string .)) (slice $name) -}}
-
                   {{- $data.SetInMap "countercheckedlist" (string .) ($data.Get (printf "%s-checked" (string .))) -}}
                 {{- end -}}
               {{- end -}}
@@ -192,62 +223,52 @@
 
   {{/* START - List of all pages */}}
   {{- range ($data.Get "auditfile") -}}
-    {{/* Range first level */}}
+    {{/* START :: Range first level */}}
     {{- range $idpage, $s := .pages -}}
       {{- $name := .name -}}
-      {{/* Range second level */}}
-      <h3 id="{{ .name | urlize }}"><span class="small-caps">{{ $name }}</span> <small>- <span class="counter">{{ index ($data.Get "countererrorspagelist") (string $idpage) }}</span> erreurs recensées sur cette page</small></h3>
+      {{- $data.Set "fileexist" false -}}
+      {{/* START ::Range second level */}}
+      {{- $filename := printf "%s.png" (.name | anchorize) -}}
+      {{- $fileexist := (partialCached "render/filepath-assets" (dict "context" . "project" $project "pathimage" ($data.Get "pathimage") "filename" $filename) $filename) -}}
+      <h3 id="{{ .name | urlize }}">
+        <span class="small-caps">{{ $name }}</span> <small>- <span class="counter">{{ index ($data.Get "countererrorspagelist") (string $idpage) }}</span> erreurs recensées sur cette page</small>
+        {{- template "pathallimage" (dict "context" $context "filename" $filename "pathimage" ($data.Get "pathimage") "fileexist" $fileexist) -}}
+      </h3>
+      {{/* START :: Display capture second level */}}
+      {{- if (fileExists ($data.Get "pathimage")) -}}
+        {{- range (readDir ($data.Get "pathimage")) }}{{- if eq (replace (.Name) ".png" "") ($name  | urlize) -}}{{- $data.Set "fileexist" true -}}{{ end }}{{ end }}
+      {{- end -}}
+      {{- template "pathallimagenoexist" (dict "context" $context "filename" $filename "pathimage" ($data.Get "pathimage") "fileexist" $fileexist) -}}
+      {{- template "gallery" (dict "context" $context "name" .name "filename" $filename "id" $idpage "pathimage" ($data.Get "pathimage") "fileexist" $fileexist) -}}
+
+      {{/* END :: Display capture first level */}}
       {{- range $idblock, $b := .blocks -}}
         {{- $data.Set "countererrorsblock" 0 -}}
-        {{/* Range third level and count errors */}}
+        {{/* START :: Range third level and count errors */}}
         {{- if .errors -}}
-        {{- range $s:= .errors -}}
-          {{- $data.Add "countererrorsblock" 1 -}}
-          {{- $data.SetInMap "countererrorsblocklist" (string $idblock) ($data.Get "countererrorsblock") -}}
-        {{- end -}}
+          {{- range $iderror, $s:= .errors -}}
+            {{- $data.Add "countererrorsblock" 1 -}}
+            {{- $data.SetInMap "countererrorsblocklist" (string $idblock) ($data.Get "countererrorsblock") -}}
+          {{- end -}}
         {{- end -}}
         {{- if .url -}}<p>URL : <a href="{{ .url }}">{{ .url }}</a></p>{{- end -}}
-        {{- $data.Set "fileexist" false -}}
-        {{- if (fileExists ($data.Get "pathimage")) -}}
-          {{- range (readDir ($data.Get "pathimage")) }}{{- if eq (replace (.Name) ".png" "") ($name  | urlize) -}}{{- $data.Set "fileexist" true -}}{{ end }}{{ end }}
-        {{- end -}}
-        {{- if $data.Get "fileexist" -}}
-        <div class="benchmark grid grid-center lightbox-{{ $idpage }}">
-          {{ $data.Set "isAfter" 0 }}
-          {{- range (readDir ($data.Get "pathimage")) -}}{{- if eq (replace (.Name) ".png" "") ((replace $name ".png" "-after.png")  | urlize) -}}{{ $data.Set "isAfter" 1 }}{{- end -}}{{- end -}}
-          {{- range (readDir ($data.Get "pathimage")) -}}
-            {{- if eq (replace (.Name) ".png" "") ($name  | urlize) -}}
-            <div class="flex flex-column">
-              <figure class="flex flex-max" id="{{ .Name }}">
-                <a href="{{ $.context.Site.BaseURL | default "/" }}{{ replace ($data.Get "pathimage") "./static/" "" }}/{{ .Name }}" cfmodified="modified">
-                  <img src="{{ $.context.Site.BaseURL | default "/" }}{{ replace ($data.Get "pathimage") "./static/" "" }}/{{ .Name }}" alt="" class="align-items-center">
-                </a>
-              </figure>
-              <div class="benchmark-name">{{ if eq ($data.Get "isAfter") 1 }}Actuel -{{ end }} {{ $name }}</div>
-            </div>
-            {{- end -}}
-          {{- end -}}
-          {{- range (readDir ($data.Get "pathimage")) -}}
-            {{- if eq (.Name) ((printf "%s-after.png" $name)  | urlize) -}}
-            <div class="flex flex-column">
-              <figure class="flex flex-max" id="{{ .Name }}">
-                <a href="{{ $.context.Site.BaseURL | default "/" }}{{ replace ($data.Get "pathimage") "./static/" "" }}/{{ .Name }}" cfmodified="modified">
-                  <img src="{{ $.context.Site.BaseURL | default "/" }}{{ replace ($data.Get "pathimage") "./static/" "" }}/{{ .Name }}" alt="" class="align-items-center">
-                </a>
-              </figure>
-              <div class="benchmark-name">Après - {{ $name }}</div>
-            </div>
-            {{- end -}}
-          {{- end -}}
-        </div>
-        {{- end -}}
-      {{- $data.Set "paths" slice -}}
-      {{/* Range second level */}}
 
+        {{- $data.Set "paths" slice -}}
         {{- $data.Set "index" slice -}}
-        <h4>{{ $b.name }} <small>- <span class="counter">{{ index ($data.Get "countererrorsblocklist") (string $idblock) }}</span> erreurs recensées sur ce bloc</small></h4>
-        {{/* Range third level */}}
-        {{- range $s := .errors -}}
+
+        {{- $filename  := printf "%s-%s.png" ($name | anchorize) ($b.name | anchorize) -}}
+        {{- $fileexist := (partialCached "render/filepath-assets" (dict "context" . "project" $project "pathimage" ($data.Get "pathimage") "filename" $filename) $filename) -}}
+
+        <h4>{{ $b.name }}
+          <small>- <span class="counter">{{ index ($data.Get "countererrorsblocklist") (string $idblock) }}</span> erreurs recensées sur ce bloc</small>
+          {{- template "pathallimage" (dict "context" $context "filename" $filename "pathimage" ($data.Get "pathimage") "fileexist" $fileexist) -}}
+        </h4>
+
+        {{- template "pathallimagenoexist" (dict "context" $context "filename" $filename "pathimage" ($data.Get "pathimage") "fileexist" $fileexist) -}}
+        {{- template "gallery" (dict "context" $context "name" (printf "%s %s" $name $b.name) "filename" $filename "id" (printf "%v-%v" $idpage $idblock) "pathimage" ($data.Get "pathimage") "fileexist" $fileexist) -}}
+
+        {{/* START :: Range third level */}}
+        {{- range $iderror, $s:= .errors -}}
           {{- $path := .name -}}
           {{- $filename := printf "%s-%s-%s.png" ($name | anchorize) ($b.name | anchorize) (.name | anchorize) -}}
           {{/* Create an array for the images slider with screen capture */}}
@@ -255,34 +276,18 @@
           <dl>
             {{- if not (or (in .criterion "Pi") (in .criterion "OP") (in .criterion "ER")) -}}
             <dt id="{{ .name | urlize }}">{{ if .checked }}☒ {{ else }}☐ {{ end }}{{ .name }}
-              {{- $data.Set "fileexist" false -}}
-              {{- if (fileExists ($data.Get "pathimage")) -}}
-                {{- range (readDir ($data.Get "pathimage")) }}{{ if in (string .Name) (string $filename) }}{{- $data.Set "fileexist" true -}}{{ end }}{{ end }}
-              {{- end -}}
-              <small class="no-print">
-                {{- if and $context.Site.IsServer (not (eq (getenv "HUGO_ENV") "production" | or (eq $context.Site.Params.env "production"))) -}}
-                  &nbsp;-&nbsp;
-                  {{- if $data.Get "fileexist" -}}
-                  <a href="#{{ $filename }}">/{{ ($data.Get "auditfile-name") }}/{{ $filename }}</a>
-                  {{- else -}}
-                  {{ $filename }}
-                  {{- end -}}
-                {{- else -}}
-                  {{- if $data.Get "fileexist" -}}
-                  &nbsp;-&nbsp;<a href="#{{ $filename }}">Accéder à la capture écran</a>
-                  {{- end -}}
-                {{- end -}}
-                {{ with .status }}&nbsp;<span class="badge{{ if eq . "critique" }} bad{{ end }}{{ if eq . "important" }} medium{{ end }}{{ if eq . "moindre" }} normal{{ end }}">{{ . }}</span>{{ end }}
-              </small>
+              {{ with .status }}&nbsp;<span class="badge{{ if eq . "critique" }} bad{{ end }}{{ if eq . "important" }} medium{{ end }}{{ if eq . "moindre" }} normal{{ end }}">{{ . }}</span>{{ end }}
+              {{- $fileexist := (partialCached "render/filepath-assets" (dict "context" . "project" $project "pathimage" ($data.Get "pathimage") "filename" $filename) $filename) -}}
+              {{- template "pathallimagenoexist" (dict "context" $context "filename" $filename "pathimage" ($data.Get "pathimage") "fileexist" $fileexist) -}}
             </dt>
-            {{- if .description -}}
+            {{- if .description }}
               <dd>{{ .description | markdownify | safeHTML }}</dd>
-            {{- end -}}
-            {{- if .path -}}
+            {{ end -}}
+            {{- if .path }}
               <dd><strong>XPath :</strong> <span>{{ .path | markdownify | safeHTML }}</span></dd>
-            {{- end -}}
-            {{- if .criterion -}}
-            {{ range (split (replace .criterion " " "") ",") }}
+            {{ end -}}
+            {{- if .criterion }}
+            {{- range (split (replace .criterion " " "") ",") }}
               {{- $criteriafile := index (index (index $.context.Site.Data ($data.Get "guidelinename")) ($data.Get "guidelineversion")).criteria.topics -}}
               {{- $thematiques  := index (split . ".") 0 -}}
               {{- $criteria     := index (split . ".") 1 -}}
@@ -295,15 +300,15 @@
                   {{/* Pourcentage potentiel de correction du RGAA : {{ index ($data.Get "criteriavalue") (string .criterion) */}}
                 </p>
               </dd>
-            {{- end -}}
-            {{- end -}}
-            {{- else if (in .criterion "Pi") -}}
+            {{ end -}}
+            {{ end -}}
+            {{- else if (in .criterion "Pi") }}
               {{- $criterionpi := (index (where (index $.context.Site.Data.pidila "1.0").criteria.criterias "id" (replace .criterion "." "-")) 0) -}}
               <dt id="{{ .name | urlize }}">{{ if .checked }}☒ {{ else }}☐ {{ end }}{{ .name }}
-              {{ with (index (where ($.context.Site.Data.pidila).criteria "id" .criterion) 0).description }}<dd>{{ . }}</dd>{{- end -}}
-              {{- if .description -}}
+              {{- with (index (where ($.context.Site.Data.pidila).criteria "id" .criterion) 0).description }}<dd>{{ . }}</dd>{{- end -}}
+              {{- if .description }}
                 <dd>{{ .description | markdownify | safeHTML }}</dd>
-              {{- end -}}
+              {{ end -}}
               <dd>
                 <details class="details-arrow mt-1 mb-1">
                   <summary>
@@ -317,34 +322,22 @@
             {{- else if (in .criterion "OP") -}}
               <p>Not ready</p>
             {{- else -}}
-            {{- end -}}
+            {{ end -}}
           </dl>
-          {{ if or .codebefore .codeafter }}
+          {{- if or .codebefore .codeafter }}
             <div class="audit-code">
               {{ if .codebefore }}<h5 class="mb-0">Code présent</h5><pre class="language-html"><code>{{ .codebefore | htmlUnescape }}</code></pre>{{ end }}
               {{ if .codeafter }}<h5 class="mb-0">Code modifié</h5><pre class="language-html"><code>{{ .codeafter | htmlUnescape }}</code></pre>{{ end }}
               <br>
             </div>
-          {{- end -}}
-          {{- if $data.Get "fileexist" -}}
-            <div class="benchmark grid grid-4 lightbox-{{ $idpage }}-{{ $idblock }}">
-              {{ $data.Set "isAfter" 0 }}
-              {{- range (readDir ($data.Get "pathimage")) -}}{{- if in (string .Name) (string (replace $filename ".png" "-after.png")) -}}{{ $data.Set "isAfter" 1 }}{{- end -}}{{- end -}}
-              {{- range (readDir ($data.Get "pathimage")) -}}
-                {{- if in (string .Name) (string $filename) -}}
-                <div class="flex flex-column"><figure class="flex flex-max" id="{{ .Name }}"><a href="{{ $.context.Site.BaseURL | default "/" }}{{ replace ($data.Get "pathimage") "./static/" "" }}/{{ .Name }}" cfmodified="modified"><img src="{{ $.context.Site.BaseURL | default "/" }}{{ replace ($data.Get "pathimage") "./static/" "" }}/{{ .Name }}" alt="" class="align-items-center"></a></figure><div class="benchmark-name">{{ if eq ($data.Get "isAfter") 1 }}Actuel - {{ end }}{{ $path }}</div></div>
-                {{- end -}}
-              {{- end -}}
-              {{- range (readDir ($data.Get "pathimage")) -}}
-                {{- if in (string .Name) (string (replace $filename ".png" "-after.png")) -}}
-                <div class="flex flex-column"><figure class="flex flex-max" id="{{ .Name }}"><a href="{{ $.context.Site.BaseURL | default "/" }}{{ replace ($data.Get "pathimage") "./static/" "" }}/{{ .Name }}" cfmodified="modified"><img src="{{ $.context.Site.BaseURL | default "/" }}{{ replace ($data.Get "pathimage") "./static/" "" }}/{{ .Name }}" alt="" class="align-items-center"></a></figure><div class="benchmark-name">Après - {{ $path }}</div></div>
-                {{- end -}}
-              {{- end -}}
-            </div>
-          {{- end -}}
-        {{- end -}}{{/* Range second level */}}
-        <div class="benchmark grid grid-4 lightbox-{{ $idpage }}-{{ $idblock }} d-none">{{/* Range errors name */}}{{- range $errorname := ($data.Get "index") -}}{{- $filename := printf "%s/%s-%s-%s.png" ($data.Get "auditfile-name") ($name | urlize) ($b.name | urlize) (. | urlize) -}}{{- if (fileExists ($data.Get "pathimage")) -}}{{- range (readDir ($data.Get "pathimage")) -}}{{- if in (string .Name) (string $filename) -}}<div class="flex flex-column"><figure class="flex flex-max"><a href="{{ $.context.Site.BaseURL | default "/" }}{{ replace ($data.Get "pathimage") "./static/" "" }}/{{ .Name }}" cfmodified="modified"><img src="{{ $.context.Site.BaseURL | default "/" }}{{ replace ($data.Get "pathimage") "./static/" "" }}/{{ .Name }}" alt="" class="align-items-center"></a></figure><div class="benchmark-name" id="{{ .Name }}">{{ $errorname }}</div></div>{{- end -}}{{- end -}}{{- end -}}{{- end -}}{{/* Range errors name */}}</div>
-    {{- end -}}{{/* Range first level */}}
+          {{ end -}}
+          {{/* START :: Range third level */}}
+          {{- template "gallery" (dict "context" $context "name" (printf "%s %s %s" $name $b.name .name) "filename" $filename "id" (printf "%v-%v-%v" $idpage $idblock $iderror) "pathimage" ($data.Get "pathimage") "fileexist" $fileexist) -}}
+          {{/* END :: Range third level */}}
+        {{- end -}}
+        {{/* END ::Range third level */}}
+    {{- end -}}
+    {{/* END :: Range first level */}}
     <hr class="divider-strong">
   {{- end -}}{{/* Range the quality file */}}
   </article>
@@ -355,48 +348,84 @@
         <h2>Notes annexes au rapport d’audit</h2>
         {{ . }}
       {{- end -}}
-    {{ else }}
+    {{- else -}}
     <p>Aucun fichier de test n’est présent dans le répertoire : {{ (partialCached "render/rootpath" (dict "context" . "project" $project "type" "accessibility") $project "accessibility") }}/{{ cond (not $project) "" (printf "%s/" $project) }}quality</p>
     {{ end }}
   {{- end -}}
 {{- end -}}
 
-{{- $patharray := split (path.Dir $context.File.Path) "/" -}}
-{{- $alternate := where (where $context.OutputFormats "Permalink" "eq" $context.Permalink) "Rel" "eq" "alternate" -}}
-{{- if ne (len $alternate) 0 -}}
-{{- with $alternate -}}{{- range $key, $value := . -}}{{ $data.Set "outputrecommendation" (or (eq .Format.BaseName "recommendation")) }}{{- end -}}{{- end -}}
-{{- end -}}
-{{- if and (ne (len $patharray) 1) (or (in $context "quality.md") (in $context "recommandation.md") (in $context "recommandations.md") ($data.Get "outputrecommendation")) -}}
-  {{- $lastfile := (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "recommendation" "datafilename" .Params.datafilename) $project "recommendation" .Params.datafilename) -}}
-  {{- if ne (index $lastfile "auditfile-path") "/false" -}}
-    {{- $data.Set "auditfile" (readFile (index $lastfile "auditfile-path") | transform.Unmarshal) -}}
-    {{ partialCached "utils/css.html" (dict "context" $context "filefolder" "object" "filename" "benchmark") "benchmark" }}
-    {{- $csslightbox  := resources.Get "css/simple-lightbox.min.css" -}}
-    {{- $csshighlight := resources.Get "css/night-owl.min.css" -}}
-    {{- $jslightbox   := resources.Get "js/simple-lightbox.min.js" -}}
-    {{- $jshighlight  := resources.Get "js/highlight.min.js" -}}
-    {{- $css          := slice $csslightbox $csshighlight | resources.Concat "/assets/js/recommendationBundle.css" -}}
-    {{- $js           := slice $jslightbox $jshighlight | resources.Concat "/assets/js/recommendationBundle.js" -}}
-    <link rel="stylesheet" href="{{ $css.Permalink }}" media="screen">
-    <script type="text/javascript" src="{{ $js.Permalink }}"></script>
-    {{- range ($data.Get "auditfile") -}}
-      {{- range $idpage, $p := .pages -}}
-      {{- $name := .name -}}
-      <script>
-        var {{ printf "$%s%s" (replace ( $name | anchorize) "-" "") ($idpage | anchorize) | safeJS }} = new SimpleLightbox('.lightbox-{{ $idpage }} figure a', {captionPosition:'bottom',loop: 'false'});
-        {{- range $idblock,$b := .blocks -}}
-        var {{ printf "$%s%s%s%s" (replace ( $name | anchorize) "-" "") (replace ( $b.name | anchorize ) "-" "") ($idpage | anchorize) ($idblock | anchorize) | safeJS }} = new SimpleLightbox('.lightbox-{{ $idpage }}-{{ $idblock }} figure a', {captionPosition:'bottom',loop: 'false'});
-        {{- end -}}
-      </script>
-      {{- end -}}
+
+{{- define "pathallimage" -}}
+  <small class="no-print">
+  {{- if and .context.Site.IsServer (not (eq (getenv "HUGO_ENV") "production" | or (eq .context.Site.Params.env "production"))) -}}
+    {{- if .fileexist }}
+      &nbsp;-&nbsp;<a href="#{{ .filename }}">{{ .filename }}</a>
     {{- end -}}
-    <script>
-      document.addEventListener('DOMContentLoaded', (event) => {
-      document.querySelectorAll('pre code').forEach((block) => {
-        hljs.highlightBlock(block);
-      });
-    });
-    </script>
-  {{- end -}}
+  {{- else -}}
+    {{- if .fileexist }}
+    &nbsp;-&nbsp;<a href="#{{ .filename }}">Accéder à la capture écran</a>
+    {{ end -}}
+  {{ end -}}
+  </small>
 {{- end -}}
 
+{{ define "pathallimagenoexist" }}
+  <div class="no-print">
+  {{- if and .context.Site.IsServer (not (eq (getenv "HUGO_ENV") "production" | or (eq .context.Site.Params.env "production"))) }}
+    {{- if .fileexist }}
+    {{- else -}}
+      <div class="note">
+        <p><strong>Mode Auditeur</strong> | Chemin des captures d’écran à insérer :</p>
+        <ul>
+          <li>{{ .pathimage }}/{{ .filename }}</li>
+          <li>{{ .pathimage }}/{{ replace .filename ".png" "-after.png" }}</li>
+        </ul>
+      </div>
+    {{ end -}}
+  {{ end -}}
+  </div>
+{{ end }}
+
+{{- define "gallery" -}}
+  {{- $context    := .context -}}
+  {{- $id         := (string .id) -}}
+  {{- $name       := .name -}}
+  {{- $filename   := .filename -}}
+  {{- $pathimage  := .pathimage -}}
+  {{- $data       := newScratch -}}
+  {{- if .fileexist }}
+  {{ $data.Set "isAfter" 0 }}
+  {{- range (readDir $pathimage) -}}{{- if eq .Name ((replace $filename ".png" "-after.png")  | urlize) -}}{{ $data.Set "isAfter" 1 }}{{- end -}}{{- end -}}
+  <div class="benchmark grid grid-center {{ if eq ($data.Get "isAfter") 1 }}lightbox-{{ $id }}{{ end }}">
+    {{- range (readDir $pathimage) }}
+      {{- if eq .Name $filename }}
+      <div class="flex flex-column">
+        <figure class="flex flex-max" id="{{ .Name }}">
+          {{ if eq ($data.Get "isAfter") 1 }}<a href="{{ $context.Site.BaseURL | default "/" }}{{ replace $pathimage "./static/" "" }}/{{ .Name }}" cfmodified="modified">{{- end -}}
+            <img src="{{ $context.Site.BaseURL | default "/" }}{{ replace $pathimage "./static/" "" }}/{{ .Name }}" alt="" class="align-items-center">
+          {{ if eq ($data.Get "isAfter") 1 }}</a>{{- end -}}
+        </figure>
+        <div class="benchmark-name">{{ if eq ($data.Get "isAfter") 1 }}Actuel -{{ end }} {{ $name }}</div>
+      </div>
+      {{- end -}}
+    {{- end -}}
+    {{- range (readDir $pathimage) }}
+      {{- if eq .Name (replace $filename ".png" "-after.png") }}
+      <div class="flex flex-column">
+        <figure class="flex flex-max" id="{{ .Name }}">
+          <a href="{{ $context.Site.BaseURL | default "/" }}{{ replace $pathimage "./static/" "" }}/{{ .Name }}" cfmodified="modified">
+            <img src="{{ $context.Site.BaseURL | default "/" }}{{ replace $pathimage "./static/" "" }}/{{ .Name }}" alt="" class="align-items-center">
+          </a>
+        </figure>
+        <div class="benchmark-name">Après - {{ $name }}</div>
+      </div>
+      {{ end -}}
+    {{ end -}}
+  </div>
+  {{- if eq ($data.Get "isAfter") 1 }}
+  <script>
+    var {{ replace (printf "$%s%s" ( $name | anchorize) ((string $id) | anchorize)) "-" "" | safeJS }} = new SimpleLightbox('.lightbox-{{ (string $id) }} figure a', {captionPosition:'bottom',loop: false,animationSlide: false,fadeSpeed: '0'});
+  </script>
+  {{ end -}}
+  {{ end -}}
+{{- end -}}
