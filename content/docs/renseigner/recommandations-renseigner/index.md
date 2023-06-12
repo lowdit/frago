@@ -4,9 +4,9 @@ weight: 4
 summary: 'Renseigner des préconisations et les affecter à des lots de correction'
 ---
 
-Affiche les données du fichier plus récent dans `content/audits/nomdelademarche/quality/YYYY-MM-JJ.yml`.
+Affiche les données du fichier plus récent dans `content/audits/nomdelademarche/recommendation/YYYY-MM-JJ.yml`.
 
-Le fichier de recommandation est fastidieux à remplir, mais permet de suivre des corrections de manière sereine avec une synthèse disponible sous format `HTML` et plus dans une `.doc`
+Le fichier de recommandation est fastidieux à remplir, mais permet de suivre des corrections de manière sereine avec une synthèse disponible sous format `HTML` et plus facilement que dans un `.doc`.
 
 ## Exemple de fichier
 
@@ -25,7 +25,7 @@ Le fichier de recommandation est fastidieux à remplir, mais permet de suivre de
         delivery: lot 1 # Possibilité de regrouper des erreurs dans les lots en haut de page (l'intitulé du champ est libre)
       - name: Titre invalide
         description: Les titres (`<title>`) de page ne changent pas en fonction des pages et ne sont pas pertinents.
-        criterion: 8.6
+        criterion: 4.1, 8.6
         delivery: lot 1 # Lot 1
       - name: Hiérarchie des titres
         description: Il n’existe parfois aucun titre dans les pages. Passer certains titres (haut de page)`<h3>` en `<h1>` ou ajouter des `<h1>` à toutes les pages.
@@ -57,3 +57,29 @@ Le fichier de recommandation est fastidieux à remplir, mais permet de suivre de
 ```
 
 ![Qualité](/frago/images/qualite.png)
+
+## Captures d’écran
+
+Intégrer des images dans des fichiers `.doc` est fastidieux. L’auditeur passe beaucoup de temps au découpage, intégration, mise en page.
+
+Avec ce système, il faut prendre le pli du nommage, mais la mise en page est automatique. Il est même possible de mettre des copies d’écran en regard avec des corrections visuelles.
+
+### Principe de nommage
+
+Chaque erreur peut être enrichie d'une capture d’écran du site audité. Ces images doivent être
+déposées dans le dossier `static/images/${slug_projet}/recommendation/${date_audit}/` où ${slug_projet}
+réfère au nom du dossier dans lequel sont archivées les feuilles d’audit et ${date_audit}, au nom
+du fichier d’audit (sous forme de date yyyy-mm-dd).
+
+> Afin de lier chaque capture d'écran à l’erreur, un nom d'image est généré automatiquement pour chaque
+erreur. Ce nom est affiché à côté de l’erreur lorsque le site est en cours d’élaboration (`hugo serve` | mode auditeur).
+
+![Exemple de nom d'image généré automatiquement](/frago/images/nom-capture-recommandation.png)
+
+### Quoi illustrer ?
+
+L’ajout de l'image suffixée (-after) génère un diaporama en grand écran afin de pouvoir comparer facilement avant/après.
+
+Il est possible d'illustrer aussi bien des pages, des blocs que des éléments de contenus.
+
+

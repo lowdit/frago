@@ -52,7 +52,7 @@ static
     │     │    ├── lighthouse
     │     │    │   ├── 2020-10-15.json
     │     │    │   └── 2020-11-15.json
-    │     │    └── quality
+    │     │    └── recommendation
     │     │        ├── 2020-10-15.yml
     │     │        └── 2020-11-15.yml
     │     │
@@ -65,7 +65,7 @@ static
     │          ├── lighthouse
     │          │   ├── 2020-10-15.json
     │          │   └── 2020-11-15.json
-    │          └── quality
+    │          └── recommendation
     │              ├── 2020-10-15.yml
     │              └── 2020-11-15.yml
     ┋
@@ -80,7 +80,7 @@ static
           ├── lighthouse
           │   ├── 2020-10-15.json
           │   └── 2020-11-15.json
-          └── quality
+          └── recommendation
               ├── 2020-10-15.yml
               └── 2020-11-15.yml
 ```
@@ -124,7 +124,7 @@ static
     │    ├── lighthouse
     │    │    ├── 2020-10-15.json
     │    │    └── 2020-11-15.json
-    │    ├── quality
+    │    ├── recommendation
     │    │    ├── 2020-10-15.yml
     │    │    └── 2020-11-15.yml
     │    ├── usertests
@@ -143,7 +143,7 @@ static
     ├── accessibility
     │    ├── 2020-10-15.csv
     │    └── 2020-11-15.csv
-    ├── quality // Ne fonctionne pas complètement en mono projet
+    ├── recommendation // Ne fonctionne pas complètement en mono projet
     │    ├── 2020-10-15.yml
     │    └── 2020-11-15.yml
     ├── usertests // Ne fonctionne pas en mono projet
@@ -157,7 +157,7 @@ static
          │    │    ├── ojdcourtsepay.tylerhost.net-navigation-step.png
          │    │    ├── pages.fivepointpayments.com-navigation-step.png
          │    │    └── finepayment.saskatchewan.ca-navigation-step.png
-         │    └── quality
+         │    └── recommendation
          │         └── 2020-10-16 // Les titres formant les noms d’images doivent correspondre à des termes existant dans le fichier `.yml`
          │             ├── titrepage-[before ou after].png
          │             ├── titrepage-titrebloc-titreerreur-[before ou after].png
@@ -174,20 +174,20 @@ static
 
 La configuration de l’API est contenue dans le fichier `config.toml` du thème. Il existe une configuration par défaut qui peut-être surchargée en fonction de la structure de fichier. Pour la structure simplifiée, il n’y a rien à ajouter.
 
-L’idée est d’éviter de créer des pages uniquement pour avoir une URL (pour accessibility.html, quality.html et performance.html) lors du build du site (seul défaut, un export de page peut-être vide si l’audit correspondant n’existe pas ; et on perd les `pretty` url pour les exports `HTML`).
+L’idée est d’éviter de créer des pages uniquement pour avoir une URL (pour accessibility.html, recommendation.html et performance.html) lors du build du site (seul défaut, un export de page peut-être vide si l’audit correspondant n’existe pas ; et on perd les `pretty` url pour les exports `HTML`).
 
 Cette API permet d’obtenir des fichiers `json` de type :
 
  * https://monurl.com/index.json
  * https://monurl.com/audits/monprojet/index.json
  * https://monurl.com/audits/monprojet/accessibility.json
- * https://monurl.com/audits/monprojet/quality.json
+ * https://monurl.com/audits/monprojet/recommendation.json
  * https://monurl.com/audits/monprojet/performance.json
 
 Mais aussi des affichages de pages de type :
 
  * https://monurl.com/audits/monprojet/accessibility.html
- * https://monurl.com/audits/monprojet/quality.html
+ * https://monurl.com/audits/monprojet/recommendation.html
  * https://monurl.com/audits/monprojet/performance.html
  * https://monurl.com/audits/monprojet/declaration.html
  * https://monurl.com/audits/monprojet/declaration.txt
