@@ -1,6 +1,6 @@
 ---
 description: Etude de la qualité générales des pages du site.
-type: quality
+type: recommendation
 note: |-
   Cette page liste des erreurs diverses relevées sur l’ensemble du site. Elles peuvent être de tout types (visuel, code, structure, textuel), ainsi que présenter des critères permettant de les classer sous forme de listes spécifiques (status, lots de correction, criticités…).
 
