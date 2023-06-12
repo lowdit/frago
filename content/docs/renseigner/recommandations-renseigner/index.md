@@ -60,12 +60,26 @@ Le fichier de recommandation est fastidieux à remplir, mais permet de suivre de
 
 ## Captures d’écran
 
+Intégrer des images dans des fichiers `.doc` est fastidieux. L’auditeur passe beaucoup de temps au découpage, intégration, mise en page.
+
+Avec ce système, il faut prendre le pli du nommage, mais la mise en page est automatique. Il est même possible de mettre des copies d’écran en regard avec des corrections visuelles.
+
+### Principe de nommage
+
 Chaque erreur peut être enrichie d'une capture d’écran du site audité. Ces images doivent être
 déposées dans le dossier `static/images/${slug_projet}/recommendation/${date_audit}/` où ${slug_projet}
 réfère au nom du dossier dans lequel sont archivées les feuilles d’audit et ${date_audit}, au nom
 du fichier d’audit (sous forme de date yyyy-mm-dd).
 
-Afin de lier chaque capture d'écran à l’erreur, un nom d'image est généré automatiquement pour chaque
-erreur. Ce nom est affiché à côté de l’erreur lorsque le site est en cours d’élaboration (`hugo serve`).
+> Afin de lier chaque capture d'écran à l’erreur, un nom d'image est généré automatiquement pour chaque
+erreur. Ce nom est affiché à côté de l’erreur lorsque le site est en cours d’élaboration (`hugo serve` | mode auditeur).
 
 ![Exemple de nom d'image généré automatiquement](/frago/images/nom-capture-recommandation.png)
+
+### Quoi illustrer ?
+
+L’ajout de l'image suffixée (-after) génère un diaporama en grand écran afin de pouvoir comparer facilement avant/après.
+
+Il est possible d'illustrer aussi bien des pages, des blocs que des éléments de contenus.
+
+
