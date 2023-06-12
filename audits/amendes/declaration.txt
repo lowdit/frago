@@ -2,6 +2,7 @@
 
 
 
+
   
 
 
@@ -11,7 +12,7 @@
       
       
       <h2>État de conformité</h2>
-      <p>, amendes.gouv.fr est non conforme avec le référentiel général d’amélioration de l’accessibilité (RGAA), version 4 en raison des non-conformités et des dérogations énumérées ci-dessous.</p>
+      <p><a href='//amendes.gouv.fr'>amendes.gouv.fr</a> est non conforme avec le référentiel général d’amélioration de l’accessibilité (RGAA), version 4.1.2, en raison des non-conformités et des dérogations énumérées ci-dessous.</p>
       <h3>Résultats des tests</h3>
       <p>L’audit de conformité, du 25 mars 2022,  révèle que :</p>
         <ul>
@@ -356,10 +357,17 @@
           
             
             
+              
               <h3>Environnement de test</h3>
               <p>Les vérifications de restitution de contenus ont été réalisées sur la base de la combinaison fournie
                 par la base de référence du RGAA, avec les versions suivantes :</p>
-              <ul><li>MacOS</li><li>Firefox</li><li>Chrome</li><li>VoiceOver</li></ul>
+
+                <li>MacOS</li>
+                  <li>Firefox</li>
+                  <li>Chrome</li>
+                  <li>VoiceOver</li>
+                  
+                
             
             
             
