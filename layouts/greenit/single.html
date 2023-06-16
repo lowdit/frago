@@ -56,30 +56,30 @@
 </style>
 <h1>{{ (index (index $.Site.Data ($.Scratch.Get "guidelinename")) ($.Scratch.Get "guidelineversion")).title | safeHTML }}</h1>
 
-{{ $data.Set "counterthematique" 0 }}
-{{ $data.Set "thematique" "" }}
-{{ $data.Set "subject" slice }}
+{{- $data.Set "counterthematique" 0 }}
+{{- $data.Set "thematique" "" }}
+{{- $data.Set "subject" slice }}
 {{- range $key1, $value1 := $criteriafile -}}
-  {{ if ne ($data.Get "thematique") .thematique }}{{ $data.Add "counterthematique" 1 }}{{ $data.Set "subject" slice }}{{ end }}
-  {{ $data.Set "thematique" .thematique }}
-  {{ $data.Add "subject" .subject }}
-  {{ $data.SetInMap "thematiques" (printf "%s.%s" (string ($data.Get "counterthematique")) (string .thematique)) (uniq ($data.Get "subject")) }}
+  {{- if ne ($data.Get "thematique") .thematique }}{{ $data.Add "counterthematique" 1 }}{{ $data.Set "subject" slice }}{{ end -}}
+  {{- $data.Set "thematique" .thematique -}}
+  {{- $data.Add "subject" .subject -}}
+  {{- $data.SetInMap "thematiques" (printf "%s.%s" (string ($data.Get "counterthematique")) (string .thematique)) (uniq ($data.Get "subject")) -}}
 {{- end -}}
 
 {{ partialCached "utils/css.html" (dict "context" . "filefolder" "element" "filename" "tableofcontents") "tableofcontents" }}
 <div class="tableofcontents">
 <h2>Table des matières</h2>
-{{ range $key, $value := $data.Get "thematiques" }}
+{{- range $key, $value := $data.Get "thematiques" }}
   <h3>{{ index (split $key ".") 1 }}</h3>
   {{ range $value := . }}
     <h4 class="primary mb-0">{{ . }}</h4>
     <ol class="list-unstyled">
-    {{ range (where $criteriafile "subject" .) }}
+    {{- range (where $criteriafile "subject" .) }}
       <li>#{{ .id }} - <a href="#{{ .id }}">{{ .title }}</a></li>
-    {{ end }}
+    {{ end -}}
     </ol>
-  {{ end }}
-{{ end }}
+  {{ end -}}
+{{ end -}}
 </div>
 
 {{- range $key1, $value1 := $criteriafile -}}
@@ -93,22 +93,21 @@
       <div class="flex flex-gap align-items-center text-center mb-2 card-background p-2" style="align-items: stretch ">
       {{- range $key, $value := .impacts }}
         <div>
-          {{ if . }}
+          {{- if . }}
             <svg width="60px" role="img" class="svgblue" aria-label="{{ $key }}" viewBox="0 0 50 50">
               <use xlink:href="{{ $.Site.BaseURL }}/assets/images/greenit/picto-impact.svg#{{ (replace $key "é" "e") | urlize }}" />
             </svg>
             <br><b>{{ $key }}</b>
-          {{ else }}
+          {{ else -}}
             <svg width="60px" role="img" class="svgblue empty" aria-label="{{ $key }}" viewBox="0 0 50 50">
               <use xlink:href="{{ $.Site.BaseURL }}/assets/images/greenit/picto-impact.svg#{{ (replace $key "é" "e") | urlize }}" />
             </svg>
             <br><b><strike>{{ $key }}</strike></b>
-          {{ end }}
+          {{ end -}}
         </div>
       {{ end -}}
       </div>
     </div>
-
 
   {{- if (isset .description -1) -}}
     {{- range  .description  }}
@@ -137,37 +136,37 @@
   {{- end -}}
 
 
-  {{ with .toknow }}
+  {{- with .toknow }}
     <h3 class="important mb-0">{{ .h3 }}</h3>
     <p>{{ .p }}</p>
-  {{ end }}
+  {{ end -}}
 
-  {{ with .more }}
+  {{- with .more }}
     <p class="mb-0"><strong>Pour aller plus loin</strong> :</p>
     <ul>
-    {{ range . }}
+    {{- range . }}
       <li>{{ . | markdownify }}</li>
-    {{ end }}
+    {{ end -}}
     </ul>
-  {{ end }}
+  {{ end -}}
 
-  {{ with .consult }}
+  {{- with .consult }}
     <p class="mb-0"><strong>Consulter les fiches</strong> :</p>
     <ul>
-    {{ range . }}
+    {{- range . }}
       <li>#{{ . | markdownify }} - <a href="#{{ . }}">{{ (index (where $criteriafile "id" .) 0).title }}</a></li>
-    {{ end }}
+    {{ end -}}
     </ul>
-  {{ end }}
+  {{ end -}}
 
-  {{ with .footnotes }}
+  {{- with .footnotes }}
     <p class="mb-0"><strong>Notes</strong> :</p>
     <ul class="list-unstyled mb-1">
-    {{ range $key, $value := . }}
+    {{- range $key, $value := . }}
       <li>{{ range (seq (add (int $key) 1)) }}* {{ end }}{{ . }}</li>
-    {{ end }}
+    {{ end -}}
     </ul>
-  {{ end }}
+  {{ end -}}
 
   <p><strong>KPI :</strong> {{ .KPI | markdownify }}</p>
 
@@ -175,46 +174,46 @@
   <div class="flex flex-gap align-items-center text-center mb-1 card-background p-2" style="align-items: stretch ">
     <p>
       <span class="rank border-50">{{ .priority | urlize }}</span><br>
-      {{ range (seq (int .priority)) }}
+      {{- range (seq (int .priority)) }}
         <svg width="40px" role="img" class="svggreen" aria-label="priorité" viewBox="0 0 50 50">
           <use xlink:href="{{ $.Site.BaseURL }}assets/images/greenit/picto.svg#priorite" />
         </svg>
-      {{ end }}
-      {{ range (seq (sub 3 (int .priority))) }}
+      {{ end -}}
+      {{- range (seq (sub 3 (int .priority))) }}
         <svg width="40px" role="img" class="svggreen empty" aria-label="priorité" viewBox="0 0 50 50">
           <use xlink:href="{{ $.Site.BaseURL }}assets/images/greenit/picto.svg#priorite" />
         </svg>
-      {{ end }}
+      {{ end -}}
       <br><strong class="invert">Priorité</strong>
     </p>
     <p>
       <span class="rank border-50">{{ .difficulty | urlize }}</span><br>
-      {{ range (seq (int .difficulty)) }}
+      {{- range (seq (int .difficulty)) }}
         <svg width="40px" role="img" class="svggreen" aria-label="priorité" viewBox="0 0 50 50">
           <use xlink:href="{{ $.Site.BaseURL }}assets/images/greenit/picto.svg#difficulte" />
         </svg>
-      {{ end }}
-      {{ range (seq (sub 3 (int .difficulty))) }}
+      {{ end -}}
+      {{- range (seq (sub 3 (int .difficulty))) }}
         <svg width="40px" role="img" class="svggreen empty" aria-label="priorité" viewBox="0 0 50 50">
           <use xlink:href="{{ $.Site.BaseURL }}assets/images/greenit/picto.svg#difficulte" />
         </svg>
-      {{ end }}
+      {{ end -}}
       <br><strong class="invert">Difficulté</strong>
     </p>
   </div>
   <h3 class="mb-0 invert">Potentiel :</h3>
   <div class="flex flex-gap align-items-center text-center mb-1 card-background p-2" style="align-items: stretch ">
-    {{ range $key, $value := .potentiel }}
+    {{- range $key, $value := .potentiel }}
       <p>
       <span class="rank border-50">{{ . | urlize }}</span><br>
-      {{ range (seq .) }}
+      {{- range (seq .) }}
         <svg width="40px" role="img" aria-label="{{ $key | urlize }}" viewBox="0 0 50 50">
           <use xlink:href="{{ $.Site.BaseURL }}assets/images/greenit/picto.svg#{{ (replace $key "é" "e") | urlize }}" />
         </svg>
-      {{ end }}
+      {{ end -}}
       <br><strong class="mt-2 invert">{{ $key }}</strong>
       </p>
-    {{ end }}
+    {{ end -}}
   </div>
   <hr>
 {{- end -}}

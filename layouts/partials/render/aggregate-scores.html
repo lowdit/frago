@@ -16,6 +16,10 @@
 {{- $data.Set "aggregate-ecoconception-nc" slice }}
 {{- $data.Set "aggregate-ecoconception-c" slice }}
 {{- $data.Set "aggregate-ecoconception-sum" 0 }}
+{{- $data.Set "aggregate-publishing-list" slice }}
+{{- $data.Set "aggregate-publishing-nc" slice }}
+{{- $data.Set "aggregate-publishing-c" slice }}
+{{- $data.Set "aggregate-publishing-sum" 0 }}
 {{- $data.Set "aggregate-performance-list" slice }}
 {{- $data.Set "aggregate-performance-sum" 0 }}
 {{- range sort .pages ".Title" "desc" -}}
@@ -48,6 +52,20 @@
       {{- end -}}
       {{- if eq $score 100 -}}
         {{- $data.Add "aggregate-ecoconception-c" $score -}}
+      {{- end -}}
+    {{- end -}}
+    {{- end -}}
+
+    {{ with (index (partialCached "render/lastfile.html" (dict "context" . "project" $project "type" "publishing") $project "publishing") "auditfile-all-path") }}
+    {{- range $id, $value := last 1 (sort .) -}}
+      {{ $score := (partialCached "render/ecoconception.html" (dict "context" $context "auditfile" .) $context .).scores.compliance }}
+      {{- $data.Add "aggregate-publishing-list" $score -}}
+      {{- $data.Add "aggregate-publishing-sum" $score -}}
+      {{- if lt $score 50 -}}
+        {{- $data.Add "aggregate-publishing-nc" $score -}}
+      {{- end -}}
+      {{- if eq $score 100 -}}
+        {{- $data.Add "aggregate-publishing-c" $score -}}
       {{- end -}}
     {{- end -}}
     {{- end -}}
@@ -88,6 +106,15 @@
   {{- $data.SetInMap "aggregateecoconception" "average"            (div ($data.Get "aggregate-ecoconception-sum") (len .)) -}}
 {{ end }}
 
+{{- $data.SetInMap "aggregatepublishing" "all"                    ($data.Get "aggregate-publishing-list") -}}
+{{- $data.SetInMap "aggregatepublishing" "invalid"                ($data.Get "aggregate-publishing-nc") -}}
+{{- $data.SetInMap "aggregatepublishing" "valid"                  ($data.Get "aggregate-publishing-c") -}}
+{{- $data.SetInMap "aggregatepublishing" "sum"                    ($data.Get "aggregate-publishing-sum") -}}
+{{- $data.SetInMap "aggregatepublishing" "average"                slice -}}
+{{ with ($data.Get "aggregate-publishing-list") }}
+  {{- $data.SetInMap "aggregatepublishing" "average"              (div ($data.Get "aggregate-publishing-sum") (len .)) -}}
+{{ end }}
+
 {{- $data.SetInMap "aggregateperformance" "all"                  ($data.Get "aggregate-performance-list") -}}
 {{- $data.SetInMap "aggregateperformance" "sum"                  ($data.Get "aggregate-performance-sum") -}}
 {{- $data.SetInMap "aggregateperformance" "average"              slice -}}
@@ -97,6 +124,7 @@
 
 {{- $data.SetInMap "aggregates" "accessibility"                  ($data.Get "aggregateaccessibility") -}}
 {{- $data.SetInMap "aggregates" "ecoconception"                  ($data.Get "aggregateecoconception") -}}
+{{- $data.SetInMap "aggregates" "publishing"                     ($data.Get "aggregatepublishing") -}}
 {{- $data.SetInMap "aggregates" "performance"                    ($data.Get "aggregateperformance") -}}
 {{- $data.SetInMap "aggregates" "allscores"                      ($data.Get "allscores") -}}
 

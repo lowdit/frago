@@ -25,6 +25,7 @@
           {{- $accessibilitypath := index (partialCached "render/lastfile.html" (dict "context" . "project" $project "type" "accessibility" "datafilename" .Params.datafilename) $project "accessibility") "auditfile-path" -}}
           {{- $accessibility     := fileExists (printf "%s" $accessibilitypath) -}}
           {{- $ecoconception     := fileExists (printf "/%s/rgesn/" $projectFolders) -}}
+          {{- $publishing        := fileExists (printf "/%s/publishing/" $projectFolders) -}}
           {{- $greenit           := fileExists (printf "/%s/greenit/" $projectFolders) -}}
           {{- $recommendation    := or (fileExists (printf "/%s/recommendations/" $projectFolders)) (fileExists (printf "/%s/recommendation/" $projectFolders)) (fileExists (printf "/%s/quality/" $projectFolders)) -}}
           {{- $lighthouse        := fileExists (printf "/%s/lighthouse/" $projectFolders) -}}
@@ -59,7 +60,12 @@
 
                 {{/* If Ecoconception exists */}}
                 {{- if $ecoconception -}}
-                  <p class="mb-0">{{- partialCached "components/scores/ecoconception-small" (dict "context" . "project" $project) $project -}}</p>
+                  <p class="mb-0">{{- partialCached "components/scores/ecoconception-small" (dict "context" . "project" $project "type" "ecoconception" "name" "RGESN" ) $project "ecoconception" -}}</p>
+                {{- end -}}
+
+                {{/* If Publishing exists */}}
+                {{- if $publishing -}}
+                  <p class="mb-0">{{- partialCached "components/scores/ecoconception-small" (dict "context" . "project" $project "type" "publishing" "name" "Édito" ) $project "publishing" -}}</p>
                 {{- end -}}
 
                 {{/* If Accessibility exists */}}

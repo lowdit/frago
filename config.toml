@@ -62,6 +62,38 @@ disableKinds = ["RSS", "sitemap", "taxonomy", "taxonomyTerm"]
   mediaType = "application/json"
   isPlainText = true
   notAlternative = false
+[outputFormats.publishingpage]
+  baseName = "publishing"
+  mediaType = "text/html"
+  notAlternative = false
+  permalinkable = true
+  isHTML = true
+[outputFormats.publishingcsv]
+  baseName = "publishing"
+  mediaType = "text/csv"
+  isPlainText = true
+  notAlternative = false
+[outputFormats.publishing]
+  baseName = "publishing"
+  mediaType = "application/json"
+  isPlainText = true
+  notAlternative = false
+[outputFormats.cigrefpage]
+  baseName = "cigref"
+  mediaType = "text/html"
+  notAlternative = false
+  permalinkable = true
+  isHTML = true
+[outputFormats.cigrefcsv]
+  baseName = "publishing"
+  mediaType = "text/csv"
+  isPlainText = true
+  notAlternative = false
+[outputFormats.cigref]
+  baseName = "cigref"
+  mediaType = "application/json"
+  isPlainText = true
+  notAlternative = false
 [outputFormats.greenitpage]
   baseName = "greenit"
   mediaType = "text/html"

@@ -17,11 +17,13 @@ cascade:
     - declarationpage
     - accessibility
     - ecoconception
+    - publishing
     - quality
     - recommendation
     - performance
     - accessibilitypage
     - ecoconceptionpage
+    - publishingpage
     - qualitypage
     - recommendationpage
     - performancepage
@@ -40,11 +42,13 @@ cascade:
     - declaration
     - accessibility
     - ecoconception
+    - publishing
     - quality
     - recommendation
     - performance
     - accessibilitypage
     - ecoconceptionpage
+    - publishingpage
     - qualitypage
     - recommendationpage
     - performancepage
@@ -58,4 +62,6 @@ cascade:
     - json
     - greenit
     - greenitpage
+    - cigref
+    - cigrefpage
 ---

@@ -14,6 +14,10 @@
         Écoconception
       {{- else if eq .Format.BaseName "greenit" -}}
         GreenIT - 74 bonnes pratiques
+      {{- else if eq .Format.BaseName "cigref" -}}
+        CIGREF -  critères RSE
+      {{- else if eq .Format.BaseName "publishing" -}}
+        GreenIT -  Liste des 50 règles de Sobriété éditoriale
       {{- else if eq .Format.BaseName "quality" -}}
         Recommandations
       {{- else if eq .Format.BaseName "recommendation" -}}
@@ -47,6 +51,10 @@
           Écoconception
         {{- else if eq .Format.BaseName "greenit" -}}
           GreenIT - 74 bonnes pratiques
+        {{- else if eq .Format.BaseName "cigref" -}}
+          CIGREF -  critères RSE
+        {{- else if eq .Format.BaseName "publishing" -}}
+          GreenIT -  Liste des 50 règles de Sobriété éditoriale
         {{- else if eq .Format.BaseName "quality" -}}
           Recommandations
         {{- else if eq .Format.BaseName "recommendation" -}}
@@ -80,6 +88,12 @@
           {{- partialCached "elements/content.html" $partial $partial -}}
         {{- else if or (eq .Format.BaseName "greenit") -}}
           {{- $partial := (partialCached "templates/greenit.html" (dict "context" $context) $context) -}}
+          {{- partialCached "elements/content.html" $partial $partial -}}
+        {{- else if eq .Format.BaseName "cigref" -}}
+          {{- $partial := (partialCached "templates/cigref.html" (dict "context" $context) $context) -}}
+          {{- partialCached "elements/content.html" $partial $partial -}}
+        {{- else if eq .Format.BaseName "publishing" -}}
+          {{- $partial := (partialCached "templates/publishing.html" (dict "context" $context) $context) -}}
           {{- partialCached "elements/content.html" $partial $partial -}}
         {{- else if or (eq .Format.BaseName "quality") -}}
           {{- $partial := (partialCached "templates/recommendation.html" (dict "context" $context) $context) -}}

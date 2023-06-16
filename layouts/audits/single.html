@@ -25,6 +25,12 @@
         {{- else if or (eq .Format.BaseName "greenit") -}}
           {{- $partial := (partialCached "templates/greenit.html" (dict "context" $context) $context) -}}
           {{- partialCached "elements/content.html" $partial $partial -}}
+        {{- else if eq .Format.BaseName "cigref" -}}
+          {{- $partial := (partialCached "templates/cigref.html" (dict "context" $context) $context) -}}
+          {{- partialCached "elements/content.html" $partial $partial -}}
+        {{- else if eq .Format.BaseName "publishing" -}}
+          {{- $partial := (partialCached "templates/publishing.html" (dict "context" $context) $context) -}}
+          {{- partialCached "elements/content.html" $partial $partial -}}
         {{- else if or (eq .Format.BaseName "recommendation") -}}
           {{- $partial := (partialCached "templates/recommendation.html" (dict "context" $context) $context) -}}
           {{- partialCached "elements/content.html" $partial $partial -}}

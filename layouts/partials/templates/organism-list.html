@@ -65,6 +65,33 @@
               </span>
             </li>
             <li class="enlarge-link card-inline card-shadow">
+              <h2 class="h3">Sobriété éditroriale <small>Conformité</small></h2>
+              <span class="flex flex-gap align-items-center text-center lh-1 mr-2">
+              {{- if gt ($.Scratch.Get "aggregates").publishing.sum 0 -}}
+                <b class="font-bold d-block m-auto w-max-content">
+                  {{ len ($.Scratch.Get "aggregates").publishing.invalid }}<br>
+                  <small class="smaller">Non</small>
+                </b>
+                <b class="font-bold d-block m-auto w-max-content">
+                  {{ sub (sub (len ($.Scratch.Get "aggregates").publishing.all) (len ($.Scratch.Get "aggregates").publishing.valid)) (len ($.Scratch.Get "aggregates").publishing.invalid) }}<br>
+                  <small class="smaller">Partielle</small>
+                </b>
+                <b class="font-bold d-block m-auto w-max-content">
+                  {{ len ($.Scratch.Get "aggregates").publishing.valid }}<br>
+                  <small class="smaller">Oui</small>
+                </b>
+                {{- if gt ($.Scratch.Get "aggregates").publishing.average 0 -}}
+                  <b class="font-bold d-block m-auto w-max-content">
+                    {{ ($.Scratch.Get "aggregates").publishing.average }}%
+                    <small class="smaller">Moyenne</small>
+                  </b>
+                {{- end -}}
+                {{- else -}}
+                  Aucun Audit Édito existant
+                {{- end -}}
+              </span>
+            </li>
+            <li class="enlarge-link card-inline card-shadow">
               {{- partialCached "components/scores/greenit-small" (dict "context" . "project" "") "" -}}
             </li>
         </ul>

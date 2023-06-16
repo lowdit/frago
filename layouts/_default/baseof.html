@@ -94,7 +94,7 @@
   <header role="banner" aria-label="Bannière">
     {{/*- Debug TPL -*/}}
     {{- if eq (getenv "HUGO_ENV") "dev" -}}
-      <div hidden>
+      <div>
         {{ .Params | jsonify }}<hr>
         {{ .Site.Title }} - {{ .Site.Params }}<hr>
         {{ .Permalink }} - {{ .Kind }} - {{ .Type }}<hr>

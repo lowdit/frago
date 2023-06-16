@@ -4,12 +4,13 @@
 {{ $datalastfile       := newScratch }}
 {{ $type               := .type }}
 {{ $patharray          := split (path.Dir .context.File.Path) "/" }}
-{{ $rootpath           := partialCached "render/rootpath" (dict "context" . "project" $project "type" "accessibility") $project "accessibility" }}
+{{ $rootpath           := partialCached "render/rootpath" (dict "context" . "project" $project "type" "accessibility") $project "accessibility" }}{{/* Accessibility give the location :: has to nbe change */}}
 {{ $path               := partialCached "render/filepath" (dict "context" $context "project" $project "type" .type) $context $project .type }}
 
 
-{{ $condrecommendation := eq (len (intersect (slice .type) (slice "recommendation" "quality"))) 1 }}
-{{ $ext                := cond (eq "greenit" .type) "csv" (cond (eq "ecoconception" .type) "csv" (cond (eq "actions" .type) "csv" (cond (eq "accessibility" .type) "csv" (cond ($condrecommendation) "yml" "json")))) }}
+{{ $condrecommendationcsv  := eq (len (intersect (slice .type) (slice "greenit" "ecoconception" "actions" "accessibility" "publishing" "cigref"))) 1 }}
+{{ $condrecommendationjson := eq (len (intersect (slice .type) (slice "recommendation" "quality"))) 1 }}
+{{ $ext                    := cond  ($condrecommendationcsv) "csv" (cond ($condrecommendationjson) "yml" "json") }}
 
 {{ $datalastfile.Set    "auditpath-lastfile" "/false" }}
 {{ $datalastfile.Set    "pathdata" "/false" }}
@@ -28,9 +29,9 @@
 {{ end }}
 
 {{/* In case of accessibility type - the folder name can be recommendation */}}
-{{ if (eq $condrecommendation .type) }}
+{{ if (eq $condrecommendationjson .type) }}
   {{ $pathtemp := partialCached "render/filepath" (dict "context" $context "project" $project "type" "recommendation") $project "recommendation" }}
-  {{ $context.Scratch.Set "pathdata" (cond (eq $condrecommendation .type) (cond (fileExists $pathtemp) $pathtemp ($context.Scratch.Get "pathdata")) ($context.Scratch.Get "pathdata")) }}
+  {{ $context.Scratch.Set "pathdata" (cond (eq $condrecommendationjson .type) (cond (fileExists $pathtemp) $pathtemp ($context.Scratch.Get "pathdata")) ($context.Scratch.Get "pathdata")) }}
 {{ end }}
 
 {{/* If the file accessibility.csv exists at the root of the project */}}
