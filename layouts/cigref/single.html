@@ -77,7 +77,7 @@
 {{- range $key, $value := uniq ($data.Get "thematique") }}
     <h2 id="topic{{ add $key 1 | urlize }}" >{{ add $key 1 }} - {{ . }}</h2>
     {{- range $key1, $value1 := where $criteriafile "topic" . -}}
-      <h3>{{ add $key 1 | urlize }}.{{ add $key1 1 }} - {{ .criterium | markdownify }}</h3>
+      <h3>{{ .id }} {{ add $key 1 | urlize }}.{{ add $key1 1 }} - {{ .criterium | markdownify }}</h3>
       <p>
         {{ with .issue }}<strong>Bonne pratique :</strong> {{ . | markdownify }}{{ end }}
         {{ with .goals }}<br><strong>Objectifs :</strong> {{ . | markdownify }}{{ end }}

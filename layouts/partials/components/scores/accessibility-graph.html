@@ -1,4 +1,5 @@
 {{ $scores := .scores }}
+
 {{- with .auditfile -}}
 {{- $auditfile := . }}
 {{- $.context.Scratch.Set "pages" slice -}}

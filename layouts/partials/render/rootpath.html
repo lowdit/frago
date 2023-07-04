@@ -5,7 +5,7 @@
 {{ $data.Set  "rootpath" "static" }}
 {{ $loop      := (partialCached "utils/keyaudits" "keyaudits" ) }}
 
-{{ if eq "greenit" .type }}
+{{ if or (eq "greenit" .type) (eq "cigref" .type)  }}
   {{ range $key, $value := index $loop .type }}
     {{ $data.Set "rootpath" (cond (fileExists (printf "content/organism/%s/" $value)) "content/organism" (cond (fileExists (printf "content/organism/%s/" $value)) "content/organism" ($data.Get "rootpath"))) }}
   {{ end }}

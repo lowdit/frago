@@ -16,20 +16,23 @@
     {{- end -}}
 {{- end -}}
 {{/* Loop over date AND next over csv files */}}
+
 {{- range (uniq ($data.Get "datesAction")) }}
   {{- $date := . -}}
   {{- $data.Set (printf "listDate-%s" $date) slice -}}
   {{- $data.Set (printf "slice-%s" $date) slice -}}
   {{/* Feed an array with all action in a file */}}
-  {{- range ($data.Get (printf "actions-%s" .)) }}
-    {{- $data.Add (printf "slice-%s" $date) (after 1 (getCSV "," .)) -}}
-    {{- $data.Add (printf "listDates-%s" $date) (slice (((os.Stat .).ModTime).Format "02/01/2006")) -}}
-  {{- end -}}
-  {{/* Feed a map where key is the date */}}
-  {{- $data.SetInMap (printf "listActions-%s" $date) "Opérations diverses" ($data.Get (printf "slice-%s" $date)) -}}
-  {{/* Feed final map */}}
-  {{- $data.SetInMap "allDates"   (printf "%s" $date) ($data.Get (printf "listDates-%s" $date)) -}}
-  {{- $data.SetInMap "allActions" (printf "%s" $date) ($data.Get (printf "listActions-%s" $date)) -}}
+  {{ if ($data.Get (printf "actions-%s" .)) }}
+    {{- range ($data.Get (printf "actions-%s" .)) }}
+      {{- $data.Add (printf "slice-%s" $date) (index (after 1 (getCSV "," .)) 0) -}}
+      {{- $data.Add (printf "listDates-%s" $date) (slice (((os.Stat .).ModTime).Format "02/01/2006")) -}}
+    {{- end -}}
+    {{/* Feed a map where key is the date */}}
+    {{- $data.SetInMap (printf "listActions-%s" $date) "Opérations diverses" ($data.Get (printf "slice-%s" $date)) -}}
+    {{/* Feed final map */}}
+    {{- $data.SetInMap "allDates"   (printf "%s" $date) ($data.Get (printf "listDates-%s" $date)) -}}
+    {{- $data.SetInMap "allActions" (printf "%s" $date) ($data.Get (printf "listActions-%s" $date)) -}}
+  {{ end }}
 {{- end -}}
 {{/* END Loop over general actions */}}
 {{/* START Loop over services actions */}}

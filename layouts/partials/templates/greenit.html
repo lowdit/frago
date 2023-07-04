@@ -21,8 +21,8 @@
     {{- end -}}
   {{/* END Test if the csv file has a good name : YYYY-MM-DD.csv */}}
 
-  {{- if $project -}}<p>← <a href="{{ site.BaseURL | default "/" }}{{- with $project -}}{{ printf "audits/%s/" (urlize .) }}{{- end -}}" class="link-more link-back" aria-label="Retour à la page {{ ($context.GetPage $project).Title }}">Retour à la page projet</a></p>{{- end -}}
-  <h1>Synthèse 74 bonnes pratiques GreenIT{{ with $projectTitle }}<small> pour {{ partialCached "utils/isURL.html" (dict "context" $context "projectTitle" $projectTitle) $projectTitle }}</small>{{ end }}</h1>
+  <p>← <a href="/organism" class="link-more link-back">Retour à la page organisme</a></p>
+  <h1>Synthèse 74 bonnes pratiques greenit</h1>
 
   {{/* START Display page note if exists */}}
   {{- with .context.Params.note -}}

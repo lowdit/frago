@@ -65,7 +65,7 @@
               </span>
             </li>
             <li class="enlarge-link card-inline card-shadow">
-              <h2 class="h3">Sobriété éditroriale <small>Conformité</small></h2>
+              <h2 class="h3">Sobriété éditoriale <small>Conformité</small></h2>
               <span class="flex flex-gap align-items-center text-center lh-1 mr-2">
               {{- if gt ($.Scratch.Get "aggregates").publishing.sum 0 -}}
                 <b class="font-bold d-block m-auto w-max-content">
@@ -93,6 +93,9 @@
             </li>
             <li class="enlarge-link card-inline card-shadow">
               {{- partialCached "components/scores/greenit-small" (dict "context" . "project" "") "" -}}
+            </li>
+            <li class="enlarge-link card-inline card-shadow">
+              {{- partialCached "components/scores/cigref-small" (dict "context" . "project" "") "" -}}
             </li>
         </ul>
     </div>

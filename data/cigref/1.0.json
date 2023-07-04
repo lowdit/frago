@@ -255,151 +255,174 @@
     ]
   }],
   "criteres": [{
+      "id": 111,
       "topic": "Impact environnemental",
-      "issue": "Réduire les émissions de GES",
       "goals": "Diminuer l’empreinte carbone",
+      "issue": "Réduire les émissions de GES",
       "criterium": "Le projet est compatible avec l’atteinte des objectifs de la Stratégie Bas Carbone de l’entreprise (baisse de X% des émissions en 20XX)",
       "source": "Stratégie Nationale Bas Carbone (SNBC)  / Grille d’analyse de l’empreinte carbone d’un projet mise à disposition par l’organisation, si elle existe"
     },
     {
+      "id": 112,
       "topic": "Impact environnemental",
-      "issue": "Réduire les émissions de GES",
       "goals": "Diminuer l’empreinte carbone",
+      "issue": "Réduire les émissions de GES",
       "criterium": "Le projet est toujours rentable si un prix du CO2 allant de 50 à 80€ la tonne est intégré au business plan (ou au budget alloué)",
       "source": "Rapport Quinet https://www.vie-publique.fr/rapport/30437-la-valeur-tutelaire-du-carbone"
     },
     {
+      "id": 121,
       "topic": "Impact environnemental",
-      "issue": "Utiliser moins de ressources",
       "goals": "Diminuer l’impact du numérique sur les ressources (eau, énergie, sol, forêt…)",
+      "issue": "Utiliser moins de ressources",
       "criterium": "Le projet prévoit d’intégrer des guidelines d’écoconception des services numériques incluant l’ensemble de la chaîne (expression de besoin, design, product owner métier, développeur, infrastructure) et une évaluation de la maturité sur ce sujet",
       "source": "Référentiel général d’écoconception de services numériques de la DINUM - https://ecoresponsable.numerique.gouv.fr/publications/referentiel-general-ecoconception/\nEx: Appliquer des principes d’écoconception logicielle pour limiter la sollicitation du matériel\nEx: Utiliser le wifi au lieu de la 4G, stocker des vidéos avec une durée de vie définie…"
     },
     {
+      "id": 122,
       "topic": "Impact environnemental",
-      "issue": "Réduction de la consommation énergétique",
       "goals": "Diminuer l’impact du numérique sur les ressources (eau, énergie, sol, forêt…)",
+      "issue": "Réduction de la consommation énergétique",
       "criterium": "Le projet prévoit d’auditer et d’analyser régulièrement l’impact énergétique du code tout au long du développement des logiciels et d’utiliser des outils d’optimisation du code"
     },
     {
+      "id": 123,
       "topic": "Impact environnemental",
-      "issue": "Optimiser et contenir le portefeuille applicatif",
       "goals": "Diminuer l’impact du numérique sur les ressources (eau, énergie, sol, forêt…)",
+      "issue": "Optimiser et contenir le portefeuille applicatif",
       "criterium": "Le projet prévoit de rationaliser les applications, en diminuant leur nombre quand cela est possible ou en organisant une convergence vers des applications de niveau Groupe et prévoit le décommisionnement applicatif dès sa conception.",
       "source": "Se fixer des critères de décommisionnement : * Baisse considérable d’utilisateurs * Application qui n’est plus du tout utilisée par le service concerné…"
     },
     {
+      "id": 124,
       "topic": "Impact environnemental",
-      "issue": "Achat responsables",
       "goals": "Diminuer l’impact du numérique sur les ressources (eau, énergie, sol, forêt…)",
+      "issue": "Achat responsables",
       "criterium": "Le projet privilégie le choix d’offres de solutions ou services numériques répondant à des critères responsables reconnus"
     },
     {
+      "id": 124,
       "topic": "Impact environnemental",
-      "issue": "Solution réutilisable",
       "goals": "Diminuer l’impact du numérique sur les ressources (eau, énergie, sol, forêt…)",
+      "issue": "Solution réutilisable",
       "criterium": "Le projet prévoit d’utiliser des solutions open source et / ou open hardware",
       "source": "Exemple: Open compute project pour le volet hardware"
     },
     {
+      "id": 131,
       "topic": "Impact environnemental",
-      "issue": "Ne pas entrainer l’obsolescence du matériel",
       "goals": "Réduire nos déchets et développer l’économie circulaire",
+      "issue": "Ne pas entrainer l’obsolescence du matériel",
       "criterium": "Le projet est compatible avec l’ensemble du parc de terminaux existant et notamment les terminaux les plus anciens, que ce soit pour les terminaux entreprises comme pour les terminaux clients"
     },
     {
+      "id": 132,
       "topic": "Impact environnemental",
-      "issue": "Valoriser le matériel reconditionné",
       "goals": "Réduire nos déchets et développer l’économie circulaire",
+      "issue": "Valoriser le matériel reconditionné",
       "criterium": "Le projet s’inscrit dans une démarche d’économie circulaire notamment en utilisant des équipements reconditionnés et/ou des matériaux issus du recyclage et en proposant le matériel réformé sur des plateformes de réemploi.",
       "source": "Loi AGEC, Février 2020"
     },
     {
+      "id": 141,
       "topic": "Impact environnemental",
-      "issue": "Mettre le projet au service de la RSE",
       "goals": "IT for green",
+      "issue": "Mettre le projet au service de la RSE",
       "criterium": "Le projet contribue a minima à l’une des dimensions suivantes : - diminution de l’empreinte environnementale, d’un service, produit, processus - collecte des données d’intérêts pour le reporting RSE de l’organisation. - réduction de la consommation énérgétique"
     },
     {
+      "id": 142,
       "topic": "Impact environnemental",
-      "issue": "Mettre le projet au service de la RSE",
       "goals": "IT for green",
+      "issue": "Mettre le projet au service de la RSE",
       "criterium": "Le projet prévoit une démarche d’optimisation ou de valorisation des déchets, ou de valorisation énergétique."
     },
     {
+      "id": 211,
       "topic": "Impact social & sociétal",
-      "issue": "Conformité",
       "goals": "Exiger l’éthique et l’intégrité",
+      "issue": "Conformité",
       "criterium": "Le projet se conforme à la réglementation (RGPD...) et répond aux exigences de contrôle de l’entreprise et/ou des chartes de l’entreprise (éthique, numérique responsable, diversité, etc.)",
       "source": "RGPD - 23 mai 2018 https://www.cnil.fr/fr/reglement-europeen-protection-donnees"
     },
     {
+      "id": 212,
       "topic": "Impact social & sociétal",
-      "issue": "Explicabilité de l’IA",
       "goals": "Exiger l’éthique et l’intégrité",
+      "issue": "Explicabilité de l’IA",
       "criterium": "Le projet intègre l’explicabilité des modèles d’IA utilisés"
     },
     {
+      "id": 213,
       "topic": "Impact social & sociétal",
-      "issue": "Qualité de Vie au Travail",
       "goals": "Exiger l’éthique et l’intégrité",
+      "issue": "Qualité de Vie au Travail",
       "criterium": "Le projet intègre les enjeux de droit à la déconnexion (paramétrage notifications, …)"
     },
     {
+      "id": 221,
       "topic": "Impact social & sociétal",
-      "issue": "Conformité réglementation accessibilité",
       "goals": "Intégrer la diversité et l’inclusion",
+      "issue": "Conformité réglementation accessibilité",
       "criterium": "Le projet se conforme à la réglementation de mise en accessibilité en se basant sur les principes du RGAA tout au long du projet (conception/cadrage, design, intégration CSS/HTML, éditorial, etc.)",
       "source": "Décret du 24 juillet 2019\nEuropean Disability Act (Extension de la directive 2019/882)\n<https://accessibilite.numerique.gouv.fr/>"
     },
     {
+      "id": 222,
       "topic": "Impact social & sociétal",
-      "issue": "Numérique inclusif",
       "goals": "Intégrer la diversité et l’inclusion",
+      "issue": "Numérique inclusif",
       "criterium": "Le projet prévoit pour les utilisateurs finaux des mesures pour lutter contre la fracture numérique : service accessible sur un réseau de données bas débit, via un équipement “ancienne génération“, et veille à la facilité d’usage des interfaces / solutions"
     },
     {
+      "id": 223,
       "topic": "Impact social & sociétal",
-      "issue": "Diversité",
       "goals": "Intégrer la diversité et l’inclusion",
+      "issue": "Diversité",
       "criterium": "L’équipe projet veille à la diversité & l’inclusion de ses membres, lors de l’appel à projet ou du recrutement, en intégrant la mixité, des personnes en reconversion professionnelle, des personnes en situation de handicap, des seniors…"
     },
     {
+      "id": 231,
       "topic": "Impact social & sociétal",
-      "issue": "Mettre le numérique au service de l’humain",
       "goals": "IT for Human",
+      "issue": "Mettre le numérique au service de l’humain",
       "criterium": "Le projet contribue a minima à l’une des dimensions suivantes : - à améliorer la santé, la sécurité, et la qualité de vie au travail QVT-à lutter contre les fractures sociales (précarité, précarité énergétique, …) - à améliorer la diversité et l’égalité entre les femmes et les hommes"
     },
     {
+      "id": 311,
       "topic": "Gouvernance",
-      "issue": "Intégrer les parties prenantes dans la mise en œuvre du numérique responsable",
       "goals": "Les Partenaires",
+      "issue": "Intégrer les parties prenantes dans la mise en œuvre du numérique responsable",
       "criterium": "Le projet dispose ou disposera de clauses contractuelles RSE concernant les achats responsables et/ou solidaires notamment pour connaitre les émissions de ses fournisseurs et sous-traitants."
     },
     {
+      "id": 312,
       "topic": "Gouvernance",
-      "issue": "Intégrer les parties prenantes dans la mise en œuvre du numérique responsable",
       "goals": "Les Partenaires",
+      "issue": "Intégrer les parties prenantes dans la mise en œuvre du numérique responsable",
       "criterium": "Le projet intègre les parties prenantes dans sa démarche “numérique responsable” en tenant compte des critères RSE lors du sourcing."
     },
     {
+      "id": 321,
       "topic": "Gouvernance",
-      "issue": "Compétences et connaissances “Numérique Responsable”",
       "goals": "La structuration de l’équipe projet",
+      "issue": "Compétences et connaissances “Numérique Responsable”",
       "criterium": "L’équipe s’est dotée d’un référent “numérique responsable” qui s’assure de la diffusion des bonnes pratiques en la matière",
       "source": "ex : référent numérique responsable ou personne formée par MOOC au NR / ou à une fresque NR."
     },
     {
+      "id": 322,
       "topic": "Gouvernance",
-      "issue": "Compétences et connaissances “Numérique Responsable”",
       "goals": "La structuration de l’équipe projet",
+      "issue": "Compétences et connaissances “Numérique Responsable”",
       "criterium": "Le projet s’appuie sur les outils ou études existants pour partager, diffuser les connaissances autour du numérique responsable",
       "source": "ex : ressources ADEME, ARCEP, INR, AGIT etc."
     },
     {
+      "id": 323,
       "topic": "Gouvernance",
-      "issue": "Budget alloué à la RSE",
       "goals": "La structuration de l’équipe projet",
+      "issue": "Budget alloué à la RSE",
       "criterium": "Le projet prévoit un budget dédié à la mise en oeuvre et au suivi des enjeux RSE (outillage, sée, …)"
     }
   ]

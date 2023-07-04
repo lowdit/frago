@@ -16,7 +16,6 @@
 </thead>
 <tbody>
 {{- range $key, $value := (index (index . "actions") $pagedate) }}
-  {{- range . -}}
     <tr>
       <td>{{ $key }}</td>
       {{- range . -}}
@@ -33,7 +32,6 @@
         </td>
       {{- end -}}
     </tr>
-  {{- end -}}
 {{- end -}}
 </tbody>
 </table>
