@@ -1,0 +1,6 @@
+
+
+
+
+
+  <p>Déclaration vide ; l’entête du fichier de contenu <code>ecoconception.md</code> ou le fichier <code>/rgesn/context.yml</code> sont manquants.</p>
