@@ -26,6 +26,8 @@
         Audit Performance
       {{- else if eq .Format.BaseName "declaration" -}}
         Déclaration
+      {{- else if eq .Format.BaseName "declaration-ecoconception" -}}
+        Déclaration Éco-conception
       {{- end -}}
     {{- end -}}
   {{- end -}}
@@ -63,6 +65,9 @@
           Audit Performance
         {{- else if eq .Format.BaseName "declaration" -}}
           Déclaration
+        {{- end -}}
+        {{- else if eq .Format.BaseName "declaration-ecoconception" -}}
+          Déclaration Éco-conception
         {{- end -}}
       {{- end -}}
     {{- end -}}
@@ -108,6 +113,12 @@
           <article class="fg-wrapper narrow">
             {{- $context.Scratch.Set "audits" (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "accessibility" "datafilename" $context.Params.datafilename) $project "accessibility" $context.Params.datafilename) -}}
             {{- $partial := (partialCached "templates/declaration.html" (dict "context" $context "audits" ($context.Scratch.Get "audits")) ($context.Scratch.Get "audits")) -}}
+            {{- partialCached "elements/content.html" $partial $partial -}}
+          </article>
+        {{- else if eq .Format.BaseName "declaration-ecoconception" -}}
+          <article class="fg-wrapper narrow">
+            {{- $context.Scratch.Set "audits" (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "ecoconception" "datafilename" $context.Params.datafilename) $project "ecoconception" $context.Params.datafilename) -}}
+            {{- $partial := (partialCached "templates/declaration-ecoconception.html" (dict "context" $context "audits" ($context.Scratch.Get "audits")) ($context.Scratch.Get "audits")) -}}
             {{- partialCached "elements/content.html" $partial $partial -}}
           </article>
         {{- end -}}

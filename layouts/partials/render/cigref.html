@@ -43,8 +43,6 @@
 
 {{ end }}
 
-{{ warnf "%s" ($data.Get "CritAxes") }}
-
 {{ $data.Set "iCrit1" 0 }}
 {{ with ($data.Get "Crit1") }}
   {{ $data.Set "iCrit1" (len .) }}

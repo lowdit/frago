@@ -42,7 +42,6 @@
     {{/* START - If accessibility and recommendation and lighthouse */}}
     {{- if or $accessibility $ecoconception $recommendation $lighthouse -}}
     <h2 class="text-center">{{ if $.Scratch.Get "subservice" }}Site principal{{ else }}Scores{{ end }}</h2>
-    {{- with .OutputFormats.Get "declarationpage" -}}<p class="text-center"><a href="{{ .RelPermalink }}">Accéder à la déclaration</a></p>{{- end -}}
 
     {{/* START - If accessibility */}}
     {{- if $accessibility -}}

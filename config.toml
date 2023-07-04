@@ -30,6 +30,17 @@ disableKinds = ["RSS", "sitemap", "taxonomy", "taxonomyTerm"]
   mediaType = "text/plain"
   isPlainText = true
   notAlternative = false
+[outputFormats.declarationecopage]
+  baseName = "declaration-ecoconception"
+  mediaType = "text/html"
+  notAlternative = false
+  permalinkable = true
+  isHTML = true
+[outputFormats.declarationeco]
+  baseName = "declaration-ecoconception"
+  mediaType = "text/plain"
+  isPlainText = true
+  notAlternative = false
 [outputFormats.accessibilitypage]
   baseName = "accessibility"
   mediaType = "text/html"

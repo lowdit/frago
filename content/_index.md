@@ -15,6 +15,8 @@ cascade:
     - json
     - declaration
     - declarationpage
+    - declarationeco
+    - declarationecopage
     - accessibility
     - ecoconception
     - publishing
@@ -34,12 +36,15 @@ cascade:
     - json
     - declaration
     - declarationpage
+    - declarationeco
+    - declarationecopage
 - _target:
     path: /audits/_index.md
   outputs:
     - html
     - json
     - declaration
+    - declarationeco
     - accessibility
     - ecoconception
     - publishing

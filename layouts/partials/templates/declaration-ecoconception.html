@@ -1,0 +1,85 @@
+{{- $audit    := .audits -}}
+{{- $context  := .context -}}
+{{- $data     := newScratch -}}
+{{- $project  := (partialCached "render/projectpath" $context $context) -}}
+{{- $envTitle := (dict "desktop" "Ordinateur" "mobile" "Mobile") -}}
+
+{{/* START Determine the version of the audit from the context declaration */}}
+{{- $data.Set "guidelinename" "rgesn" -}}
+{{- $data.Set "guidelineversion" "1.0" -}}
+{{- $data.Set "criteriafile" (index (index $context.Site.Data ($data.Get "guidelinename")) ($data.Get "guidelineversion")).criteres -}}
+{{/* END Determine the version of the audit form the context declaration */}}
+
+{{/* START Load the criteria file for the good audit version */}}
+{{- $data.Set "organisation"  (cond (ne $.context.Site.Params.organisation "") $.context.Site.Params.organisation "") -}}
+{{- $data.Set "company"       (cond (ne $.Params.ecoconception.strategy "") $.Params.accessibility.strategy (cond (ne $context.Site.Params.strategy "") $context.Site.Params.strategy "")) -}}
+{{- $data.Set "auditpath-csv" (index $audit "auditfile-path") -}}
+
+{{- if and ($data.Get "auditpath-csv") (ne ($data.Get "auditpath-csv") "/false") -}}
+
+  {{- $data.Set "auditfile-csv" (getCSV "," ($data.Get "auditpath-csv")) -}}
+  {{- if and ($data.Get "auditpath-csv") (ne ($data.Get "auditpath-csv") "/false") -}}
+  {{/* END Load the criteria file for the good audit version */}}
+
+  {{/* START Load Scores, context and pageslist */}}
+  {{- $data.Set "scores" (partialCached "render/ecoconception.html" (dict "context" $context "auditfile" ($data.Get "auditpath-csv")) ($data.Get "auditpath-csv")) -}}
+  {{- $date := (string (index $audit "auditfile-name")) -}}
+
+  {{ with (partialCached "render/context.html" (dict "context" $context "project" $project) $project) }}
+    {{- $contextlast := cond (not (index . $date)) (index (last 1 (sort .)) 0) (index . $date) -}}
+    {{- $data.Set "context" $contextlast -}}
+    {{- if (not (index . $date)) -}}
+      {{ warnf "%s/accessibility/context.yml is not well filed, maybe the last value for date last audit is missing" $project }}
+    {{- end -}}
+  {{- end -}}
+
+
+  {{/* START If "context" */}}
+
+  {{- with ($data.Get "context") -}}
+    <h1 id="declaration">Écoconception du site{{- with .website }} {{ partialCached "utils/isURL.html" (dict "context" $context "projectTitle" .) . }}{{ end }}</h1>
+    <section>
+      {{/* START If "organisation" */}}
+      {{ if ($data.Get "organisation") }}
+        <p>
+        {{ with ($data.Get "organisation") }}{{ . }}{{ end }} est engagé dans une démarche d’écoconception de son site web{{- with .website }} {{ partialCached "utils/isURL.html" (dict "context" $context "projectTitle" .) . }}{{ end }} afin d’en réduire l’impact environnemental.
+        </p>
+      {{ end }}
+      {{/* END If "organisation" */}}
+      <h2>Qu’est-ce que le Référentiel général d’écoconception&nbsp;?</h2>
+      <p>Recommandé dans le <a href="https://ecoresponsable.numerique.gouv.fr/posts/rapport-obsolescence-logicielle/" target="_blank" rel="external noopener">rapport sur l’obsolescence logicielle</a> que le Gouvernement a remis au Parlement en juin 2021, le Référentiel général d’écoconception des services numériques est un engagement de la <a href="https://www.gouvernement.fr/actualite/numerique-et-environnement-la-feuille-de-route-du-gouvernement" target="_blank" rel="external noopener">feuille de route gouvernementale « Numérique et Environnement »</a> publiée en février 2021. Piloté par la Direction interministérielle du numérique (DINUM), le Ministère de la Transition Écologique, mais également l’ADEME et l’Institut du Numérique Responsable (INR), ce référentiel vise deux objectifs principaux :</p>
+      <ul>
+        <li>Lutter contre l’obsolescence des équipements des utilisateurs et des équipements réseau ou serveur ;</li>
+        <li>Réduire la consommation de ressources informatiques et énergétiques.</li>
+      </ul>
+
+      <h2>En savoir plus sur l’audit RGESN{{- with .website }} du site {{ partialCached "utils/isURL.html" (dict "context" $context "projectTitle" .) . }}{{ end }}</h2>
+
+      {{ with ($data.Get "scores").scores }}
+      <h3>État de conformité</h3>
+
+      <p>
+        Le site{{- with .website }} du site {{ partialCached "utils/isURL.html" (dict "context" $context "projectTitle" .) . }}{{ end }} est en conformité partielle avec le Référentiel général d’écoconception des services numériques version bêta du 19 octobre 2021.
+        L’audit de conformité{{ with $context.Params.ecoconception.audit.company }}, réalisé par la société {{ . }}, {{ end }}{{ with (time $date) }} le {{ .Day }} {{ index $context.Site.Data.month (printf "%d" .Month) }} {{ .Year }}{{ end }}, révèle que {{ .compliance }} % des critères du référentiel sont respectés.
+      </p>
+
+      <p>Ce pourcentage correspond, sur {{ .criteria.total }} testés, à :</p>
+      <ul>
+        <li>{{ .criteria.conforme }} critères conformes</li>
+        <li>{{ .criteria.nonconforme }} critères non conformes</li>
+        <li>{{ .criteria.nonapplicable }} critères non applicables</li>
+      </ul>
+      {{ end }}
+
+      <p>
+        {{ with .website }}{{ partialCached "utils/isURL.html" (dict "context" $context "projectTitle" .) . }}{{ else }}{{ with $data.Get "organisation" }}{{ . }}{{ end }}{{ end }} est {{ if ($data.Get "scores") }}{{ if lt (index ($data.Get "scores") "compliance") 50 }}non{{ else if ge (index ($data.Get "scores") "compliance") 50 }}partiellement{{ else if eq (index ($data.Get "scores") "compliance") 100 }}totalement{{ end }}{{ end }}
+        conforme avec le Référentiel Général d’Éco-conception des Services Numériques (RGESN), version {{ ($data.Get "guidelineversion") }}, en raison des non-conformités et des dérogations énumérées ci-dessous.
+      </p>
+    </section>
+    {{- else -}}
+      <p>Déclaration vide ; l’entête du fichier de contenu <code>ecoconception.md</code> ou le fichier <code>/rgesn/context.yml</code> sont manquants.</p>
+    {{- end -}}
+    {{/* END If "context" */}}
+  {{- end -}}
+{{- end -}}
+{{/* END If "context" */}}
