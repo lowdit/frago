@@ -25,14 +25,6 @@
   {{- $data.Set "scores" (partialCached "render/ecoconception.html" (dict "context" $context "auditfile" ($data.Get "auditpath-csv")) ($data.Get "auditpath-csv")) -}}
   {{- $date := (string (index $audit "auditfile-name")) -}}
 
-  {{ with (partialCached "render/context.html" (dict "context" $context "project" $project) $project) }}
-    {{- $contextlast := cond (not (index . $date)) (index (last 1 (sort .)) 0) (index . $date) -}}
-    {{- $data.Set "context" $contextlast -}}
-    {{- if (not (index . $date)) -}}
-      {{ warnf "%s/accessibility/context.yml is not well filed, maybe the last value for date last audit is missing" $project }}
-    {{- end -}}
-  {{- end -}}
-
 
   {{/* START If "context" */}}
 
