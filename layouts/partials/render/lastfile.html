@@ -43,7 +43,7 @@
 {{ end }}
 
 {{/* If the folder exists at the root of the project */}}
-{{ if (fileExists ($datalastfile.Get "pathdata")) }}
+{{ if and (fileExists ($datalastfile.Get "pathdata")) (fileExists (printf "/%s/%s" (index (split $path "/") 0) (index (split $path "/") 1)))}}
   {{ $datalastfile.Set "dir-lastfile" (readDir ($datalastfile.Get "pathdata")) }}
   {{ $i := 0 }}
   {{ with ($datalastfile.Get "dir-lastfile") }}
