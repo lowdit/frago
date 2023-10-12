@@ -37,6 +37,7 @@
 */
 
 .flex {
+  display: flex;
   flex-direction: column;
   justify-content: center;
 }
@@ -51,7 +52,6 @@
 
 @media screen and (min-width: 56.25em) {
   .flex {
-      display: flex;
       flex-direction: row;
   }
 
