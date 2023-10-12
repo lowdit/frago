@@ -1,6 +1,6 @@
 {{/* Vars */}}
-{{- $patharray    := split (path.Dir .context.File.Path) "/" -}}
 {{- $context      := .context -}}
+{{- $path := "" }}{{ with .File }}{{ $path = .Path }}{{ end }}
 {{- $data         := newScratch -}}
 {{- $project      := partialCached "render/projectpath" $context $context -}}
 {{- $projectPath  := cond (fileExists (printf "audits/%s/index.md" ($project))) (printf "audits/%s/index.md" ($project)) (printf "audits/%s/_index.md" ($project)) -}}
@@ -8,7 +8,7 @@
 {{/* Test if files are in static or in each projets */}}
 {{- $data.Set "lastfile" (index (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "lighthouse") $project "lighthouse") "auditfile-path") -}}
 
-{{ if in "/audits/_index.md" $context.File.Path }}
+{{ if in "/audits/_index.md" $path }}
 
   <section class="fg-wrapper">
   {{- partialCached "templates/projects-monitoring.html" $context $context -}}

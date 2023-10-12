@@ -2,12 +2,13 @@
 Schéma Pluriannuel
 {{- end -}}
 {{- define "main" -}}
-{{- $path         := cond (eq .File.Path "schema.md") (index (last 1 (where .Site.RegularPages "Section" "schemas")) 0).Path .File.Path -}}
+{{- $path := "" }}{{ with .File }}{{ $path = .Path }}{{ end }}
+{{- $pathfile     := cond (eq $path "schema.md") (index (last 1 (where .Site.RegularPages "Section" "schemas")) 0).Path $path -}}
 {{- $organisation := cond (not .Params.organisation) .Site.Params.organisation .Params.organisation -}}
 {{- $contact      := cond (not .Params.contacts) .Site.Params.contacts .Params.contacts -}}
 {{- $rangedate    := cond (not .Params.rangedate) .Site.Params.rangedate .Params.rangedate -}}
-{{- $dateStart    := first 4 (replace (path.Base $path) (path.Ext $path) "") -}}
-{{- $dateEnd      := last 4 (replace (path.Base $path) (path.Ext $path) "") -}}
+{{- $dateStart    := first 4 (replace (path.Base $pathfile) (path.Ext $pathfile) "") -}}
+{{- $dateEnd      := last 4 (replace (path.Base $pathfile) (path.Ext $pathfile) "") -}}
 {{- $dateStart    := cond (ne (len (findRE "(\\d{4})" $dateStart)) 0) ($dateStart) (cond (not $rangedate.start) false $rangedate.start) -}}
 {{- $dateEnd      := cond (ne (len (findRE "(\\d{4})" $dateEnd)) 0) ($dateEnd) (cond (not $rangedate.end) false $rangedate.end) -}}
 {{- $teamNumber   := .Params.team.number -}}
@@ -17,7 +18,7 @@ Schéma Pluriannuel
 <article class="fg-wrapper narrow">
     {{- if eq (getenv "HUGO_ENV") "dev" -}}
     <div hidden>
-      <strong>{{ $path }}</strong><br>
+      <strong>{{ $pathfile }}</strong><br>
       {{ printf "%s - %s - %s - %s - %s - %s" $organisation $contact $rangedate $teamNumber $webNumber $appNumber $dateStart $dateEnd }}
     </div>
     {{- end -}}
@@ -217,12 +218,13 @@ Schéma Pluriannuel
     {{- $now := float (now.Format "2006") -}}
     <ul>
     {{- range . -}}
-      {{- $year := float (replace (path.Base .File.Path) (path.Ext .File.Path) "") -}}
+      {{- $path := "" }}{{ with .File }}{{ $path = .Path }}{{ end }}
+      {{- $year := float (replace (path.Base $path) (path.Ext $path) "") -}}
       {{/* .Page.Lastmod.Format "02/01/2006" */}}
       {{/* .Date.Format "02.01.2006" */}}
       {{- if and (ge $year $dateStart) (le $year $dateEnd) -}}
         {{- $.Scratch.Set "isAction" true -}}
-        <li><a href="{{ .Permalink }}">Plan d’actions annuel N-{{ sub $now $year }} - Dernière mise à jour le {{ ((os.Stat .File.Path).ModTime).Format "[02/01/2006]" }}</a></li>
+        <li><a href="{{ .Permalink }}">Plan d’actions annuel N-{{ sub $now $year }} - Dernière mise à jour le {{ ((os.Stat $path).ModTime).Format "[02/01/2006]" }}</a></li>
       {{- end -}}
     {{- end -}}
     </ul>
@@ -245,7 +247,7 @@ Schéma Pluriannuel
     </thead>
     <tbody>
     {{- range . }}
-    {{- if and (in (path.Base .File.Path) "index.md") (not (in "/audits/_index.md" .File.Path)) -}}
+    {{- if and (in (path.Base $path) "index.md") (not (in "/audits/_index.md" $path)) -}}
       <tr>
         <td>{{ .Title }}</td>
         <td class="text-center">Site web</td>

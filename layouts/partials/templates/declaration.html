@@ -1,5 +1,6 @@
 {{- $audit    := .audits -}}
 {{- $context  := .context -}}
+{{- $path := "" }}{{ with .File }}{{ $path = .Path }}{{ end }}
 {{- $data     := newScratch -}}
 {{- $project  := (partialCached "render/projectpath" $context $context) -}}
 {{- $envTitle := (dict "desktop" "Ordinateur" "mobile" "Mobile") -}}
@@ -20,8 +21,8 @@
     {{- end -}}
   {{- end -}}
   {{- else -}}
-    {{- if ne ($context.File.Path) "audits/_index.md" -}}
-      {{- warnf "Il n'y a pas d’audit correspond au chemin de fichier %s" $context.File.Path -}}
+    {{- if ne ($path) "audits/_index.md" -}}
+      {{- warnf "Il n'y a pas d’audit correspond au chemin de fichier %s" $path -}}
     {{- end -}}
   {{- end -}}
   {{- end -}}

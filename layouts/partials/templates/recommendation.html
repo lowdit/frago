@@ -1,6 +1,8 @@
 {{/* Var */}}
-{{- $patharray    := split (path.Dir .File.Path) "/" -}}
 {{- $context      := .context -}}
+{{- $path := "" -}}
+{{- with $context.File }}{{ $path = .Path }}{{ else }}{{ $path = .Path }}{{ end }}
+{{- $patharray := split (path.Dir $path) "/" -}}
 {{- $data         := newScratch -}}
 {{- $project      := (partialCached "render/projectpath" .context .context) -}}
 {{- $projectPath  := cond (fileExists (printf "audits/%s/index.md" ($project))) (printf "audits/%s/index.md" ($project)) (printf "audits/%s/_index.md" ($project)) -}}
@@ -10,8 +12,7 @@
 
 {{ partialCached "utils/css.html" (dict "context" $.context "filefolder" "object" "filename" "summary") "summary" }}
 
-{{/* Style and Js :: for page and not alternate content pages */}}
-{{- $patharray := split (path.Dir $context.File.Path) "/" -}}
+{{/* Style and JS :: for page and not alternate content pages */}}
 {{- $alternate := where (where $context.OutputFormats "Permalink" "eq" $context.Permalink) "Rel" "eq" "alternate" -}}
 {{- if ne (len $alternate) 0 -}}
   {{- with $alternate -}}{{- range $key, $value := . -}}{{ $data.Set "outputrecommendation" (or (eq .Format.BaseName "recommendation")) }}{{- end -}}{{- end -}}
@@ -42,6 +43,10 @@
 
 {{- $data.Set "guidelinename" "rgaa" -}}
 {{- $data.Set "guidelineversion" $context.Site.Params.rgaa.version -}}
+
+{{- ge ($patharray) 2 -}}
+{{ (partialCached "render/referential-version.html" (dict "context" $context "referential" "rgaa" "version" $context.Site.Params.rgaa.version "patharray" $patharray) $context ).guideline }}
+
 {{- with ($.context.GetPage (printf "/content/%saccessibility.md" .Dir)) -}}
   {{- with .Params.accessibility.guidelines -}}
     {{- $guideline := (replace (. | urlize) "-" "") -}}
@@ -53,7 +58,7 @@
 {{- $lastfile := (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "recommendation" "datafilename" .context.Params.datafilename) $project "recommendation" .context.Params.datafilename) -}}
 {{- $data.Set "auditpath-csv" (index (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "accessibility") $project "accessibility") "auditfile-path") -}}
 {{- $data.Set "scores" (partialCached "render/accessibility.html" (dict "context" "recommandation"  "auditfile" ($data.Get "auditpath-csv")) ($data.Get "auditpath-csv") ) -}}
-{{ if in "/audits/_index.md" $context.File.Path }}
+{{ if in "/audits/_index.md" $path }}
 
   <section class="fg-wrapper">
     {{- $partial := (partialCached "templates/recommendation.html" (dict "context" $context) $context) -}}

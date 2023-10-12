@@ -11,9 +11,10 @@
       <ul class="list-unstyled" role="navigation">
       {{/* START Loop on all project in audits */}}
       {{- range sort ($.Scratch.Get "rangepages") ".Title" "asc" -}}
-        {{- if and (in (path.Base .File.Path) "index.md") (not (in "/audits/_index.md" .File.Path)) -}}
+        {{- $path := "" }}{{ with .File }}{{ $path = .Path }}{{ end }}
+        {{- if and (in (path.Base $path) "index.md") (not (in "/audits/_index.md" $path)) -}}
         {{- $context   := . -}}
-        {{- $path      := (split (path.Dir (replace .File.Path "//" "/")) "/") -}}
+        {{- $path      := (split (path.Dir (replace $path "//" "/")) "/") -}}
 
         {{- if (eq (len $path) 2) -}}
 

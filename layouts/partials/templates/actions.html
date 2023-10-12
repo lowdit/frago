@@ -1,5 +1,6 @@
 {{/* Variables */}}
-{{- $pagedate := replace (path.Base .File.Path) (path.Ext .File.Path) "" -}}
+{{- $path := "" }}{{ with .File }}{{ $path = .Path }}{{ end }}
+{{- $pagedate := replace (path.Base $path) (path.Ext $path) "" -}}
 {{- $kind := .Kind -}}
 
 {{/* START Write table with all actions */}}

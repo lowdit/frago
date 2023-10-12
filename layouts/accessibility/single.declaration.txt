@@ -1,6 +1,3 @@
-{{ $path := "" }}
-{{ with .File }}{{ $path = .Path }}{{ else }}{{ $path = .Path }}{{ end }}
-{{- $patharray := split (path.Dir $path) "/" -}}
 {{- $context := . -}}
 {{- $project :=  (partialCached "render/projectpath" $context $context) -}}
 {{- $.Scratch.Set "audits" (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "accessibility" "datafilename" .Params.datafilename) $project "accessibility" .Params.datafilename) -}}

@@ -1,11 +1,12 @@
 {{- $patharray := split (path.Dir .context.File.Path) "/" -}}
 {{- $context   := .context   -}}
+{{- $path := "" }}{{ with .File }}{{ $path = .Path }}{{ end }}
 {{- $project   := (partialCached "render/projectpath" $context $context) -}}
 {{- $section   := where .context.Site.RegularPages "Section" .section -}}
 {{/* Set the audit file */}}
 {{- if eq (len $patharray) 2 -}}
 {{- range $id, $value := $section -}}
-  {{- if in (path.Dir .File.Path) $project -}}{{- $.context.Scratch.SetInMap "element" (string $id) . -}}{{- end -}}
+  {{- if in (path.Dir $path) $project -}}{{- $.context.Scratch.SetInMap "element" (string $id) . -}}{{- end -}}
 {{- end -}}
 {{- else -}}
 {{- $.context.Scratch.Set "element" ($section) -}}

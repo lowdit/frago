@@ -1,10 +1,15 @@
 {{/* Determine value of the audits context depends of his location */}}
 {{ $context      := .context }}
+{{ $pathFile := "" }}{{ with .File }}{{ $path = .Path }}{{ end }}
 {{ $data         := newScratch }}
+{{ $type         := cond (not .type) "accessibility" .type }}
 {{ $project      := .project }}
-{{ $path         := partialCached "render/filepath" (dict "project" $project "type" "accessibility") $project "accessibility" }}
-{{ $pathrgaa     := partialCached "render/filepath" (dict "project" $project "type" "rgaa") $project "rgaa" }}
-{{ $path         := cond (fileExists $pathrgaa) $pathrgaa $path }}
+{{ $path         := "/" }}
+{{ range (index (partialCached "utils/keyaudits" "keyaudits") $type) }}
+  {{ $result     := (partialCached "render/filepath" (dict "project" $project "type" .) $project .) }}
+  {{ $path       = cond (fileExists $result) $result $path }}
+{{ end }}
+
 {{ $data.Set "datecontext" "" }}
 {{ $projectname  := delimit (last 1 (split $project "/")) "" }}
 
@@ -44,7 +49,7 @@
 {{ end }}
 {{/* If context information doesn’t exist try to warn */}}
 {{ if not ($data.Get "context") }}
-  {{ warnf "Context is not declared for %s see the documentation" $context.File.Path }}
+  {{ warnf "Context is not declared for %s see the documentation" $path }}
 {{ else }}
   {{ if and ($data.Get "datecontext") (index ($data.Get "context") ($data.Get "datecontext")).declared }}
     {{/*  if (cond (not .Params.accessibility.contacts) ($context.Site.Params.contacts) (.Params.accessibility.contacts)) }}
@@ -61,8 +66,8 @@
     {{ end }}
   {{ else }}
     {{/* This line Should debug "audits/_index.md" path for list.xxxx.json output */}}
-    {{ if and (ne (printf "%s/%s" (path.Dir $context.File.Path) (path.Base $context.File.Path)) "audits/_index.md") (partialCached "render/issimpleproject.html" "arg" "arg") }}
-      {{ warnf "Context is not declared for %s see the documentation - it can be done in files content/audits/%s or content/audits/%s/accessibility/context.yml" (cond (not $projectname) (printf "this project") (printf "the project %s" $project)) $context.File.Path $project }}
+    {{ if and (ne (printf "%s/%s" (path.Dir $pathFile) (path.Base $pathFile)) "audits/_index.md") (partialCached "render/issimpleproject.html" "arg" "arg") }}
+      {{ warnf "Context is not declared for %s see the documentation - it can be done in files content/audits/%s or content/audits/%s/accessibility/context.yml" (cond (not $projectname) (printf "this project") (printf "the project %s" $project)) $path $project }}
     {{ end }}
   {{ end }}
 {{ end }}

@@ -1,7 +1,7 @@
 {{- define "main" -}}
 {{/* Vars */}}
 {{ $path := "" }}
-{{ with .File }}{{ $path = .Path }}{{ else }}{{ $path = .Path }}{{ end }}
+{{ with .File }}{{ $path = .Path }}{{ end }}
 {{- $patharray := split (path.Dir $path) "/" -}}
 {{- $project   :=  (partialCached "render/projectpath" . .) -}}
 {{/* Condition about structure level */}}
