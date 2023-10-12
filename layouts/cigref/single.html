@@ -1,90 +1,83 @@
 {{- define "main" -}}
-{{ $path := "" }}
-{{ with .File }}{{ $path = .Path }}{{ else }}{{ $path = .Path }}{{ end }}
-{{- $patharray := split (path.Dir $path) "/" -}}
-{{- $data      := newScratch -}}
-{{- partialCached "utils/css.html" (dict "context" . "filefolder" "base" "filename" "layout" "inline" "true") "layout" -}}
-{{- partialCached "utils/css.html" (dict "context" . "filefolder" "object" "filename" "card") "card" -}}
+  {{- $data      := newScratch -}}
+  {{- partialCached "utils/css.html" (dict "context" . "filefolder" "base" "filename" "layout" "inline" "true") "layout" -}}
+  {{- partialCached "utils/css.html" (dict "context" . "filefolder" "base" "filename" "main" "inline" "true") "main" -}}
+  {{- partialCached "utils/css.html" (dict "context" . "filefolder" "object" "filename" "card") "card" -}}
 
-{{- $.Scratch.Set "guidelinename" "cigref" -}}
-{{- $.Scratch.Set "guidelineversion" "1.0" -}}
-{{/*- if ge ($patharray) 2 -}}
-  {{- $.Scratch.Set "guideline" (index $patharray 0) -}}
-  {{- $.Scratch.Set "guidelinename" (index $patharray 0) -}}
-  {{- $.Scratch.Set "guidelineversion" (index $patharray 1) -}}
-{{- end -*/}}
-{{- $criteriafile := (index (index $.Site.Data ($.Scratch.Get "guidelinename")) ($.Scratch.Get "guidelineversion")).criteres -}}
+  {{/* Use the audit last version */}}
+  {{- $referential := (partialCached "render/referential-version.html" (dict "context" . "referential" "cigref") . ).guideline -}}
+  {{- $.Store.Set "file" (index (index $.Site.Data $referential.name) $referential.version) -}}
+  {{- $criteriafile   := ($.Store.Get "file").criteria.criteres -}}
 
-<article class="fg-wrapper narrow">
-<style>
-  ul, ol {
-    padding-left: 1rem;
-  }
-  .titre, .important, .important + p {
-    font-weight: bold;
-  }
-  .important, .important + * {
-    color: var(--color-primary);
-  }
-  .background {
-    background: #dedede;
-  }
-  .invert {
-    padding: 0.25em 0.4em 0.25em;
-    color: #fefefe;
-    background: #333;
-  }
-  .svgblue {
-    stroke: #00697a;
-    fill: transparent;
+  <article class="fg-wrapper narrow">
+  <style>
+    ul, ol {
+      padding-left: 1rem;
+    }
+    .titre, .important, .important + p {
+      font-weight: bold;
+    }
+    .important, .important + * {
+      color: var(--color-primary);
+    }
+    .background {
+      background: #dedede;
+    }
+    .invert {
+      padding: 0.25em 0.4em 0.25em;
+      color: #fefefe;
+      background: #333;
+    }
+    .svgblue {
+      stroke: #00697a;
+      fill: transparent;
 
-  }
-  .svgblue.empty {
-    stroke: #b8d6da;
-    fill: #b8d6da;
-  }
-  .svggreen {
-    fill: #80a13d;
-    stroke: #fff;
-    stroke-width: 0;
-  }
-  .svggreen.empty {
-    fill: transparent;
-    stroke: #80a13d;
-    stroke-width: 0.1px;
-  }
-</style>
-<h1>{{ (index (index $.Site.Data ($.Scratch.Get "guidelinename")) ($.Scratch.Get "guidelineversion")).title | safeHTML }}</h1>
+    }
+    .svgblue.empty {
+      stroke: #b8d6da;
+      fill: #b8d6da;
+    }
+    .svggreen {
+      fill: #80a13d;
+      stroke: #fff;
+      stroke-width: 0;
+    }
+    .svggreen.empty {
+      fill: transparent;
+      stroke: #80a13d;
+      stroke-width: 0.1px;
+    }
+  </style>
+  <h1>{{ (index (index $.Site.Data $referential.name) $referential.version).criteria.title | safeHTML }}</h1>
 
-{{ $data.Set "counterthematique" 0 }}
-{{ $data.Set "thematique" slice }}
-{{ $data.Set "subject" slice }}
-{{- range $key1, $value1 := $criteriafile -}}
-  {{ $data.Add "thematique" .topic }}
-{{- end -}}
+  {{ $data.Set "counterthematique" 0 }}
+  {{ $data.Set "thematique" slice }}
+  {{ $data.Set "subject" slice }}
+  {{- range $key1, $value1 := $criteriafile -}}
+    {{ $data.Add "thematique" .topic }}
+  {{- end -}}
 
-{{ partialCached "utils/css.html" (dict "context" . "filefolder" "element" "filename" "tableofcontents") "tableofcontents" }}
-<div class="tableofcontents">
-<h2>Table des matières</h2>
-  <ol class="list-unstyled">
-  {{- range $key, $value := uniq ($data.Get "thematique") }}
-    <li>{{ add $key 1 }} - <a href="#topic{{ add $key 1 }}">{{ . }}</a></li>
-  {{ end -}}
-  </ol>
-</div>
-
-
-{{- range $key, $value := uniq ($data.Get "thematique") }}
-    <h2 id="topic{{ add $key 1 | urlize }}" >{{ add $key 1 }} - {{ . }}</h2>
-    {{- range $key1, $value1 := where $criteriafile "topic" . -}}
-      <h3>{{ .id }} {{ add $key 1 | urlize }}.{{ add $key1 1 }} - {{ .criterium | markdownify }}</h3>
-      <p>
-        {{ with .issue }}<strong>Bonne pratique :</strong> {{ . | markdownify }}{{ end }}
-        {{ with .goals }}<br><strong>Objectifs :</strong> {{ . | markdownify }}{{ end }}
-        {{ with .source }}<br><strong>Source :</strong> {{ . | markdownify }}{{ end }}
-      </p>
+  {{ partialCached "utils/css.html" (dict "context" . "filefolder" "element" "filename" "tableofcontents") "tableofcontents" }}
+  <div class="tableofcontents">
+  <h2>Table des matières</h2>
+    <ol class="list-unstyled">
+    {{- range $key, $value := uniq ($data.Get "thematique") }}
+      <li>{{ add $key 1 }} - <a href="#topic{{ add $key 1 }}">{{ . }}</a></li>
     {{ end -}}
-{{ end -}}
+    </ol>
+  </div>
 
-</article>
+  {{- range $key, $value := uniq ($data.Get "thematique") }}
+      <h2 id="topic{{ add $key 1 | urlize }}" >{{ add $key 1 }} - {{ . }}</h2>
+      {{- range $key1, $value1 := where $criteriafile "topic" . -}}
+        <h3>{{ .id }} {{ add $key 1 | urlize }}.{{ add $key1 1 }} - {{ .criterium | markdownify }}</h3>
+        <p>
+          {{ with .issue }}<strong>Bonne pratique :</strong> {{ . | markdownify }}{{ end }}
+          {{ with .goals }}<br><strong>Objectifs :</strong> {{ . | markdownify }}{{ end }}
+          {{ with .source }}<br><strong>Source :</strong> {{ . | markdownify }}{{ end }}
+        </p>
+      {{ end -}}
+  {{ end -}}
+
+  </article>
 {{- end -}}

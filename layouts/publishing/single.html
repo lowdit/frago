@@ -1,16 +1,13 @@
 {{- define "main" -}}
 {{- $data      := newScratch -}}
 {{- partialCached "utils/css.html" (dict "context" . "filefolder" "base" "filename" "layout" "inline" "true") "layout" -}}
+{{- partialCached "utils/css.html" (dict "context" . "filefolder" "base" "filename" "main" "inline" "true") "main" -}}
 {{- partialCached "utils/css.html" (dict "context" . "filefolder" "object" "filename" "card") "card" -}}
 
-{{- $.Scratch.Set "guidelinename" "publishing" -}}
-{{- $.Scratch.Set "guidelineversion" "1.0" -}}
-{{/*- if ge ($patharray) 2 -}}
-  {{- $.Scratch.Set "guideline" (index $patharray 0) -}}
-  {{- $.Scratch.Set "guidelinename" (index $patharray 0) -}}
-  {{- $.Scratch.Set "guidelineversion" (index $patharray 1) -}}
-{{- end -*/}}
-{{- $criteriafile := (index (index $.Site.Data ($.Scratch.Get "guidelinename")) ($.Scratch.Get "guidelineversion")).criteres -}}
+{{/* Use the audit last version */}}
+{{- $referential := (partialCached "render/referential-version.html" (dict "context" . "referential" "publishing") . ).guideline -}}
+{{- $.Store.Set "file" (index (index $.Site.Data $referential.name) $referential.version) -}}
+{{- $criteriafile   := ($.Store.Get "file").criteria.criteres -}}
 
 <article class="fg-wrapper narrow">
 <style>
@@ -51,7 +48,7 @@
     stroke-width: 0.1px;
   }
 </style>
-<h1>{{ (index (index $.Site.Data ($.Scratch.Get "guidelinename")) ($.Scratch.Get "guidelineversion")).title | safeHTML }}</h1>
+<h1>{{ ($.Store.Get "file").criteria.title | safeHTML }}</h1>
 
 {{- $data.Set "counterthematique" 0 }}
 {{- $data.Set "thematique" slice }}
@@ -60,7 +57,7 @@
   {{ $data.Add "thematique" .topic }}
 {{- end -}}
 
-{{ partialCached "utils/css.html" (dict "context" . "filefolder" "element" "filename" "tableofcontents") "tableofcontents" }}
+{{- partialCached "utils/css.html" (dict "context" . "filefolder" "element" "filename" "tableofcontents") "tableofcontents" }}
 <div class="tableofcontents">
 <h2>Table des matières</h2>
   <ol class="list-unstyled">
@@ -69,7 +66,6 @@
   {{ end -}}
   </ol>
 </div>
-
 
 {{- range $key, $value := uniq ($data.Get "thematique") }}
     <h2 id="topic{{ add $key 1 | urlize }}" >{{ add $key 1 }} - {{ . }}</h2>
@@ -83,44 +79,44 @@
       <div class="flex flex-gap align-items-center text-center mb-1 card-background p-2" style="align-items: stretch ">
         <p>
           <span class="rank border-50">{{ .priority | urlize }}</span><br>
-          {{ range (seq (int .priority)) }}
+          {{- range (seq (int .priority)) }}
             <svg width="40px" role="img" class="svggreen" aria-label="priorité" viewBox="0 0 50 50">
               <use xlink:href="{{ $.Site.BaseURL }}assets/images/greenit/picto.svg#priorite" />
             </svg>
-          {{ end }}
-          {{ range (seq (sub 5 (int .priority))) }}
+          {{ end -}}
+          {{- range (seq (sub 5 (int .priority))) }}
             <svg width="40px" role="img" class="svggreen empty" aria-label="priorité" viewBox="0 0 50 50">
               <use xlink:href="{{ $.Site.BaseURL }}assets/images/greenit/picto.svg#priorite" />
             </svg>
-          {{ end }}
+          {{ end -}}
           <br><strong class="invert">Priorité</strong>
         </p>
         <p>
           <span class="rank border-50">{{ .mentality | urlize }}</span><br>
-          {{ range (seq (int .mentality)) }}
+          {{- range (seq (int .mentality)) }}
             <svg width="40px" role="img" class="svggreen" aria-label="priorité" viewBox="0 0 50 50">
               <use xlink:href="{{ $.Site.BaseURL }}assets/images/greenit/picto.svg#social" />
             </svg>
-          {{ end }}
-          {{ range (seq (sub 3 (int .mentality))) }}
+          {{ end -}}
+          {{- range (seq (sub 3 (int .mentality))) }}
             <svg width="40px" role="img" class="svggreen empty" aria-label="priorité" viewBox="0 0 50 50">
               <use xlink:href="{{ $.Site.BaseURL }}assets/images/greenit/picto.svg#social" />
             </svg>
-          {{ end }}
+          {{ end -}}
           <br><strong class="invert">Réduction surchage mentale</strong>
         </p>
         <p>
           <span class="rank border-50">{{ .difficulty | urlize }}</span><br>
-          {{ range (seq (int .difficulty)) }}
+          {{- range (seq (int .difficulty)) }}
             <svg width="40px" role="img" class="svggreen" aria-label="priorité" viewBox="0 0 50 50">
               <use xlink:href="{{ $.Site.BaseURL }}assets/images/greenit/picto.svg#difficulte" />
             </svg>
-          {{ end }}
-          {{ range (seq (sub 3 (int .difficulty))) }}
+          {{ end -}}
+          {{- range (seq (sub 3 (int .difficulty))) }}
             <svg width="40px" role="img" class="svggreen empty" aria-label="priorité" viewBox="0 0 50 50">
               <use xlink:href="{{ $.Site.BaseURL }}assets/images/greenit/picto.svg#difficulte" />
             </svg>
-          {{ end }}
+          {{ end -}}
           <br><strong class="invert">Difficulté mise en œuvre</strong>
         </p>
       </div>
