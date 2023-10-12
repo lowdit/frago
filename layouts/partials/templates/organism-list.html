@@ -62,6 +62,17 @@
                 {{- else -}}
                   Aucun Audit RGESN existant
                 {{- end -}}
+                {{- (partialCached "components/scores/aggregate-small.html" (dict "value" (($.Store.Get "aggregates").ecoconception) "type" "RGESN") "RGESN" ) -}}
+              </span>
+            </li>
+            <li class="enlarge-link card-inline card-shadow">
+              <h2 class="h3">
+                <a class="link-text" href="/organism/opquast.html">
+                  60 règles Opquast <small>Validité</small>
+                </a>
+              </h2>
+              <span class="flex flex-gap align-items-center text-center lh-1 mr-2">
+                {{- (partialCached "components/scores/aggregate-small.html" (dict "value" (($.Store.Get "aggregates").opquast) "type" "Opquast") "Opquast" ) -}}
               </span>
             </li>
             <li class="enlarge-link card-inline card-shadow">

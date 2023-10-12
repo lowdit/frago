@@ -15,6 +15,8 @@
         Écoconception
       {{- else if eq .Format.BaseName "greenit" -}}
         GreenIT - 74 bonnes pratiques
+      {{- else if eq .Format.BaseName "opquast" -}}
+        OPQUAST - 60 règles d’impact pour l’assurance qualité
       {{- else if eq .Format.BaseName "cigref" -}}
         CIGREF -  critères RSE
       {{- else if eq .Format.BaseName "publishing" -}}
@@ -55,6 +57,8 @@
           Écoconception
         {{- else if eq .Format.BaseName "greenit" -}}
           GreenIT - 74 bonnes pratiques
+        {{- else if eq .Format.BaseName "Opquast" -}}
+          OPQUAST - 60 règles d’impact pour l’assurance qualité
         {{- else if eq .Format.BaseName "cigref" -}}
           CIGREF -  critères RSE
         {{- else if eq .Format.BaseName "publishing" -}}
@@ -75,7 +79,7 @@
   {{- else -}}
     Synthèse
   {{- end -}}
-  {{ with $projectTitle }} de {{ $projectTitle }}{{ else }}{{ (index (split (path.Dir .File.Path) "/") 1) }}{{ end }}
+  {{ with $projectTitle }} de {{ $projectTitle }}{{ else }}{{ (index (split (path.Dir $path) "/") 1) }}{{ end }}
 {{- end -}}
 
 {{- define "main" -}}
@@ -96,11 +100,8 @@
         {{- else if or (eq .Format.BaseName "ecoconception") -}}
           {{- $partial := (partialCached "templates/ecoconception.html" (dict "context" $context) $context) -}}
           {{- partialCached "elements/content.html" $partial $partial -}}
-        {{- else if or (eq .Format.BaseName "greenit") -}}
-          {{- $partial := (partialCached "templates/greenit.html" (dict "context" $context) $context) -}}
-          {{- partialCached "elements/content.html" $partial $partial -}}
-        {{- else if eq .Format.BaseName "cigref" -}}
-          {{- $partial := (partialCached "templates/cigref.html" (dict "context" $context) $context) -}}
+        {{- else if eq .Format.BaseName "Opquast" -}}
+          {{- $partial := (partialCached "templates/opquast.html" (dict "context" $context) $context) -}}
           {{- partialCached "elements/content.html" $partial $partial -}}
         {{- else if eq .Format.BaseName "publishing" -}}
           {{- $partial := (partialCached "templates/publishing.html" (dict "context" $context) $context) -}}
