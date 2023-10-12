@@ -20,14 +20,15 @@
     {{- $.Scratch.Set "publishing-lastfile"     (partialCached "render/lastfile.html" (dict "context" . "project" $project "type" "publishing" "datafilename" .Params.datafilename) $project "publishing" .Params.datafilename) -}}
     {{- $.Scratch.Set "publishing-path"         (index ($.Scratch.Get "publishing-lastfile") "auditfile-path")     -}}
 
-    {{- $.Scratch.Set "greenit-lastfile"  (partialCached "render/lastfile.html" (dict "context" . "project" $project "type" "greenit" "datafilename" .Params.datafilename) $project "greenit" .Params.datafilename) -}}
-    {{- $.Scratch.Set "greenit-path"      (index ($.Scratch.Get "greenit-lastfile") "auditfile-path")     -}}
+    {{- $.Scratch.Set "greenit-lastfile"        (partialCached "render/lastfile.html" (dict "context" . "project" $project "type" "greenit" "datafilename" .Params.datafilename) $project "greenit" .Params.datafilename) -}}
+    {{- $.Scratch.Set "greenit-path"            (index ($.Scratch.Get "greenit-lastfile") "auditfile-path")     -}}
 
     {{- $accessibility  := fileExists (index (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "accessibility")  $project "accessibility") "auditfile-path") -}}
     {{- $ecoconception  := fileExists (index (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "ecoconception")  $project "rgesn") "auditfile-path") -}}
-    {{- $publishing     := fileExists (index (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "publishing")  $project "rgesn") "auditfile-path") -}}
     {{- $opquast        := fileExists (index (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "opquast")        $project "opquast") "auditfile-path") -}}
+    {{- $publishing     := fileExists (index (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "publishing")     $project "publishing") "auditfile-path") -}}
     {{- $greenit        := false }}
+
     {{/*- $greenit        := fileExists (index (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "greenit")        $project "greenit") "auditfile-path") -*/}}
     {{- $recommendation := fileExists (index (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "recommendation") $project "recommendation") "auditfile-path") -}}
     {{- $lighthouse     := fileExists (index (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "lighthouse")     $project "lighthouse") "auditfile-path") -}}
@@ -284,7 +285,7 @@
           <h3 class="m-0">
             Recommandations
             <small> -
-              <a href="{{ .Site.BaseURL | default "/" }}{{ printf "%s/quality.html" (path.Dir .File.Path) }}" aria-label="Accéder au rapport de recommandations">Accéder au rapport</a>
+              <a href="{{ .Site.BaseURL | default "/" }}{{ printf "%s/quality.html" (path.Dir $path) }}" aria-label="Accéder au rapport de recommandations">Accéder au rapport</a>
             </small>
           </h3>
           <br>

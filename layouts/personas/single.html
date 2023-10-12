@@ -6,14 +6,14 @@
 {{- $project   :=  (partialCached "render/projectpath" . .) -}}
 {{/* Condition about structure level */}}
 {{- $filepath      := (partialCached "render/filepath" (dict "context" . "project" $project "type" "personas.json") $project "personas.json") -}}
-{{- $.Scratch.Set "auditfile" (getJSON $filepath) -}}
+{{- $.Store.Set "auditfile" (getJSON $filepath) -}}
 <div class="fg-wrapper">
 <p class="no-print" hidden>← <a href="{{ $.Site.BaseURL | default "/" }}projects/{{ $project }}/" class="link-more link-back">Retour à la page {{ $project }}</a></p>
 <h1 class="text-center">{{ .Title }} <small>{{ if .Params.tags }}{{ range .Params.tags }}pour <a href="{{ $.Site.BaseURL | default "/" }}tags/{{ . }}">{{ . }}</a>{{ end }}{{ end }}</small></h1>
 {{/* List the data for this files with range personas files on the project */}}
-{{- range where ($.Scratch.Get "auditfile") "name" "eq" .Title -}}
-  {{ $name := .name | urlize }}
-  {{ if (fileExists "/static/images/personas") }}
+{{- range where ($.Store.Get "auditfile") "name" "eq" .Title -}}
+  {{- $name := .name | urlize }}
+  {{- if (fileExists "/static/images/personas") }}
   {{- range (readDir "/static/images/personas") -}}
     {{ if eq $name (replace .Name ".png" "") }}<figure class="rounded"><img class="full" src="{{ $.Site.BaseURL | default "/" }}images/personas/{{ .Name }}"></figure>{{ end }}
   {{- end -}}
@@ -63,7 +63,7 @@
 {{- end -}}
 <hr class="divider">
 <div class="text-center">
-  {{- range where ($.Scratch.Get "auditfile") "name" "eq" .Title -}}
+  {{- range where ($.Store.Get "auditfile") "name" "eq" .Title -}}
     {{ with .parcours }}<h2>Parcours</h2>{{ end }}
     {{ partialCached "components/parcours/template.html" (dict "context" . "pages" $ "project" $project) }}
   {{- end -}}

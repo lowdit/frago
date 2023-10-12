@@ -14,6 +14,7 @@
     {{ $data.Set "rootpath" (cond (fileExists (printf "content/audits/%s/%s/" $project $value)) "content/audits" (cond (fileExists (printf "content/audits/%s/" $value)) "content/audits" ($data.Get "rootpath"))) }}
   {{ end }}
 {{ end }}
+
 {{/* if eq (getenv "HUGO_ENV") "dev" -}}
 {{ warnf "RootPath for project %s is: %s" .project $rootpath  }}
 {{ end */}}

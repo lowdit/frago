@@ -309,11 +309,11 @@
     {{ end }}
     {{/* END calculate compliance */}}
 
-    {{ $data.Set (printf "%s%s" $scorekey "critC")  (cond (not ($data.Get (printf "%s%s" $scorekey "critC"))) slice ($data.Get (printf "%s%s" $scorekey "critC"))) }}
-    {{ $data.Set (printf "%s%s" $scorekey "critNC") (cond (not ($data.Get (printf "%s%s" $scorekey "critNC"))) slice ($data.Get (printf "%s%s" $scorekey "critNC"))) }}
-    {{ $data.Set (printf "%s%s" $scorekey "critNA") (cond (not ($data.Get (printf "%s%s" $scorekey "critNA"))) slice ($data.Get (printf "%s%s" $scorekey "critNA"))) }}
-    {{ $data.Set (printf "%s%s" $scorekey "critNAtest") (cond (not ($data.Get (printf "%s%s" $scorekey "critNA"))) (dict "0" "false") ($data.Get (printf "%s%s" $scorekey "critNA"))) }}
-    {{ $data.Set (printf "%s%s" $scorekey "critNT") (cond (not ($data.Get (printf "%s%s" $scorekey "critNT"))) slice ($data.Get (printf "%s%s" $scorekey "critNT"))) }}
+    {{ $data.Set (printf "%s%s" $scorekey "critC")       (cond (not ($data.Get (printf "%s%s" $scorekey "critC")))  slice ($data.Get (printf "%s%s" $scorekey "critC"))) }}
+    {{ $data.Set (printf "%s%s" $scorekey "critNC")      (cond (not ($data.Get (printf "%s%s" $scorekey "critNC"))) slice ($data.Get (printf "%s%s" $scorekey "critNC"))) }}
+    {{ $data.Set (printf "%s%s" $scorekey "critNA")      (cond (not ($data.Get (printf "%s%s" $scorekey "critNA"))) slice ($data.Get (printf "%s%s" $scorekey "critNA"))) }}
+    {{ $data.Set (printf "%s%s" $scorekey "critNAtest")  (cond (not ($data.Get (printf "%s%s" $scorekey "critNA"))) (dict "0" "false") ($data.Get (printf "%s%s" $scorekey "critNA"))) }}
+    {{ $data.Set (printf "%s%s" $scorekey "critNT")      (cond (not ($data.Get (printf "%s%s" $scorekey "critNT"))) slice ($data.Get (printf "%s%s" $scorekey "critNT"))) }}
 
     {{ $data.Set "total"                                 (cond (not ($data.Get "critCount")) 0 (add (len ($data.Get "critCount")) (len (cond (not ($data.Get (printf "%s%s" $scorekey "critNA"))) slice ($data.Get (printf "%s%s" $scorekey "critNA")))))) }}
 
