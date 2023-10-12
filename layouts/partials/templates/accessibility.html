@@ -64,7 +64,8 @@
     {{/* END Determine the version of the audit form the context declaration */}}
 
     {{/* Load the criteria file for the good audit version */}}
-    {{- $data.Set "criteriafile" (index (index $.context.Site.Data ($data.Get "guidelinename")) ($data.Get "guidelineversion")).criteria.topics -}}
+    {{- $referential := (partialCached "render/referential-version.html" (dict "context" $context "referential" "rgaa") $context ).guideline -}}
+    {{- $data.Set "criteriafile" (index (index $.context.Site.Data $referential.name) (string $referential.version)).criteria.topics -}}
 
     {{/* Load the glossary file for the good audit version */}}
     {{- $data.Set "glossaire" (printf "=\"%s%s%s/glossaire/#" (site.BaseURL | default "/") ($data.Get "guidelinename") ($data.Get "guidelineversion")) -}}
