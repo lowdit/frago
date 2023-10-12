@@ -43,14 +43,17 @@
     {{- $data.Set "guidelinename" "rgaa" -}}
     {{- $data.Set "guidelineversion" $context.Site.Params.rgaa.version -}}
     {{- $data.Set "context" (partialCached "render/context.html" (dict "context" $context "project" $project) $project) -}}
+    {{ ($data.Get "context") }}
     {{- with ($data.Get "context") -}}
-    {{- with (index ($data.Get "audits") "auditfile-name") -}}
-    {{- with (index ($data.Get "context") .) -}}
-      {{- with .audit -}}
-        {{- with .guidelines -}}
-          {{- $guideline := (replace (. | urlize) "-" "") -}}
-          {{- $data.Set "guidelinename"    (cond (in $guideline "rgaa") "rgaa" (cond (in $guideline "wcag") "wcag" "none")) -}}
-          {{- $data.Set "guidelineversion" (replace $guideline ($data.Get "guidelinename") "") -}}
+      {{- with (index ($data.Get "audits") "auditfile-name") -}}
+        {{- with (index ($data.Get "context") .) -}}
+          {{- with .audit -}}
+            {{- with .guidelines -}}
+              {{- $guideline := (replace (. | urlize) "-" "") -}}
+              {{- $data.Set "guidelinename"    (cond (in $guideline "rgaa") "rgaa" (cond (in $guideline "wcag") "wcag" "none")) -}}
+              {{- $data.Set "guidelineversion" (replace $guideline ($data.Get "guidelinename") "") -}}
+            {{- end -}}
+          {{- end -}}
         {{- end -}}
       {{- else -}}
         {{- if ne (path.Dir $path) "audits/_index.md" -}}
