@@ -11,7 +11,6 @@
   {{ $auditfilecsv        := (getCSV "," .auditfile) }}
   {{ $data.Set "date" (replace (path.Base .auditfile) (path.Ext .auditfile) "") }}
 
-
   {{ range $key1, $value1 := after 1 $auditfilecsv }}
     {{ range $id, $value2 := after 2 . }}
       {{ $value2 := lower (index (split . "|") 0) }}

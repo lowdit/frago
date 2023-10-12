@@ -21,13 +21,13 @@
   {{ $datalastfile.Set "pathdata" ((replace ($path) (printf "%s/" .type) (printf "%s" .type))) }}
 {{ end }}
 
-{{/* In case of accessibility type - the folder name can be RGAA */}}
+{{/* In case of accessibility type - the folder name can be named "RGAA" */}}
 {{ if (eq "accessibility" .type) }}
   {{ $pathrgaa := partialCached "render/filepath" (dict "context" $context "project" $project "type" "rgaa") $project "rgaa" }}
   {{ $datalastfile.Set "pathdata" (cond (eq "accessibility" .type) (cond (fileExists $pathrgaa) $pathrgaa ($datalastfile.Get "pathdata")) ($datalastfile.Get "pathdata")) }}
 {{ end }}
 
-{{/* In case of accessibility type - the folder name can be recommendation */}}
+{{/* In case of recommendations type - the folder name can be "recommendation" */}}
 {{ if (eq $condrecommendationjson .type) }}
   {{ $pathtemp := partialCached "render/filepath" (dict "context" $context "project" $project "type" "recommendation") $project "recommendation" }}
   {{ $context.Scratch.Set "pathdata" (cond (eq $condrecommendationjson .type) (cond (fileExists $pathtemp) $pathtemp ($context.Scratch.Get "pathdata")) ($context.Scratch.Get "pathdata")) }}

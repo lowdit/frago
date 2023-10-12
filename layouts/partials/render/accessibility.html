@@ -265,10 +265,11 @@
   {{- end -}}
 
   {{/* END Range array with test result par pages */}}
+
     {{/* START count total number of criteria tested */}}
     {{ $data.Set "critCount" ($data.Get (printf "%s%s" $scorekey "critC")) }}
     {{ with ($data.Get (printf "%s%s" $scorekey "critNC")) }}
-      {{ $data.Set "critCount" (merge ($data.Get (printf "%s%s" $scorekey "critC")) .)  }}
+      {{ $data.Set "critCount" (merge ($data.Get (printf "%s%s" $scorekey "critC")) .) }}
     {{ end }}
 
 

@@ -39,11 +39,11 @@
 {{- else -}}
   Synthèse
 {{- end -}}
-{{ with $projectTitle }} de {{ $projectTitle }} {{ else }}{{ (index (split (path.Dir .File.Path) "/") 1) }}{{- end -}}
+{{ with $projectTitle }} de {{ $projectTitle }} {{ else }}{{ (index (split (path.Dir $path) "/") 1) }}{{- end -}}
 
 {{ return
   (dict
-    "title"      (cond (ne $projectTitle "") $projectTitle (index (split (path.Dir .File.Path) "/") 1))
+    "title"      (cond (ne $projectTitle "") $projectTitle (index (split (path.Dir $path) "/") 1))
     "pretitle"   ($.Scratch.Get "pretitle")
     "pagetitle"  ($pageTitle)
     "audit"      ($.Scratch.Get "audit")

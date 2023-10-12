@@ -1,6 +1,6 @@
 {{- $.Scratch.Delete "allscores" -}}
 {{- $.Scratch.Delete "projectfolders" -}}
-{{- $.Scratch.Set "rangepages" (where .Site.Pages "Section" "audits") -}}
+{{- $.Scratch.Set    "rangepages" (where .Site.Pages "Section" "audits") -}}
 {{- if ($.Scratch.Get "rangepages") -}}
   <section class="section text-center">
     <div class="fg-wrapper">

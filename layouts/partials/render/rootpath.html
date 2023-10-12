@@ -3,7 +3,7 @@
 {{ $data      := newScratch }}
 {{/* Default rootpath is static folder */}}
 {{ $data.Set  "rootpath" "static" }}
-{{ $loop      := (partialCached "utils/keyaudits" "keyaudits" ) }}
+{{ $loop      := (partialCached "utils/keyaudits" "keyaudits") }}
 
 {{ if or (eq "greenit" .type) (eq "cigref" .type)  }}
   {{ range $key, $value := index $loop .type }}
