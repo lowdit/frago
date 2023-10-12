@@ -70,7 +70,7 @@
   {{- if $project -}}
   <p>← <a href="{{ site.BaseURL | default "/" }}{{- with $project -}}{{ printf "audits/%s/" (urlize .) }}{{- end -}}" class="link-more link-back" aria-label="Retour à la page {{ ($context.GetPage $project).Title }}">Retour à la page projet</a></p>
   {{- end -}}
-  <h1>Recommandations {{ with $projectTitle }}<small> pour {{ partialCached "utils/isURL.html" (dict "context" $context "projectTitle" $projectTitle) $projectTitle }}</small>{{ end }}</h1>
+  <h1 class="lh-0">Recommandations {{ with $projectTitle }}<small> pour {{ partialCached "utils/isURL.html" (dict "context" $context "projectTitle" $projectTitle) $projectTitle }}</small>{{ end }}</h1>
   {{/* START Display page note if exists */}}
     {{- with .context.Params.note -}}
     <div class="note">
@@ -310,7 +310,7 @@
             {{- else if (in .criterion "Pi") }}
               {{- $criterionpi := (index (where (index $.context.Site.Data.pidila "1.0").criteria.criterias "id" (replace .criterion "." "-")) 0) -}}
               <dt id="{{ .name | urlize }}">{{ if .checked }}☒ {{ else }}☐ {{ end }}{{ .name }}
-              {{- with (index (where ($.context.Site.Data.pidila).criteria "id" .criterion) 0).description }}<dd>{{ . }}</dd>{{- end -}}
+              {{- with (index (where (index $.context.Site.Data.pidila "1.0").criteria.criterias "id" .criterion) 0).description }}<dd>{{ . }}</dd>{{- end -}}
               {{- if .description }}
                 <dd>{{ .description | markdownify | safeHTML }}</dd>
               {{ end -}}
