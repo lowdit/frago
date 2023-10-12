@@ -3,6 +3,7 @@
 {{ $data          := newScratch }}
 {{ $time          := now.UnixMilli }}
 {{ $timepartial   := now.UnixMilli }}
+{{ $reflist       := (slice "accessibility" "ecoconception" "opquast" "publishing") }}
 {{- if (eq (getenv "HUGO_ENV") "debugperf") -}}
   {{ $data.Set "debugperf" slice }}
 {{- end -}}
@@ -16,6 +17,10 @@
 {{- $data.Set "aggregate-ecoconception-nc" slice }}
 {{- $data.Set "aggregate-ecoconception-c" slice }}
 {{- $data.Set "aggregate-ecoconception-sum" 0 }}
+{{- $data.Set "aggregate-opquast-list" slice }}
+{{- $data.Set "aggregate-opquast-nc" slice }}
+{{- $data.Set "aggregate-opquast-c" slice }}
+{{- $data.Set "aggregate-opquast-sum" 0 }}
 {{- $data.Set "aggregate-publishing-list" slice }}
 {{- $data.Set "aggregate-publishing-nc" slice }}
 {{- $data.Set "aggregate-publishing-c" slice }}
@@ -24,56 +29,53 @@
 {{- $data.Set "aggregate-performance-sum" 0 }}
 {{- range sort .pages ".Title" "desc" -}}
   {{- $project := partialCached "render/projectpath" . . -}}
+  {{- if ne $project "" -}}
   {{- $context := . -}}
   {{- $path := "" }}{{ with .File }}{{ $path = .Path }}{{ end }}
   {{- if and (in (path.Base $path) "index.md") (not (in "audits/_index.md" $path)) (ne (len (split $path "/")) 4) -}}
 
-    {{ with (index (partialCached "render/lastfile.html" (dict "context" . "project" $project "type" "accessibility") $project "accessibility") "auditfile-all-path") }}
-    {{- range $id, $value := last 1 (sort .) -}}
-      {{- $data.SetInMap $project (string $id) (partialCached "render/accessibility.html" (dict "context" "aggregetesscores" "auditfile" . ) .).scores -}}
-      {{ $score := (partialCached "render/accessibility.html" (dict "context" "aggregetesscores" "auditfile" . ) .).scores.compliance }}
-      {{- $data.Add "aggregate-accessibility-list" $score -}}
-      {{- $data.Add "aggregate-accessibility-sum" $score -}}
-      {{- if lt $score 50 -}}
-        {{- $data.Add "aggregate-accessibility-nc" $score -}}
-      {{- end -}}
-      {{- if eq $score 100 -}}
-        {{- $data.Add "aggregate-accessibility-c" $score -}}
-      {{- end -}}
-    {{- end -}}
-    {{- end -}}
+    {{ range $reflist }}
+      {{ $type    := . }}
+      {{ with (index (partialCached "render/lastfile.html" (dict "context" . "project" $project "type" $type) $project .) "auditfile-all-path") }}
+        {{- range $id, $value := last 1 (sort .) -}}
+          {{- $render := (partialCached (printf "render/%s.html" $type) (dict "context" "aggregetesscores" "auditfile" . ) .) }}
+          {{- $data.SetInMap $project $type $render -}}
 
-    {{ with (index (partialCached "render/lastfile.html" (dict "context" . "project" $project "type" "ecoconception") $project "ecoconception") "auditfile-all-path") }}
-    {{- range $id, $value := last 1 (sort .) -}}
-      {{ $score := (partialCached "render/ecoconception.html" (dict "context" $context "auditfile" .) $context .).scores.compliance }}
-      {{- $data.Add "aggregate-ecoconception-list" $score -}}
-      {{- $data.Add "aggregate-ecoconception-sum" $score -}}
-      {{- if lt $score 50 -}}
-        {{- $data.Add "aggregate-ecoconception-nc" $score -}}
-      {{- end -}}
-      {{- if eq $score 100 -}}
-        {{- $data.Add "aggregate-ecoconception-c" $score -}}
-      {{- end -}}
-    {{- end -}}
-    {{- end -}}
+          {{/* Count the sum for each criteria for each value */}}
+          {{ range $id, $value := $render.criteria.conforme }}
 
-    {{ with (index (partialCached "render/lastfile.html" (dict "context" . "project" $project "type" "publishing") $project "publishing") "auditfile-all-path") }}
-    {{- range $id, $value := last 1 (sort .) -}}
-      {{ $score := (partialCached "render/ecoconception.html" (dict "context" $context "auditfile" .) $context .).scores.compliance }}
-      {{- $data.Add "aggregate-publishing-list" $score -}}
-      {{- $data.Add "aggregate-publishing-sum" $score -}}
-      {{- if lt $score 50 -}}
-        {{- $data.Add "aggregate-publishing-nc" $score -}}
-      {{- end -}}
-      {{- if eq $score 100 -}}
-        {{- $data.Add "aggregate-publishing-c" $score -}}
-      {{- end -}}
-    {{- end -}}
-    {{- end -}}
+            {{- $data.Add (printf "%s%s-c" $id $type) 1 -}}
+            {{- $data.SetInMap (printf "average-%s-conforme" $type) (string $id) ($data.Get (printf "%s%s-c" $id $type)) -}}
+
+          {{ end }}
+          {{ range $id, $value := $render.criteria.nonconforme }}
+            {{- $data.Add (printf "%s%s-nc" $id $type) 1 -}}
+            {{- $data.SetInMap (printf "average-%s-nonconforme" $type) (string $id) ($data.Get (printf "%s%s-nc" $id $type)) -}}
+          {{ end }}
+          {{ range $id, $value := $render.criteria.nonapplicable }}
+            {{- $data.Add (printf "%s%s-na" $id $type) 1 -}}
+            {{- $data.SetInMap (printf "average-%s-nonapplicable" $type) (string $id) ($data.Get (printf "%s%s-na" $id $type)) -}}
+          {{ end }}
+
+          {{- $score := $render.scores.compliance }}
+
+          {{- $data.Add (printf "aggregate-%s-list" $type) $score -}}
+          {{- $data.Add (printf "aggregate-%s-sum" $type) $score -}}
+          {{- if lt $score 50 -}}
+            {{- $data.Add (printf "aggregate-%s-nc" $type) $score -}}
+          {{- end -}}
+          {{- if eq $score 100 -}}
+            {{- $data.Add (printf "aggregate-%s-c" $type) $score -}}
+          {{- end -}}
+        {{- end -}}
+      {{ end }}
+  {{ end }}
 
     {{- with (index (partialCached "render/lastfile.html" (dict "context" . "project" $project "type" "performance") $project "performance") "auditfile-all-path") }}
     {{- range $id, $value := last 1 (sort .) -}}
-      {{ $score := (partialCached "render/performance.html" (dict "context" $context "auditfile" .) $context .).ecoscore }}
+      {{- $render := (partialCached "render/performance.html" (dict "context" "aggregetesscores" "auditfile" . ) .) -}}
+      {{- $data.SetInMap $project "performance" $render -}}
+      {{ $score := $render.ecoscore }}
       {{- $data.Add "aggregate-performance-list" $score -}}
       {{- $data.Add "aggregate-performance-sum" $score -}}
     {{- end -}}
@@ -86,34 +88,29 @@
 
   {{- end -}}
   {{- $data.SetInMap "allscores" $project           ($data.Get $project) -}}
+  {{- end -}}
 {{- end -}}
 
-{{- $data.SetInMap "aggregateaccessibility" "all"                ($data.Get "aggregate-accessibility-list") -}}
-{{- $data.SetInMap "aggregateaccessibility" "invalid"            ($data.Get "aggregate-accessibility-nc") -}}
-{{- $data.SetInMap "aggregateaccessibility" "valid"              ($data.Get "aggregate-accessibility-c") -}}
-{{- $data.SetInMap "aggregateaccessibility" "sum"                ($data.Get "aggregate-accessibility-sum") -}}
-{{- $data.SetInMap "aggregateaccessibility" "average"            (div ($data.Get "aggregate-accessibility-sum") (len ($data.Get "aggregate-accessibility-list"))) -}}
-{{- $data.SetInMap "aggregateaccessibility" "average"            slice -}}
-{{ with ($data.Get "aggregate-accessibility-list") }}
-  {{- $data.SetInMap "aggregateaccessibility" "average"          (div ($data.Get "aggregate-accessibility-sum") (len .)) -}}
-{{ end }}
+{{ range $reflist }}
+  {{ $type := . }}
+  {{- $data.SetInMap (printf "aggregate%s" .) "all"                ($data.Get (printf "aggregate-%s-list" .)) -}}
+  {{- $data.SetInMap (printf "aggregate%s" .) "invalid"            ($data.Get (printf "aggregate-%s-nc" .)) -}}
+  {{- $data.SetInMap (printf "aggregate%s" .) "valid"              ($data.Get (printf "aggregate-%s-c" .)) -}}
+  {{- $data.SetInMap (printf "aggregate%s" .) "sum"                ($data.Get (printf "aggregate-%s-sum" .)) -}}
+  {{- $data.SetInMap (printf "aggregate%s" .) "average"            slice -}}
+  {{ with ($data.Get (printf "aggregate-%s-list" .)) }}
+    {{- $data.SetInMap (printf "aggregate%s" $type) "average"          (div ($data.Get (printf "aggregate-%s-sum" $type)) (len .)) -}}
+  {{ end }}
+  {{ if and ($data.Get (printf "average-%s-conforme" $type)) ($data.Get (printf "average-%s-nonconforme" $type)) }}
 
-{{- $data.SetInMap "aggregateecoconception" "all"                ($data.Get "aggregate-ecoconception-list") -}}
-{{- $data.SetInMap "aggregateecoconception" "invalid"            ($data.Get "aggregate-ecoconception-nc") -}}
-{{- $data.SetInMap "aggregateecoconception" "valid"              ($data.Get "aggregate-ecoconception-c") -}}
-{{- $data.SetInMap "aggregateecoconception" "sum"                ($data.Get "aggregate-ecoconception-sum") -}}
-{{- $data.SetInMap "aggregateecoconception" "average"            slice -}}
-{{ with ($data.Get "aggregate-ecoconception-list") }}
-  {{- $data.SetInMap "aggregateecoconception" "average"            (div ($data.Get "aggregate-ecoconception-sum") (len .)) -}}
-{{ end }}
-
-{{- $data.SetInMap "aggregatepublishing" "all"                    ($data.Get "aggregate-publishing-list") -}}
-{{- $data.SetInMap "aggregatepublishing" "invalid"                ($data.Get "aggregate-publishing-nc") -}}
-{{- $data.SetInMap "aggregatepublishing" "valid"                  ($data.Get "aggregate-publishing-c") -}}
-{{- $data.SetInMap "aggregatepublishing" "sum"                    ($data.Get "aggregate-publishing-sum") -}}
-{{- $data.SetInMap "aggregatepublishing" "average"                slice -}}
-{{ with ($data.Get "aggregate-publishing-list") }}
-  {{- $data.SetInMap "aggregatepublishing" "average"              (div ($data.Get "aggregate-publishing-sum") (len .)) -}}
+    {{- $data.SetInMap "average" $type   (dict
+        "conforme"            ($data.Get (printf "average-%s-conforme" $type))
+        "nonconforme"         ($data.Get (printf "average-%s-nonconforme" $type))
+        "nonapplicable"       ($data.Get (printf "average-%s-nonapplicable" $type))
+        "all"                 (merge (merge ($data.Get (printf "average-%s-conforme" $type)) ($data.Get (printf "average-%s-nonconforme" $type))) ($data.Get (printf "average-%s-nonapplicable" $type)))
+      )
+    -}}
+  {{ end }}
 {{ end }}
 
 {{- $data.SetInMap "aggregateperformance" "all"                  ($data.Get "aggregate-performance-list") -}}
@@ -125,9 +122,11 @@
 
 {{- $data.SetInMap "aggregates" "accessibility"                  ($data.Get "aggregateaccessibility") -}}
 {{- $data.SetInMap "aggregates" "ecoconception"                  ($data.Get "aggregateecoconception") -}}
+{{- $data.SetInMap "aggregates" "opquast"                        ($data.Get "aggregateopquast") -}}
 {{- $data.SetInMap "aggregates" "publishing"                     ($data.Get "aggregatepublishing") -}}
 {{- $data.SetInMap "aggregates" "performance"                    ($data.Get "aggregateperformance") -}}
 {{- $data.SetInMap "aggregates" "allscores"                      ($data.Get "allscores") -}}
+{{- $data.SetInMap "aggregates" "allaverage"                     ($data.Get "average") -}}
 
 {{ return ($data.Get "aggregates") }}
 

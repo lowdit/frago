@@ -1,0 +1,53 @@
+{{ $context := .context }}
+{{ $project := .project }}
+{{ $type    := .type }}
+
+{{- $context.Store.Set (printf "aggregate-%s-list" $type) slice }}
+{{- $context.Store.Set (printf "aggregate-%s-nc" $type) slice }}
+{{- $context.Store.Set (printf "aggregate-%s-c" $type) slice }}
+{{- $context.Store.Set (printf "aggregate-%s-sum" $type) 0 }}
+
+{{- range $id, $value := last 1 (sort $context) -}}
+  {{- $render := (partialCached (printf "render/%s.html" $type) (dict "context" "aggregetesscores" "auditfile" . ) .) }}
+  {{- $context.Store.SetInMap $project $type $render -}}
+
+  {{/* Count the sum for each criteria for each value */}}
+  {{ range $id, $value := $render.criteria.conforme }}
+    {{- $context.Store.Add (printf "%s-%s-c" $id $type) 1 -}}
+    {{- $context.Store.SetInMap (printf "average%s-conforme" $type) (string $id) ($context.Store.Get (printf "%s%s-c" $id $type)) -}}
+  {{ end }}
+  {{ range $id, $value := $render.criteria.nonconforme }}
+    {{- $context.Store.Add (printf "%s%s-nc" $id $type) 1 -}}
+    {{- $context.Store.SetInMap (printf "average%s-nonconforme" $type) (string $id) ($context.Store.Get (printf "%s%s-nc" $id $type)) -}}
+  {{ end }}
+  {{ range $id, $value := $render.criteria.nonapplicable }}
+    {{- $context.Store.Add (printf "%s%s-na" $id $type) 1 -}}
+    {{- $context.Store.SetInMap (printf "average%s-nonapplicable" $type) (string $id) ($context.Store.Get (printf "%s%s-na" $id $type)) -}}
+  {{ end }}
+
+  {{- $score := $render.scores.compliance }}
+
+  {{- $context.Store.Add (printf "aggregate-%s-list" $type) $score -}}
+  {{- $context.Store.Add (printf "aggregate-%s-sum" $type) $score -}}
+  {{- if lt $score 50 -}}
+    {{- $context.Store.Add (printf "aggregate-%s-nc" $type) $score -}}
+  {{- end -}}
+  {{- if eq $score 100 -}}
+    {{- $context.Store.Add (printf "aggregate-%s-c" $type) $score -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $context.Scratch.SetInMap "aggregateaccessibility" "all"                ($context.Store.Get (printf "aggregate-%s-list" $type)) -}}
+{{- $context.Scratch.SetInMap "aggregateaccessibility" "invalid"            ($context.Store.Get (printf "aggregate-%s-nc" $type)) -}}
+{{- $context.Scratch.SetInMap "aggregateaccessibility" "valid"              ($context.Store.Get (printf "aggregate-%s-c" $type)) -}}
+{{- $context.Scratch.SetInMap "aggregateaccessibility" "sum"                ($context.Store.Get (printf "aggregate-%s-sum" $type)) -}}
+{{- $context.Scratch.SetInMap "aggregateaccessibility" "average"            (div ($context.Store.Get (printf "aggregate-%s-sum" $type)) (len ($context.Store.Get (printf "aggregate%s-list" $type)))) -}}
+{{- $context.Scratch.SetInMap "aggregateaccessibility" "average"            slice -}}
+{{ with ($context.Scratch.Get (printf "aggregate-%s-list" $type)) }}
+  {{- $context.Scratch.SetInMap "aggregateaccessibility" "average"          (div ($context.Store.Get (printf "aggregate-%s-sum" $type)) (len .)) -}}
+{{ end }}
+
+{{ warnf "type: %s" $type }}
+{{ warnf "Store %s" ($context.Store.Get (printf "aggregate%s-list" $type)) }}
+
+{{ return ($context.Scratch.Get "aggregateaccessibility") }}
