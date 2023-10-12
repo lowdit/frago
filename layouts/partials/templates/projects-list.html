@@ -77,7 +77,7 @@
 
                 {{/* If Accessibility exists */}}
                 {{- if and $accessibility -}}
-                  {{- $scoressmall := index (index (index (partialCached "render/aggregate-scores.html" (dict "pages" ($.Scratch.Get "rangepages"))) "allscores") $project) "0" -}}
+                  {{- $scoressmall := (index (index (partialCached "render/aggregate-scores.html" (dict "pages" ($.Scratch.Get "rangepages"))) "allscores") $project).accessibility.scores -}}
                   <p class="mb-0">{{- partialCached "components/scores/accessibility-small" (dict "context" . "scores" $scoressmall) $project -}}</p>
                 {{- end -}}
               </div>
