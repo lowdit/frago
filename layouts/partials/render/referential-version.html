@@ -2,7 +2,7 @@
 {{ $data      := newScratch }}
 {{ $path := "" }}
 {{ with $context.File }}{{ $path = $context.Path }}{{ end }}
-{{- $patharray := split (path.Dir $path) "/" -}}
+{{ $patharray := split (path.Dir $path) "/" }}
 
 {{ $versionallarray := "" }}
 {{ $data.Set "versionallarray" slice }}
