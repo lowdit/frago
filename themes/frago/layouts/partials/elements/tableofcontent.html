@@ -1,0 +1,7 @@
+{{- if and (gt .WordCount 400 ) (.Params.toc) -}}
+{{ partialCached "utils/css.html" (dict "context" . "filefolder" "element" "filename" "tableofcontents") "tableofcontents" }}
+<aside class="tableofcontents">
+<h2>Table of contents</h2>
+{{.TableOfContents | replaceRE "id=\"TableOfContents\"" "" | replaceRE "ul" "ul class=\"list-unstyled\"" | safeHTML }}
+</aside>
+{{- end -}}

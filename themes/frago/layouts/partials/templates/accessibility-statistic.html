@@ -1,0 +1,97 @@
+{{ $context   := .context }}
+{{ $render    := .render }}
+{{ $name      := .name }}
+{{ $context.Store.Set "list" (index .context.Site.Data.rgaa.list "4") }}
+{{ $ref       := .context.Site.Data.referential }}
+{{- with (where .context.Site.Pages "Section" "audits") -}}
+  <style>
+    .flex b {
+      padding: 1em;
+      border: 1px solid;
+    }
+  </style>
+  <article class="fg-wrapper narrow">
+  <h1>Synthèse générale - {{ (index $ref $name) }}</h1>
+  <h2>Conformité du parc de services</h2>
+  <div class="flex flex-gap align-items-center text-center lh-1 mr-2 font-bigger">
+    {{- partialCached "components/scores/aggregate-small.html" (dict "value" (index $render $name) "type" (index $ref $name)) $render $name -}}
+  </div>
+
+  {{ with (index $render.allaverage $name) }}
+    {{- $range := . -}}
+    {{ with .thematiquepourcentage }}
+      <h2>Tableau des statistiques par des critères par thématique</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Critère</th>
+            <th>Conforme</th>
+            <th>Non applicable</th>
+            <th>Non conforme</th>
+            <th>Conformité (%)</th>
+          </tr>
+        </thead>
+        <tbody class="font-bigger">
+          {{- range (first 3 (sort $range.thematiquelist)) -}}
+            {{ $id := .|string }}
+            <tr style="--base-light: 105%;">
+              <th>{{ $id }}</th>
+              <td class="text-center" style="background:hsl(var(--base-green), 25%, calc(var(--base-light) - 10%))">{{ if gt (int (index ($range.thematiqueconforme) $id)) 0 }}{{ index $range.thematiqueconforme $id }}{{ else }}0{{ end }}</td>
+              <td class="text-center" style="background:hsl(var(--base-orange), 25%, calc(var(--base-light) - 10%))">{{ if gt (int (index ($range.thematiquenonapplicable) $id)) 0 }}{{ index ($range.thematiquenonapplicable) $id }}{{ else }}0{{ end }}</td>
+              <td class="text-center" style="background:hsl(var(--base-red), 25%, calc(var(--base-light) - 10%))">{{ if gt (int (index ($range.thematiquenonconforme) $id)) 0 }}{{ index ($range.thematiquenonconforme) $id }}{{ else }}0{{ end }}</td>
+              <td class="text-center" style="color:#fff;background: #222">{{ index ($range.thematiquepourcentage) $id }}{{ if ne (index ($range.thematiquepourcentage) $id) "NA"}}%{{ end }}</td>
+            </tr>
+          {{ end }}
+        </tbody>
+      </table>
+    {{ end }}
+    {{- if and $range.pourcentage80 $range.pourcentage50 $range.pourcentage30 $range.pourcentage00 -}}
+    <h2>Tableau des statistiques de répartition de critères par taux</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Taux<br>Supérieur à 80%</th>
+          <th>Taux<br>Entre 50% et 80%</th>
+          <th>Taux<br>Entre 30% et 50%</th>
+          <th>Taux<br>Inférieur à 30%</th>
+        </tr>
+      </thead>
+      <tbody class="font-bigger">
+          <tr style="--base-light: 105%;">
+            <td class="text-center">{{ len $range.pourcentage80 }}</td>
+            <td class="text-center">{{ len $range.pourcentage50 }}</td>
+            <td class="text-center">{{ len $range.pourcentage30 }}</td>
+            <td class="text-center">{{ len $range.pourcentage00 }}</td>
+          </tr>
+      </tbody>
+    </table>
+    {{- end -}}
+    <h2>Tableau des statistiques par critère</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Critère</th>
+          <th>Conforme</th>
+          <th>Non applicable</th>
+          <th>Non conforme</th>
+          <th>Conformité (%)</th>
+        </tr>
+      </thead>
+      <tbody class="font-bigger">
+        {{ .all.GetSortedMapValues }}
+        {{- $list := (cond (eq $name "accessibility") ($context.Store.Get "list") .all) }}
+        {{- range $id, $value := $list -}}
+          {{- $id := (cond (eq $name "accessibility") (string $value) (string $id)) }}
+          <tr style="--base-light: 105%;">
+            <th>{{ $id }}</th>
+            <td class="text-center" style="background:hsl(var(--base-green), 25%, calc(var(--base-light) - 10%))">{{ if gt (int (index ($range.conforme) $id)) 0 }}{{ index $range.conforme $id }}{{ else }}0{{ end }}</td>
+            <td class="text-center" style="background:hsl(var(--base-orange), 25%, calc(var(--base-light) - 10%))">{{ if gt (int (index ($range.nonapplicable) $id)) 0 }}{{ index ($range.nonapplicable) $id }}{{ else }}0{{ end }}</td>
+            <td class="text-center" style="background:hsl(var(--base-red), 25%, calc(var(--base-light) - 10%))">{{ if gt (int (index ($range.nonconforme) $id)) 0 }}{{ index ($range.nonconforme) $id }}{{ else }}0{{ end }}</td>
+            <td class="text-center" style="color:#fff;background: #222">{{ index ($range.pourcentage) $id }}{{ if ne (index ($range.pourcentage) $id) "NA"}}%{{ end }}</td>
+          </tr>
+        {{- end -}}
+      </tbody>
+    </table>
+  {{ end -}}
+  </article>
+{{- end -}}

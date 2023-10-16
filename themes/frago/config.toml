@@ -1,0 +1,173 @@
+baseURL = "/"
+paginate = "10"
+
+title = "Observatoire Accessibilité"
+
+languageCode = "fr-FR"
+defaultContentLanguage = "fr"
+defaultContentLanguageInSubdir = false
+enableInlineShortcodes = true
+removePathAccents = true
+enableGitInfo = true
+
+disableKinds = ["RSS", "sitemap", "taxonomy", "taxonomyTerm"]
+
+[params]
+  [params.rgaa]
+    version = "4.1.2"
+
+[outputformats]
+  _merge = 'deep'
+
+[outputFormats.declarationpage]
+  baseName = "declaration"
+  mediaType = "text/html"
+  notAlternative = false
+  permalinkable = true
+  isHTML = true
+[outputFormats.declaration]
+  baseName = "declaration"
+  mediaType = "text/plain"
+  isPlainText = true
+  notAlternative = false
+[outputFormats.declarationecopage]
+  baseName = "declaration-ecoconception"
+  mediaType = "text/html"
+  notAlternative = false
+  permalinkable = true
+  isHTML = true
+[outputFormats.declarationeco]
+  baseName = "declaration-ecoconception"
+  mediaType = "text/plain"
+  isPlainText = true
+  notAlternative = false
+[outputFormats.accessibilitypage]
+  baseName = "accessibility"
+  mediaType = "text/html"
+  notAlternative = false
+  permalinkable = true
+  isHTML = true
+[outputFormats.accessibilitycsv]
+  baseName = "accessibility"
+  mediaType = "text/csv"
+  isPlainText = true
+  notAlternative = false
+[outputFormats.accessibility]
+  baseName = "accessibility"
+  mediaType = "application/json"
+  isPlainText = true
+  notAlternative = false
+[outputFormats.ecoconceptionpage]
+  baseName = "ecoconception"
+  mediaType = "text/html"
+  notAlternative = false
+  permalinkable = true
+  isHTML = true
+[outputFormats.ecoconceptioncsv]
+  baseName = "ecoconception"
+  mediaType = "text/csv"
+  isPlainText = true
+  notAlternative = false
+[outputFormats.ecoconception]
+  baseName = "ecoconception"
+  mediaType = "application/json"
+  isPlainText = true
+  notAlternative = false
+[outputFormats.publishingpage]
+  baseName = "publishing"
+  mediaType = "text/html"
+  notAlternative = false
+  permalinkable = true
+  isHTML = true
+[outputFormats.publishingcsv]
+  baseName = "publishing"
+  mediaType = "text/csv"
+  isPlainText = true
+  notAlternative = false
+[outputFormats.publishing]
+  baseName = "publishing"
+  mediaType = "application/json"
+  isPlainText = true
+  notAlternative = false
+[outputFormats.opquastpage]
+  baseName = "opquast"
+  mediaType = "text/html"
+  notAlternative = false
+  permalinkable = true
+  isHTML = true
+[outputFormats.opquastcsv]
+  baseName = "opquast"
+  mediaType = "text/csv"
+  isPlainText = true
+  notAlternative = false
+[outputFormats.opquast]
+  baseName = "opquast"
+  mediaType = "application/json"
+  isPlainText = true
+  notAlternative = false
+[outputFormats.cigrefpage]
+  baseName = "cigref"
+  mediaType = "text/html"
+  notAlternative = false
+  permalinkable = true
+  isHTML = true
+[outputFormats.cigrefcsv]
+  baseName = "cigref"
+  mediaType = "text/csv"
+  isPlainText = true
+  notAlternative = false
+[outputFormats.cigref]
+  baseName = "cigref"
+  mediaType = "application/json"
+  isPlainText = true
+  notAlternative = false
+[outputFormats.greenitpage]
+  baseName = "greenit"
+  mediaType = "text/html"
+  notAlternative = false
+  permalinkable = true
+  isHTML = true
+[outputFormats.greenit]
+  baseName = "greenit"
+  mediaType = "application/json"
+  isPlainText = true
+  notAlternative = false
+[outputFormats.recommendationpage]
+  baseName = "recommendation"
+  mediaType = "text/html"
+  notAlternative = false
+  permalinkable = true
+  isHTML = true
+[outputFormats.recommendationcsv]
+  baseName = "recommendation"
+  mediaType = "text/csv"
+  isPlainText = true
+  notAlternative = false
+[outputFormats.recommendation]
+  baseName = "recommendation"
+  mediaType = "application/json"
+  isPlainText = true
+  notAlternative = false
+[outputFormats.qualitypage]
+  baseName = "quality"
+  mediaType = "text/html"
+  notAlternative = false
+  permalinkable = true
+  isHTML = true
+[outputFormats.quality]
+  baseName = "quality"
+  mediaType = "application/json"
+  isPlainText = true
+  notAlternative = false
+[outputFormats.performancepage]
+  baseName = "performance"
+  mediaType = "text/html"
+  isPlainText = true
+  notAlternative = false
+  permalinkable = true
+  isHTML = true
+[outputFormats.performance]
+  baseName = "performance"
+  mediaType = "application/json"
+  isPlainText = true
+  notAlternative = false

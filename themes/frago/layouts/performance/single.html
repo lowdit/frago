@@ -1,0 +1,11 @@
+{{- define "title" -}}
+  {{- $context      := . -}}
+  {{- $path := "" }}{{ with .File }}{{ $path = .Path }}{{ end }}
+  {{- $projectTitle := (.GetPage "./").Title -}}Audit Performance {{ with $projectTitle }}pour {{ $projectTitle }}{{ else }}{{ (index (split (path.Dir $path) "/") 1) }}{{ end }}
+{{- end -}}
+{{- define "main" -}}
+{{/* Vars */}}
+{{- $context := . -}}
+{{- $partial := (partialCached "templates/performance.html" (dict "context" $context) $context) -}}
+{{- partialCached "elements/content.html" $partial $partial -}}
+{{- end -}}

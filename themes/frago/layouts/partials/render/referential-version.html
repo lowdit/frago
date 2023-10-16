@@ -1,0 +1,34 @@
+{{ $context   := .context }}
+{{ $data      := newScratch }}
+{{ $path := "" }}
+{{ with $context.File }}{{ $path = $context.Path }}{{ end }}
+{{ $patharray := split (path.Dir $path) "/" }}
+
+{{ $versionallarray := "" }}
+{{ $data.Set "versionallarray" slice }}
+
+{{/* Loop over all directories in a referential for finding all versions */}}
+{{ range $key, $value := (index .context.Site.Data .referential) }}
+  {{ if in $key "." }}
+    {{ if ne $versionallarray (slicestr $key 0 3) }}{{ $data.Set "versionallarray" slice }}{{ end }}
+    {{ $data.Add "versionallarray" $key }}
+    {{ $data.SetInMap "versionall" (slicestr $key 0 3) ($data.Get "versionallarray") }}
+    {{ $versionallarray = (slicestr $key 0 3) }}
+  {{ end }}
+{{ end }}
+
+{{ $data.Set "name" .referential }}
+{{ $data.Set "version" (cond (not .version) (cond (not (delimit (last 1 ($data.Get "versionallarray")) "")) "ko" (delimit (last 1 ($data.Get "versionallarray")) "")) .version) }}
+
+{{ if and (ge ($patharray) 2) (ne (delimit (first 1 $patharray) "") "audits") (ne (delimit (first 1 $patharray) "") "organism") }}
+  {{ $data.Set "name" (index $patharray 0) }}
+  {{ $data.Set "version" (index (last 1 (index ($data.Get "versionall") (index $patharray 1))) 0) }}
+{{ end }}
+
+{{ return (dict
+  "guideline" (dict
+      "name"                ($data.Get "name")
+      "version"             ($data.Get "version")
+      "versionall"          ($data.Get "versionall")
+    )
+)}}

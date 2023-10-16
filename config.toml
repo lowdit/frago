@@ -2,7 +2,7 @@ baseURL = ""
 languageCode = "fr-FR"
 title = "Sandbox Frago"
 
-theme = ["frago"]
+theme = ["github.com/lowdit/frago"]
 
 pygmentsCodeFences = true
 pygmentsCodefencesGuessSyntax = true

@@ -1,0 +1,70 @@
+{{- define "meta" -}}
+  {{- $meta := partialCached "elements/head-meta.html" . .Permalink -}}
+  {{ $meta.pretitle }} de {{ $meta.title }}
+{{- end -}}
+
+{{- define "title" -}}
+  {{- $meta := partialCached "elements/head-meta.html" . .Permalink -}}
+  {{ $meta.pretitle }} de {{ $meta.title }}
+{{- end -}}
+
+{{- define "main" -}}
+  {{- $context    := . -}}
+  {{- $path := "" }}{{ with .File }}{{ $path = .Path }}{{ end }}
+  {{- $project    := cond (eq (len (split (path.Dir $path) "/")) 1) "" (replace (path.Dir $path) "audits/" "") -}}
+  {{- $alternate  := where (where .OutputFormats "Permalink" "eq" .Permalink) "Rel" "eq" "alternate" -}}
+  {{- if ne (len $alternate) 0 -}}
+    {{- with $alternate -}}
+      {{- range $key, $value := . -}}
+        {{- if eq .Format.BaseName "accessibility" -}}
+          {{- $partial := (partialCached "templates/accessibility.html" (dict "context" $context) $context) -}}
+          {{- partialCached "elements/content.html" $partial $partial -}}
+        {{- else if or (eq .Format.BaseName "ecoconception") -}}
+          {{- $partial := (partialCached "templates/ecoconception.html" (dict "context" $context) $context) -}}
+          {{- partialCached "elements/content.html" $partial $partial -}}
+        {{- else if or (eq .Format.BaseName "greenit") -}}
+          {{- $partial := (partialCached "templates/greenit.html" (dict "context" $context) $context) -}}
+          {{- partialCached "elements/content.html" $partial $partial -}}
+        {{- else if eq .Format.BaseName "opquast" -}}
+          {{- $partial := (partialCached "templates/opquast.html" (dict "context" $context) $context) -}}
+          {{- partialCached "elements/content.html" $partial $partial -}}
+        {{- else if eq .Format.BaseName "publishing" -}}
+          {{- $partial := (partialCached "templates/publishing.html" (dict "context" $context) $context) -}}
+          {{- partialCached "elements/content.html" $partial $partial -}}
+        {{- else if or (eq .Format.BaseName "recommendation") -}}
+          {{- $partial := (partialCached "templates/recommendation.html" (dict "context" $context) $context) -}}
+          {{- partialCached "elements/content.html" $partial $partial -}}
+        {{- else if eq .Format.BaseName "recommendation" -}}
+          {{- $partial := (partialCached "templates/recommendation.html" (dict "context" $context) $context) -}}
+          {{- partialCached "elements/content.html" $partial $partial -}}
+        {{- else if eq .Format.BaseName "performance" -}}
+          {{- $partial := (partialCached "templates/performance.html" (dict "context" $context) $context) -}}
+          {{- partialCached "elements/content.html" $partial $partial -}}
+        {{- else if eq .Format.BaseName "declaration" -}}
+          <article class="fg-wrapper narrow">
+            {{- $context.Scratch.Set "audits" (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "accessibility" "datafilename" $context.Params.datafilename) $project "accessibility" $context.Params.datafilename) -}}
+            {{- $partial := (partialCached "templates/declaration.html" (dict "context" $context "audits" ($context.Scratch.Get "audits")) ($context.Scratch.Get "audits")) -}}
+            {{- partialCached "elements/content.html" $partial $partial -}}
+          </article>
+        {{- else if eq .Format.BaseName "declaration-ecoconception" -}}
+          <article class="fg-wrapper narrow">
+            {{- $context.Scratch.Set "audits" (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "ecoconception" "datafilename" $context.Params.datafilename) $project "ecoconception" $context.Params.datafilename) -}}
+            {{- $partial := (partialCached "templates/declaration-ecoconception.html" (dict "context" $context "audits" ($context.Scratch.Get "audits")) ($context.Scratch.Get "audits")) -}}
+            {{- partialCached "elements/content.html" $partial $partial -}}
+          </article>
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+  {{- else -}}
+    <div class="fg-wrapper narrow"><p class="no-print">← <a href="{{ if eq (.Site.GetPage "/").Title "Accueil Audits" }}/{{ else }}{{ $.Site.BaseURL | default "/"}}audits{{ end }}" class="link-more link-back">Retour à la liste des services</a></p></div>
+    {{ with .Title }}<h1 class="text-center fg-wrapper">{{ . }}</h1>{{ end }}
+    {{- if and (not (in (path.Base $path) "index.md")) -}}
+      <article class="fg-wrapper narrow">
+        {{ partialCached "elements/content.html" .Content .Content }}
+      </article>
+    {{- else -}}
+      {{- $partial := (partialCached "templates/projects.html" $context $context) -}}
+      {{- partialCached "elements/content.html" $partial $partial -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}

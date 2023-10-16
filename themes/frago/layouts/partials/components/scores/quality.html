@@ -1,0 +1,25 @@
+{{- with .counter -}}
+<div class="scores mb-1">
+  <ul class="flex flex-gap flex-wrap">
+    <li class="counter text-center"><span><b>{{ .total }}</b><br>Erreurs total</span></li>
+    <li class="counter text-center good"><span><b>{{ .checked }}</b><br>Erreurs corrigées</span></li>
+  </ul>
+  {{- if gt (.pathlen) 2 -}}
+    {{- if or (.critical) (.important) (.medium) -}}
+    <ul class="flex flex-gap flex-wrap">
+      <li class="counter text-center bad"><span><b>{{ .critical }}</b><br><b class="emoticon">🚫 Critique</b></span></li>
+      <li class="counter text-center medium"><span><b>{{ .important }}</b><br><b class="emoticon">❗️ Important</b></span></li>
+      <li class="counter text-center normal"><span><b>{{ .medium }}</b><br><b class="emoticon">➰ Moindre</b></span></li>
+    </ul>
+    {{- end -}}
+    {{- if or (.type.code) (.type.visual) (.type.structure) (.type.text) -}}
+    <ul class="flex flex-gap flex-wrap">
+      <li class="counter text-center"><span><b>{{ .type.code }}</b><br>Erreurs de code</span></li>
+      <li class="counter text-center"><span><b>{{ .type.visual }}</b><br>Erreurs visuelles</span></li>
+      <li class="counter text-center"><span><b>{{ .type.structure }}</b><br>Erreurs de structure</span></li>
+      <li class="counter text-center"><span><b>{{ .type.text }}</b><br>Erreurs textuelles</span></li>
+    </ul>
+    {{- end -}}
+  {{- end -}}
+</div>
+{{- end -}}

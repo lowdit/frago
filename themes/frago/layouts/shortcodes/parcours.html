@@ -1,0 +1,12 @@
+{{- $project := .Get "project" -}}
+{{ if eq .Ordinal 0 }}
+<link rel="preload" href="/{{ (resources.Get "js/simple-lightbox.min.js").Permalink }}" as="script">
+<script src="{{ (resources.Get "js/simple-lightbox.min.js").Permalink }}"></script>
+<link rel="stylesheet" href="/{{ (resources.Get "css/simple-lightbox.min.css").Permalink }}" media="print" onload="this.media='all'" />
+{{- end -}}
+<div class="text-center">
+{{- range (getJSON (printf "/static/%s/personas.json" $project)) -}}
+  {{ partialCached "components/parcours/template.html" (dict "context" . "pages" $ "project" $project) }}
+{{- end -}}
+</div>
+{{- .Inner -}}

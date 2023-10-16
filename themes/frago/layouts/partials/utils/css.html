@@ -1,0 +1,19 @@
+{{- $filepath := printf "/css/%s/%s.css" .filefolder .filename -}}
+{{- $css      := (resources.Get $filepath) -}}
+{{- if $css -}}
+  {{- $css := $css | minify  -}}
+  {{- if .inline -}}
+    <style>
+      {{ (slice $css | resources.Concat $filepath | minify).Content | safeCSS }}
+    </style>
+  {{- else -}}
+    <link rel="preload" href="{{ $css.Permalink }}" as="style">
+    <link rel="stylesheet" href="{{ $css.Permalink }}" {{ with $css.Data.Integrity }}integrity="{{ . }}"{{- end -}} media="print" onload="this.media='all'">
+    <noscript>
+      <link rel="stylesheet" href="{{ $css.Permalink }}" {{ with $css.Data.Integrity }}integrity="{{ . }}"{{- end -}} media="screen">
+    </noscript>
+  {{- end -}}
+{{- else -}}
+  {{- warnf "The file css %s doesn't exist" $filepath -}}
+{{- end -}}
+

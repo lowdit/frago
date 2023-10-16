@@ -1,0 +1,119 @@
+@charset "utf-8";
+
+/* CSS DIRECTORY
+	1. =GLOBAL SETTINGS
+  2. =HEADER & FOOTER
+  3. =TYPOGRAPHY
+	4. =LOGO
+*/
+
+/* GLOBAL SETTINGS
+   ----------------------------- */
+
+/* = Colors = */
+
+:root {
+  --background-color: var(--color-primary-dark);
+
+  --base-font-name: "Marianne";
+  --title-font-name: var(--base-font-name);
+  --base-primary: 240;
+  --base-secondary: calc(var(--base-primary) + 125);
+  --link-color: var(--color-primary);
+  --text-color: hsl(0 0% var(--l-0));
+  --text-color-lighter: hsl(0 0% var(--l-10));
+  --title-color: var(--text-color);
+  --background-color-selection: var(--color-primary-light);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background-color-body: #212529;
+  }
+
+  body {
+    font-weight: 400;
+  }
+
+  strong,
+  b,
+  th,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-weight: 600;
+  }
+}
+
+/* = Very basic styles = */
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+html {
+  box-sizing: border-box;
+  height: -webkit-fill-available;
+  word-spacing: 1px;
+  scroll-behavior: smooth;
+
+  -webkit-text-size-adjust: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+  color: var(--text-color, --color-grey-dark);
+  background-color: var(--background-color-body, #fff);
+}
+
+/* = Error = */
+
+body.error-page {
+  color: #fff;
+  background-color: var(--color-grey-dark);
+  background-size: cover;
+}
+
+/* HEADER & FOOTER
+   ----------------------------- */
+
+/* = main = */
+
+main {
+  flex-grow: 1;
+}
+
+/* = header = */
+
+header {
+  margin-bottom: calc(var(--baseline,1.5em) * 2);
+  padding: 0 var(--baseline,1.5em);
+  border-bottom: 1px solid #dedede;
+}
+
+/* COLOR
+   ----------------------------- */
+
+.primary {
+  color: var(--color-primary);
+}
+
+
+/* CHARTS
+   ----------------------------- */
+
+.chart-container {
+  margin-bottom: var(--baseline,1.5em);;
+  background: #fff;
+}

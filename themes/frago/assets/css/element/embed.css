@@ -1,0 +1,16 @@
+/*
+/// iFrame
+*/
+
+embed {
+  margin-bottom: var(--baseline,1.5em);
+  width: 100%;
+  min-height: 800px;
+}
+
+iframe,
+embed,
+object,
+video {
+  max-width: 100%;
+}
