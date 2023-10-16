@@ -1,62 +1,9 @@
-baseURL = "https://lowdit.github.io/frago/"
+baseURL = "https://lowdit.github.io/sandbox/"
 languageCode = "fr-FR"
-title = "Documentation"
+title = "Sandbox Frago"
 
-theme = ["documentago", "github.com/lowdit/frago"]
+theme = ["frago"]
 
 pygmentsCodeFences = true
 pygmentsCodefencesGuessSyntax = true
 pygmentsUseClasses = true
-
-
-# Controls how many words are printed in the content summary on the docs homepage.
-# See https://gohugo.io/content-management/summaries/
-summaryLength = 10
-[permalinks]
-  blog = '/:year/:month/:title/'
-
-[[menu.main]]
-    name = "Accueil"
-    url = "/"
-    weight = 1
-
-[[menu.main]]
-    name = "Blog"
-    url = "/blog/"
-    weight = 2
-
-[[menu.main]]
-    name = "Docs"
-    url = "/docs/"
-    weight = 3
-
-[[menu.main]]
-    name = "Exemple"
-    url = "/audits/"
-    weight = 4
-
-[params]
-  google_analytics_id=""
-  homepage_button_link = 'docs'
-  homepage_button_text = 'Lire la documentation'
-  homepage_intro = 'Frago est un outil pour la génération de rapports de synthèse pour le suivi et l’amélioration de l’accessibilité web.'
-  # homepage_image = '/images/terminal.gif'
-
-  ## You can enable to add anchor links to header elements
-  # enable_anchor_link = true
-
-  [params.homepage_meta_tags]
-    meta_description = "Frago est un outil pour la génération de rapports de synthèse pour le suivi et l’amélioration de l’accessibilité web."
-    meta_og_title = "Frago"
-    meta_og_type = "website"
-    meta_og_url = "https://disic.github.io/frago/docs/"
-    # meta_og_image = "https://raw.githubusercontent.com/JugglerX/hugo-whisper-theme/master/images/tn.png"
-    meta_og_description = "Frago est un outil pour la génération de rapports de synthèse pour le suivi et l’amélioration de l’accessibilité web."
-    meta_twitter_card = "summary"
-    meta_twitter_site = "@bertrandkeller"
-    meta_twitter_creator = "@bertrandkeller"
-
-  [params.logo]
-      mobile = "/images/logo-mobile.svg"
-      standard  = "/images/logo.svg"
-      standarddark  = "/images/logodark.svg"
