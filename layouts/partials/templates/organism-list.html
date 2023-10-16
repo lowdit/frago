@@ -1,4 +1,5 @@
 
+{{- $context := . -}}
 {{- $.Scratch.Set "rangepages" (where .Site.Pages "Section" "audits") -}}
 {{- if ($.Scratch.Get "rangepages") -}}
 
@@ -12,7 +13,7 @@
         <ul class="list-unstyled" role="navigation">
             <li class="enlarge-link card-inline card-shadow">
               <h2 class="h3">
-                <a class="link-text" href="/organism/accessibility.html">
+                <a class="link-text" href="{{ $context.Site.BaseURL }}organism/accessibility.html">
                   Accessibilité <small>Conformité</small>
                 </a>
               </h2>
@@ -22,7 +23,7 @@
             </li>
             <li class="enlarge-link card-inline card-shadow">
               <h2 class="h3">
-                <a class="link-text" href="/organism/ecoconception.html">
+                <a class="link-text" href="{{ $context.Site.BaseURL }}organism/ecoconception.html">
                   Éco-conception <small>Conformité</small>
                 </a>
               </h2>
@@ -32,7 +33,7 @@
             </li>
             <li class="enlarge-link card-inline card-shadow">
               <h2 class="h3">
-                <a class="link-text" href="/organism/opquast.html">
+                <a class="link-text" href="{{ $context.Site.BaseURL }}organism/opquast.html">
                   60 règles Opquast <small>Validité</small>
                 </a>
               </h2>
@@ -42,7 +43,7 @@
             </li>
             <li class="enlarge-link card-inline card-shadow">
               <h2 class="h3">
-                <a class="link-text" href="/organism/publishing.html">
+                <a class="link-text" href="{{ $context.Site.BaseURL }}organism/publishing.html">
                   Sobriété éditoriale <small>Conformité</small></h2>
                 </a>
               </h2>

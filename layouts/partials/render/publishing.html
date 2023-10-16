@@ -67,7 +67,7 @@
 {{ end }}
 
 {{ return (dict
-  "isempty"       cond (eq (add (add ($data.Get "iCritC") ($data.Get "iCritNC")) ($data.Get "iCritNA") 0)) true false
+  "isempty"       false
   "date"          ($data.Get "date")
   "criteria"      (dict "conforme" ($data.Get "CritC")
                         "nonconforme" ($data.Get "CritNC")
