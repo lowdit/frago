@@ -1,5 +1,6 @@
 {{ $context   := .context }}
 {{ $data      := newScratch }}
+{{ $referential := .referential}}
 {{ $path := "" }}
 {{ with $context.File }}{{ $path = $context.Path }}{{ end }}
 {{ $patharray := split (path.Dir $path) "/" }}

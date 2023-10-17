@@ -1,7 +1,7 @@
 {{/* Build a map with all accessibility score for using it later in code :: maybe for catching progression or regression */}}
 {{ $scorekey      := sha1 (string now) }}
 {{- $path := "" }}
-{{- with .File.Path }}{{ $path = .Path }}{{ end }}
+{{- with .File }}{{ $path = .Path }}{{ end }}
 {{ $data          := newScratch }}
 {{ $time          := now.UnixMilli }}
 {{ $timepartial   := now.UnixMilli }}
@@ -35,6 +35,7 @@
       {{ with (index (partialCached "render/lastfile.html" (dict "context" . "project" $project "type" $type) $project .) "auditfile-all-path") }}
         {{ range $id, $value := last 1 (sort .) }}
           {{ $render := (partialCached (printf "render/%s.html" $type) (dict "context" "aggregetesscores" "auditfile" . ) .) }}
+          {{ warnf "%s %s" $type $render }}
           {{ $data.SetInMap $project $type $render }}
           {{/* Count the sum for each criteria for each value */}}
           {{ range $id, $value := $render.criteria.conforme }}
@@ -70,6 +71,7 @@
           {{ range $id, $value := $render.criteria.all }}
             {{ if and (gt (int (index ($data.Get (printf "average-%s-nonconforme" $type)) $id)) 0) (gt (int (index ($data.Get (printf "average-%s-conforme" $type)) $id)) 0) }}
               {{ $result := (div (mul (index ($data.Get (printf "average-%s-conforme" $type)) $id) 100) (add (index ($data.Get (printf "average-%s-conforme" $type)) $id) (index ($data.Get (printf "average-%s-nonconforme" $type)) $id))) }}
+
               {{ if eq $result 100 }}
                 {{ $data.SetInMap (printf "average-%s-pourcentage-100" $type) (string $id) $result }}
               {{ else if and (ge $result 80) (lt $result 100) }}
