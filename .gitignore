@@ -2,7 +2,6 @@
 public
 resources
 _vendor
-go.sum
 
 # OS file systems
 .DS_Store
