@@ -4,7 +4,7 @@ licenselink = "https://github.com/lowdit/frago/blob/master/LICENSE"
 description = "Tool for a French governemental Reports for Accessibility compliance with goHugo"
 homepage = "https://github.com/lowdit/frago/"
 tags = ["audits", "accessibility", "compliance","RGAA","quality","front-end","RGESN","CIGREF","GREEN-IT"]
-min_version = 0.8
+min_version = 0.119
 theme_version = "1.15.1"
 
 [author]
