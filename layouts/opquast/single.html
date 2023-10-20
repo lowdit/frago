@@ -5,9 +5,9 @@
 {{- partialCached "utils/css.html" (dict "context" . "filefolder" "object" "filename" "card") "card" -}}
 
 {{/* Use the audit last version */}}
-{{- $referential := (partialCached "render/referential-version.html" (dict "context" . "referential" "opquast") . ).guideline -}}
-{{- $.Store.Set "file" (index (index $.Site.Data $referential.name) $referential.version) -}}
-{{- $criteriafile   := ($.Store.Get "file").criteria -}}
+{{- $referential := (partialCached "render/referential-version.html" (dict "context" . "referential" "opquast") . "opquast").guideline -}}
+{{- $.Store.Set "file" (index (index $.Site.Data $referential.name) (string $referential.version)) -}}
+{{- $criteriafile   := ($.Store.Get "file").criteria.criteres -}}
 
 <article class="fg-wrapper narrow">
 <style>
