@@ -3,7 +3,7 @@
   {{/* Range all RGAA version according to data folder */}}
   {{- $referential := (partialCached "render/referential-version.html" (dict "context" . "referential" "rgaa") . ).guideline -}}
   {{- $glossaire   := printf "=\"/%s/%s/glossaire/#" $referential.name $referential.version -}}
-  {{- $.Store.Set "file" (index (index $.Site.Data $referential.name) $referential.version) -}}
+  {{- $.Store.Set "file" (index (index $.Site.Data $referential.name) (string $referential.version)) -}}
   {{- $criteriafile   := ($.Store.Get "file").criteria.topics -}}
 
   <article class="fg-wrapper narrow">
