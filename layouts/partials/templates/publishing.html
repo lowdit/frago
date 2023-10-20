@@ -101,6 +101,12 @@
       <hr>
       <p>Le fichier d’audit est vide : {{($data.Get "auditpath-csv") }}</p>
     {{- end -}}
+  {{ else }}
+    <p>Aucun fichier de test n’est présent dans le répertoire : {{ (partialCached "render/rootpath" (dict "context" . "project" $project "type" "publishing") $project "publishing") }}/{{ cond (not $project) "" (printf "%s/" $project) }}publishing</p>
+    {{- if (ne (printf "%s/%s" (path.Dir $path) (path.Base $path)) "audits/_index.md") -}}
+      <p>Le fichier d’audit Éditorial est manquant dans ce ce répertoire: {{ ($data.Get "audits").pathdatafile }} - vérifier le chemin ou l’intégrité du fichier sur le disque.</p>
+      {{- warnf "Fichier d’audit manquant dans %s" ($data.Get "audits") -}}
+    {{- end -}}
   {{- end -}}
 {{- end -}}
 </article>
