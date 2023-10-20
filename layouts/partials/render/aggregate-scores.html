@@ -51,6 +51,7 @@
           {{ range $id, $value := $render.criteria.nonconforme }}
             {{ $data.Add (printf "%s%s-nc" $id $type) 1 }}
             {{ $data.SetInMap (printf "average-%s-nonconforme" $type) (string $id) ($data.Get (printf "%s%s-nc" $id $type)) }}
+
             {{ with (in $id ".") }}
               {{ $thematique := (delimit (first 1 (split $id ".")) "") }}
               {{ $data.Add (printf "%s%s-nc-t" $thematique $type) 1 }}
@@ -91,6 +92,7 @@
             {{ else }}
               {{ $data.SetInMap (printf "average-%s-pourcentage" $type) (string $id) "0" }}
             {{ end }}
+
           {{ end }}
 
           {{ $score := $render.scores.compliance }}
