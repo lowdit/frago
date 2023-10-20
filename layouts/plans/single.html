@@ -71,13 +71,13 @@ Plan annuel {{ replace (path.Base $path) (path.Ext $path) "" }}
         {{- $project  := partialCached "render/projectpath" . . -}}
         {{- $lastfile := partialCached "render/lastfile.html" (dict "context" . "project" $project "type" "accessibility") $project "accessibility" -}}
         {{- $lastname := index $lastfile "auditfile-all-name" -}}
-        {{ $.Scratch.Set "allAuditsDates" slice }}
+        {{- $.Scratch.Set "allAuditsDates" slice -}}
         {{ range $lastname }}
           {{- if eq (first 4 .) $pagedate }}
             {{- $.Scratch.Add "allAuditsDates" (slice .) -}}
-          {{- end }}
-        {{- end }}
-        {{ if ($.Scratch.Get "allAuditsDates") }}{{ $.Scratch.SetInMap "allAudits" $title (($.Scratch.Get "allAuditsDates")) }}{{ end }}
+          {{ end -}}
+        {{ end -}}
+        {{- if ($.Scratch.Get "allAuditsDates") }}{{ $.Scratch.SetInMap "allAudits" $title (($.Scratch.Get "allAuditsDates")) }}{{ end }}
       {{- end }}
       {{- with $.Scratch.Get "allAudits" -}}
       <h2>Audits</h2>
@@ -89,14 +89,14 @@ Plan annuel {{ replace (path.Base $path) (path.Ext $path) "" }}
           </tr>
         </thead>
         <tbody>
-        {{ range $key, $value := . }}
-        {{ range $key2, $value := . }}
+        {{- range $key, $value := . }}
+          {{ range $key2, $value := . }}
           <tr>
             <td>{{ $key }}</td>
             <td class="text-center">{{ . }}</td>
           </tr>
-          {{ end }}
-          {{- end }}
+          {{ end -}}
+        {{ end -}}
         </tbody>
       </table>
       {{- end -}}
