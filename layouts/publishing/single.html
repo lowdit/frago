@@ -6,7 +6,7 @@
 
 {{/* Use the audit last version */}}
 {{- $referential := (partialCached "render/referential-version.html" (dict "context" . "referential" "publishing") . "publishing").guideline -}}
-{{- $.Store.Set "file" (index (index $.Site.Data $referential.name) $referential.version) -}}
+{{- $.Store.Set "file" (index (index $.Site.Data $referential.name) (string $referential.version)) -}}
 {{- $criteriafile   := ($.Store.Get "file").criteria.criteres -}}
 
 <article class="fg-wrapper narrow">

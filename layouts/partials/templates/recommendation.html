@@ -285,7 +285,7 @@
               {{ end -}}
               {{- if .criterion }}
               {{- range (split (replace .criterion " " "") ",") }}
-                {{- $criteriafile := index (index (index $.context.Site.Data $referential.name) $referential.version).criteria.topics -}}
+                {{- $criteriafile := index (index (index $.context.Site.Data $referential.name) (string $referential.version)).criteria.topics -}}
                 {{- $thematiques  := index (split . ".") 0 -}}
                 {{- $criteria     := index (split . ".") 1 -}}
                 {{- $glossaire    := (printf "=\"%s%s/%s/glossaire/#" ($.context.Site.BaseURL | default "/") ($data.Get "guidelinename") ($data.Get "guidelineversion")) -}}

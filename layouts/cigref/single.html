@@ -5,7 +5,7 @@
   {{- partialCached "utils/css.html" (dict "context" . "filefolder" "object" "filename" "card") "card" -}}
 
   {{/* Use the audit last version */}}
-  {{- $referential := (partialCached "render/referential-version.html" (dict "context" . "referential" "cigref") . ).guideline -}}
+  {{- $referential := (partialCached "render/referential-version.html" (dict "context" $ "referential" "cigref") $ "cigref").guideline -}}
   {{- $.Store.Set "file" (index (index $.Site.Data $referential.name) $referential.version) -}}
   {{- $criteriafile   := ($.Store.Get "file").criteria.criteres -}}
 
