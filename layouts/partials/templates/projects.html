@@ -158,7 +158,7 @@
 
     {{/* START - If opquast */}}
     {{- if $opquast -}}
-      {{- $.Store.Set "audit" (partialCached "render/opquast.html" (dict "context" "ecopartial" "auditfile" ($.Store.Get "opquast-path")) ($.Store.Get "opquast-path")) -}}
+      {{- $.Store.Set "audit" (partialCached "render/opquast.html" (dict "context" "opquastpartial" "auditfile" ($.Store.Get "opquast-path")) ($.Store.Get "opquast-path")) -}}
       <h3 class="m-0">60 règles Opquast
         {{- if or ($.Store.Get "audit").scores.compliance (eq ($.Store.Get "audit").scores.compliance 0) -}}
           {{- $pageauditpath := (printf "/content/audits/%s/opquast.md" ($project | urlize)) -}}

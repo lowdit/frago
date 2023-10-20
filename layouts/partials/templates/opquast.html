@@ -39,7 +39,7 @@
   {{- $context.Store.Set "file" (index (index $context.Site.Data $referential.name) (string $referential.version)) -}}
   {{- $criteriafile   := ($context.Store.Get "file").criteria.criteres -}}
 
-  {{- if and ($data.Get "auditfile-csv") (ne ($data.Get "scores").isempty 0) -}}
+  {{- if and ($data.Get "auditfile-csv") (ne ($data.Get "scores").isempty true) -}}
     <h2 class="text-center">Scores{{- with ($data.Get "scores").scores.criteria -}}&nbsp;-&nbsp;{{- .total -}}&nbsp;règles{{ end }}</h2>
     <time class="text-center" datetime="{{ ($data.Get "date").Format "2006-01-02T15:04:05Z07:00" | safeHTML }}">Le {{ ($data.Get "date").Day }} {{ index $.context.Site.Data.month (printf "%d" ($data.Get "date").Month) }} {{ ($data.Get "date").Year }}</time>
 

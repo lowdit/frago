@@ -52,17 +52,19 @@
   {{ warnf "Context is not declared for %s see the documentation" $path }}
 {{ else }}
   {{ if and ($data.Get "datecontext") (index ($data.Get "context") ($data.Get "datecontext")).declared }}
+    {{ $path := "" }}
+    {{ with (index ($data.Get "context") ($data.Get "datecontext")).path }}{{ $path = . }}{{ end }}
     {{/*  if (cond (not .Params.accessibility.contacts) ($context.Site.Params.contacts) (.Params.accessibility.contacts)) }}
-      {{ warnf "%s %s"  "Contact informations are taking from config.toml" (index ($data.Get "context") ($data.Get "datecontext")).path }}
+      {{ warnf "%s %s"  "Contact informations are taking from config.toml" $path }}
     {{ end */}}
     {{ if not (index ($data.Get "context") ($data.Get "datecontext")).contacts }}
-      {{ warnf "%s %s"  "Contact informations are missing or misformed in" (index ($data.Get "context") ($data.Get "datecontext")).path }}
+      {{ warnf "%s %s"  "Contact informations are missing or misformed in" $path }}
     {{ end }}
     {{ if not (index ($data.Get "context") ($data.Get "datecontext")).website }}
-      {{ warnf "%s %s"  "Website informations are missing or misformed in" (index ($data.Get "context") ($data.Get "datecontext")).path }}
+      {{ warnf "%s %s"  "Website informations are missing or misformed in" $path }}
     {{ end }}
     {{ if not (index ($data.Get "context") ($data.Get "datecontext")).audit }}
-      {{ warnf "%s %s"  "Audit informations are missing or misformed in" (index ($data.Get "context") ($data.Get "datecontext")).path }}
+      {{ warnf "%s %s"  "Audit informations are missing or misformed in" $path }}
     {{ end }}
   {{ else }}
     {{/* This line Should debug "audits/_index.md" path for list.xxxx.json output */}}
