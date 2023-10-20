@@ -145,7 +145,7 @@
       {{- if gt (len ($data.Get "pageslist")) 1 -}}
         <h3 class="mb-0">Conformité détaillée de répartition</h3>
         {{/* Call accessibility graph */}}
-       {{- partialCached "components/scores/accessibility-graph" (dict "context" $context "auditfile" ($data.Get "auditfile-csv") "scores" ($data.Get "scores").criteria) ($data.Get "scores").criteria -}}
+        {{- partialCached "components/scores/accessibility-graph" (dict "context" $context "auditfile" ($data.Get "auditfile-csv") "scores" ($data.Get "scores").criteria) ($data.Get "scores").criteria -}}
       {{- end -}}
       {{/* END If several pages tested */}}
 
@@ -267,7 +267,7 @@
     {{- else -}}
       <p>Aucun fichier de test n’est présent dans le répertoire : {{ (partialCached "render/rootpath" (dict "context" . "project" $project "type" "accessibility") $project "accessibility") }}/{{ cond (not $project) "" (printf "%s/" $project) }}accessibility</p>
       {{- if (ne (printf "%s/%s" (path.Dir $path) (path.Base $path)) "audits/_index.md") -}}
-        <p>Le fichier d’audit RGAA est manquant dans ce ce répertoire: {{ ($data.Get "audits").pathdatafile }} - vérifier le chemin du fichier sur le disque.</p>
+        <p>Le fichier d’audit RGAA est manquant dans ce ce répertoire: {{ ($data.Get "audits").pathdatafile }} - vérifier le chemin ou l’intégrité du fichier sur le disque.</p>
         {{- warnf "Fichier d’audit manquant dans %s" ($data.Get "audits") -}}
       {{- end -}}
     {{- end -}}

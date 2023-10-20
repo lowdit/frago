@@ -1,4 +1,5 @@
 {{- $context      := .context -}}
+{{- $path := "" }}{{ with $context.File }}{{ $path = .Path }}{{ end }}
 {{- $project      := partialCached "render/projectpath" $context $context -}}
 {{- $data         := newScratch -}}
 {{- $projectPath  := cond (fileExists (printf "audits/%s/index.md" ($project))) (printf "audits/%s/index.md" ($project)) (printf "audits/%s/_index.md" ($project)) -}}
@@ -106,6 +107,13 @@
       <hr>
       <p>Le fichier d’audit est vide : {{($data.Get "auditpath-csv") }}</p>
     {{- end -}}
+    {{ else }}
+      <p>Aucun fichier de test n’est présent dans le répertoire : {{ (partialCached "render/rootpath" (dict "context" . "project" $project "type" "opquast") $project "opquast") }}/{{ cond (not $project) "" (printf "%s/" $project) }}opquast</p>
+      {{- if (ne (printf "%s/%s" (path.Dir $path) (path.Base $path)) "audits/_index.md") -}}
+        <p>Le fichier d’audit Opquast est manquant dans ce ce répertoire: {{ ($data.Get "audits").pathdatafile }} - vérifier le chemin du fichier sur le disque.</p>
+        {{- warnf "Fichier d’audit manquant dans %s" ($data.Get "audits").path -}}
+      {{- end -}}
   {{- end -}}
+
 {{- end -}}
 </article>

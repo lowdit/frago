@@ -1,4 +1,5 @@
 {{- $context      := .context -}}
+{{- $path := "" }}{{ with $context.File }}{{ $path = .Path }}{{ end }}
 {{- $project      := partialCached "render/projectpath" $context $context -}}
 {{- $data         := newScratch -}}
 {{- $projectPath  := cond (fileExists (printf "audits/%s/index.md" ($project))) (printf "audits/%s/index.md" ($project)) (printf "audits/%s/_index.md" ($project)) -}}

@@ -1,5 +1,5 @@
 {{- $path := "" }}
-{{- with .context.Page.File.Path }}{{ $path = .Path }}{{ end }}
+{{- with $.Page.File.Path }}{{ $path = .Path }}{{ end }}
 <div class="debug">
   <div class="debug-badge">
     <div class="debug-toggle">
