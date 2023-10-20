@@ -1,6 +1,7 @@
 {{ $scorekey      := sha1 (string now) }}
 {{ $data          := newScratch }}
 {{ $auditfile     := .auditfile }}
+{{ $context          := . }}
 {{ $time          := now.UnixMilli }}
 {{ $timepartial   := now.UnixMilli }}
 {{- if (eq (getenv "HUGO_ENV") "debugperf") -}}
@@ -9,10 +10,11 @@
 
 {{ if (ne .auditfile "/false") }}
   {{ $auditfilecsv        := (getCSV "," .auditfile) }}
-  {{ $data.Set "date" (replace (path.Base .auditfile) (path.Ext .auditfile) "") }}
 
+  {{ $data.Set "date" (replace (path.Base .auditfile) (path.Ext .auditfile) "") }}
   {{ range $key1, $value1 := after 1 $auditfilecsv }}
-    {{ range $id, $value2 := after 1 . }}
+
+    {{ range $id, $value2 := after ( sub (len .) 1) . }}
       {{ $value2 := lower (index (split . "|") 0) }}
       {{ $key := printf "%s" (index $value1 0)}}
       {{ if or (eq $value2 "oui") (eq $value2 "c") (eq $value2 "conforme") }}
@@ -89,5 +91,5 @@
 }}
 
 {{- if (eq (getenv "HUGO_ENV") "debugperf") -}}
-  {{ warnf "=> Eco-conception Total[%sms] %s %s" (string (sub now.UnixMilli $time)) .context (delimit ($data.Get "debugperf") " ") }}
+  {{ warnf "=> Opquast Total[%sms] %s %s" (string (sub now.UnixMilli $time)) .context (delimit ($data.Get "debugperf") " ") }}
 {{- end -}}

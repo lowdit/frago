@@ -11,9 +11,8 @@
   {{ $auditfilecsv        := (getCSV "," .auditfile) }}
   {{ $data.Set "date" (replace (path.Base .auditfile) (path.Ext .auditfile) "") }}
 
-
   {{ range $key1, $value1 := after 1 $auditfilecsv }}
-    {{ range $id, $value2 := after 3 . }}
+    {{ range $id, $value2 := after ( sub (len .) 1) . }}
       {{ $value2 := lower (index (split . "|") 0) }}
       {{ $key := printf "%s.%s" (index $value1 0) (index $value1 1)}}
       {{ if or (eq $value2 "oui") (eq $value2 "c") (eq $value2 "conforme") }}
