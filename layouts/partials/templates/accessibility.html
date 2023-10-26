@@ -88,14 +88,15 @@
       {{/* Create an array with all pages */}}
       {{- $data.Set "pageslist" (index (partialCached "render/methodology.html" (dict "context" $context "auditfile" ($data.Get "auditfile-csv")) ($data.Get "auditfile-csv")) "pageslist") -}}
       {{/* Control which tests are made for each type of audit :: this is an help for knowing witch tests are missing */}}
-      {{- range $auditname, $audit := $context.Site.Data.rgaa.tests -}}
+      {{- $.Store.Set "testfile" $context.Site.Data.rgaa.tests }}
+      {{- range $auditname, $audit := ($.Store.Get "testfile") -}}
         {{- $data.Set (printf "criterecontrol%s" (string $auditname)) slice -}}
-        {{- range $id, $criterium := index $.context.Site.Data.rgaa.tests $auditname -}}
+        {{- range $id, $criterium := index ($.Store.Get "testfile") $auditname -}}
           {{- range $key, $value := ($data.Get "scores").criteria.total -}}
             {{- if eq $criterium $key -}}{{ $data.Add (printf "criterecontrol%s" (string $auditname)) $key }}{{- end -}}
           {{- end -}}
         {{- end -}}
-        {{- $data.Set (printf "criterecontrol%s" (string $auditname)) ((($data.Get (printf "criterecontrol%s" (string $auditname))) | symdiff (index $.context.Site.Data.rgaa.tests $auditname))) -}}
+        {{- $data.Set (printf "criterecontrol%s" (string $auditname)) ((($data.Get (printf "criterecontrol%s" (string $auditname))) | symdiff (index ($.Store.Get "testfile") $auditname))) -}}
       {{- end -}}
 
       <script>

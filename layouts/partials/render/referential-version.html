@@ -1,6 +1,6 @@
 {{ $context    := .context }}
 {{ $data       := newScratch }}
-{{ $path := "" }}
+{{ $path       := "" }}
 {{ $patharray  := (symdiff (split ($context.RelPermalink) "/") (slice ""))}}
 
 {{ $referential := cond (eq .referential "accessibility") "rgaa" .referential }}

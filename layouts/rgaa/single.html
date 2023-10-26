@@ -18,9 +18,10 @@
       {{- end -}}
       </ol>
     </div>
-    {{- $auditquick := index .Site.Data.rgaa.tests "25" -}}
-    {{- $auditcomplementary := index .Site.Data.rgaa.tests "50" -}}
-    {{- $auditnecessary := index .Site.Data.rgaa.tests "81" -}}
+    {{- $.Store.Set "testfile" .Site.Data.rgaa.tests }}
+    {{- $auditquick         := index ($.Store.Get "testfile") "25" -}}
+    {{- $auditcomplementary := index ($.Store.Get "testfile") "50" -}}
+    {{- $auditnecessary     := index ($.Store.Get "testfile") "81" -}}
     {{- partialCached "utils/css.html" (dict "context" . "filefolder" "object" "filename" "buttons") "buttons" -}}
     <ul class="list-unstyled list-inline">
       <li><button id="auditall" class="btn btn-small mb-0">Tous les critères</button></li>&nbsp;
