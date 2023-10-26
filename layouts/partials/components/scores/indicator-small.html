@@ -1,9 +1,11 @@
-{{- $project     := .project -}}
-{{- $name        := .name -}}
-{{- $lastfile    := (index (partialCached "render/lastfile.html" (dict "context" .context "project" $project "type" .type) $project .type) "auditfile-path") -}}
-{{- $ecoconception := partialCached "render/ecoconception.html" (dict "context" .context "auditfile" $lastfile) .context $lastfile -}}
+{{- $project       := .project -}}
+{{- $name          := .name    -}}
+{{- $context       := .context -}}
+{{- $context.Store.Set    "rangepages" (where $context.Site.Pages "Section" "audits") -}}
+{{- $context.Store.Set    "aggregates" (partialCached "render/aggregate-scores.html" (dict "pages" ($context.Store.Get "rangepages")) ($context.Store.Get "rangepages")) -}}
+{{- $score := index (index ($context.Store.Get "aggregates").allscores $project) .type -}}
 
-{{- with $ecoconception -}}
+{{- with $score -}}
   <small class="text-center d-block">
     {{- if (ne .isempty 0) -}}
     <b class="font-bigger font-bold d-block p-relative m-auto w-max-content">

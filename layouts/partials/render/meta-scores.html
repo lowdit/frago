@@ -1,0 +1,14 @@
+{{ $types          := .type }}
+{{ $auditsfiles    := (partialCached "render/lastfile.html" (dict "context" .context "project" .project "type" $types "datafilename" .datafilename) .project $types .datafilename) }}
+{{ $auditlastpath  := (index $auditsfiles "auditfile-path") }}
+{{ $auditcontent   := cond (ne $auditlastpath "/false") (getCSV "," $auditlastpath) "" }}
+{{ $auditscores    := cond (ne $auditlastpath "") (partialCached (printf "render/%s.html" $types) (dict "context" "accessibilityscores" "auditfile" $auditlastpath) $auditlastpath) "" }}
+
+{{ return
+  (dict
+    "auditfiles"       $auditsfiles
+    "auditfile-path"   $auditlastpath
+    "auditcontent"     $auditcontent
+    "auditscores"      $auditscores
+  )
+}}

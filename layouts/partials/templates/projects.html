@@ -75,7 +75,7 @@
 
       {{/* START - If several accessibility files */}}
       {{- with ($.Store.Get "accessibility-all-path") -}}
-        {{- range $id, $value := . -}}{{- ($.Store.Add "render" (slice (partialCached "render/accessibility.html" (dict "context" "Graphique" "auditfile" . ) . ))) -}}{{- end -}}
+        {{- range $id, $value := . -}}{{- ($.Store.Add "render" (slice (partialCached "render/accessibility.html" (dict "context" "graphique" "auditfile" . ) .))) -}}{{- end -}}
       {{- end -}}
       {{- with ($.Store.Get "render") -}}
         {{- if gt (len .) 1 -}}
@@ -183,7 +183,7 @@
 
     {{/* START - If publishing */}}
     {{- if $publishing -}}
-      {{- $.Store.Set "audit" (partialCached "render/ecoconception.html" (dict "context" "ecopartial" "auditfile" ($.Store.Get "publishing-path")) ($.Store.Get "publishing-path")) -}}
+      {{- $.Store.Set "audit" (partialCached "render/ecoconception.html" (dict "context" "publishingpartial" "auditfile" ($.Store.Get "publishing-path")) ($.Store.Get "publishing-path")) -}}
       <h3 class="m-0">Sobriété éditoriale
         {{- if or ($.Store.Get "audit").scores.compliance (eq ($.Store.Get "audit").scores.compliance 0) -}}
           {{- $pageauditpath := (printf "/content/audits/%s/publishing.md" ($project | urlize)) -}}
@@ -301,7 +301,7 @@
         <small>- <a href="{{ $AuditLink }}" aria-label="Accéder au rapport de performance">Accéder au rapport</a></small>{{ end }}{{ $pageauditpath := (printf "/content/audits/%s/performance.md" ($project | anchorize)) }}{{- if (fileExists $pageauditpath) -}}<small>- <a href="{{ $context.Site.BaseURL | default "/" }}{{ replace (replace (replace $pageauditpath ".md" "/") "/content/" "") "//" "/" }}" aria-label="Accéder au rapport de performance">Accéder au rapport</a></small>{{- end -}}
       </h3>
       {{- with index (partialCached "render/lastfile.html" (dict "context" . "project" $project "type" "lighthouse") $project "lighthouse") "auditfile-path" -}}
-        {{- $performance := (partialCached "render/performance" (dict "project" $project "auditfile" .) $project .) -}}
+        {{- $performance := (partialCached "render/performance" (dict "context" "project" "auditfile" .) .) -}}
         {{- partialCached "components/scores/performance" (dict "context" $context "counter" $performance) $performance -}}
       {{- end -}}
       {{/* START - If several Lighthouse files */}}
@@ -333,7 +333,7 @@
                     },
                     {
                       name: "Chargement",
-                      values: [{{ range $id, $value := $lastfiles }}{{ $performancefile := partialCached "render/performance.html" (dict "auditfile" .) . }}{{ if ne $id "0" }},{{ end }}{{ if $performancefile.LCP }}"{{ div $performancefile.LCP 1000 | lang.NumFmt 1 }}"{{- end -}}{{- end -}}],
+                      values: [{{ range $id, $value := $lastfiles }}{{ $performancefile := partialCached "render/performance.html" (dict "context" "project" "auditfile" .) . }}{{ if ne $id "0" }},{{ end }}{{ if $performancefile.LCP }}"{{ div $performancefile.LCP 1000 | lang.NumFmt 1 }}"{{- end -}}{{- end -}}],
                       chartType: 'bar'
                     }
                   ],

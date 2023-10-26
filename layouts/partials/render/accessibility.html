@@ -12,7 +12,8 @@
 {{/* START - (ne .auditfile "/false") */}}
 {{ if (ne .auditfile "/false") }}
 
-  {{ $auditfilecsv     := (readFile .auditfile | transform.Unmarshal) }}
+
+  {{ $auditfilecsv     := (getCSV "," .auditfile) }}
   {{ $auditmethodology := (index (partialCached "render/methodology.html" (dict "auditfile" $auditfilecsv) $auditfilecsv) "methodology") }}
   {{ $pageslist        := (index (partialCached "render/methodology.html" (dict "auditfile" $auditfilecsv) $auditfilecsv) "pageslist") -}}
 
@@ -47,19 +48,24 @@
       {{ if or (eq $testvalue "c") (eq $testvalue "nc") }}
         {{ $data.Add (printf "%s" "render-is-empty") 1 }}
       {{ end }}
+
       {{ if or (eq $testvalue "c") (eq $testvalue "nc") (eq $testvalue "na") (eq . "?") }}
         {{ $data.Add (printf "%s" "totalTest") 1 }}
         {{ $data.Add (printf "%s" "iCrit") 1 }}
       {{ end }}
+
       {{ if $testcontentvalue }}
+
         {{/* Replace first Characters (when c, nc or na…) by the same lowerify characters */}}
         {{- if (eq (getenv "HUGO_ENV") "debugperfline") -}}
           {{ $timepartial   = now.UnixMilli }}
         {{- end -}}
+
         {{ $testcontentvalue := (cond (le (len $testvalue) 3) (replace $testcontentvalue (first (len $testvalue) $testcontentvalue) (lower (first (len $testvalue) $testcontentvalue))) $testcontentvalue) }}
 
         {{ $data.Add (printf "%s%s" $scorekey "critPageValue") $testcontentvalue }}
         {{ $data.Add (printf "%s%s" $scorekey "critPageValues") $testcontentvalue }}
+
         {{/* Build array per pages */}}
         {{ $data.SetInMap
           (printf "%s%s" $scorekey "critValuesUniq")
@@ -71,12 +77,14 @@
           (string $crit)
           (($data.Get (printf "%s%s" $scorekey "critPageValues")))
         }}
-        {{- if (eq (getenv "HUGO_ENV") "debugperfline") -}}
-        {{ if gt (sub now.UnixMilli $timepartial) 30 }}
-          {{ warnf "Line[%sms] END %s %s %s" (string (sub now.UnixMilli $timepartial)) $context $value1 . }}
-          {{ $timepartial   = now.UnixMilli }}
-          {{- end -}}
-        {{- end -}}
+
+        {{ if (eq (getenv "HUGO_ENV") "debugperfline") }}
+          {{ if gt (sub now.UnixMilli $timepartial) 30 }}
+            {{ warnf "Line[%sms] END %s %s %s" (string (sub now.UnixMilli $timepartial)) $context $value1 . }}
+            {{ $timepartial   = now.UnixMilli }}
+          {{ end }}
+        {{ end }}
+
         {{/* If a page has only nt for all criteria */}}
         {{ if (ne $testvalue "nt") }}
           {{ $data.SetInMap
@@ -86,10 +94,12 @@
           }}
         {{ end }}
       {{ end }}
-      {{- if (eq (getenv "HUGO_ENV") "debugperfline") -}}
-        {{/* warnf "Line[%sms] total %s %s %s" (string (sub now.UnixMilli  $timepartial)) $context $value1 . */}}
+
+      {{ if (eq (getenv "HUGO_ENV") "debugperfline") }}
+        {{ warnf "Line[%sms] total %s %s %s" (string (sub now.UnixMilli  $timepartial)) $context $value1 . }}
         {{ $timepartial   = now.UnixMilli }}
-      {{- end -}}
+      {{ end }}
+
     {{ end }}
     {{/* END Range columns of the csv file */}}
     {{ $data.Set (printf "%s%s" $scorekey "critere") $crit }}
@@ -354,5 +364,6 @@
 {{/* END - (ne .auditfile "/false") */}}
 
 {{- if (eq (getenv "HUGO_ENV") "debugperf") -}}
-  {{ warnf "=> Accessibility  Total[%sms] %q %#v" (string (sub now.UnixMilli $time)) .context (delimit ($data.Get "debugperf") " ") }}
+  {{ $time = string (sub now.UnixMilli $time) }}
+  {{ warnf "=> Accessibility  Total | %s%sms| %q %#v" (cond (eq (len $time) 4) "" (cond (eq (len $time) 3) " " (cond (eq (len $time) 2) "  " "   "))) $time (cond (eq (printf "%T" $context ) "string" ) $context $context) (delimit ($data.Get "debugperf") " ") }}
 {{- end -}}

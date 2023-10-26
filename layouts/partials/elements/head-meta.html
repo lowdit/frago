@@ -2,23 +2,29 @@
 {{- $path := "" }}{{ with .File }}{{ $path = .Path }}{{ end }}
 {{- $project      := partialCached "render/projectpath" . . -}}
 {{- $projectPath  := cond (fileExists (printf "audits/%s/index.md" ($project))) (printf "audits/%s/index.md" ($project)) (printf "audits/%s/_index.md" ($project)) -}}
-{{- $projectTitle := (cond (or (in .Permalink "audits/") (in .Permalink "services/")) (.GetPage $projectPath).Title .Site.Title) -}}
-{{- $pageTitle    := (cond (or (in .Permalink "audits/") (in .Permalink "services/")) "" .Title) -}}
+{{- $projectTitle := cond (or (in .Permalink "audits/") (in .Permalink "services/")) (.GetPage $projectPath).Title .Site.Title -}}
+{{- $pageTitle    := cond (or (in .Permalink "audits/") (in .Permalink "services/")) "" .Title -}}
 
-{{- $.Scratch.Set "pretitle" (cond (or (in .Permalink "audits/") (in .Permalink "services/")) "Synthèse" "Suivi de conformité") -}} -}}
+{{- $.Scratch.Set "pretitle" (cond (or (in .Permalink "audits/") (in .Permalink "services/")) "Synthèse" "Suivi de conformité") -}}
 {{- $.Scratch.Set "audit" "" -}}
-{{- $.Scratch.Set "type" "" -}}
+{{- $.Store.Set "type" "Page" -}}
 {{- $alternate  := where (where .OutputFormats "Permalink" "eq" .Permalink) "Rel" "eq" "alternate" -}}
 {{- if ne (len $alternate) 0 -}}
   {{- with $alternate -}}
     {{- range $key, $value := . -}}
-      {{- $.Scratch.Set "type" .Format.BaseName -}}
+      {{- $.Store.Set "type" .Format.BaseName -}}
       {{- if eq .Format.BaseName "accessibility" -}}
         {{- $.Scratch.Set "pretitle" "Audit Accessibilité" -}}
-        {{- $.Scratch.Set "audit" ((index ((partialCached "render/accessibility-scores.html" (dict "context" $context "project" $project "type" "accessibility") $project "accessibility")) "auditscores").scores.compliance) -}}
+        {{- $.Scratch.Set "audit" ((index ((partialCached "render/meta-scores.html" (dict "context" $context "project" $project "type" "accessibility") $project "accessibility")) "auditscores").scores.compliance) -}}
       {{- else if eq .Format.BaseName "ecoconception" -}}
         {{- $.Scratch.Set "pretitle" "Écoconception" -}}
-        {{- $.Scratch.Set "audit" (index (partialCached "render/ecoconception-scores.html" (dict "context" $context "project" $project "type" "ecoconception") $project "ecoconception") "auditscores").scores.compliance -}}
+        {{- $.Scratch.Set "audit" (index (partialCached "render/meta-scores.html" (dict "context" $context "project" $project "type" "ecoconception") $project "ecoconception") "auditscores").scores.compliance -}}
+      {{- else if eq .Format.BaseName "opquast" -}}
+        {{- $.Scratch.Set "pretitle" "Opquast" -}}
+        {{- $.Scratch.Set "audit" (index (partialCached "render/meta-scores.html" (dict "context" $context "project" $project "type" "opquast") $project "ecoconception") "auditscores").scores.compliance -}}
+      {{- else if eq .Format.BaseName "publishing" -}}
+        {{- $.Scratch.Set "pretitle" "Édito" -}}
+        {{- $.Scratch.Set "audit" (index (partialCached "render/meta-scores.html" (dict "context" $context "project" $project "type" "publishing") $project "ecoconception") "auditscores").scores.compliance -}}
       {{- else if eq .Format.BaseName "greenit" -}}
         {{- $.Scratch.Set "pretitle" "GreenIT - 74 bonnes pratiques" -}}
         {{- $.Scratch.Set "audit" "" -}}
@@ -30,7 +36,7 @@
         {{- $.Scratch.Set "audit" "" -}}
       {{- else if eq .Format.BaseName "performance" -}}
         {{- $.Scratch.Set "pretitle" "Audit Performance" -}}
-        {{- $.Scratch.Set "audit" (index (partialCached "render/performance-scores.html" (dict "context" $context "project" $project "type" "performance") $project "performance") "auditscores").ecoindex -}}
+        {{- $.Scratch.Set "audit" (index (partialCached "render/meta-scores.html" (dict "context" $context "project" $project "type" "performance") $project "performance") "auditscores").ecoindex -}}
       {{- else if eq .Format.BaseName "declaration" -}}
         {{- $.Scratch.Set "pretitle" "Déclaration" -}}
       {{- end -}}
@@ -43,10 +49,10 @@
 
 {{ return
   (dict
-    "title"      (cond (ne $projectTitle "") $projectTitle (index (split (path.Dir $path) "/") 1))
+    "title"      (cond (ne $projectTitle "") $projectTitle (cond (ne $path "") (index (split (path.Dir $path) "/") 1) "notitle"))
     "pretitle"   ($.Scratch.Get "pretitle")
     "pagetitle"  ($pageTitle)
     "audit"      ($.Scratch.Get "audit")
-    "type"       ($.Scratch.Get "type")
+    "types"      ($.Store.Get "type")
   )
 }}

@@ -1,14 +1,13 @@
 {{/* Build a map with all accessibility score for using it later in code :: maybe for catching progression or regression */}}
 {{ $scorekey      := sha1 (string now) }}
-{{- $path := "" }}
-{{- with .File }}{{ $path = .Path }}{{ end }}
+{{ $path := "" }}
+{{ with .File }}{{ $path = .Path }}{{ end }}
 {{ $data          := newScratch }}
 {{ $time          := now.UnixMilli }}
 {{ $timepartial   := now.UnixMilli }}
 {{ $reflist       := (slice "accessibility" "ecoconception" "opquast" "publishing") }}
-{{ if (eq (getenv "HUGO_ENV") "debugperf") }}
-  {{ $data.Set "debugperf" slice }}
-{{ end }}
+
+
 
 {{/* Declare Var */}}
 {{ $data.Delete "allscores" }}
@@ -34,8 +33,7 @@
       {{ $type    := . }}
       {{ with (index (partialCached "render/lastfile.html" (dict "context" . "project" $project "type" $type) $project .) "auditfile-all-path") }}
         {{ range $id, $value := last 1 (sort .) }}
-          {{ $render := (partialCached (printf "render/%s.html" $type) (dict "context" "aggregetesscores" "auditfile" . ) .) }}
-          {{ warnf "%s %s" $type $render }}
+          {{ $render := (partialCached (printf "render/%s.html" $type) (dict "context" "aggregate" "auditfile" . ) .) }}
           {{ $data.SetInMap $project $type $render }}
           {{/* Count the sum for each criteria for each value */}}
           {{ range $id, $value := $render.criteria.conforme }}
@@ -112,7 +110,7 @@
 
     {{ with (index (partialCached "render/lastfile.html" (dict "context" . "project" $project "type" "performance") $project "performance") "auditfile-all-path") }}
     {{ range $id, $value := last 1 (sort .) }}
-      {{ $render := (partialCached "render/performance.html" (dict "context" "aggregetesscores" "auditfile" . ) .) }}
+      {{ $render := (partialCached "render/performance.html" (dict "context" "aggregate" "auditfile" . ) .) }}
       {{ $data.SetInMap $project "performance" $render }}
       {{ $score := $render.ecoscore }}
       {{ $data.Add "aggregate-performance-list" $score }}
@@ -121,7 +119,7 @@
     {{ end }}
 
     {{ if (eq (getenv "HUGO_ENV") "debugperf") }}
-      {{ $data.Add "debugperf" (printf "%s %s [%sms]" $project ($path) (string (sub now.UnixMilli $timepartial))) }}
+      {{ $data.SetInMap "debugperf" $path (string (sub now.UnixMilli $timepartial)) }}
       {{ $timepartial   = now.UnixMilli }}
     {{ end }}
 
@@ -206,7 +204,12 @@
 {{ return ($data.Get "aggregates") }}
 
 {{ if (eq (getenv "HUGO_ENV") "debugperf") }}
-  {{ range ($data.Get "debugperf") }}
-    {{ warnf "=> Aggregates     Total[%sms] %s" (string (sub now.UnixMilli $time)) . }}
+  {{ warnf "Aggregates------------------------------------------------------------" }}
+  {{ range $key, $value := ($data.Get "debugperf") }}
+    {{ $time := . }}
+    {{ warnf "=> Aggregates     Parti | %s%sms| %q" (cond (eq (len $time) 4) "" (cond (eq (len $time) 3) " " (cond (eq (len $time) 2) "  " "   "))) $time $key }}
   {{ end }}
+  {{ $time := string (sub now.UnixMilli $time) }}
+  {{ warnf "=> Aggregates     Total | %s%sms|" (cond (eq (len $time) 4) "" (cond (eq (len $time) 3) " " (cond (eq (len $time) 2) "  " "   "))) $time }}
+  {{ warnf "------------------------------------------------------------/" }}
 {{ end }}

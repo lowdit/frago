@@ -1,7 +1,7 @@
 {{- $data         := newScratch -}}
 {{- $data.Delete "allscores" -}}
 {{- $data.Delete "projectfolders" -}}
-{{- $data.Set "rangepages" (where .Site.RegularPages "Section" "audits") -}}
+{{- $data.Set "rangepages" (where $.Site.RegularPages "Section" "audits") -}}
 {{- $pageType := (index (where .OutputFormats "Permalink" "eq" .Permalink) 0).Format.BaseName -}}
 
 {{- $data.Set "accessibility" slice -}}
@@ -61,7 +61,7 @@
                 {{/* If Performance exists */}}
                 {{- if $lighthouse -}}
                   {{- $lastfile    := (index (partialCached "render/lastfile.html" (dict "context" . "project" $project "type" "lighthouse") $project "lighthouse") "auditfile-path") -}}
-                  {{- $performance := partialCached "render/performance.html" (dict "context" . "auditfile" $lastfile) . $lastfile -}}
+                  {{- $performance := partialCached "render/performance.html" (dict "context" "template" "auditfile" $lastfile) . $lastfile -}}
                   {{ $data.Add "performance" (div ($performance.LCP) 1000 | lang.NumFmt 1) }}
                 {{- end -}}
               {{ end }}

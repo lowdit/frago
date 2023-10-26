@@ -89,5 +89,6 @@
 }}
 
 {{- if (eq (getenv "HUGO_ENV") "debugperf") -}}
-  {{ warnf "=> Eco-conception Total[%sms] %s %s" (string (sub now.UnixMilli $time)) .context (delimit ($data.Get "debugperf") " ") }}
+  {{ $time = string (sub now.UnixMilli $time) }}
+  {{ warnf "=> Eco-conception Total | %s%sms| %q %#v" (cond (eq (len $time) 4) "" (cond (eq (len $time) 3) " " (cond (eq (len $time) 2) "  " "   "))) $time .context (delimit ($data.Get "debugperf") " ") }}
 {{- end -}}

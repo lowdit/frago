@@ -1,9 +1,9 @@
 {{/* Variables */}}
 {{ $path := "" }}{{ with .File }}{{ $path = .Path }}{{ end }}
-{{ $pagedate := replace (path.Base $path) (path.Ext $path) "" }}
-{{ $kind     := .Kind }}
-{{ $data     := newScratch }}
-{{ $data.Set "datesAction" slice }}
+{{ $pagedate    := replace (path.Base $path) (path.Ext $path) "" }}
+{{ $kind        := .Kind }}
+{{ $data        := newScratch }}
+{{ $data.Set    "datesAction" slice }}
 {{ $data.Delete "allActions" }}
 {{ $data.Delete "allDates" }}
 
