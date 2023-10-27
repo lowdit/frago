@@ -1,12 +1,13 @@
 {{ $scorekey      := sha1 (string now) }}
-{{ $data          := newScratch }}
-{{ $auditfile     := .auditfile }}
-{{ $context       := . }}
+{{ $data          := newScratch    }}
+{{ $auditfile     := .auditfile    }}
+{{ $context       := .             }}
 {{ $time          := now.UnixMilli }}
 {{ $timepartial   := now.UnixMilli }}
-{{- if (eq (getenv "HUGO_ENV") "debugperf") -}}
+
+{{ if (eq (getenv "HUGO_ENV") "debugperf") }}
   {{ $data.Set "debugperf" (slice $auditfile) }}
-{{- end -}}
+{{ end }}
 
 {{ if (ne .auditfile "/false") }}
   {{ $auditfilecsv        := (getCSV "," .auditfile) }}

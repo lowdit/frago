@@ -12,8 +12,7 @@
 {{/* START - (ne .auditfile "/false") */}}
 {{ if (ne .auditfile "/false") }}
 
-
-  {{ $auditfilecsv     := (getCSV "," .auditfile) }}
+  {{ $auditfilecsv     := (readFile .auditfile | transform.Unmarshal) }}
   {{ $auditmethodology := (index (partialCached "render/methodology.html" (dict "auditfile" $auditfilecsv) $auditfilecsv) "methodology") }}
   {{ $pageslist        := (index (partialCached "render/methodology.html" (dict "auditfile" $auditfilecsv) $auditfilecsv) "pageslist") -}}
 

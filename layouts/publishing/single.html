@@ -55,6 +55,7 @@
 {{- $data.Set "subject" slice }}
 
 {{- if $criteriafile -}}
+
   {{- range $key1, $value1 := $criteriafile -}}
     {{ $data.Add "thematique" .topic }}
   {{- end -}}
@@ -69,7 +70,7 @@
     </ol>
   </div>
 
-  {{- range $key, $value := uniq ($data.Get "thematique") }}
+    {{- range $key, $value := uniq ($data.Get "thematique") }}
       <h2 id="topic{{ add $key 1 | urlize }}" >{{ add $key 1 }} - {{ . }}</h2>
       {{- range $key1, $value1 := where $criteriafile "topic" . -}}
         <h3>{{ add $key 1 | urlize }}.{{ add $key1 1 }} - {{ .criterium | markdownify }}</h3>

@@ -11,52 +11,52 @@
       {{- if gt (len ($.Store.Get "aggregates").accessibility.all) 0 }}
       <h2 class="lh-0">Liste des indicateurs<br><small>Pour {{ (len ($.Store.Get "aggregates").accessibility.all) }} services</small></h2>
         <ul class="list-unstyled" role="navigation">
-            <li class="enlarge-link card-inline card-shadow">
-              <h2 class="h3">
-                <a class="link-text" href="{{ $context.Site.BaseURL }}organism/accessibility.html">
-                  Accessibilité <small>Conformité</small>
-                </a>
-              </h2>
-              <span class="flex flex-gap align-items-center text-center lh-1 mr-2">
-                {{- (partialCached "components/scores/aggregate-small.html" (dict "value" (($.Store.Get "aggregates").accessibility) "type" "RGAA") "RGAA" ) -}}
-              </span>
-            </li>
-            <li class="enlarge-link card-inline card-shadow">
-              <h2 class="h3">
-                <a class="link-text" href="{{ $context.Site.BaseURL }}organism/ecoconception.html">
-                  Éco-conception <small>Conformité</small>
-                </a>
-              </h2>
-              <span class="flex flex-gap align-items-center text-center lh-1 mr-2">
-                {{- (partialCached "components/scores/aggregate-small.html" (dict "value" (($.Store.Get "aggregates").ecoconception) "type" "RGESN") "RGESN" ) -}}
-              </span>
-            </li>
-            <li class="enlarge-link card-inline card-shadow">
-              <h2 class="h3">
-                <a class="link-text" href="{{ $context.Site.BaseURL }}organism/opquast.html">
-                  60 règles Opquast <small>Validité</small>
-                </a>
-              </h2>
-              <span class="flex flex-gap align-items-center text-center lh-1 mr-2">
-                {{- (partialCached "components/scores/aggregate-small.html" (dict "value" (($.Store.Get "aggregates").opquast) "type" "Opquast") "Opquast" ) -}}
-              </span>
-            </li>
-            <li class="enlarge-link card-inline card-shadow">
-              <h2 class="h3">
-                <a class="link-text" href="{{ $context.Site.BaseURL }}organism/publishing.html">
-                  Sobriété éditoriale <small>Conformité</small></h2>
-                </a>
-              </h2>
-              <span class="flex flex-gap align-items-center text-center lh-1 mr-2">
-                {{- (partialCached "components/scores/aggregate-small.html" (dict "value" (($.Store.Get "aggregates").publishing) "type" "éditorial") "éditorial" ) -}}
-              </span>
-            </li>
-            <li class="enlarge-link card-inline card-shadow">
-              {{- partialCached "components/scores/greenit-small" (dict "context" . "project" "") "" -}}
-            </li>
-            <li class="enlarge-link card-inline card-shadow">
-              {{- partialCached "components/scores/cigref-small" (dict "context" . "project" "") "" -}}
-            </li>
+          <li class="enlarge-link card-inline card-shadow">
+            <h2 class="h3">
+              <a class="link-text" href="{{ $context.Site.BaseURL }}organism/accessibility.html">
+                Accessibilité <small>Conformité</small>
+              </a>
+            </h2>
+            <span class="flex flex-gap align-items-center text-center lh-1 mr-2">
+              {{- (partialCached "components/scores/aggregate-small.html" (dict "value" (($.Store.Get "aggregates").accessibility) "type" "RGAA") "RGAA" ) -}}
+            </span>
+          </li>
+          <li class="enlarge-link card-inline card-shadow">
+            <h2 class="h3">
+              <a class="link-text" href="{{ $context.Site.BaseURL }}organism/ecoconception.html">
+                Éco-conception <small>Conformité</small>
+              </a>
+            </h2>
+            <span class="flex flex-gap align-items-center text-center lh-1 mr-2">
+              {{- (partialCached "components/scores/aggregate-small.html" (dict "value" (($.Store.Get "aggregates").ecoconception) "type" "RGESN") "RGESN" ) -}}
+            </span>
+          </li>
+          <li class="enlarge-link card-inline card-shadow">
+            <h2 class="h3">
+              <a class="link-text" href="{{ $context.Site.BaseURL }}organism/opquast.html">
+                60 règles Opquast <small>Validité</small>
+              </a>
+            </h2>
+            <span class="flex flex-gap align-items-center text-center lh-1 mr-2">
+              {{- (partialCached "components/scores/aggregate-small.html" (dict "value" (($.Store.Get "aggregates").opquast) "type" "Opquast") "Opquast" ) -}}
+            </span>
+          </li>
+          <li class="enlarge-link card-inline card-shadow">
+            <h2 class="h3">
+              <a class="link-text" href="{{ $context.Site.BaseURL }}organism/publishing.html">
+                Sobriété éditoriale <small>Conformité</small></h2>
+              </a>
+            </h2>
+            <span class="flex flex-gap align-items-center text-center lh-1 mr-2">
+              {{- (partialCached "components/scores/aggregate-small.html" (dict "value" (($.Store.Get "aggregates").publishing) "type" "éditorial") "éditorial" ) -}}
+            </span>
+          </li>
+          <li class="enlarge-link card-inline card-shadow">
+            {{- partialCached "components/scores/greenit-small" (dict "context" . "project" "") "" -}}
+          </li>
+          <li class="enlarge-link card-inline card-shadow">
+            {{- partialCached "components/scores/cigref-small" (dict "context" . "project" "") "" -}}
+          </li>
         </ul>
       {{- end -}}
     </div>
