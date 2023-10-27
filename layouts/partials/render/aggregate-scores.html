@@ -7,8 +7,6 @@
 {{ $timepartial   := now.UnixMilli }}
 {{ $reflist       := (slice "accessibility" "ecoconception" "opquast" "publishing") }}
 
-
-
 {{/* Declare Var */}}
 {{ $data.Delete "allscores" }}
 {{ range $reflist }}
@@ -25,6 +23,7 @@
   {{ $project := partialCached "render/projectpath" . . }}
   {{ if ne $project "" }}
   {{ $context := . }}
+  {{ $ref  := $context.Site.Data.referential }}
   {{ $path := "" }}{{ with .File }}{{ $path = .Path }}{{ end }}
   {{ if and (in (path.Base $path) "index.md") (not (in "audits/_index.md" $path)) (ne (len (split $path "/")) 4) }}
 
@@ -32,40 +31,54 @@
     {{ range $reflist }}
       {{ $type    := . }}
       {{ with (index (partialCached "render/lastfile.html" (dict "context" . "project" $project "type" $type) $project .) "auditfile-all-path") }}
-        {{ range $id, $value := last 1 (sort .) }}
+        {{ range $id, $file := last 1 (sort .) }}
           {{ $render := (partialCached (printf "render/%s.html" $type) (dict "context" "aggregate" "auditfile" . ) .) }}
           {{ $data.SetInMap $project $type $render }}
           {{/* Count the sum for each criteria for each value */}}
           {{ range $id, $value := $render.criteria.conforme }}
             {{ $data.Add (printf "%s%s-c" $id $type) 1     }}
             {{ $data.SetInMap (printf "average-%s-conforme" $type)   (string $id) ($data.Get (printf "%s%s-c" $id $type)) }}
+            {{ $thematique := "" }}
             {{ with (in $id ".") }}
-              {{ $thematique := (delimit (first 1 (split $id ".")) "") }}
-              {{ $data.Add (printf "%s%s-c-t" $thematique $type) 1 }}
-              {{ $data.Add (printf "%s-list-t" $type) $thematique }}
-              {{ $data.SetInMap (printf "average-%s-conforme-t" $type) (string $thematique) ($data.Get (printf "%s%s-c-t" $thematique $type)) }}
+              {{ $thematique = (index (index $ref $type).topics (sub (int (delimit (first 1 (split $id ".")) "")) 1)) }}
+            {{ else }}
+              {{ $referential    := (partialCached "render/referential-version.html" (dict "context" $context "referential" "opquast") $context "opquast").guideline }}
+              {{ $criteriafile   := (index (index $context.Site.Data $referential.name) (string $referential.version)).criteria.criteres }}
+              {{ $thematique     =  (index (index (where $criteriafile "number" (float $id)) 0).thema 0).fr }}
             {{ end }}
+            {{ $data.Add (printf "%s%s-c-t" $thematique $type) 1 }}
+            {{ $data.Add (printf "%s-list-t" $type) $thematique }}
+            {{ $data.SetInMap (printf "average-%s-conforme-t" $type) (string $thematique) ($data.Get (printf "%s%s-c-t" $thematique $type)) }}
           {{ end }}
           {{ range $id, $value := $render.criteria.nonconforme }}
             {{ $data.Add (printf "%s%s-nc" $id $type) 1 }}
             {{ $data.SetInMap (printf "average-%s-nonconforme" $type) (string $id) ($data.Get (printf "%s%s-nc" $id $type)) }}
-
+            {{ $thematique := "" }}
             {{ with (in $id ".") }}
-              {{ $thematique := (delimit (first 1 (split $id ".")) "") }}
-              {{ $data.Add (printf "%s%s-nc-t" $thematique $type) 1 }}
-              {{ $data.Add (printf "%s-list-t" $type) $thematique }}
-              {{ $data.SetInMap (printf "average-%s-nonconforme-t" $type) (string $thematique) ($data.Get (printf "%s%s-nc-t" $thematique $type)) }}
+              {{ $thematique = (index (index $ref $type).topics (sub (int (delimit (first 1 (split $id ".")) "")) 1)) }}
+            {{ else }}
+              {{ $referential    := (partialCached "render/referential-version.html" (dict "context" $context "referential" "opquast") $context "opquast").guideline }}
+              {{ $criteriafile   := (index (index $context.Site.Data $referential.name) (string $referential.version)).criteria.criteres }}
+              {{ $thematique     =  (index (index (where $criteriafile "number" (float $id)) 0).thema 0).fr }}
             {{ end }}
+            {{ $data.Add (printf "%s%s-nc-t" $thematique $type) 1 }}
+            {{ $data.Add (printf "%s-list-t" $type) $thematique }}
+            {{ $data.SetInMap (printf "average-%s-nonconforme-t" $type) (string $thematique) ($data.Get (printf "%s%s-nc-t" $thematique $type)) }}
           {{ end }}
           {{ range $id, $value := $render.criteria.nonapplicable }}
             {{ $data.Add (printf "%s%s-na" $id $type) 1 }}
             {{ $data.SetInMap (printf "average-%s-nonapplicable" $type) (string $id) ($data.Get (printf "%s%s-na" $id $type)) }}
+            {{ $thematique := "" }}
             {{ with (in $id ".") }}
-              {{ $thematique := (delimit (first 1 (split $id ".")) "") }}
-              {{ $data.Add (printf "%s%s-na-t" $thematique $type) 1 }}
-              {{ $data.Add (printf "%s-list-t" $type) $thematique }}
-              {{ $data.SetInMap (printf "average-%s-nonapplicable-t" $type) (string $thematique) ($data.Get (printf "%s%s-na-t" $thematique $type)) }}
+              {{ $thematique = (index (index $ref $type).topics (sub (int (delimit (first 1 (split $id ".")) "")) 1)) }}
+            {{ else }}
+              {{ $referential    := (partialCached "render/referential-version.html" (dict "context" $context "referential" "opquast") $context "opquast").guideline }}
+              {{ $criteriafile   := (index (index $context.Site.Data $referential.name) (string $referential.version)).criteria.criteres }}
+              {{ $thematique     =  (index (index (where $criteriafile "number" (float $id)) 0).thema 0).fr }}
             {{ end }}
+            {{ $data.Add (printf "%s%s-na-t" $thematique $type) 1 }}
+            {{ $data.Add (printf "%s-list-t" $type) $thematique }}
+            {{ $data.SetInMap (printf "average-%s-nonapplicable-t" $type) (string $thematique) ($data.Get (printf "%s%s-na-t" $thematique $type)) }}
           {{ end }}
           {{ range $id, $value := $render.criteria.all }}
             {{ if and (gt (int (index ($data.Get (printf "average-%s-nonconforme" $type)) $id)) 0) (gt (int (index ($data.Get (printf "average-%s-conforme" $type)) $id)) 0) }}

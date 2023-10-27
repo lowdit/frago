@@ -38,15 +38,17 @@
             </tr>
           </thead>
           <tbody class="font-bigger">
-            {{- range (sort $range.thematiquelist) -}}
+            {{- range (index $ref $name).topics -}}
               {{ $id := .|string }}
+              {{ if (index ($range.thematiquepourcentage) $id) }}
               <tr style="--base-light: 105%;">
-                <th class="text-left">{{ index (index $ref $name).topics (sub (int $id) 1) }}</th>
+                <th class="text-left">{{ if ge (len $id) 3 }}{{ $id }}{{ else }}{{ end }}</th>
                 <td class="text-center" style="max-width:10%;background:hsl(var(--base-green), 25%, calc(var(--base-light) - 10%))">{{ if gt (int (index ($range.thematiqueconforme) $id)) 0 }}{{ index $range.thematiqueconforme $id }}{{ else }}0{{ end }}</td>
                 <td class="text-center" style="max-width:10%;background:hsl(var(--base-orange), 25%, calc(var(--base-light) - 10%))">{{ if gt (int (index ($range.thematiquenonapplicable) $id)) 0 }}{{ index ($range.thematiquenonapplicable) $id }}{{ else }}0{{ end }}</td>
                 <td class="text-center" style="max-width:10%;background:hsl(var(--base-red), 25%, calc(var(--base-light) - 10%))">{{ if gt (int (index ($range.thematiquenonconforme) $id)) 0 }}{{ index ($range.thematiquenonconforme) $id }}{{ else }}0{{ end }}</td>
-                <td class="text-center" style="color:#fff;background: #222">{{ index ($range.thematiquepourcentage) $id }}{{ if ne (index ($range.thematiquepourcentage) $id) "NA"}}%{{ end }}</td>
+                <td class="text-center" style="color:#fff;background: #222">{{ with (index ($range.thematiquepourcentage) $id) }}{{ . }}{{ if ne (index ($range.thematiquepourcentage) $id) "NA"}}%{{ end }}{{ else }}NA{{ end }}</td>
               </tr>
+              {{ end }}
             {{ end }}
           </tbody>
         </table>
