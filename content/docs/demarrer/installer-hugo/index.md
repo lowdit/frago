@@ -34,5 +34,5 @@ Il est possible que votre plateforme de génération ne supporte pas Go (ou une 
 Au moment de la génération en `production`, vous appeler le thème grâce à un submodule (ce sera fait à chaque génération).
 
 ```bash
-git submodule add https://github.com/lowdit/frago.git/ themes/frago -f && git submodule update --init --recursive && hugo --gc --minify --buildFuture --templateMetrics
+git submodule add  -f https://github.com/lowdit/frago.git/ themes/frago && git submodule update --init --recursive && hugo --gc --minify --buildFuture --templateMetrics
 ```
