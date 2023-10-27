@@ -1,5 +1,6 @@
 {{/* Return value for loading externals projects */}}
 {{ $context    := .context   }}
+{{- $path := "" }}{{ with .File }}{{ $path = .Path }}{{ end }}
 {{ $project    := .project   }}
 {{ $data       := newScratch }}
 {{ $auditfile  := .auditfile }}
@@ -19,7 +20,7 @@
     {{/* If subproject */}}
     {{ with .folder }}
       {{ $data.SetInMap "name" (string (add $id 1)) $name }}
-      {{ $project  := replace (printf "%s/%s" (path.Dir $context.File.Path) .) "audits" "" }}
+      {{ $project  := replace (printf "%s/%s" (path.Dir $path) .) "audits" "" }}
       {{ $lastfile := (partialCached "render/lastfile.html" (dict "project" $project "type" "accessibility") $project "accessibility") }}
       {{ if index $lastfile "auditfile-name" }}
         {{ with index $lastfile "auditfile-path" }}

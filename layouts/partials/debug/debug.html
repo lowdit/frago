@@ -1,3 +1,5 @@
+{{- $path := "" }}
+{{- with $.Page.File.Path }}{{ $path = .Path }}{{ end }}
 <div class="debug">
   <div class="debug-badge">
     <div class="debug-toggle">
@@ -121,7 +123,7 @@
     console.log('Current Section: ', '{{ .context.Page.CurrentSection | default "NOT SET" }}')
     console.log('Page Section: ', '{{ .context.Page.Section | default "NOT SET" }}')
     console.log('Page Type: ', '{{ .context.Page.Type }}')
-    console.log('Page Dir: ', '{{ (path.Dir .context.Page.File.Path) | default "/" }}{{ .File }}')
+    console.log('Page Dir: ', '{{ (path.Dir $path) | default "/" }}{{ .File }}')
     console.log('Page WordCount: ', '{{ .context.Page.FuzzyWordCount }}')
     console.log('Page Home: ', '{{ .context.Page.IsHome }}')
     console.log('Page Node: ', '{{ .context.Page.IsNode }}')

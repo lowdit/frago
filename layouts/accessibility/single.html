@@ -1,5 +1,7 @@
 {{- define "title" -}}
   {{- $context := . -}}
+  {{ $path := "" }}
+  {{ with .File }}{{ $path = .Path }}{{ end }}
   {{- $alternate  := where (where .OutputFormats "Permalink" "eq" .Permalink) "Rel" "eq" "alternate" -}}
   {{- if ne (len $alternate) 0 -}}
     {{- with $alternate -}}
@@ -10,7 +12,7 @@
   {{- else -}}
     Audit Accessibilité
   {{- end -}}
-  {{- $projectTitle := (.GetPage "./").Title -}}{{ with $projectTitle }} pour {{ $projectTitle }}{{ else }}{{ (index (split (path.Dir .File.Path) "/") 1) }}{{ end }}
+  {{- $projectTitle := (.GetPage "./").Title -}}{{ with $projectTitle }} pour {{ $projectTitle }}{{ else }}{{ (index (split (path.Dir $path) "/") 1) }}{{ end }}
 {{- end -}}
 
 {{- define "main" -}}

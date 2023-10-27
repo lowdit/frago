@@ -1,55 +1,58 @@
 {{- define "main" -}}
-{{ $path := "" }}
-{{ with .File }}{{ $path = .Path }}{{ else }}{{ $path = .Path }}{{ end }}
-{{- $patharray := split (path.Dir $path) "/" -}}
+  {{- partialCached "utils/css.html" (dict "context" . "filefolder" "base" "filename" "layout" "inline" "true") "layout" -}}
+  {{- partialCached "utils/css.html" (dict "context" . "filefolder" "base" "filename" "main" "inline" "true") "main" -}}
+  {{ $path := "" }}
+  {{ with .File }}{{ $path = .Path }}{{ end }}
+  {{- $patharray := split (path.Dir $path) "/" -}}
 
-{{- $.Scratch.Set "guidelinename" "rgesn" -}}
-{{- $.Scratch.Set "guidelineversion" "1.0" -}}
-{{- if ge ($patharray) 2 -}}
-  {{- $.Scratch.Set "guideline" (index $patharray 0) -}}
-  {{- $.Scratch.Set "guidelinename" (index $patharray 0) -}}
-  {{- $.Scratch.Set "guidelineversion" (index $patharray 1) -}}
-{{- end -}}
-{{- $criteriafile := (index (index $.Site.Data ($.Scratch.Get "guidelinename")) ($.Scratch.Get "guidelineversion")).criteres -}}
+  {{/* Use the audit last version */}}
+  {{- $referential := (partialCached "render/referential-version.html" (dict "context" . "referential" "rgesn") . ).guideline -}}
+  {{- $.Store.Set "file" (index (index $.Site.Data $referential.name) (string $referential.version)) -}}
+  {{- $criteriafile   := ($.Store.Get "file").criteria.criteres -}}
 
-{{- $.Scratch.Set "thematique" slice -}}
-{{- $thematiqueCounter := 1 -}}
-{{- range $key1, $value1 := $criteriafile -}}
-  {{- $thematique := int (index (first 1 (split .id ".")) 0) -}}
-  {{- if eq $thematique $thematiqueCounter -}}
-    {{- $.Scratch.Add "thematique" .thematique -}}
-    {{- $thematiqueCounter = add $thematiqueCounter 1 -}}
-  {{ end }}
-{{- end -}}
 
-<article class="fg-wrapper narrow">
-<h1>{{ (index (index $.Site.Data ($.Scratch.Get "guidelinename")) ($.Scratch.Get "guidelineversion")).title | safeHTML }}</h1>
-  {{ partialCached "utils/css.html" (dict "context" . "filefolder" "element" "filename" "tableofcontents") "tableofcontents" }}
-  <div class="tableofcontents">
-    <h2>Thématiques</h2>
-    <ol>
-    {{/* Range all topics for anchors menu */}}
-    {{- range $key1, $value1 := $.Scratch.Get "thematique" -}}
-      <li><a href="#{{ . | urlize }}">{{ . }}</a></li>
-    {{- end -}}
-    </ol>
-  </div>
+    <article class="fg-wrapper narrow">
+      <h1>{{ ($.Store.Get "file").criteria.title | safeHTML }}</h1>
 
-{{/* Range all topics */}}
-{{- range $key1, $value1 := $.Scratch.Get "thematique" -}}
-  <h2 id="{{ . | urlize }}" >{{ . }}</h2>
-{{- range $key2, $value2 := where $criteriafile "thematique" . -}}
-  <h3 id="{{ .critere | urlize }}" >{{ .critere }}</h3>
-  <p>
-    <strong>{{ .objectif | markdownify }}</strong><br>
-    {{ .miseEnOeuvre | markdownify }}
-  </p>
-  <div class="note">
-    <p>{{ .controle | markdownify }}</p>
-  </div>
-  <hr>
-{{- end -}}
-{{- end -}}
-</div>
+      {{- if $criteriafile -}}
+        {{- $.Scratch.Set "thematique" slice -}}
+        {{- $thematiqueCounter := 1 -}}
+        {{- range $key1, $value1 := $criteriafile -}}
+          {{- $thematique := int (index (first 1 (split .id ".")) 0) -}}
+          {{- if eq $thematique $thematiqueCounter -}}
+            {{- $.Scratch.Add "thematique" .thematique -}}
+            {{- $thematiqueCounter = add $thematiqueCounter 1 -}}
+          {{ end }}
+        {{- end -}}
 
+        {{ partialCached "utils/css.html" (dict "context" . "filefolder" "element" "filename" "tableofcontents") "tableofcontents" }}
+        <div class="tableofcontents">
+          <h2>Thématiques</h2>
+          <ol>
+          {{/* Range all topics for anchors menu */}}
+          {{- range $key1, $value1 := $.Scratch.Get "thematique" -}}
+            <li><a href="#{{ . | urlize }}">{{ . }}</a></li>
+          {{- end -}}
+          </ol>
+        </div>
+
+        {{/* Range all topics */}}
+        {{- range $key1, $value1 := $.Scratch.Get "thematique" -}}
+          <h2 id="{{ . | urlize }}" >{{ . }}</h2>
+          {{- range $key2, $value2 := where $criteriafile "thematique" . -}}
+            <h3 id="{{ .critere | urlize }}" >#{{ add $key1 1 }}.{{ add $key2 1 }} - {{ .critere }}</h3>
+            <p>
+              <strong>{{ .objectif | markdownify }}</strong><br>
+              {{ .miseEnOeuvre | markdownify }}
+            </p>
+            <div class="note">
+              <p>{{ .controle | markdownify }}</p>
+            </div>
+            <hr>
+          {{- end -}}
+        {{- end -}}
+      {{- else -}}
+        <p>Problème de génération de la page RGESN, le fichier semble manquant</p>
+      {{- end -}}
+  </article>
 {{- end -}}

@@ -1,0 +1,23 @@
+{{ $value := .value }}
+{{- if gt $value.sum 0 -}}
+  <b class="font-bold d-block m-auto w-max-content text-center">
+    {{ len $value.invalid }}<br>
+    <small class="smaller">Non</small>
+  </b>
+  <b class="font-bold d-block m-auto w-max-content text-center">
+    {{ sub (sub (len $value.all) (len $value.valid)) (len $value.invalid) }}<br>
+    <small class="smaller">Partielle</small>
+  </b>
+  <b class="font-bold d-block m-auto w-max-content text-center">
+    {{ len $value.valid }}<br>
+    <small class="smaller">Oui</small>
+  </b>
+  {{- if gt $value.average 0 -}}
+  <b class="font-bold d-block m-auto w-max-content text-center">
+    {{ $value.average }}%<br>
+    <small class="smaller">Moyenne</small>
+  </b>
+{{- end -}}
+{{- else -}}
+  Aucun Audit {{ .type }} existant
+{{- end -}}

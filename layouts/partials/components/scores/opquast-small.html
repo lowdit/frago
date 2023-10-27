@@ -1,0 +1,21 @@
+{{- $project     := .project -}}
+{{- $name        := .name -}}
+{{- $context     := .context -}}
+{{- $context.Store.Set    "rangepages" (where $context.Site.Pages "Section" "audits") -}}
+{{- $context.Store.Set    "aggregates" (partialCached "render/aggregate-scores.html" (dict "pages" ($context.Store.Get "rangepages")) ($context.Store.Get "rangepages")) -}}
+{{- $score := index (index ($context.Store.Get "aggregates").allscores $project) .type -}}
+
+{{- with $score -}}
+  <small class="text-center d-block">
+    {{- if (ne .isempty true) -}}
+    <b class="font-bigger font-bold d-block p-relative m-auto w-max-content">
+      {{- .scores.compliance -}}%
+      {{ if lt (.scores.criteria.total) 110 }}<span aria-hidden="true" class="p-absolute p-top-line p-right-line badge bad d-inline-block">{{ (.scores.criteria.total) }}</span>{{ end }}
+    </b>
+    <span class="smaller">Validité&nbsp;{{ $name }}</span>
+    {{- else -}}
+    <b class="h3 d-block">Validité</b>
+    <span class="smaller">En&nbsp;cours</span>
+    {{- end -}}
+  </small>
+{{- end -}}

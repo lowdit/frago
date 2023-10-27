@@ -2,6 +2,7 @@
 {{ $scorekey      := sha1 (string now) }}
 {{ $data          := newScratch }}
 {{ $auditfile     := .auditfile }}
+{{ $context       := .context }}
 {{ $time          := now.UnixMilli }}
 {{ $timepartial   := now.UnixMilli }}
 {{- if (eq (getenv "HUGO_ENV") "debugperf") -}}
@@ -78,5 +79,6 @@
 {{/* END Test if audit file not false */}}
 
 {{- if (eq (getenv "HUGO_ENV") "debugperf") -}}
-  {{ warnf "=> Performance    Total[%sms] %s " (string (sub now.UnixMilli $time)) (delimit ($data.Get "debugperf") " ") }}
+  {{ $time = string (sub now.UnixMilli $time) }}
+  {{ warnf "=> Performance    Total | %s%sms| %q %#v" (cond (eq (len $time) 4) "" (cond (eq (len $time) 3) " " (cond (eq (len $time) 2) "  " "   "))) $time $context (delimit ($data.Get "debugperf") " ") }}
 {{- end -}}

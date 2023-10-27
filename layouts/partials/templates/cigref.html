@@ -4,10 +4,6 @@
 {{- $projectPath  := cond (fileExists (printf "audits/%s/index.md" ($project))) (printf "audits/%s/index.md" ($project)) (printf "audits/%s/_index.md" ($project)) -}}
 {{- $projectTitle := ($context.GetPage $projectPath).Title -}}
 
-{{- $.Scratch.Set "guidelinename" "cigref" -}}
-{{- $.Scratch.Set "guidelineversion" "1.0" -}}
-{{- $criteriafile := (index (index $.Site.Data ($.Scratch.Get "guidelinename")) ($.Scratch.Get "guidelineversion")).criteres -}}
-
 <article class="fg-wrapper narrow">
 {{- $data.Set "audits" (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "cigref" "datafilename" .context.Params.datafilename) $project "cigref" .context.Params.datafilename) -}}
 {{- $data.Set "auditpath-csv" (index ($data.Get "audits") "auditfile-path") -}}
@@ -28,7 +24,7 @@
     {{- end -}}
   {{/* END Test if the csv file has a good name : YYYY-MM-DD.csv */}}
 
-  <p>← <a href="/organism" class="link-more link-back">Retour à la page organisme</a></p>
+  <p>← <a href="{{ $context.Site.BaseURL }}/organism" class="link-more link-back">Retour à la page organisme</a></p>
   <h1>Synthèse Cigref - Outil d’évaluation des critères RSE</h1>
 
   {{/* START Display page note if exists */}}
@@ -39,9 +35,9 @@
   {{- end -}}
   {{/* END Display page note if exists */}}
 
-  {{- $data.Set "guidelinename" "cigref" -}}
-  {{- $data.Set "guidelineversion" "1.0" -}}
-  {{- $criteriafile := (index (index $context.Site.Data ($data.Get "guidelinename")) ($data.Get "guidelineversion")).criteres -}}
+  {{/* Use the audit last version */}}
+  {{- $referential  := (partialCached "render/referential-version.html" (dict "context" $context "referential" "cigref") $context "cigref").guideline -}}
+  {{- $criteriafile   := (index (index $context.Site.Data $referential.name) (string $referential.version)).criteria.criteres -}}
 
   {{- if and ($data.Get "auditfile-csv") -}}
   <h2 class="text-center">Scores{{- with ($data.Get "scores").scores.criteria -}}&nbsp;-&nbsp;{{- .total -}}&nbsp;critères{{ end }}</h2>

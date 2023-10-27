@@ -7,6 +7,7 @@ disableKinds:
   - RSS
   - taxonomy
   - taxonomyTerm
+  - accessibility
 cascade:
 - _target:
     path: /audits/**/index.md
@@ -19,12 +20,14 @@ cascade:
     - declarationecopage
     - accessibility
     - ecoconception
+    - opquast
     - publishing
     - quality
     - recommendation
     - performance
     - accessibilitypage
     - ecoconceptionpage
+    - opquastpage
     - publishingpage
     - qualitypage
     - recommendationpage
@@ -47,12 +50,14 @@ cascade:
     - declarationeco
     - accessibility
     - ecoconception
+    - opquast
     - publishing
     - quality
     - recommendation
     - performance
     - accessibilitypage
     - ecoconceptionpage
+    - opquastpage
     - publishingpage
     - qualitypage
     - recommendationpage
@@ -65,6 +70,10 @@ cascade:
   outputs:
     - html
     - json
+    - accessibilitypage
+    - ecoconceptionpage
+    - opquastpage
+    - publishingpage
     - greenit
     - greenitpage
     - cigref

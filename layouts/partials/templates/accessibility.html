@@ -1,4 +1,5 @@
 {{- $context      := .context -}}
+{{- $path := "" }}{{ with $context.File }}{{ $path = .Path }}{{ end }}
 {{- $project      := partialCached "render/projectpath" $context $context -}}
 {{- $data         := newScratch -}}
 {{- $projectPath  := cond (fileExists (printf "audits/%s/index.md" ($project))) (printf "audits/%s/index.md" ($project)) (printf "audits/%s/_index.md" ($project)) -}}
@@ -6,7 +7,7 @@
 {{- $data.Set "pageslist" "" -}}
 {{- $data.Set "scores"    "" -}}
 
-{{ if and (in "/audits/_index.md" $context.File.Path) (not (partialCached "render/issimpleproject.html" "arg" "arg")) }}
+{{ if and (in "/audits/_index.md" $path) (not (partialCached "render/issimpleproject.html" "arg" "arg")) }}
   <section class="fg-wrapper">
   {{- partialCached "templates/projects-monitoring.html" $context $context -}}
   </section>
@@ -14,8 +15,8 @@
 {{- else -}}
   <article class="fg-wrapper narrow">
   {{/* Load the audit file */}}
-  {{- $data.Set "auditscore" (partialCached "render/accessibility-scores.html" (dict "context" $context "project" $project "type" "accessibility" "datafilename" .context.Params.datafilename) $project "accessibility" .context.Params.datafilename) -}}
-  {{- $data.Set "audits" (index ($data.Get "auditscore") "auditfiles") -}}
+  {{- $data.Set "auditscore"    (partialCached "render/meta-scores.html" (dict "context" $context "project" $project "type" "accessibility") $project "accessibility") -}}
+  {{- $data.Set "audits"        (index ($data.Get "auditscore") "auditfiles") -}}
   {{- $data.Set "auditpath-csv" (index ($data.Get "auditscore") "auditfile-path") -}}
 
   {{/* Display declaration tpl when output format is set */}}
@@ -39,33 +40,34 @@
     {{/* END Test if the csv file has a good name : YYYY-MM-DD.csv */}}
 
     {{/* START Determine the version of the audit from the context declaration */}}
-    {{- $data.Set "guidelinename" "rgaa" -}}
-    {{- $data.Set "guidelineversion" $context.Site.Params.rgaa.version -}}
+    {{- $data.Set "guidelinename"    "" -}}
+    {{- $data.Set "guidelineversion" "" -}}
     {{- $data.Set "context" (partialCached "render/context.html" (dict "context" $context "project" $project) $project) -}}
     {{- with ($data.Get "context") -}}
-    {{- with (index ($data.Get "audits") "auditfile-name") -}}
-    {{- with (index ($data.Get "context") .) -}}
-      {{- with .audit -}}
-        {{- with .guidelines -}}
-          {{- $guideline := (replace (. | urlize) "-" "") -}}
-          {{- $data.Set "guidelinename"    (cond (in $guideline "rgaa") "rgaa" (cond (in $guideline "wcag") "wcag" "none")) -}}
-          {{- $data.Set "guidelineversion" (replace $guideline ($data.Get "guidelinename") "") -}}
+      {{- with (index ($data.Get "audits") "auditfile-name") -}}
+        {{- with (index ($data.Get "context") .) -}}
+          {{- with .audit -}}
+            {{- with .guidelines -}}
+              {{- $guideline := (replace (. | urlize) "-" "") -}}
+              {{- $data.Set "guidelinename"    (cond (in $guideline "rgaa") "rgaa" (cond (in $guideline "wcag") "wcag" "none")) -}}
+              {{- $data.Set "guidelineversion" (replace $guideline ($data.Get "guidelinename") "") -}}
+            {{- end -}}
+          {{- end -}}
+        {{- end -}}
+      {{- else -}}
+        {{- if ne (path.Dir $path) "audits/_index.md" -}}
+          {{- warnf "(index ($data.Get 'audits') 'auditfile-name') est vide" -}}
         {{- end -}}
       {{- end -}}
-    {{- end -}}
-    {{- else -}}
-      {{- if ne (path.Dir $context.File.Path) "audits/_index.md" -}}
-        {{- warnf "(index ($data.Get 'audits') 'auditfile-name') est vide" -}}
-      {{- end -}}
-    {{- end -}}
     {{- end -}}
     {{/* END Determine the version of the audit form the context declaration */}}
 
     {{/* Load the criteria file for the good audit version */}}
-    {{- $data.Set "criteriafile" (index (index $.context.Site.Data ($data.Get "guidelinename")) ($data.Get "guidelineversion")).criteria.topics -}}
+    {{- $referential := (partialCached "render/referential-version.html" (dict "context" $context "referential" "rgaa" "version" ($data.Get "guidelineversion")) $context ).guideline -}}
+    {{- $data.Set "criteriafile" (index (index $.context.Site.Data $referential.name) (string $referential.version)).criteria.topics -}}
 
     {{/* Load the glossary file for the good audit version */}}
-    {{- $data.Set "glossaire" (printf "=\"%s%s%s/glossaire/#" (site.BaseURL | default "/") ($data.Get "guidelinename") ($data.Get "guidelineversion")) -}}
+    {{- $data.Set "glossaire" (printf "=\"%s%s%s/glossaire/#" (site.BaseURL | default "/") $referential.name $referential.version) -}}
 
     {{- if $project -}}<p>← <a href="{{ site.BaseURL | default "/" }}{{- with $project -}}{{ printf "audits/%s/" (urlize .) }}{{- end -}}" class="link-more link-back" aria-label="Retour à la page {{ ($context.GetPage $project).Title }}">Retour à la page projet</a></p>{{- end -}}
     <h1>Audit Accessibilité{{ with $projectTitle }}<small> pour {{ partialCached "utils/isURL.html" (dict "context" $context "projectTitle" $projectTitle) $projectTitle }}</small>{{ end }}</h1>
@@ -86,14 +88,15 @@
       {{/* Create an array with all pages */}}
       {{- $data.Set "pageslist" (index (partialCached "render/methodology.html" (dict "context" $context "auditfile" ($data.Get "auditfile-csv")) ($data.Get "auditfile-csv")) "pageslist") -}}
       {{/* Control which tests are made for each type of audit :: this is an help for knowing witch tests are missing */}}
-      {{- range $auditname, $audit := $context.Site.Data.rgaa.tests -}}
+      {{- $.Store.Set "testfile" $context.Site.Data.rgaa.tests }}
+      {{- range $auditname, $audit := ($.Store.Get "testfile") -}}
         {{- $data.Set (printf "criterecontrol%s" (string $auditname)) slice -}}
-        {{- range $id, $criterium := index $.context.Site.Data.rgaa.tests $auditname -}}
+        {{- range $id, $criterium := index ($.Store.Get "testfile") $auditname -}}
           {{- range $key, $value := ($data.Get "scores").criteria.total -}}
             {{- if eq $criterium $key -}}{{ $data.Add (printf "criterecontrol%s" (string $auditname)) $key }}{{- end -}}
           {{- end -}}
         {{- end -}}
-        {{- $data.Set (printf "criterecontrol%s" (string $auditname)) ((($data.Get (printf "criterecontrol%s" (string $auditname))) | symdiff (index $.context.Site.Data.rgaa.tests $auditname))) -}}
+        {{- $data.Set (printf "criterecontrol%s" (string $auditname)) ((($data.Get (printf "criterecontrol%s" (string $auditname))) | symdiff (index ($.Store.Get "testfile") $auditname))) -}}
       {{- end -}}
 
       <script>
@@ -143,7 +146,7 @@
       {{- if gt (len ($data.Get "pageslist")) 1 -}}
         <h3 class="mb-0">Conformité détaillée de répartition</h3>
         {{/* Call accessibility graph */}}
-       {{- partialCached "components/scores/accessibility-graph" (dict "context" $context "auditfile" ($data.Get "auditfile-csv") "scores" ($data.Get "scores").criteria) ($data.Get "scores").criteria -}}
+        {{- partialCached "components/scores/accessibility-graph.html" (dict "context" $context "auditfile" ($data.Get "auditfile-csv") "scores" ($data.Get "scores").criteria) ($data.Get "scores").criteria -}}
       {{- end -}}
       {{/* END If several pages tested */}}
 
@@ -264,9 +267,9 @@
     </article>
     {{- else -}}
       <p>Aucun fichier de test n’est présent dans le répertoire : {{ (partialCached "render/rootpath" (dict "context" . "project" $project "type" "accessibility") $project "accessibility") }}/{{ cond (not $project) "" (printf "%s/" $project) }}accessibility</p>
-      {{- if (ne (printf "%s/%s" (path.Dir $.context.File.Path) (path.Base $.context.File.Path)) "audits/_index.md") -}}
-        <p>Le fichier d’audit RGAA est manquant dans ce ce répertoire: {{ ($data.Get "audits").pathdatafile }} - vérifier le chemin du fichier sur le disque.</p>
-        {{- warnf "Fichier d’audit manquant dans %s" ($data.Get "audits") -}}
+      {{- if (ne (printf "%s/%s" (path.Dir $path) (path.Base $path)) "audits/_index.md") -}}
+        <p>Le fichier d’audit RGAA est manquant dans ce ce répertoire: {{ ($data.Get "audits").pathdatafile }} - vérifier le chemin ou l’intégrité du fichier sur le disque.</p>
+        {{- warnf "Fichier d’audit manquant dans %s" ($data.Get "audits").path -}}
       {{- end -}}
     {{- end -}}
     {{/* END If several page tested */}}

@@ -47,19 +47,24 @@
       {{ if or (eq $testvalue "c") (eq $testvalue "nc") }}
         {{ $data.Add (printf "%s" "render-is-empty") 1 }}
       {{ end }}
+
       {{ if or (eq $testvalue "c") (eq $testvalue "nc") (eq $testvalue "na") (eq . "?") }}
         {{ $data.Add (printf "%s" "totalTest") 1 }}
         {{ $data.Add (printf "%s" "iCrit") 1 }}
       {{ end }}
+
       {{ if $testcontentvalue }}
+
         {{/* Replace first Characters (when c, nc or na…) by the same lowerify characters */}}
         {{- if (eq (getenv "HUGO_ENV") "debugperfline") -}}
           {{ $timepartial   = now.UnixMilli }}
         {{- end -}}
+
         {{ $testcontentvalue := (cond (le (len $testvalue) 3) (replace $testcontentvalue (first (len $testvalue) $testcontentvalue) (lower (first (len $testvalue) $testcontentvalue))) $testcontentvalue) }}
 
         {{ $data.Add (printf "%s%s" $scorekey "critPageValue") $testcontentvalue }}
         {{ $data.Add (printf "%s%s" $scorekey "critPageValues") $testcontentvalue }}
+
         {{/* Build array per pages */}}
         {{ $data.SetInMap
           (printf "%s%s" $scorekey "critValuesUniq")
@@ -71,12 +76,14 @@
           (string $crit)
           (($data.Get (printf "%s%s" $scorekey "critPageValues")))
         }}
-        {{- if (eq (getenv "HUGO_ENV") "debugperfline") -}}
-        {{ if gt (sub now.UnixMilli $timepartial) 30 }}
-          {{ warnf "Line[%sms] END %s %s %s" (string (sub now.UnixMilli $timepartial)) $context $value1 . }}
-          {{ $timepartial   = now.UnixMilli }}
-          {{- end -}}
-        {{- end -}}
+
+        {{ if (eq (getenv "HUGO_ENV") "debugperfline") }}
+          {{ if gt (sub now.UnixMilli $timepartial) 30 }}
+            {{ warnf "Line[%sms] END %s %s %s" (string (sub now.UnixMilli $timepartial)) $context $value1 . }}
+            {{ $timepartial   = now.UnixMilli }}
+          {{ end }}
+        {{ end }}
+
         {{/* If a page has only nt for all criteria */}}
         {{ if (ne $testvalue "nt") }}
           {{ $data.SetInMap
@@ -86,10 +93,12 @@
           }}
         {{ end }}
       {{ end }}
-      {{- if (eq (getenv "HUGO_ENV") "debugperfline") -}}
-        {{/* warnf "Line[%sms] total %s %s %s" (string (sub now.UnixMilli  $timepartial)) $context $value1 . */}}
+
+      {{ if (eq (getenv "HUGO_ENV") "debugperfline") }}
+        {{ warnf "Line[%sms] total %s %s %s" (string (sub now.UnixMilli  $timepartial)) $context $value1 . }}
         {{ $timepartial   = now.UnixMilli }}
-      {{- end -}}
+      {{ end }}
+
     {{ end }}
     {{/* END Range columns of the csv file */}}
     {{ $data.Set (printf "%s%s" $scorekey "critere") $crit }}
@@ -265,10 +274,11 @@
   {{- end -}}
 
   {{/* END Range array with test result par pages */}}
+
     {{/* START count total number of criteria tested */}}
     {{ $data.Set "critCount" ($data.Get (printf "%s%s" $scorekey "critC")) }}
     {{ with ($data.Get (printf "%s%s" $scorekey "critNC")) }}
-      {{ $data.Set "critCount" (merge ($data.Get (printf "%s%s" $scorekey "critC")) .)  }}
+      {{ $data.Set "critCount" (merge ($data.Get (printf "%s%s" $scorekey "critC")) .) }}
     {{ end }}
 
 
@@ -308,11 +318,11 @@
     {{ end }}
     {{/* END calculate compliance */}}
 
-    {{ $data.Set (printf "%s%s" $scorekey "critC")  (cond (not ($data.Get (printf "%s%s" $scorekey "critC"))) slice ($data.Get (printf "%s%s" $scorekey "critC"))) }}
-    {{ $data.Set (printf "%s%s" $scorekey "critNC") (cond (not ($data.Get (printf "%s%s" $scorekey "critNC"))) slice ($data.Get (printf "%s%s" $scorekey "critNC"))) }}
-    {{ $data.Set (printf "%s%s" $scorekey "critNA") (cond (not ($data.Get (printf "%s%s" $scorekey "critNA"))) slice ($data.Get (printf "%s%s" $scorekey "critNA"))) }}
-    {{ $data.Set (printf "%s%s" $scorekey "critNAtest") (cond (not ($data.Get (printf "%s%s" $scorekey "critNA"))) (dict "0" "false") ($data.Get (printf "%s%s" $scorekey "critNA"))) }}
-    {{ $data.Set (printf "%s%s" $scorekey "critNT") (cond (not ($data.Get (printf "%s%s" $scorekey "critNT"))) slice ($data.Get (printf "%s%s" $scorekey "critNT"))) }}
+    {{ $data.Set (printf "%s%s" $scorekey "critC")       (cond (not ($data.Get (printf "%s%s" $scorekey "critC")))  slice ($data.Get (printf "%s%s" $scorekey "critC"))) }}
+    {{ $data.Set (printf "%s%s" $scorekey "critNC")      (cond (not ($data.Get (printf "%s%s" $scorekey "critNC"))) slice ($data.Get (printf "%s%s" $scorekey "critNC"))) }}
+    {{ $data.Set (printf "%s%s" $scorekey "critNA")      (cond (not ($data.Get (printf "%s%s" $scorekey "critNA"))) slice ($data.Get (printf "%s%s" $scorekey "critNA"))) }}
+    {{ $data.Set (printf "%s%s" $scorekey "critNAtest")  (cond (not ($data.Get (printf "%s%s" $scorekey "critNA"))) (dict "0" "false") ($data.Get (printf "%s%s" $scorekey "critNA"))) }}
+    {{ $data.Set (printf "%s%s" $scorekey "critNT")      (cond (not ($data.Get (printf "%s%s" $scorekey "critNT"))) slice ($data.Get (printf "%s%s" $scorekey "critNT"))) }}
 
     {{ $data.Set "total"                                 (cond (not ($data.Get "critCount")) 0 (add (len ($data.Get "critCount")) (len (cond (not ($data.Get (printf "%s%s" $scorekey "critNA"))) slice ($data.Get (printf "%s%s" $scorekey "critNA")))))) }}
 
@@ -353,5 +363,6 @@
 {{/* END - (ne .auditfile "/false") */}}
 
 {{- if (eq (getenv "HUGO_ENV") "debugperf") -}}
-  {{ warnf "=> Accessibility  Total[%sms] %q %#v" (string (sub now.UnixMilli $time)) .context (delimit ($data.Get "debugperf") " ") }}
+  {{ $time = string (sub now.UnixMilli $time) }}
+  {{ warnf "=> Accessibility  Total | %s%sms| %q %#v" (cond (eq (len $time) 4) "" (cond (eq (len $time) 3) " " (cond (eq (len $time) 2) "  " "   "))) $time (cond (eq (printf "%T" $context ) "string" ) $context $context) (delimit ($data.Get "debugperf") " ") }}
 {{- end -}}

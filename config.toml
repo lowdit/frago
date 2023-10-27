@@ -12,10 +12,6 @@ enableGitInfo = true
 
 disableKinds = ["RSS", "sitemap", "taxonomy", "taxonomyTerm"]
 
-[params]
-  [params.rgaa]
-    version = "4.1.2"
-
 [outputformats]
   _merge = 'deep'
 
@@ -89,6 +85,22 @@ disableKinds = ["RSS", "sitemap", "taxonomy", "taxonomyTerm"]
   mediaType = "application/json"
   isPlainText = true
   notAlternative = false
+[outputFormats.opquastpage]
+  baseName = "opquast"
+  mediaType = "text/html"
+  notAlternative = false
+  permalinkable = true
+  isHTML = true
+[outputFormats.opquastcsv]
+  baseName = "opquast"
+  mediaType = "text/csv"
+  isPlainText = true
+  notAlternative = false
+[outputFormats.opquast]
+  baseName = "opquast"
+  mediaType = "application/json"
+  isPlainText = true
+  notAlternative = false
 [outputFormats.cigrefpage]
   baseName = "cigref"
   mediaType = "text/html"
@@ -96,7 +108,7 @@ disableKinds = ["RSS", "sitemap", "taxonomy", "taxonomyTerm"]
   permalinkable = true
   isHTML = true
 [outputFormats.cigrefcsv]
-  baseName = "publishing"
+  baseName = "cigref"
   mediaType = "text/csv"
   isPlainText = true
   notAlternative = false

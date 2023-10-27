@@ -1,0 +1,124 @@
+{{ $context   := .context }}
+{{ $render    := .render }}
+{{ $name      := .name }}
+{{ $ref       := $context.Site.Data.referential }}
+
+{{- with (where .context.Site.Pages "Section" "audits") -}}
+  <style>
+    .flex b {
+      padding: 1em;
+      border: 1px solid;
+    }
+  </style>
+  <article class="fg-wrapper">
+    <p>← <a href="{{ $context.Site.BaseURL }}/organism" class="link-more link-back">Retour à la page organisme</a></p>
+
+    <h1>Synthèse générale - {{ (index $ref $name).name }}</h1>
+    {{- $referential   := (partialCached "render/referential-version.html" (dict "context" $context "referential" (index $ref $name).referential) $context (index $ref $name).referential).guideline -}}
+    {{- $criterialfile := (index (index $context.Site.Data $referential.name) (string $referential.version)).criteria -}}
+    {{- $glossaire :=  (printf "=\"%s%s%s/glossaire/#" (site.BaseURL | default "/") $referential.name $referential.version) -}}
+
+    <h2>Conformité du parc de services</h2>
+
+    <div class="flex flex-gap align-items-center text-center lh-1 mr-2 font-bigger">
+      {{- partialCached "components/scores/aggregate-small.html" (dict "value" (index $render $name) "type" (index $ref $name)) $render $name -}}
+    </div>
+    {{ with (index $render.allaverage $name) }}
+      {{- $range := . -}}
+      {{ with .thematiquepourcentage }}
+        <h2>Tableau des statistiques par des critères par thématique</h2>
+        <table>
+          <thead>
+            <tr>
+              <th class="text-left">Thématique</th>
+              <th width="100px">Conforme</th>
+              <th width="100px">Non applicable</th>
+              <th width="100px">Non conforme</th>
+              <th width="100px">Conformité</th>
+            </tr>
+          </thead>
+          <tbody class="font-bigger">
+            {{- range (index $ref $name).topics -}}
+              {{ $id := .|string }}
+              {{ if (index ($range.thematiquepourcentage) $id) }}
+              <tr style="--base-light: 105%;">
+                <th class="text-left">{{ if ge (len $id) 3 }}{{ $id }}{{ else }}{{ end }}</th>
+                <td class="text-center" style="max-width:10%;background:hsl(var(--base-green), 25%, calc(var(--base-light) - 10%))">{{ if gt (int (index ($range.thematiqueconforme) $id)) 0 }}{{ index $range.thematiqueconforme $id }}{{ else }}0{{ end }}</td>
+                <td class="text-center" style="max-width:10%;background:hsl(var(--base-orange), 25%, calc(var(--base-light) - 10%))">{{ if gt (int (index ($range.thematiquenonapplicable) $id)) 0 }}{{ index ($range.thematiquenonapplicable) $id }}{{ else }}0{{ end }}</td>
+                <td class="text-center" style="max-width:10%;background:hsl(var(--base-red), 25%, calc(var(--base-light) - 10%))">{{ if gt (int (index ($range.thematiquenonconforme) $id)) 0 }}{{ index ($range.thematiquenonconforme) $id }}{{ else }}0{{ end }}</td>
+                <td class="text-center" style="color:#fff;background: #222">{{ with (index ($range.thematiquepourcentage) $id) }}{{ . }}{{ if ne (index ($range.thematiquepourcentage) $id) "NA"}}%{{ end }}{{ else }}NA{{ end }}</td>
+              </tr>
+              {{ end }}
+            {{ end }}
+          </tbody>
+        </table>
+      {{ end }}
+      {{- if and $range.pourcentage80 $range.pourcentage50 $range.pourcentage30 $range.pourcentage00 -}}
+      <h2>Tableau des statistiques de répartition de critères par taux</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Taux<br>Supérieur à 80%</th>
+            <th>Taux<br>Entre 50% et 80%</th>
+            <th>Taux<br>Entre 30% et 50%</th>
+            <th>Taux<br>Inférieur à 30%</th>
+          </tr>
+        </thead>
+        <tbody class="font-bigger">
+            <tr style="--base-light: 105%;">
+              <td class="text-center">{{ len $range.pourcentage80 }}</td>
+              <td class="text-center">{{ len $range.pourcentage50 }}</td>
+              <td class="text-center">{{ len $range.pourcentage30 }}</td>
+              <td class="text-center">{{ len $range.pourcentage00 }}</td>
+            </tr>
+        </tbody>
+      </table>
+      {{- end -}}
+      <h2>Tableau des statistiques par critère</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Critères</th>
+            <th class="text-left">Description</th>
+            <th width="100px">Conforme</th>
+            <th width="100px">Non applicable</th>
+            <th width="100px">Non conforme</th>
+            <th width="100px">Conformité</th>
+          </tr>
+        </thead>
+        <tbody class="font-bigger">
+          {{ $keylist := slice }}
+          {{- range $key, $value := .all -}}
+            {{ $keylist = $keylist | append $key }}
+          {{- end -}}
+          {{- range $id, $value := sort $keylist -}}
+            {{- $id := $value }}
+            <tr style="--base-light: 105%;">
+              <th>{{ $id }}</th>
+              <td class="text-left">{{- template "criterion" (dict "value" $id "type" $name "file" $criterialfile "glossaire" $glossaire)  -}}</td>
+              <td class="text-center" style="background:hsl(var(--base-green), 25%, calc(var(--base-light) - 10%))">{{ if gt (int (index ($range.conforme) $id)) 0 }}{{ index $range.conforme $id }}{{ else }}0{{ end }}</td>
+              <td class="text-center" style="background:hsl(var(--base-orange), 25%, calc(var(--base-light) - 10%))">{{ if gt (int (index ($range.nonapplicable) $id)) 0 }}{{ index ($range.nonapplicable) $id }}{{ else }}0{{ end }}</td>
+              <td class="text-center" style="background:hsl(var(--base-red), 25%, calc(var(--base-light) - 10%))">{{ if gt (int (index ($range.nonconforme) $id)) 0 }}{{ index ($range.nonconforme) $id }}{{ else }}0{{ end }}</td>
+              <td class="text-center" style="color:#fff;background: #222">{{ index ($range.pourcentage) $id }}{{ if ne (index ($range.pourcentage) $id) "NA"}}%{{ end }}</td>
+            </tr>
+          {{- end -}}
+        </tbody>
+      </table>
+    {{ end -}}
+  </article>
+{{- end -}}
+{{- define "criterion" -}}
+    {{ $types      := .type }}
+    {{ $value     := .value }}
+    {{ $glossaire := .glossaire }}
+    {{ if eq $types "accessibility" }}
+      {{ $s := where .file.topics "number" "eq" (int (delimit (first 1 (split $value ".")) ""))}}
+      {{ (replaceRE "=\"#" $glossaire ((index (index $s 0).criteria (sub (int (delimit (last 1 (split .value ".")) "")) 1)).criterium.title | markdownify) 100) | safeHTML }}
+    {{ else if (eq $types "ecoconception")}}
+      {{ (index (where .file.criteres "id" $value) 0).critere }}
+    {{ else if (eq $types "opquast") }}
+      {{ (index (where .file.criteres "number" (int $value)) 0).description.fr }}
+    {{ else if (eq $types "publishing")}}
+      {{ (index (where .file.criteres "id" (int (delimit (last 1 (split $value ".")) ""))) 0).criterium }}
+    {{- end -}}
+{{- end -}}

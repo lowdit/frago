@@ -1,25 +1,28 @@
 {{- define "title" -}}
-Plan annuel {{ replace (path.Base .File.Path) (path.Ext .File.Path) "" }}
+{{- $path := "" }}{{ with .File }}{{ $path = .Path }}{{ end }}
+Plan annuel {{ replace (path.Base $path) (path.Ext $path) "" }}
 {{- end -}}
 {{- define "main" -}}
-  {{- $pagedate := replace (path.Base .File.Path) (path.Ext .File.Path) "" -}}
+  {{- $path := "" }}{{ with .File }}{{ $path = .Path }}{{ end }}
+  {{- $pagedate := replace (path.Base $path) (path.Ext $path) "" -}}
   {{- $.Scratch.Set "date" slice -}}
   {{- $.Scratch.Set "update" slice -}}
   {{- range (where .Site.RegularPages "Section" "schemas") -}}
+    {{- $path := "" }}{{ with .File }}{{ $path = .Path }}{{ end }}
     {{- $year := float $pagedate -}}
-    {{- $dateStart := float (first 4 (replace (path.Base .File.Path) (path.Ext .File.Path) "")) -}}
-    {{- $dateEnd   := float (last 4 (replace (path.Base .File.Path) (path.Ext .File.Path) "")) -}}
+    {{- $dateStart := float (first 4 (replace (path.Base $path) (path.Ext $path) "")) -}}
+    {{- $dateEnd   := float (last 4 (replace (path.Base $path) (path.Ext $path) "")) -}}
     {{- if and (ge $year $dateStart) (le $year $dateEnd) -}}
       {{- $.Scratch.Add "date"   $dateStart -}}
       {{- $.Scratch.Add "date"   $dateEnd -}}
-      {{- $.Scratch.Add "update" (((os.Stat .File.Path).ModTime).Format "02/01/2006") -}}
+      {{- $.Scratch.Add "update" (((os.Stat $path).ModTime).Format "02/01/2006") -}}
       {{- $.Scratch.Add "params" (cond (not .Params) "" .Params) -}}
       {{- $.Scratch.Add "link"   (.Permalink) -}}
     {{- end -}}
   {{- end -}}
   {{- partialCached "utils/css.html" (dict "context" . "filefolder" "element" "filename" "table") "table" -}}
   <article class="fg-wrapper narrow">
-    <h1>Plan annuel de l’année {{ replace (path.Base .File.Path) (path.Ext .File.Path) "" }}</h1>
+    <h1>Plan annuel de l’année {{ replace (path.Base $path) (path.Ext $path) "" }}</h1>
     <h2>Introduction</h2>
     <p>L’article 47 de la loi n°2005-102 du 11 février 2005 pour l’égalité des droits et des chances, la participation et la citoyenneté des personnes rend obligatoire à tout service de communication publique en ligne d’être accessible à tous.</p>
 
@@ -68,13 +71,13 @@ Plan annuel {{ replace (path.Base .File.Path) (path.Ext .File.Path) "" }}
         {{- $project  := partialCached "render/projectpath" . . -}}
         {{- $lastfile := partialCached "render/lastfile.html" (dict "context" . "project" $project "type" "accessibility") $project "accessibility" -}}
         {{- $lastname := index $lastfile "auditfile-all-name" -}}
-        {{ $.Scratch.Set "allAuditsDates" slice }}
+        {{- $.Scratch.Set "allAuditsDates" slice -}}
         {{ range $lastname }}
           {{- if eq (first 4 .) $pagedate }}
             {{- $.Scratch.Add "allAuditsDates" (slice .) -}}
-          {{- end }}
-        {{- end }}
-        {{ if ($.Scratch.Get "allAuditsDates") }}{{ $.Scratch.SetInMap "allAudits" $title (($.Scratch.Get "allAuditsDates")) }}{{ end }}
+          {{ end -}}
+        {{ end -}}
+        {{- if ($.Scratch.Get "allAuditsDates") }}{{ $.Scratch.SetInMap "allAudits" $title (($.Scratch.Get "allAuditsDates")) }}{{ end }}
       {{- end }}
       {{- with $.Scratch.Get "allAudits" -}}
       <h2>Audits</h2>
@@ -86,14 +89,14 @@ Plan annuel {{ replace (path.Base .File.Path) (path.Ext .File.Path) "" }}
           </tr>
         </thead>
         <tbody>
-        {{ range $key, $value := . }}
-        {{ range $key2, $value := . }}
+        {{- range $key, $value := . }}
+          {{ range $key2, $value := . }}
           <tr>
             <td>{{ $key }}</td>
             <td class="text-center">{{ . }}</td>
           </tr>
-          {{ end }}
-          {{- end }}
+          {{ end -}}
+        {{ end -}}
         </tbody>
       </table>
       {{- end -}}

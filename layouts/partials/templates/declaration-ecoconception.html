@@ -5,9 +5,8 @@
 {{- $envTitle := (dict "desktop" "Ordinateur" "mobile" "Mobile") -}}
 
 {{/* START Determine the version of the audit from the context declaration */}}
-{{- $data.Set "guidelinename" "rgesn" -}}
-{{- $data.Set "guidelineversion" "1.0" -}}
-{{- $data.Set "criteriafile" (index (index $context.Site.Data ($data.Get "guidelinename")) ($data.Get "guidelineversion")).criteres -}}
+{{- $referential    := (partialCached "render/referential-version.html" (dict "context" $context "referential" "rgesn") . ).guideline -}}
+{{- $data.Set "criteriafile" (index (index $context.Site.Data $referential.name) (string $referential.version)).criteria.criteres -}}
 {{/* END Determine the version of the audit form the context declaration */}}
 
 {{/* START Load the criteria file for the good audit version */}}

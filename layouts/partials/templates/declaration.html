@@ -1,35 +1,13 @@
 {{- $audit    := .audits -}}
 {{- $context  := .context -}}
+{{- $path := "" }}{{ with .File }}{{ $path = .Path }}{{ end }}
 {{- $data     := newScratch -}}
 {{- $project  := (partialCached "render/projectpath" $context $context) -}}
 {{- $envTitle := (dict "desktop" "Ordinateur" "mobile" "Mobile") -}}
+{{- $ref          := $context.Site.Data.referential -}}
 
-{{/* START Determine the version of the audit from the context declaration */}}
-  {{- $data.Set "guidelinename" "rgaa" -}}
-  {{- $data.Set "guidelineversion" $context.Site.Params.rgaa.version -}}
-  {{- $data.Set "context" (partialCached "render/context.html" (dict "context" $context "project" $project) $project) -}}
-  {{- with ($data.Get "context") -}}
-  {{- with (index $audit "auditfile-name") -}}
-  {{- with (index ($data.Get "context") .) -}}
-    {{- with .audit -}}
-      {{- with .guidelines -}}
-        {{- $guideline := (replace (. | urlize) "-" "") -}}
-        {{- $data.Set "guidelinename"    (cond (in $guideline "rgaa") "rgaa" (cond (in $guideline "wcag") "wcag" "none")) -}}
-        {{- $data.Set "guidelineversion" (replace $guideline ($data.Get "guidelinename") "") -}}
-      {{- end -}}
-    {{- end -}}
-  {{- end -}}
-  {{- else -}}
-    {{- if ne ($context.File.Path) "audits/_index.md" -}}
-      {{- warnf "Il n'y a pas d’audit correspond au chemin de fichier %s" $context.File.Path -}}
-    {{- end -}}
-  {{- end -}}
-  {{- end -}}
-{{/* END Determine the version of the audit form the context declaration */}}
-
-{{/* START Load the criteria file for the good audit version */}}
-
-{{- $data.Set "criteriafile"  (index (index $.context.Site.Data ($data.Get "guidelinename")) ($data.Get "guidelineversion")).criteria.topics -}}
+{{- $referential              := (partialCached "render/referential-version.html" (dict "context" $context "referential" (index $ref "accessibility").referential) $context (index $ref "accessibility").referential).guideline -}}
+{{- $data.Set "criteriafile"  (index (index $context.Site.Data $referential.name) (string $referential.version)).criteria.topics -}}
 {{- $data.Set "organisation"  (cond (ne $.context.Site.Params.organisation "") $.context.Site.Params.organisation "") -}}
 {{- $data.Set "strategy"      (cond (ne $.Params.accessibility.strategy "") $.Params.accessibility.strategy (cond (ne $context.Site.Params.strategy "") $context.Site.Params.strategy "")) -}}
 {{- $data.Set "auditpath-csv" (index $audit "auditfile-path") -}}

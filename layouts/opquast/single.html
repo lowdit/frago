@@ -1,0 +1,95 @@
+{{- define "main" -}}
+
+  {{- $data      := newScratch -}}
+  {{- partialCached "utils/css.html" (dict "context" . "filefolder" "base" "filename" "layout" "inline" "true") "layout" -}}
+  {{- partialCached "utils/css.html" (dict "context" . "filefolder" "base" "filename" "main" "inline" "true") "main" -}}
+  {{- partialCached "utils/css.html" (dict "context" . "filefolder" "object" "filename" "card") "card" -}}
+
+  {{/* Use the audit last version */}}
+  {{- $referential    := (partialCached "render/referential-version.html" (dict "context" . "referential" "opquast") . "opquast").guideline -}}
+  {{- $.Store.Set "file" (index (index $.Site.Data $referential.name) (string $referential.version)) -}}
+  {{- $criteriafile   := ($.Store.Get "file").criteria.criteres -}}
+
+  <article class="fg-wrapper narrow">
+  <style>
+    ul, ol {
+      padding-left: 1rem;
+    }
+    .titre, .important, .important + p {
+      font-weight: bold;
+    }
+    .important, .important + * {
+      color: var(--color-primary);
+    }
+    .background {
+      background: #dedede;
+    }
+    .invert {
+      padding: 0.25em 0.4em 0.25em;
+      color: #fefefe;
+      background: #333;
+    }
+    .svgblue {
+      stroke: #00697a;
+      fill: transparent;
+
+    }
+    .svgblue.empty {
+      stroke: #b8d6da;
+      fill: #b8d6da;
+    }
+    .svggreen {
+      fill: #80a13d;
+      stroke: #fff;
+      stroke-width: 0;
+    }
+    .svggreen.empty {
+      fill: transparent;
+      stroke: #80a13d;
+      stroke-width: 0.1px;
+    }
+  </style>
+    <h1>{{ (index (index $.Site.Data $referential.name) $referential.version).criterias.title | safeHTML }}</h1>
+
+    {{- if $criteriafile -}}
+      {{- $data.Set "counterthematique" 0 }}
+      {{- $data.Set "thematique" slice }}
+      {{- $data.Set "subject" slice }}
+      {{- range $key1, $value1 := $criteriafile -}}
+        {{ $data.Add "thematique" (index .thema 0).fr }}
+      {{- end -}}
+      {{- $data.Set "thema" "" -}}
+
+      {{- partialCached "utils/css.html" (dict "context" . "filefolder" "element" "filename" "tableofcontents") "tableofcontents" }}
+      <div class="tableofcontents">
+      <h2>Table des matières</h2>
+        <ol class="list-unstyled">
+        {{- range $key, $value := uniq ($data.Get "thematique") }}
+          <li>{{ add $key 1 }} - <a href="#{{ . | urlize }}">{{ . }}</a></li>
+        {{ end -}}
+        </ol>
+      </div>
+      {{- $range60 := (slice "0" 3 7 15 16 17 22 26 29 57 58 59 61 62 67 69 74 77 78 85 88 90 98 99 105 112 113 116 119 120 131 132 135 143 144 151 160 161 163 166 168 177 189 190 192 193 194 198 207 212 213 216 217 219 220 222 223 227 232 233) -}}
+      {{- range (where $criteriafile "number" "in" $range60) }}
+        {{- if ne ($data.Get "thema") (index .thema 0).fr }}
+          <h2 id="{{ (index .thema 0).fr | urlize }}" >{{ (index .thema 0).fr }}</h2>
+        {{ end -}}
+
+        <h3>#{{ .number }} - {{ .description.fr | markdownify }}</h3>
+        {{ with .goal }}<strong>Objectifs :</strong>
+        <ul>
+          {{- range .fr  -}}
+          <li>{{ . }}</li>
+          {{ end -}}
+        </ul>
+        {{ end -}}
+        {{ with .explanation }}<strong>Descriptif :</strong> <p>{{ .fr | markdownify  }}</p>{{ end }}
+        {{ with .solution }}<strong>Solution :</strong> {{ .fr | safeHTML }}{{ end }}
+        {{ with .control }}<strong>Contrôle :</strong> {{ .fr | safeHTML }}{{ end }}
+        {{- $data.Set "thema" (index .thema 0).fr -}}
+      {{ end -}}
+    {{- else -}}
+      <p>Problème de génération de la page Opquast, le fichier semble manquant</p>
+    {{- end -}}
+    </article>
+{{- end -}}

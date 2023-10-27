@@ -67,7 +67,7 @@
   }
 }
 
-.card-inline:hover {
+.card-inline:has(a):hover {
   background: var(--background-color-grey-dark);
 }
 

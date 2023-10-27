@@ -1,6 +1,6 @@
 {{/* Vars */}}
-{{- $patharray    := split (path.Dir .context.File.Path) "/" -}}
 {{- $context      := .context -}}
+{{- $path := "" }}{{ with .File }}{{ $path = .Path }}{{ end }}
 {{- $data         := newScratch -}}
 {{- $project      := partialCached "render/projectpath" $context $context -}}
 {{- $projectPath  := cond (fileExists (printf "audits/%s/index.md" ($project))) (printf "audits/%s/index.md" ($project)) (printf "audits/%s/_index.md" ($project)) -}}
@@ -8,7 +8,7 @@
 {{/* Test if files are in static or in each projets */}}
 {{- $data.Set "lastfile" (index (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "lighthouse") $project "lighthouse") "auditfile-path") -}}
 
-{{ if in "/audits/_index.md" $context.File.Path }}
+{{ if in "/audits/_index.md" $path }}
 
   <section class="fg-wrapper">
   {{- partialCached "templates/projects-monitoring.html" $context $context -}}
@@ -24,7 +24,7 @@
     {{- if ne ($data.Get "lastfile") "/false" -}}
     <h2>Scores</h2>
     {{- with index (partialCached "render/lastfile.html" (dict "context" . "project" $project "type" "lighthouse") $project "lighthouse") "auditfile-path" -}}
-      {{- partialCached "components/scores/performance" (dict "counter" (partialCached "render/performance" (dict "context" $context "project" $project "auditfile" .) .)) -}}
+      {{- partialCached "components/scores/performance" (dict "counter" (partialCached "render/performance" (dict "context" "template" "auditfile" .) .)) -}}
     {{- end -}}
     {{- with ($data.Get "lastfile") -}}
     {{/* Vars with the last file of the lighthouse directory */}}

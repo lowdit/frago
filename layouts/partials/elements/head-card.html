@@ -9,8 +9,8 @@
   {{- $square     := (images.Overlay $square 200 350) -}}
   {{- $.Scratch.Set "img" (($.Scratch.Get "img") | images.Filter $square) -}}
   {{/* Score d'un audit */}}
-  {{- $scores         := cond (eq $meta.type "performance") $meta.audit (printf "%s%s" (string $meta.audit) "%") -}}
-  {{- $scoresPosition := cond (eq $meta.type "performance") 560 280 -}}
+  {{- $scores         := cond (eq $meta.types "performance") $meta.audit (printf "%s%s" (string $meta.audit) "%") -}}
+  {{- $scoresPosition := cond (eq $meta.types "performance") 560 280 -}}
   {{/* Score */}}
   {{- $.Scratch.Set "img" (($.Scratch.Get "img").Filter (images.Text $scores (dict
     "font" $font

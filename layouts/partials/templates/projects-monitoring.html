@@ -1,7 +1,7 @@
 {{- $data         := newScratch -}}
 {{- $data.Delete "allscores" -}}
 {{- $data.Delete "projectfolders" -}}
-{{- $data.Set "rangepages" (where .Site.RegularPages "Section" "audits") -}}
+{{- $data.Set "rangepages" (where $.Site.RegularPages "Section" "audits") -}}
 {{- $pageType := (index (where .OutputFormats "Permalink" "eq" .Permalink) 0).Format.BaseName -}}
 
 {{- $data.Set "accessibility" slice -}}
@@ -13,7 +13,8 @@
       <h1 class="center">Monitoring {{ $pageType }}</h1>
       {{/* Build a map with all accessibility score for using it later in code :: maybe for catching progression or regression */}}
       {{- range sort ($data.Get "rangepages") ".Title" "desc" -}}
-        {{- $project := (replace (index (split (path.Dir .File.Path) "/") 1) ".md" "") -}}
+        {{- $path := "" }}{{ with .File }}{{ $path = .Path }}{{ end }}
+        {{- $project := (replace (index (split (path.Dir $path) "/") 1) ".md" "") -}}
         {{- $context := . -}}
         {{- range $id, $value := (index (partialCached "render/lastfile.html" (dict "context" . "project" $project "type" "accessibility" "datafilename" .Params.datafilename) $project "accessibility") "auditfile-all-path") -}}
           {{- $data.SetInMap $project (string $id) (partialCached "render/accessibility.html" (dict "context" "projectmonitoring" "auditfile" . ) .) -}}
@@ -26,7 +27,7 @@
       {{- range sort ($data.Get "rangepages") ".Title" "asc" -}}
 
         {{- $context   := . -}}
-        {{- $path      := (split (path.Dir .File.Path) "/") -}}
+        {{- $path := "" }}{{ with .File }}{{ $path = .Path }}{{ end }}
 
         {{- if (eq (len $path) 2) -}}
           {{- $project        := partialCached "render/projectpath" $context $context -}}
@@ -60,7 +61,7 @@
                 {{/* If Performance exists */}}
                 {{- if $lighthouse -}}
                   {{- $lastfile    := (index (partialCached "render/lastfile.html" (dict "context" . "project" $project "type" "lighthouse") $project "lighthouse") "auditfile-path") -}}
-                  {{- $performance := partialCached "render/performance.html" (dict "context" . "auditfile" $lastfile) . $lastfile -}}
+                  {{- $performance := partialCached "render/performance.html" (dict "context" "template" "auditfile" $lastfile) . $lastfile -}}
                   {{ $data.Add "performance" (div ($performance.LCP) 1000 | lang.NumFmt 1) }}
                 {{- end -}}
               {{ end }}

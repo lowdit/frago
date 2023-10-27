@@ -2,7 +2,10 @@
 Schéma Pluriannuel
 {{- end -}}
 {{- define "main" -}}
-{{- $path         := cond (eq .File.Path "schema.md") (index (last 1 (where .Site.RegularPages "Section" "schemas")) 0).Path .File.Path -}}
+{{- $path     := "" }}{{ with .File }}{{ $path = .Path }}{{ end }}
+{{- $file     := (index (last 1 (where $.Site.RegularPages "Section" "schemas")) 0) -}}
+{{- $pathfile := "" }}{{ with $file.File }}{{ $pathfile = .Path }}{{ end }}
+{{- $path         := cond (eq $path "schema.md") $pathfile $path -}}
 {{- $organisation := cond (not .Params.organisation) .Site.Params.organisation .Params.organisation -}}
 {{- $contact      := cond (not .Params.contacts) .Site.Params.contacts .Params.contacts -}}
 {{- $rangedate    := cond (not .Params.rangedate) .Site.Params.rangedate .Params.rangedate -}}
@@ -217,12 +220,13 @@ Schéma Pluriannuel
     {{- $now := float (now.Format "2006") -}}
     <ul>
     {{- range . -}}
-      {{- $year := float (replace (path.Base .File.Path) (path.Ext .File.Path) "") -}}
+      {{- $path := "" }}{{ with .File }}{{ $path = .Path }}{{ end }}
+      {{- $year := float (replace (path.Base $path) (path.Ext $path) "") -}}
       {{/* .Page.Lastmod.Format "02/01/2006" */}}
       {{/* .Date.Format "02.01.2006" */}}
       {{- if and (ge $year $dateStart) (le $year $dateEnd) -}}
         {{- $.Scratch.Set "isAction" true -}}
-        <li><a href="{{ .Permalink }}">Plan d’actions annuel N-{{ sub $now $year }} - Dernière mise à jour le {{ ((os.Stat .File.Path).ModTime).Format "[02/01/2006]" }}</a></li>
+        <li><a href="{{ .Permalink }}">Plan d’actions annuel N-{{ sub $now $year }} - Dernière mise à jour le {{ ((os.Stat $path).ModTime).Format "[02/01/2006]" }}</a></li>
       {{- end -}}
     {{- end -}}
     </ul>
@@ -245,13 +249,14 @@ Schéma Pluriannuel
     </thead>
     <tbody>
     {{- range . }}
-    {{- if and (in (path.Base .File.Path) "index.md") (not (in "/audits/_index.md" .File.Path)) -}}
-      <tr>
-        <td>{{ .Title }}</td>
-        <td class="text-center">Site web</td>
-        <td class="text-center">{{ with (partialCached "render/context.html" (dict "context" . "project" (partialCached "render/projectpath" . .)) (partialCached "render/projectpath" . .)).website }}{{ . }}{{ else }}NA{{- end -}}</td>
-      </tr>
-    {{- end -}}
+      {{- $path     := "" }}{{ with .File }}{{ $path = .Path }}{{ end }}
+      {{- if and (in (path.Base $path) "index.md") (not (in "/audits/_index.md" $path)) -}}
+        <tr>
+          <td>{{ .Title }}</td>
+          <td class="text-center">Site web</td>
+          <td class="text-center">{{ with (partialCached "render/context.html" (dict "context" . "project" (partialCached "render/projectpath" . .)) (partialCached "render/projectpath" . .)).website }}{{ . }}{{ else }}NA{{- end -}}</td>
+        </tr>
+      {{- end -}}
     {{ end -}}
     </tbody>
   </table>

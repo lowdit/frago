@@ -1,93 +1,79 @@
 {{- define "main" -}}
-{{ $path := "" }}
-{{ with .File }}{{ $path = .Path }}{{ else }}{{ $path = .Path }}{{ end }}
-{{- $patharray := split (path.Dir $path) "/" -}}
+  {{- partialCached "utils/css.html" (dict "context" . "filefolder" "base" "filename" "layout" "inline" "true") "layout" -}}
+  {{- partialCached "utils/css.html" (dict "context" . "filefolder" "base" "filename" "main" "inline" "true") "main" -}}
+  {{ $path := "" }}
+  {{ with .File }}{{ $path = .Path }}{{ end }}
+  {{- $patharray := split (path.Dir $path) "/" -}}
 
-{{ $guidelineallversionarray := "" }}
-{{- $.Scratch.Set "guidelineallversionarray" slice -}}
-{{ range $key, $value := .Site.Data.rgaa }}
-  {{- if in $key "." }}
-    {{- if ne $guidelineallversionarray (slicestr $key 0 3) }}{{- $.Scratch.Set "guidelineallversionarray" slice -}}{{ end -}}
-    {{- $.Scratch.Add "guidelineallversionarray" $key -}}
-    {{- $.Scratch.SetInMap "guidelineallversion" (slicestr $key 0 3) ($.Scratch.Get "guidelineallversionarray") -}}
-    {{- $guidelineallversionarray = (slicestr $key 0 3) -}}
-  {{ end }}
-{{ end }}
+  {{- $referential := (partialCached "render/referential-version.html" (dict "context" . "referential" "rgaa") . "rgaa").guideline -}}
+  {{- $.Store.Set "criteriafile" (index (index $.Site.Data $referential.name) $referential.version).glossary -}}
 
-{{- $.Scratch.Set "guidelinename" "rgaa" -}}
-{{- $.Scratch.Set "guidelineversion" .Site.Params.rgaa.version -}}
-{{- if ge ($patharray) 2 -}}
-  {{- $.Scratch.Set "guideline" (index $patharray 0) -}}
-  {{- $.Scratch.Set "guidelinename" (index $patharray 0) -}}
-  {{- $.Scratch.Set "guidelineversion" (index (last 1 (index ($.Scratch.Get "guidelineallversion") (index $patharray 1))) 0) -}}
-{{- end -}}
-
-{{ partialCached "utils/css.html" (dict "context" . "filefolder" "element" "filename" "definitionlists") "definitionlists" }}
-{{ partialCached "utils/css.html" (dict "context" . "filefolder" "element" "filename" "codeformatting") "codeformatting" }}
-<article class="fg-wrapper narrow">
-<h1>{{ .Title }}</h1>
-  {{- $.Scratch.Set "anchor" slice -}}
-  {{- if and (ge ($.Scratch.Get "guidelineversion") "4.1.1") ( gt (len ($.Scratch.Get "guidelineversion")) 4) -}}
-    {{- range $key, $value := (index (index $.Site.Data ($.Scratch.Get "guidelinename")) ($.Scratch.Get "guidelineversion")).glossary -}}
-      {{- range $value -}}
-        {{- $.Scratch.Add "anchor" (upper (slicestr (urlize .title) 0 1)) -}}
+  {{ partialCached "utils/css.html" (dict "context" . "filefolder" "element" "filename" "definitionlists") "definitionlists" }}
+  {{ partialCached "utils/css.html" (dict "context" . "filefolder" "element" "filename" "codeformatting") "codeformatting" }}
+  <article class="fg-wrapper narrow">
+  <h1>{{ .Title }}</h1>
+    {{- $.Store.Set "anchor" slice -}}
+    {{- if and (ge $referential.version "4.1.1") (gt (len $referential.version) 4) -}}
+      {{- range $key, $value := ($.Store.Get "criteriafile") -}}
+        {{- range $value -}}
+          {{- $.Store.Add "anchor" (upper (slicestr (urlize .title) 0 1)) -}}
+        {{ end -}}
       {{ end -}}
-    {{ end -}}
-    {{- $.Scratch.Set "anchorcurrent" "" -}}
-    {{- range (uniq ($.Scratch.Get "anchor")) -}}
+      {{- $.Store.Set "anchorcurrent" "" -}}
+      {{- range (uniq ($.Store.Get "anchor")) -}}
 
-    {{- end -}}
-    {{- range $key, $value := (index (index $.Site.Data ($.Scratch.Get "guidelinename")) ($.Scratch.Get "guidelineversion")).glossary -}}
-      {{- range $value -}}
-        {{- if ne (upper (slicestr (urlize .title) 0 1)) ($.Scratch.Get "anchorcurrent") -}}
-        <h2>{{ (upper (slicestr (urlize .title) 0 1)) }}</h2>
-        {{- end -}}
-          {{- $reflink := printf "/rgaa/%s/criteres/" (slicestr ($.Scratch.Get "guidelineversion") 0 3) -}}
-          <h3 id="{{ .title | replaceRE "'" "-" | replaceRE "[èéêë]" "e" | replaceRE "[àáâãäå]" "a" | replaceRE "[ìíîï]" "i" | replaceRE "[òóôõö]" "o" | replaceRE "[ùúûü]" "u" | replaceRE "[æ]" "ae" | replaceRE "[/œ]" "oe" | anchorize }}">{{ .title }}</h3>
-          {{ .body | replaceRE "https://accessibilite.numerique.gouv.fr/methode/criteres-et-tests/" $reflink | replaceRE "#(\\d*)\\.(\\d*)" "#$1-$2" | safeHTML }}
-        {{- $.Scratch.Set "anchorcurrent" (slicestr .title 0 1) -}}
       {{- end -}}
-    {{- end -}}
-  {{- else -}}
-  {{- range $key, $value := (index (index $.Site.Data ($.Scratch.Get "guidelinename")) ($.Scratch.Get "guidelineversion")).glossary -}}
-    {{- range $value -}}
-    <h2>{{ .section }}</h2>
-    <dl>
-      {{- range .dl -}}
-        <dt id="{{ .dt | replaceRE "'" "-" | replaceRE "[èéêë]" "e" | replaceRE "[àáâãäå]" "a" | replaceRE "[ìíîï]" "i" | replaceRE "[òóôõö]" "o" | replaceRE "[ùúûü]" "u" | replaceRE "[æ]" "ae" | replaceRE "[/œ]" "oe" | anchorize }}">{{ .dt }}</dt>
-        <dd>
-          {{- range .dd -}}
-            {{- if reflect.IsMap . -}}
-                {{- range . -}}
-                <ul>
-                {{- range . -}}
-                {{- if reflect.IsMap . -}}
-                  <li>
-                    {{- range . -}}
-                    <ul>
-                      {{- range . -}}
-                        <li>
-                        {{ . | markdownify }}
-                        </li>
-                      {{- end -}}
-                    </ul>
-                    {{- end -}}
-                  </li>
-                {{- else -}}
-                  <li>{{ . | markdownify }}</li>
-                {{- end -}}
-                {{- end -}}
-                </ul>
-                {{- end -}}
-            {{- else -}}
-              <p>{{ . | markdownify }}</p>
-            {{- end -}}
+      {{- range $key, $value := ($.Store.Get "criteriafile") -}}
+        {{- range $value -}}
+          {{- if ne (upper (slicestr (urlize .title) 0 1)) ($.Store.Get "anchorcurrent") -}}
+          <h2>{{ (upper (slicestr (urlize .title) 0 1)) }}</h2>
           {{- end -}}
-        </dd>
+            {{- $reflink := printf "/rgaa/%s/criteres/" (slicestr $referential.version 0 3) -}}
+            <h3 id="{{ .title | replaceRE "'" "-" | replaceRE "[èéêë]" "e" | replaceRE "[àáâãäå]" "a" | replaceRE "[ìíîï]" "i" | replaceRE "[òóôõö]" "o" | replaceRE "[ùúûü]" "u" | replaceRE "[æ]" "ae" | replaceRE "[/œ]" "oe" | anchorize }}">{{ .title }}</h3>
+            {{ .body | replaceRE "https://accessibilite.numerique.gouv.fr/methode/criteres-et-tests/" $reflink | replaceRE "#(\\d*)\\.(\\d*)" "#$1-$2" | safeHTML }}
+          {{- $.Store.Set "anchorcurrent" (slicestr .title 0 1) -}}
+        {{- end -}}
       {{- end -}}
-    </dl>
+    {{- else -}}
+    {{- range $key, $value := (index (index $.Site.Data $referential.name) $referential.version).glossary -}}
+      {{- range $value -}}
+      <h2>{{ .section }}</h2>
+      <dl>
+        {{- range .dl -}}
+          <dt id="{{ .dt | replaceRE "'" "-" | replaceRE "[èéêë]" "e" | replaceRE "[àáâãäå]" "a" | replaceRE "[ìíîï]" "i" | replaceRE "[òóôõö]" "o" | replaceRE "[ùúûü]" "u" | replaceRE "[æ]" "ae" | replaceRE "[/œ]" "oe" | anchorize }}">{{ .dt }}</dt>
+          <dd>
+            {{- range .dd -}}
+              {{- if reflect.IsMap . -}}
+                  {{- range . -}}
+                  <ul>
+                  {{- range . -}}
+                  {{- if reflect.IsMap . -}}
+                    <li>
+                      {{- range . -}}
+                      <ul>
+                        {{- range . -}}
+                          <li>
+                          {{ . | markdownify }}
+                          </li>
+                        {{- end -}}
+                      </ul>
+                      {{- end -}}
+                    </li>
+                  {{- else -}}
+                    <li>{{ . | markdownify }}</li>
+                  {{- end -}}
+                  {{- end -}}
+                  </ul>
+                  {{- end -}}
+              {{- else -}}
+                <p>{{ . | markdownify }}</p>
+              {{- end -}}
+            {{- end -}}
+          </dd>
+        {{- end -}}
+      </dl>
+      {{- end -}}
+      {{- end -}}
     {{- end -}}
-    {{- end -}}
-  {{- end -}}
-</article>
+  </article>
 {{- end -}}

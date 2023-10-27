@@ -1,7 +1,8 @@
 
 {{- define "title" -}}
   {{- $context      := . -}}
-  {{- $projectTitle := (.GetPage "./").Title -}}Recommandations {{ with $projectTitle }}pour {{ $projectTitle }}{{ else }}{{ (index (split (path.Dir .File.Path) "/") 1) }}{{ end }}
+  {{- $path := "" }}{{ with .File }}{{ $path = .Path }}{{ end }}
+  {{- $projectTitle := (.GetPage "./").Title -}}Recommandations {{ with $projectTitle }}pour {{ $projectTitle }}{{ else }}{{ (index (split (path.Dir $path) "/") 1) }}{{ end }}
 {{- end -}}
 {{- define "main" -}}
 {{/* Vars */}}

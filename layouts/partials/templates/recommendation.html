@@ -1,17 +1,19 @@
 {{/* Var */}}
-{{- $patharray    := split (path.Dir .File.Path) "/" -}}
 {{- $context      := .context -}}
+{{- $path         := "" -}}
+{{- with $context.File }}{{ $path = .Path }}{{ else }}{{ $path = .Path }}{{ end }}
+{{- $patharray    := split (path.Dir $path) "/" -}}
 {{- $data         := newScratch -}}
 {{- $project      := (partialCached "render/projectpath" .context .context) -}}
 {{- $projectPath  := cond (fileExists (printf "audits/%s/index.md" ($project))) (printf "audits/%s/index.md" ($project)) (printf "audits/%s/_index.md" ($project)) -}}
 {{- $projectTitle := ($context.GetPage $projectPath).Title -}}
 {{- $data.Set "context"  . -}}
 {{- $data.Set "pathimage" "" -}}
+{{- $context.Store.Set "criteriafilepidila" $context.Site.Data.pidila -}}
 
 {{ partialCached "utils/css.html" (dict "context" $.context "filefolder" "object" "filename" "summary") "summary" }}
 
-{{/* Style and Js :: for page and not alternate content pages */}}
-{{- $patharray := split (path.Dir $context.File.Path) "/" -}}
+{{/* Style and JS :: for page and not alternate content pages */}}
 {{- $alternate := where (where $context.OutputFormats "Permalink" "eq" $context.Permalink) "Rel" "eq" "alternate" -}}
 {{- if ne (len $alternate) 0 -}}
   {{- with $alternate -}}{{- range $key, $value := . -}}{{ $data.Set "outputrecommendation" (or (eq .Format.BaseName "recommendation")) }}{{- end -}}{{- end -}}
@@ -39,21 +41,14 @@
   {{ end -}}
 {{ end -}}
 
+{{/* Call the same value as in templates/accessibility :: with cache */}}
+{{ $referential := (partialCached "render/referential-version.html" (dict "context" $context "referential" "rgaa" "patharray" $patharray) $context).guideline }}
 
-{{- $data.Set "guidelinename" "rgaa" -}}
-{{- $data.Set "guidelineversion" $context.Site.Params.rgaa.version -}}
-{{- with ($.context.GetPage (printf "/content/%saccessibility.md" .Dir)) -}}
-  {{- with .Params.accessibility.guidelines -}}
-    {{- $guideline := (replace (. | urlize) "-" "") -}}
-    {{- $data.Set "guidelinename"    (cond (in $guideline "rgaa") "rgaa" (cond (in $guideline "wcag") "wcag" "none")) -}}
-    {{- $data.Set "guidelineversion" (replace $guideline ($data.Get "guidelinename") "") -}}
-{{- end -}}
-{{- end -}}
-
-{{- $lastfile := (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "recommendation" "datafilename" .context.Params.datafilename) $project "recommendation" .context.Params.datafilename) -}}
+{{- $lastfile              := (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "recommendation" "datafilename" .context.Params.datafilename) $project "recommendation" .context.Params.datafilename) -}}
 {{- $data.Set "auditpath-csv" (index (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "accessibility") $project "accessibility") "auditfile-path") -}}
-{{- $data.Set "scores" (partialCached "render/accessibility.html" (dict "context" "recommandation"  "auditfile" ($data.Get "auditpath-csv")) ($data.Get "auditpath-csv") ) -}}
-{{ if in "/audits/_index.md" $context.File.Path }}
+{{- $data.Set "scores"        (partialCached "render/accessibility.html" (dict "context" "recommendation" "auditfile" ($data.Get "auditpath-csv")) ($data.Get "auditpath-csv") ) -}}
+
+{{ if in "/audits/_index.md" $path }}
 
   <section class="fg-wrapper">
     {{- $partial := (partialCached "templates/recommendation.html" (dict "context" $context) $context) -}}
@@ -65,7 +60,7 @@
   {{- if $project -}}
   <p>← <a href="{{ site.BaseURL | default "/" }}{{- with $project -}}{{ printf "audits/%s/" (urlize .) }}{{- end -}}" class="link-more link-back" aria-label="Retour à la page {{ ($context.GetPage $project).Title }}">Retour à la page projet</a></p>
   {{- end -}}
-  <h1>Recommandations {{ with $projectTitle }}<small> pour {{ partialCached "utils/isURL.html" (dict "context" $context "projectTitle" $projectTitle) $projectTitle }}</small>{{ end }}</h1>
+  <h1 class="lh-0">Recommandations {{ with $projectTitle }}<small> pour {{ partialCached "utils/isURL.html" (dict "context" $context "projectTitle" $projectTitle) $projectTitle }}</small>{{ end }}</h1>
   {{/* START Display page note if exists */}}
     {{- with .context.Params.note -}}
     <div class="note">
@@ -74,283 +69,285 @@
     </div>
     {{- end -}}
   {{/* END Display page note if exists */}}
+
   {{- if ne (index $lastfile "auditfile-path") "/false" -}}
+
   {{- $data.Set "auditfile" (readFile (index $lastfile "auditfile-path") | transform.Unmarshal) -}}
-  {{- $data.Set "auditfile-name" (index $lastfile "auditfile-name") -}}
+    {{- $data.Set "auditfile-name" (index $lastfile "auditfile-name") -}}
 
-  {{/* Find the folder where images are stored */}}
-  {{- $data.Set "pathimage" (partialCached "render/rootpath-assets" (dict "context" . "project" $project "type" "recommendation" "auditfilename" ($data.Get "auditfile-name"))) }}
+    {{/* Find the folder where images are stored */}}
+    {{- $data.Set "pathimage" (partialCached "render/rootpath-assets" (dict "context" . "project" $project "type" "recommendation" "auditfilename" ($data.Get "auditfile-name"))) }}
 
+    {{- with index (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "recommendation") $project "recommendation") "auditfile-path" -}}
+      {{- partial "components/scores/quality" (dict "context" $context "counter" (partialCached "render/recommendation" (dict "context" $context "project" $project "auditfile" .) .)) -}}
+    {{- end -}}
 
-  {{- with index (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "recommendation") $project "recommendation") "auditfile-path" -}}
-    {{- partial "components/scores/quality" (dict "context" $context "counter" (partialCached "render/recommendation" (dict "context" $context "project" $project "auditfile" .) .)) -}}
-  {{- end -}}
-
-  {{/* START :: Display page content if exists */}}
-  {{- if gt (len .context.Content) 10 -}}
-    <h2>Notes correctives</h2>
-    <div>
-    {{- partialCached "elements/content.html" .context.Content .context.Content -}}
-    </div>
-    {{- else -}}
-      {{- with (partialCached "render/notepath" $context $context) -}}
+    {{/* START :: Display page content if exists */}}
+    {{- if gt (len .context.Content) 10 -}}
       <h2>Notes correctives</h2>
       <div>
-        {{- range . -}}
-          {{ . }}
-        {{- end -}}
+      {{- partialCached "elements/content.html" .context.Content .context.Content -}}
       </div>
-    {{- end -}}
-    {{- end -}}
-  {{/* END :: Display page content if exists */}}
-
-  {{- $partial := (partialCached "components/recommendation/lot.html" (dict "context" $context "project" $project "datafilename" .Params.datafilename) $project "lot") -}}
-  {{ with $partial }}
-    <h2 class="page-break">Erreurs à corriger</h2>
-    {{- partialCached "elements/content.html" . $project -}}
-  {{ end }}
-
-  {{/*- partial "components/recommendation/critical.html" (dict "context" $context "project" $project "datafilename" .Params.datafilename) -*/}}
-
-  {{/* START :: Try to calculate the score gained if a bug is corrected
-  {{- $cScores := ($data.Get "scores").scores.criteria.conforme -}}
-  {{- $ncScores := ($data.Get "scores").scores.criteria.nonconforme -}}
-  {{- $percent := 0 }}
-  {{- if $cScores -}}
-    {{- $percent = (div 100 (add (float $cScores) (float $ncScores))) | lang.NumFmt 10 -}}
-  {{- end -}}
-  {{- range ($data.Get "auditfile") -}}
-    {{- range $idpage, $s := .pages -}}
-      {{- range $idblock, $b := .blocks -}}
-        {{- if .errors -}}
-          {{- range $iderror, $s:= .errors -}}
-            {{- if not (or (in .criterion "Pi") (in .criterion "OP") (in .criterion "ER")) -}}
-              {{- with .criterion -}}
-              {{- $data.Add (printf "criterion-%s" .) 1 -}}
-              {{- $data.SetInMap "criterianumber" (string .) ($data.Get (printf "criterion-%s" .)) -}}
-              {{- $data.SetInMap "criteriavalue" (string .) (math.Round (div (float $percent) (float ($data.Get (printf "criterion-%s" .))))) -}}
-              {{- end -}}
-            {{- end -}}
+      {{- else -}}
+        {{- with (partialCached "render/notepath" $context $context) -}}
+        <h2>Notes correctives</h2>
+        <div>
+          {{- range . -}}
+            {{ . }}
           {{- end -}}
-        {{- end -}}
+        </div>
       {{- end -}}
     {{- end -}}
-  {{- end -}}
-  */}}
+    {{/* END :: Display page content if exists */}}
 
-  {{/* START Create a anchors menu */}}
-  {{- with ($data.Get "auditfile") -}}
-  {{ partialCached "utils/css.html" (dict "context" . "filefolder" "element" "filename" "tableofcontents") "tableofcontents" }}
-  <div class="tableofcontents page-break" {{ if eq (len .) 1 }}hidden{{ end }}>
-  <h2>Accéder aux pages auditées</h2>
-    <ul>
+    {{- $partial := (partialCached "components/recommendation/lot.html" (dict "context" $context "project" $project "datafilename" .Params.datafilename) $project "lot") -}}
+    {{ with $partial }}
+      <h2 class="page-break">Erreurs à corriger</h2>
+      {{- partialCached "elements/content.html" . $project -}}
+    {{ end }}
+
+    {{/*- partial "components/recommendation/critical.html" (dict "context" $context "project" $project "datafilename" .Params.datafilename) -*/}}
+
+    {{/* START :: Try to calculate the score gained if a bug is corrected
+    {{- $cScores := ($data.Get "scores").scores.criteria.conforme -}}
+    {{- $ncScores := ($data.Get "scores").scores.criteria.nonconforme -}}
+    {{- $percent := 0 }}
+    {{- if $cScores -}}
+      {{- $percent = (div 100 (add (float $cScores) (float $ncScores))) | lang.NumFmt 10 -}}
+    {{- end -}}
     {{- range ($data.Get "auditfile") -}}
-      {{/* Range first level */}}
       {{- range $idpage, $s := .pages -}}
-        <li><a href="#{{ .name | urlize }}">{{ .name }}</a></li>
-        {{- $data.Set "countererrorspage" 0 -}}
-        {{/* Range second level */}}
         {{- range $idblock, $b := .blocks -}}
-          {{/* Range third level and count errors */}}
           {{- if .errors -}}
-          {{- range $iderror, $s:= .errors -}}
-            {{- $name := .name -}}
-            {{- $data.Add "countererrorspage" 1 -}}
-            {{- $data.SetInMap "countererrorspagelist" (string $idpage) ($data.Get "countererrorspage") -}}
-            {{ $checked := .checked }}
-            {{- with .criterion -}}
-              {{- if not (or (in . "Pi") (in . "OP") (in . "ER")) -}}
-              {{- range (split (replace . " " "") ",") -}}
-                {{- $key := string . -}}
-                {{- $key := cond (lt (index (split $key ".") 0) 10) (printf "0%s.%s" (index (split $key ".") 0) (index (split $key ".") 1)) (string $key) -}}
-                {{- $key := cond (lt (index (split $key ".") 1) 10) (printf "%s.0%s" (index (split $key ".") 0) (index (split $key ".") 1)) (string $key) -}}
-                {{- $data.Add (printf "k-%s" $key) (slice $name) -}}
-                {{- $data.SetInMap "countercriterionlist" (string $key) ($data.Get (printf "k-%s" $key)) -}}
-                {{- if $checked -}}
-                  {{- $data.Add (printf "%s-checked" (string .)) (slice $name) -}}
-                  {{- $data.SetInMap "countercheckedlist" (string .) ($data.Get (printf "%s-checked" (string .))) -}}
+            {{- range $iderror, $s:= .errors -}}
+              {{- if not (or (in .criterion "Pi") (in .criterion "OP") (in .criterion "ER")) -}}
+                {{- with .criterion -}}
+                {{- $data.Add (printf "criterion-%s" .) 1 -}}
+                {{- $data.SetInMap "criterianumber" (string .) ($data.Get (printf "criterion-%s" .)) -}}
+                {{- $data.SetInMap "criteriavalue" (string .) (math.Round (div (float $percent) (float ($data.Get (printf "criterion-%s" .))))) -}}
                 {{- end -}}
               {{- end -}}
-              {{- end -}}
             {{- end -}}
-          {{- end -}}
           {{- end -}}
         {{- end -}}
       {{- end -}}
     {{- end -}}
-    </ul>
-  </div>
-  {{- end -}}
-  {{/* END Create a anchors menu */}}
-  <script>
-    let Background = [
-      "padding: 2px",
-      "font-weight:bold",
-      "background:#222",
-      "color:#fff"
-    ].join(" ;");
-    let BackgroundWhite = [
-      "padding:2px 2px",
-      "background:#fff",
-      "color:#000"
-    ].join(" ;");
-    console.group('%cErreurs par critère listé{{ with ($data.Get "countercriterionlist") }} ({{ len . }}){{ end }} : ', 'font-size: 12px;');
-    {{- range $key, $criterion := $data.Get "countercriterionlist" }}
-      {{ . }}
-      console.log(
-          {{- $key := printf "%s.%s" (string (float (index (split $key ".") 0))) (string (float (index (split $key ".") 1))) -}}
-          {{- $lenghtcriterion := len . }}
-          '%c{{- if ($data.Get "countercheckedlist") }}{{ with (index ($data.Get "countercheckedlist") $key) }}{{ len . }}{{ else }}0{{ end }}{{ end -}}/{{ $lenghtcriterion -}}
-          %c corrigées pour %c{{ $key }}%c qui a le statut %c
-          {{- index (index ($data.Get "scores") "criteria").all $key -}}
-          %c\n-> Erreurs: {{ range $id, $value := . -}}
-          {{ with ($data.Get "countercheckedlist") }}{{- if (intersect (index . $key) $criterion) }}%c{{ end }}{{ end }}{{ . }}
-          {{- if ne (add $id 1) (len ($criterion)) }} /-/ {{ end }}
-          {{- end }}',
-          'padding: 2px; font-weight:bold; background: {{ if ($data.Get "countercheckedlist") }}{{ with (index ($data.Get "countercheckedlist") $key) }}{{ if eq (len .) $lenghtcriterion }}green{{ else }}firebrick{{ end }}{{ else }}firebrick{{ end }}{{ end }}; color: #fff',
-          BackgroundWhite,
-          Background,
-          BackgroundWhite,
-          Background,
-          'color: black;',
-          {{ range $id, $value := . }}{{ if ($data.Get "countercheckedlist") }}{{ if (index ($data.Get "countercheckedlist") $key) }}{{ if (in (index ($data.Get "countercheckedlist") $key) .) }}'font-weight: bold; color: darkgreen;',{{ else }}'color: black;',{{ end }}{{ end }}{{ end }}{{ end }}
-      );
-    {{ end }}
-    console.groupEnd();
-  </script>
+    */}}
 
-  <h2 {{ if eq (len .) 1 }}hidden{{ end }}>Liste des pages auditées</h2>
+    {{/* START Create a anchors menu */}}
 
-  {{/* START - List of all pages */}}
-  {{- range ($data.Get "auditfile") -}}
-    {{/* START :: Range first level */}}
-    {{- range $idpage, $s := .pages -}}
-      {{- $name := .name -}}
-      {{- $data.Set "fileexist" false -}}
-      {{/* START ::Range second level */}}
-      {{- $filename := printf "%s.png" (.name | anchorize) -}}
-      {{- $fileexist := (partialCached "render/filepath-assets" (dict "context" . "project" $project "pathimage" ($data.Get "pathimage") "filename" $filename) $filename) -}}
-      <h3 id="{{ .name | urlize }}">
-        <span class="small-caps">{{ $name }}</span> <small>- <span class="counter">{{ index ($data.Get "countererrorspagelist") (string $idpage) }}</span> erreurs recensées sur cette page</small>
-        {{- template "pathallimage" (dict "context" $context "filename" $filename "pathimage" ($data.Get "pathimage") "fileexist" $fileexist) -}}
-      </h3>
-      {{/* START :: Display capture second level */}}
-      {{- if (fileExists ($data.Get "pathimage")) -}}
-        {{- range (readDir ($data.Get "pathimage")) }}{{- if eq (replace (.Name) ".png" "") ($name  | urlize) -}}{{- $data.Set "fileexist" true -}}{{ end }}{{ end }}
-      {{- end -}}
-      {{- template "pathallimagenoexist" (dict "context" $context "filename" $filename "pathimage" ($data.Get "pathimage") "fileexist" $fileexist) -}}
-      {{- template "gallery" (dict "context" $context "name" .name "filename" $filename "id" $idpage "pathimage" ($data.Get "pathimage") "fileexist" $fileexist) -}}
-
-      {{/* END :: Display capture first level */}}
-      {{- range $idblock, $b := .blocks -}}
-        {{- $data.Set "countererrorsblock" 0 -}}
-        {{/* START :: Range third level and count errors */}}
-        {{- if .errors -}}
-          {{- range $iderror, $s:= .errors -}}
-            {{- $data.Add "countererrorsblock" 1 -}}
-            {{- $data.SetInMap "countererrorsblocklist" (string $idblock) ($data.Get "countererrorsblock") -}}
+    {{- with ($data.Get "auditfile") -}}
+    {{ partialCached "utils/css.html" (dict "context" . "filefolder" "element" "filename" "tableofcontents") "tableofcontents" }}
+    <div class="tableofcontents page-break" {{ if eq (len (index . 0).pages) 1 }}hidden{{ end }}>
+    <h2>Accéder aux pages auditées</h2>
+      <ul>
+      {{- range ($data.Get "auditfile") -}}
+        {{/* Range first level */}}
+        {{- range $idpage, $s := .pages -}}
+          <li><a href="#{{ .name | urlize }}">{{ .name }}</a></li>
+          {{- $data.Set "countererrorspage" 0 -}}
+          {{/* Range second level */}}
+          {{- range $idblock, $b := .blocks -}}
+            {{/* Range third level and count errors */}}
+            {{- if .errors -}}
+              {{- range $iderror, $s:= .errors -}}
+                {{- $name := .name -}}
+                {{- $data.Add "countererrorspage" 1 -}}
+                {{- $data.SetInMap "countererrorspagelist" (string $idpage) ($data.Get "countererrorspage") -}}
+                {{ $checked := .checked }}
+                {{- with .criterion -}}
+                  {{- if not (or (in . "Pi") (in . "OP") (in . "ER")) -}}
+                    {{- range (split (replace . " " "") ",") -}}
+                      {{- $key := string . -}}
+                      {{- $key := cond (lt (index (split $key ".") 0) 10) (printf "0%s.%s" (index (split $key ".") 0) (index (split $key ".") 1)) (string $key) -}}
+                      {{- $key := cond (lt (index (split $key ".") 1) 10) (printf "%s.0%s" (index (split $key ".") 0) (index (split $key ".") 1)) (string $key) -}}
+                      {{- $data.Add (printf "k-%s" $key) (slice $name) -}}
+                      {{- $data.SetInMap "countercriterionlist" (string $key) ($data.Get (printf "k-%s" $key)) -}}
+                      {{- if $checked -}}
+                        {{- $data.Add (printf "%s-checked" (string .)) (slice $name) -}}
+                        {{- $data.SetInMap "countercheckedlist" (string .) ($data.Get (printf "%s-checked" (string .))) -}}
+                      {{- end -}}
+                    {{- end -}}
+                  {{- end -}}
+                {{- end -}}
+              {{- end -}}
+            {{- end -}}
           {{- end -}}
         {{- end -}}
-        {{- if .url -}}<p>URL : <a href="{{ .url }}">{{ .url }}</a></p>{{- end -}}
+      {{- end -}}
+      </ul>
+    </div>
+    {{- end -}}
+    {{/* END Create a anchors menu */}}
+    <script>
+      let Background = [
+        "padding: 2px",
+        "font-weight:bold",
+        "background:#222",
+        "color:#fff"
+      ].join(" ;");
+      let BackgroundWhite = [
+        "padding:2px 2px",
+        "background:#fff",
+        "color:#000"
+      ].join(" ;");
+      console.group('%cErreurs par critère listé{{ with ($data.Get "countercriterionlist") }} ({{ len . }}){{ end }} : ', 'font-size: 12px;');
+      {{- range $key, $criterion := $data.Get "countercriterionlist" }}
+        {{ . }}
+        console.log(
+            {{- $key := printf "%s.%s" (string (float (index (split $key ".") 0))) (string (float (index (split $key ".") 1))) -}}
+            {{- $lenghtcriterion := len . }}
+            '%c{{- if ($data.Get "countercheckedlist") }}{{ with (index ($data.Get "countercheckedlist") $key) }}{{ len . }}{{ else }}0{{ end }}{{ end -}}/{{ $lenghtcriterion -}}
+            %c corrigées pour %c{{ $key }}%c qui a le statut %c
+            {{- index (index ($data.Get "scores") "criteria").all $key -}}
+            %c\n-> Erreurs: {{ range $id, $value := . -}}
+            {{ with ($data.Get "countercheckedlist") }}{{- if (intersect (index . $key) $criterion) }}%c{{ end }}{{ end }}{{ . }}
+            {{- if ne (add $id 1) (len ($criterion)) }} /-/ {{ end }}
+            {{- end }}',
+            'padding: 2px; font-weight:bold; background: {{ if ($data.Get "countercheckedlist") }}{{ with (index ($data.Get "countercheckedlist") $key) }}{{ if eq (len .) $lenghtcriterion }}green{{ else }}firebrick{{ end }}{{ else }}firebrick{{ end }}{{ end }}; color: #fff',
+            BackgroundWhite,
+            Background,
+            BackgroundWhite,
+            Background,
+            'color: black;',
+            {{ range $id, $value := . }}{{ if ($data.Get "countercheckedlist") }}{{ if (index ($data.Get "countercheckedlist") $key) }}{{ if (in (index ($data.Get "countercheckedlist") $key) .) }}'font-weight: bold; color: darkgreen;',{{ else }}'color: black;',{{ end }}{{ end }}{{ end }}{{ end }}
+        );
+      {{ end }}
+      console.groupEnd();
+    </script>
 
-        {{- $data.Set "paths" slice -}}
-        {{- $data.Set "index" slice -}}
+    <h2 {{ if eq (len .) 1 }}hidden{{ end }}>Liste des pages auditées</h2>
 
-        {{- $filename  := printf "%s-%s.png" ($name | anchorize) ($b.name | anchorize) -}}
+    {{/* START - List of all pages */}}
+    {{- range ($data.Get "auditfile") -}}
+      {{/* START :: Range first level */}}
+      {{- range $idpage, $s := .pages -}}
+        {{- $name := .name -}}
+        {{- $data.Set "fileexist" false -}}
+        {{/* START ::Range second level */}}
+        {{- $filename := printf "%s.png" (.name | anchorize) -}}
         {{- $fileexist := (partialCached "render/filepath-assets" (dict "context" . "project" $project "pathimage" ($data.Get "pathimage") "filename" $filename) $filename) -}}
-
-        <h4>{{ $b.name }}
-          <small>- <span class="counter">{{ index ($data.Get "countererrorsblocklist") (string $idblock) }}</span> erreurs recensées sur ce bloc</small>
+        <h3 id="{{ .name | urlize }}">
+          <span class="small-caps">{{ $name }}</span> <small>- <span class="counter">{{ index ($data.Get "countererrorspagelist") (string $idpage) }}</span> erreurs recensées sur cette page</small>
           {{- template "pathallimage" (dict "context" $context "filename" $filename "pathimage" ($data.Get "pathimage") "fileexist" $fileexist) -}}
-        </h4>
-
+        </h3>
+        {{/* START :: Display capture second level */}}
+        {{- if (fileExists ($data.Get "pathimage")) -}}
+          {{- range (readDir ($data.Get "pathimage")) }}{{- if eq (replace (.Name) ".png" "") ($name  | urlize) -}}{{- $data.Set "fileexist" true -}}{{ end }}{{ end }}
+        {{- end -}}
         {{- template "pathallimagenoexist" (dict "context" $context "filename" $filename "pathimage" ($data.Get "pathimage") "fileexist" $fileexist) -}}
-        {{- template "gallery" (dict "context" $context "name" (printf "%s %s" $name $b.name) "filename" $filename "id" (printf "%v-%v" $idpage $idblock) "pathimage" ($data.Get "pathimage") "fileexist" $fileexist) -}}
+        {{- template "gallery" (dict "context" $context "name" .name "filename" $filename "id" $idpage "pathimage" ($data.Get "pathimage") "fileexist" $fileexist) -}}
 
-        {{/* START :: Range third level */}}
-        {{- range $iderror, $s:= .errors -}}
-          {{- $path := .name -}}
-          {{- $filename := printf "%s-%s-%s.png" ($name | anchorize) ($b.name | anchorize) (.name | anchorize) -}}
-          {{/* Create an array for the images slider with screen capture */}}
-          {{- $data.Add "index" (slice $path) -}}
-          <dl>
-            {{- if not (or (in .criterion "Pi") (in .criterion "OP") (in .criterion "ER")) -}}
-            <dt id="{{ .name | urlize }}">{{ if .checked }}☒ {{ else }}☐ {{ end }}{{ .name }}
-              {{ with .status }}&nbsp;<span class="badge{{ if eq . "critique" }} bad{{ end }}{{ if eq . "important" }} medium{{ end }}{{ if eq . "moindre" }} normal{{ end }}">{{ . }}</span>{{ end }}
-              {{- $fileexist := (partialCached "render/filepath-assets" (dict "context" . "project" $project "pathimage" ($data.Get "pathimage") "filename" $filename) $filename) -}}
-              {{- template "pathallimagenoexist" (dict "context" $context "filename" $filename "pathimage" ($data.Get "pathimage") "fileexist" $fileexist) -}}
-            </dt>
-            {{- if .description }}
-              <dd>{{ .description | markdownify | safeHTML }}</dd>
-            {{ end -}}
-            {{- if .path }}
-              <dd><strong>XPath :</strong> <span>{{ .path | markdownify | safeHTML }}</span></dd>
-            {{ end -}}
-            {{- if .criterion }}
-            {{- range (split (replace .criterion " " "") ",") }}
-              {{- $criteriafile := index (index (index $.context.Site.Data ($data.Get "guidelinename")) ($data.Get "guidelineversion")).criteria.topics -}}
-              {{- $thematiques  := index (split . ".") 0 -}}
-              {{- $criteria     := index (split . ".") 1 -}}
-              {{- $glossaire    := (printf "=\"%s%s/%s/glossaire/#" ($.context.Site.BaseURL | default "/") ($data.Get "guidelinename") ($data.Get "guidelineversion")) -}}
-              {{- $s := where $criteriafile "number" "eq" (int ($thematiques)) -}}
-              <dd class="details mt-1 mb-1">
-                <p class="summary">
-                  {{ (replaceRE "=\"#" $glossaire ((((index (index $s 0).criteria (sub (int ($criteria)) 1)).criterium).title) | markdownify) 100) | safeHTML  }}<br>
-                  Critère : <a href="{{ $.context.Site.BaseURL | default "/" }}{{- $data.Get "guidelinename" }}/{{- $data.Get "guidelineversion" }}/criteres/#{{ replace . "." "-" }}">{{ . | safeHTML }}</a> du {{ $data.Get "guidelinename" }} {{ $data.Get "guidelineversion" }}.
-                  {{/* Pourcentage potentiel de correction du RGAA : {{ index ($data.Get "criteriavalue") (string .criterion) */}}
-                </p>
-              </dd>
-            {{ end -}}
-            {{ end -}}
-            {{- else if (in .criterion "Pi") }}
-              {{- $criterionpi := (index (where (index $.context.Site.Data.pidila "1.0").criteria.criterias "id" (replace .criterion "." "-")) 0) -}}
+        {{/* END :: Display capture first level */}}
+        {{- range $idblock, $b := .blocks -}}
+          {{- $data.Set "countererrorsblock" 0 -}}
+          {{/* START :: Range third level and count errors */}}
+          {{- if .errors -}}
+            {{- range $iderror, $s:= .errors -}}
+              {{- $data.Add "countererrorsblock" 1 -}}
+              {{- $data.SetInMap "countererrorsblocklist" (string $idblock) ($data.Get "countererrorsblock") -}}
+            {{- end -}}
+          {{- end -}}
+          {{- if .url -}}<p>URL : <a href="{{ .url }}">{{ .url }}</a></p>{{- end -}}
+
+          {{- $data.Set "paths" slice -}}
+          {{- $data.Set "index" slice -}}
+
+          {{- $filename  := printf "%s-%s.png" ($name | anchorize) ($b.name | anchorize) -}}
+          {{- $fileexist := (partialCached "render/filepath-assets" (dict "context" . "project" $project "pathimage" ($data.Get "pathimage") "filename" $filename) $filename) -}}
+
+          <h4>{{ $b.name }}
+            <small>- <span class="counter">{{ index ($data.Get "countererrorsblocklist") (string $idblock) }}</span> erreurs recensées sur ce bloc</small>
+            {{- template "pathallimage" (dict "context" $context "filename" $filename "pathimage" ($data.Get "pathimage") "fileexist" $fileexist) -}}
+          </h4>
+
+          {{- template "pathallimagenoexist" (dict "context" $context "filename" $filename "pathimage" ($data.Get "pathimage") "fileexist" $fileexist) -}}
+          {{- template "gallery" (dict "context" $context "name" (printf "%s %s" $name $b.name) "filename" $filename "id" (printf "%v-%v" $idpage $idblock) "pathimage" ($data.Get "pathimage") "fileexist" $fileexist) -}}
+
+          {{/* START :: Range third level */}}
+          {{- range $iderror, $s:= .errors -}}
+            {{- $path := .name -}}
+            {{- $filename := printf "%s-%s-%s.png" ($name | anchorize) ($b.name | anchorize) (.name | anchorize) -}}
+            {{/* Create an array for the images slider with screen capture */}}
+            {{- $data.Add "index" (slice $path) -}}
+            <dl>
+              {{- if not (or (in .criterion "Pi") (in .criterion "OP") (in .criterion "ER")) -}}
               <dt id="{{ .name | urlize }}">{{ if .checked }}☒ {{ else }}☐ {{ end }}{{ .name }}
-              {{- with (index (where ($.context.Site.Data.pidila).criteria "id" .criterion) 0).description }}<dd>{{ . }}</dd>{{- end -}}
+                {{ with .status }}&nbsp;<span class="badge{{ if eq . "critique" }} bad{{ end }}{{ if eq . "important" }} medium{{ end }}{{ if eq . "moindre" }} normal{{ end }}">{{ . }}</span>{{ end }}
+                {{- $fileexist := (partialCached "render/filepath-assets" (dict "context" . "project" $project "pathimage" ($data.Get "pathimage") "filename" $filename) $filename) -}}
+                {{- template "pathallimagenoexist" (dict "context" $context "filename" $filename "pathimage" ($data.Get "pathimage") "fileexist" $fileexist) -}}
+              </dt>
               {{- if .description }}
                 <dd>{{ .description | markdownify | safeHTML }}</dd>
               {{ end -}}
-              <dd>
-                <details class="details-arrow mt-1 mb-1">
-                  <summary>
-                    {{ $criterionpi.title }}<br>
-                    Critère : <a href="{{ $.context.Site.BaseURL | default "/" }}/pidila/1.0/criteres/#{{ replace .criterion "." "-" }}">{{ .criterion | safeHTML }}</a> de la checklist Pidila
-                  </summary>
-                  {{- $findref := (findRE "<h3>Références</h3>.*" (replace ($criterionpi.rawHTMLContent) "\n" "")) -}}
-                  {{- replace (replace ($criterionpi.rawHTMLContent) "\n" "") (delimit $findref "") "" | safeHTML -}}
-                </details>
-              </dd>
-            {{- else if (in .criterion "OP") -}}
-              <p>Not ready</p>
-            {{- else -}}
+              {{- if .path }}
+                <dd><strong>XPath :</strong> <span>{{ .path | markdownify | safeHTML }}</span></dd>
+              {{ end -}}
+              {{- if .criterion }}
+              {{- range (split (replace .criterion " " "") ",") }}
+                {{- $criteriafile := index (index (index $.context.Site.Data $referential.name) (string $referential.version)).criteria.topics -}}
+                {{- $thematiques  := index (split . ".") 0 -}}
+                {{- $criteria     := index (split . ".") 1 -}}
+                {{- $glossaire    := (printf "=\"%s%s/%s/glossaire/#" ($.context.Site.BaseURL | default "/") ($data.Get "guidelinename") ($data.Get "guidelineversion")) -}}
+                {{- $s := where $criteriafile "number" "eq" (int ($thematiques)) -}}
+                <dd class="details mt-1 mb-1">
+                  <p class="summary">
+                    {{ (replaceRE "=\"#" $glossaire ((((index (index $s 0).criteria (sub (int ($criteria)) 1)).criterium).title) | markdownify) 100) | safeHTML  }}<br>
+                    Critère : <a href="{{ $.context.Site.BaseURL | default "/" }}{{- $data.Get "guidelinename" }}/{{- $data.Get "guidelineversion" }}/criteres/#{{ replace . "." "-" }}">{{ . | safeHTML }}</a> du {{ $data.Get "guidelinename" }} {{ $data.Get "guidelineversion" }}.
+                    {{/* Pourcentage potentiel de correction du RGAA : {{ index ($data.Get "criteriavalue") (string .criterion) */}}
+                  </p>
+                </dd>
+              {{ end -}}
+              {{ end -}}
+              {{- else if (in .criterion "Pi") }}
+                {{- $criterionpi := (index (where (index ($context.Store.Get "criteriafilepidila") "1.0").criteria.criterias "id" (replace .criterion "." "-")) 0) -}}
+                <dt id="{{ .name | urlize }}">{{ if .checked }}☒ {{ else }}☐ {{ end }}{{ .name }}
+                {{- with (index (where (index ($context.Store.Get "criteriafilepidila") "1.0").criteria.criterias "id" .criterion) 0).description }}<dd>{{ . }}</dd>{{- end -}}
+                {{- if .description }}
+                  <dd>{{ .description | markdownify | safeHTML }}</dd>
+                {{ end -}}
+                <dd>
+                  <details class="details-arrow mt-1 mb-1">
+                    <summary>
+                      {{ $criterionpi.title }}<br>
+                      Critère : <a href="{{ $.context.Site.BaseURL | default "/" }}/pidila/1.0/criteres/#{{ replace .criterion "." "-" }}">{{ .criterion | safeHTML }}</a> de la checklist Pidila
+                    </summary>
+                    {{- $findref := (findRE "<h3>Références</h3>.*" (replace ($criterionpi.rawHTMLContent) "\n" "")) -}}
+                    {{- replace (replace ($criterionpi.rawHTMLContent) "\n" "") (delimit $findref "") "" | safeHTML -}}
+                  </details>
+                </dd>
+              {{- else if (in .criterion "OP") -}}
+                <p>Not ready</p>
+              {{- else -}}
+              {{ end -}}
+            </dl>
+            {{- if or .codebefore .codeafter }}
+              <div class="audit-code">
+                {{ if .codebefore }}<h5 class="mb-0">Code présent</h5><pre class="language-html"><code>{{ .codebefore | htmlUnescape }}</code></pre>{{ end }}
+                {{ if .codeafter }}<h5 class="mb-0">Code modifié</h5><pre class="language-html"><code>{{ .codeafter | htmlUnescape }}</code></pre>{{ end }}
+                <br>
+              </div>
             {{ end -}}
-          </dl>
-          {{- if or .codebefore .codeafter }}
-            <div class="audit-code">
-              {{ if .codebefore }}<h5 class="mb-0">Code présent</h5><pre class="language-html"><code>{{ .codebefore | htmlUnescape }}</code></pre>{{ end }}
-              {{ if .codeafter }}<h5 class="mb-0">Code modifié</h5><pre class="language-html"><code>{{ .codeafter | htmlUnescape }}</code></pre>{{ end }}
-              <br>
-            </div>
-          {{ end -}}
-          {{/* START :: Range third level */}}
-          {{- template "gallery" (dict "context" $context "name" (printf "%s %s %s" $name $b.name .name) "filename" $filename "id" (printf "%v-%v-%v" $idpage $idblock $iderror) "pathimage" ($data.Get "pathimage") "fileexist" $fileexist) -}}
-          {{/* END :: Range third level */}}
-        {{- end -}}
-        {{/* END ::Range third level */}}
-    {{- end -}}
-    {{/* END :: Range first level */}}
-    <hr class="divider-strong">
-  {{- end -}}{{/* Range the quality file */}}
-  </article>
-  {{- end -}}
-  {{- else -}}
-    {{- with (partialCached "render/notepath" $context $context) -}}
-      {{- range . -}}
-        <h2>Notes annexes au rapport d’audit</h2>
-        {{ . }}
+            {{/* START :: Range third level */}}
+            {{- template "gallery" (dict "context" $context "name" (printf "%s %s %s" $name $b.name .name) "filename" $filename "id" (printf "%v-%v-%v" $idpage $idblock $iderror) "pathimage" ($data.Get "pathimage") "fileexist" $fileexist) -}}
+            {{/* END :: Range third level */}}
+          {{- end -}}
+          {{/* END ::Range third level */}}
       {{- end -}}
+      {{/* END :: Range first level */}}
+      <hr class="divider-strong">
+    {{- end -}}{{/* Range the quality file */}}
+    </article>
+    {{- end -}}
     {{- else -}}
-    <p>Aucun fichier de test n’est présent dans le répertoire : {{ (partialCached "render/rootpath" (dict "context" . "project" $project "type" "accessibility") $project "accessibility") }}/{{ cond (not $project) "" (printf "%s/" $project) }}quality</p>
-    {{ end }}
+      {{- with (partialCached "render/notepath" $context $context) -}}
+        {{- range . -}}
+          <h2>Notes annexes au rapport d’audit</h2>
+          {{ . }}
+        {{- end -}}
+      {{- else -}}
+      <p>Aucun fichier de test n’est présent dans le répertoire : {{ (partialCached "render/rootpath" (dict "context" . "project" $project "type" "accessibility") $project "accessibility") }}/{{ cond (not $project) "" (printf "%s/" $project) }}quality</p>
+      {{ end }}
   {{- end -}}
 {{- end -}}
 

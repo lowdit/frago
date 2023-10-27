@@ -9,9 +9,9 @@
 {{- end -}}
 
 {{- define "main" -}}
-  {{- $patharray  := split (path.Dir .File.Path) "/" -}}
   {{- $context    := . -}}
-  {{- $project    := cond (eq (len (split (path.Dir $context.File.Path) "/")) 1) "" (replace (path.Dir $context.File.Path) "audits/" "") -}}
+  {{- $path := "" }}{{ with .File }}{{ $path = .Path }}{{ end }}
+  {{- $project    := cond (eq (len (split (path.Dir $path) "/")) 1) "" (replace (path.Dir $path) "audits/" "") -}}
   {{- $alternate  := where (where .OutputFormats "Permalink" "eq" .Permalink) "Rel" "eq" "alternate" -}}
   {{- if ne (len $alternate) 0 -}}
     {{- with $alternate -}}
@@ -25,8 +25,8 @@
         {{- else if or (eq .Format.BaseName "greenit") -}}
           {{- $partial := (partialCached "templates/greenit.html" (dict "context" $context) $context) -}}
           {{- partialCached "elements/content.html" $partial $partial -}}
-        {{- else if eq .Format.BaseName "cigref" -}}
-          {{- $partial := (partialCached "templates/cigref.html" (dict "context" $context) $context) -}}
+        {{- else if eq .Format.BaseName "opquast" -}}
+          {{- $partial := (partialCached "templates/opquast.html" (dict "context" $context) $context) -}}
           {{- partialCached "elements/content.html" $partial $partial -}}
         {{- else if eq .Format.BaseName "publishing" -}}
           {{- $partial := (partialCached "templates/publishing.html" (dict "context" $context) $context) -}}
@@ -58,7 +58,7 @@
   {{- else -}}
     <div class="fg-wrapper narrow"><p class="no-print">← <a href="{{ if eq (.Site.GetPage "/").Title "Accueil Audits" }}/{{ else }}{{ $.Site.BaseURL | default "/"}}audits{{ end }}" class="link-more link-back">Retour à la liste des services</a></p></div>
     {{ with .Title }}<h1 class="text-center fg-wrapper">{{ . }}</h1>{{ end }}
-    {{- if and (not (in (path.Base .File.Path) "index.md")) -}}
+    {{- if and (not (in (path.Base $path) "index.md")) -}}
       <article class="fg-wrapper narrow">
         {{ partialCached "elements/content.html" .Content .Content }}
       </article>

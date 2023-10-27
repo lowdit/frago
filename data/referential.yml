@@ -1,0 +1,73 @@
+accessibility:
+  name: "RGAA"
+  referential: "rgaa"
+  topics:
+    - "Images"
+    - "Cadres"
+    - "Couleurs"
+    - "Multimedia"
+    - "Tableaux"
+    - "Liens"
+    - "Scripts"
+    - "Éléments obligatoires"
+    - "Structuration de l’information"
+    - "Présentation de l’information"
+    - "Formulaires"
+    - "Navigation"
+    - "Consultation"
+ecoconception:
+  name: "RGESN"
+  referential: "rgesn"
+  topics:
+    - Stratégie
+    - Spécifications
+    - Architecture
+    - UX/UI
+    - Contenus
+    - Frontend
+    - Backend
+    - Hébergement
+opquast:
+  name: "Opquast"
+  referential: "opquast"
+  topics:
+    - Contenus
+    - Données personnelles
+    - E-Commerce
+    - Formulaires
+    - Identification et contact
+    - Images et médias
+    - Internationalisation
+    - Liens
+    - Navigation
+    - Newsletter
+    - Présentation
+    - Sécurité
+    - Serveur et performances
+    - Structure et code
+publishing:
+  name: "Édito"
+  referential: "publishing"
+  topics:
+    - "Parcours utilisateur"
+    - "Singularité de l’entreprise"
+    - "Contenus orientés utilisateur"
+    - "Qualité des textes"
+    - "Lisibilité du contenu"
+    - "Patrimoine éditorial "
+    - "Efficacité"
+    - "Diffusion du contenu"
+cigref:
+  name: "Cigref"
+  referential: "cigref"
+  topics:
+    - "Impact environnemental"
+    - "Impact social & sociétal"
+    - "Gouvernance"
+greenit:
+  name: "GreenIT"
+  referential: "greenit"
+  topics:
+    - "Démarches transversales"
+    - "Utilisateur"
+    - "Entreprise"
