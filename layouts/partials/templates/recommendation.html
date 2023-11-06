@@ -20,7 +20,7 @@
 {{- end -}}
 {{- if and (ne (len $patharray) 1) (or (in $context "quality.md") (in $context "recommandation.md") (in $context "recommandations.md") ($data.Get "outputrecommendation")) -}}
   {{- $lastfile := (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "recommendation" "datafilename" .Params.datafilename) $project "recommendation" .Params.datafilename) -}}
-  {{- if ne (index $lastfile "auditfile-path") "/false" -}}
+  {{- if (not (in (index $lastfile "auditfile-path") "false")) -}}
     {{- $data.Set "auditfile" (readFile (index $lastfile "auditfile-path") | transform.Unmarshal) -}}
     {{- partialCached "utils/css.html" (dict "context" $context "filefolder" "object" "filename" "benchmark") "benchmark" -}}
     {{- $csslightbox  := resources.Get "css/simple-lightbox.min.css" -}}
@@ -70,9 +70,9 @@
     {{- end -}}
   {{/* END Display page note if exists */}}
 
-  {{- if ne (index $lastfile "auditfile-path") "/false" -}}
+  {{- if (not (in (index $lastfile "auditfile-path") "false")) -}}
 
-  {{- $data.Set "auditfile" (readFile (index $lastfile "auditfile-path") | transform.Unmarshal) -}}
+    {{- $data.Set "auditfile" (readFile (index $lastfile "auditfile-path") | transform.Unmarshal) -}}
     {{- $data.Set "auditfile-name" (index $lastfile "auditfile-name") -}}
 
     {{/* Find the folder where images are stored */}}

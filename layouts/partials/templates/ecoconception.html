@@ -9,8 +9,13 @@
 {{- $data.Set "audits" (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "ecoconception" "datafilename" .context.Params.datafilename) $project "ecoconception" .context.Params.datafilename) -}}
 {{- $data.Set "auditpath-csv" (index ($data.Get "audits") "auditfile-path") -}}
 
+{{ if (eq (getenv "HUGO_ENV") "debugfiles") }}
+  {{ warnf "Ecoconception : %s" ($data.Get "auditpath-csv") }}
+{{ end }}
+
 {{/* START Test if audit file exists */}}
-{{- if and ($data.Get "auditpath-csv") (ne ($data.Get "auditpath-csv") "/false") -}}
+{{- if and ($data.Get "auditpath-csv") (not (in ($data.Get "auditpath-csv") "false")) -}}
+
   {{- $data.Set "auditfile-csv" (getCSV "," ($data.Get "auditpath-csv")) -}}
   {{- $data.Set "scores" (partialCached "render/ecoconception.html" (dict "context" "ecospage" "auditfile" ($data.Get "auditpath-csv")) ($data.Get "auditpath-csv") ) -}}
 

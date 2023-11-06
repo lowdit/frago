@@ -1,7 +1,11 @@
 
 {{ $data     := newScratch }}
 
-{{ if (ne .auditfile "/false") }}
+{{ if (eq (getenv "HUGO_ENV") "debugfiles") }}
+  {{ warnf "Cigref : %s" .auditfile }}
+{{ end }}
+
+{{ if (not (in .auditfile "false")) }}
   {{ $auditfile            := (getCSV "," .auditfile) }}
   {{ $data.Set "auditfile" $auditfile }}
   {{ $data.Set "date"      (replace (path.Base .auditfile) (path.Ext .auditfile) "") }}

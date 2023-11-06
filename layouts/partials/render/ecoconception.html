@@ -7,7 +7,12 @@
   {{ $data.Set "debugperf" (slice $auditfile) }}
 {{- end -}}
 
-{{ if (ne .auditfile "/false") }}
+{{ if (eq (getenv "HUGO_ENV") "debugfiles") }}
+  {{ warnf "Ecoconception render : %s" .auditfile }}
+{{ end }}
+
+{{ if (not (in .auditfile "false")) }}
+
   {{ $auditfilecsv        := (getCSV "," .auditfile) }}
   {{ $data.Set "date" (replace (path.Base .auditfile) (path.Ext .auditfile) "") }}
 

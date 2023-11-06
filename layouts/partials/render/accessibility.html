@@ -5,13 +5,17 @@
 {{ $auditfile     := .auditfile }}
 {{ $time          := now.UnixMilli }}
 {{ $timepartial   := now.UnixMilli }}
-{{- if (eq (getenv "HUGO_ENV") "debugperf") -}}
+
+{{ if (eq (getenv "HUGO_ENV") "debugperf") }}
   {{ $data.Set "debugperf" (slice $auditfile) }}
-{{- end -}}
+{{ end }}
 
-{{/* START - (ne .auditfile "/false") */}}
-{{ if (ne .auditfile "/false") }}
+{{ if (eq (getenv "HUGO_ENV") "debugfiles") }}
+  {{ warnf "Accessibility : %s" .auditfile }}
+{{ end }}
 
+{{/* START - (not (in .auditfile "false")) */}}
+{{ if (not (in .auditfile "false")) }}
   {{ $auditfilecsv     := (readFile .auditfile | transform.Unmarshal) }}
   {{ $auditmethodology := (index (partialCached "render/methodology.html" (dict "auditfile" $auditfilecsv) $auditfilecsv) "methodology") }}
   {{ $pageslist        := (index (partialCached "render/methodology.html" (dict "auditfile" $auditfilecsv) $auditfilecsv) "pageslist") -}}
@@ -360,7 +364,7 @@
   ) }}
   {{/* warnf "%v" ($res | jsonify (dict "indent" "  ")) */}}
 {{ end }}
-{{/* END - (ne .auditfile "/false") */}}
+{{/* END - (not (in .auditfile "false")) */}}
 
 {{- if (eq (getenv "HUGO_ENV") "debugperf") -}}
   {{ $time = string (sub now.UnixMilli $time) }}

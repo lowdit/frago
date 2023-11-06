@@ -10,7 +10,7 @@
 {{- end -}}
 
 {{/* START Test if audit file not false */}}
-{{ if (ne $auditfile "/false") }}
+{{ if (not (in .auditfile "false")) }}
   {{/* START Test if audit file exists */}}
   {{ with $auditfile }}
     {{ $file := getJSON . }}

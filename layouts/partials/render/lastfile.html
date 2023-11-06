@@ -8,11 +8,11 @@
 {{ $path               := partialCached "render/filepath" (dict "context" $context "project" $project "type" .type) $context $project .type }}
 
 {{ $condrecommendationcsv  := eq (len (intersect (slice .type) (slice "greenit" "ecoconception" "actions" "accessibility" "publishing" "cigref" "opquast"))) 1 }}
-{{ $condrecommendationjson := eq (len (intersect (slice .type) (slice "recommendation" "quality"))) 1 }}
+{{ $condrecommendationjson := eq (len (intersect (slice .type) (slice "recommendation" "quality" "performance"))) 1 }}
 {{ $ext                    := cond  ($condrecommendationcsv) "csv" (cond ($condrecommendationjson) "yml" "json") }}
 
-{{ $datalastfile.Set    "auditpath-lastfile" "/false" }}
-{{ $datalastfile.Set    "pathdata" "/false" }}
+{{ $datalastfile.Set    "auditpath-lastfile" (printf "false-%s-%s-last" $type $project ) }}
+{{ $datalastfile.Set    "pathdata"           (printf "false-%s-%s" $type $project) }}
 
 {{/* If a single data file is called in the front matter or not :: could be removed */}}
 {{ if .datafilename }}
@@ -74,18 +74,18 @@
 
 {{ return
   (dict
-  "type"               $type
-  "path"               $path
-  "ext"                $ext
-  "project"            (cond (ge (countwords $project) 1) $project "")
-  "datafilename"       .datafilename
-  "rootpath"           $rootpath
-  "pathproject"        (cond (ge (countwords $project) 1) (printf "%s/%s" $rootpath $project) $rootpath)
-  "pathdata"           ($datalastfile.Get "pathdata")
-  "auditfile-context"  ($datalastfile.Get "auditname-context")
-  "auditfile-name"     ($datalastfile.Get "auditname-lastfile")
-  "auditfile-path"     ($datalastfile.Get "auditpath-lastfile")
-  "auditfile-all-name" ($datalastfile.Get "auditname-all-lastfile")
-  "auditfile-all-path" ($datalastfile.Get "auditpath-all-lastfile")
+    "type"               $type
+    "path"               $path
+    "ext"                $ext
+    "project"            (cond (ge (countwords $project) 1) $project "")
+    "datafilename"       .datafilename
+    "rootpath"           $rootpath
+    "pathproject"        (cond (ge (countwords $project) 1) (printf "%s/%s" $rootpath $project) $rootpath)
+    "pathdata"           ($datalastfile.Get "pathdata")
+    "auditfile-context"  ($datalastfile.Get "auditname-context")
+    "auditfile-name"     ($datalastfile.Get "auditname-lastfile")
+    "auditfile-path"     ($datalastfile.Get "auditpath-lastfile")
+    "auditfile-all-name" ($datalastfile.Get "auditname-all-lastfile")
+    "auditfile-all-path" ($datalastfile.Get "auditpath-all-lastfile")
   )
 }}

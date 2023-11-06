@@ -3,11 +3,16 @@
 {{ $auditfile     := .auditfile }}
 {{ $time          := now.UnixMilli }}
 {{ $timepartial   := now.UnixMilli }}
-{{- if (eq (getenv "HUGO_ENV") "debugperf") -}}
-  {{ $data.Set "debugperf" (slice $auditfile) }}
-{{- end -}}
 
-{{ if (ne .auditfile "/false") }}
+{{ if (eq (getenv "HUGO_ENV") "debugperf") }}
+  {{ $data.Set "debugperf" (slice $auditfile) }}
+{{ end }}
+
+{{ if (eq (getenv "HUGO_ENV") "debugfiles") }}
+  {{ warnf "Publishing render : %s" .auditfile }}
+{{ end }}
+
+{{ if (not (in .auditfile "false")) }}
   {{ $auditfilecsv        := (getCSV "," .auditfile) }}
   {{ $data.Set "date" (replace (path.Base .auditfile) (path.Ext .auditfile) "") }}
 

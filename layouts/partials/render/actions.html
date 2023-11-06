@@ -27,8 +27,10 @@
     {{/* Feed an array with all action in a file */}}
     {{ if ($data.Get (printf "actions-%s" .)) }}
       {{ range $id, $value := ($data.Get (printf "actions-%s" .)) }}
-        {{ $data.Set (printf "slice-%s" $date) (merge ($data.Get (printf "slice-%s" $date)) (dict (string $id) (index (after 1 (getCSV "," .)) 0))) }}
-        {{ $data.Add (printf "listDates-%s" $date) (slice (((os.Stat .).ModTime).Format "02/01/2006")) }}
+        {{ if (not (in . "false")) }}
+          {{ $data.Set (printf "slice-%s" $date) (merge ($data.Get (printf "slice-%s" $date)) (dict (string $id) (index (after 1 (getCSV "," .)) 0))) }}
+          {{ $data.Add (printf "listDates-%s" $date) (slice (((os.Stat .).ModTime).Format "02/01/2006")) }}
+        {{ end }}
       {{ end }}
       {{/* Feed a map where key is the date */}}
       {{ $data.SetInMap (printf "listActions-%s" $date) "Opérations diverses" ($data.Get (printf "slice-%s" $date)) }}
@@ -49,23 +51,25 @@
       {{/* Loop over csv files */}}
       {{ if $lastname }}
       {{ range $id, $value := (index $lastfile "auditfile-all-path") }}
-        {{ $date := first 4 (index $lastname $id) }}
-        {{ $data.Set (printf "listDate-%s" $date) slice }}
-        {{ $cond := cond (eq $kind "page") (eq $date $pagedate) true }}
-        {{/*- if $cond -*/}}
-          {{/* Feed an array with all actions in a file */}}
-          {{ range $index, $line := (after 1 (getCSV "," .)) }}
-            {{ $data.Set (printf "%s%s%s" $title $id $date) (merge ($data.Get (printf "%s%s%s" $title $id $date)) (dict (string $index) .)) }}
+        {{ if (not (in . "false")) }}
+          {{ $date := first 4 (index $lastname $id) }}
+          {{ $data.Set (printf "listDate-%s" $date) slice }}
+          {{ $cond := cond (eq $kind "page") (eq $date $pagedate) true }}
+          {{/*- if $cond -*/}}
+            {{/* Feed an array with all actions in a file */}}
+            {{ range $index, $line := (after 1 (getCSV "," .)) }}
+              {{ $data.Set (printf "%s%s%s" $title $id $date) (merge ($data.Get (printf "%s%s%s" $title $id $date)) (dict (string $index) .)) }}
+            {{ end }}
+            {{/* Feed a map where key is the project title */}}
+            {{ $data.Set (printf "%s%s" $title $date) ($data.Get (printf "%s%s%s" $title $id $date)) }}
+            {{/* Feed a map where key is the date */}}
+            {{ $data.Add      (printf "listDates-%s" $date) (slice (((os.Stat .).ModTime).Format "02/01/2006")) }}
+            {{ $data.SetInMap (printf "listActions-%s" $date) (printf "%s" $title) ($data.Get (printf "%s%s" $title $date)) }}
+            {{/* Feed final map */}}
+            {{ $data.SetInMap "allDates"   (printf "%s" $date) ($data.Get (printf "listDates-%s" $date)) }}
+            {{ $data.SetInMap "allActions" (printf "%s" $date) ($data.Get (printf "listActions-%s" $date)) }}
+          {{/*- end -*/}}
           {{ end }}
-          {{/* Feed a map where key is the project title */}}
-          {{ $data.Set (printf "%s%s" $title $date) ($data.Get (printf "%s%s%s" $title $id $date)) }}
-          {{/* Feed a map where key is the date */}}
-          {{ $data.Add      (printf "listDates-%s" $date) (slice (((os.Stat .).ModTime).Format "02/01/2006")) }}
-          {{ $data.SetInMap (printf "listActions-%s" $date) (printf "%s" $title) ($data.Get (printf "%s%s" $title $date)) }}
-          {{/* Feed final map */}}
-          {{ $data.SetInMap "allDates"   (printf "%s" $date) ($data.Get (printf "listDates-%s" $date)) }}
-          {{ $data.SetInMap "allActions" (printf "%s" $date) ($data.Get (printf "listActions-%s" $date)) }}
-        {{/*- end -*/}}
         {{ end }}
       {{ end }}
     {{ end }}

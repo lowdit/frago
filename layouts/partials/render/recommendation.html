@@ -5,7 +5,7 @@
 {{ $auditfile := .auditfile }}
 {{ $data      := newScratch }}
 {{/* START Test if audit file not false */}}
-{{ if (ne $auditfile "/false") }}
+{{ if (not (in .auditfile "false")) }}
   {{ $lastfile  := readFile $auditfile | transform.Unmarshal }}
   {{ $data.Delete "counterrecommendation" }}
 

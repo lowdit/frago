@@ -31,6 +31,7 @@
     {{ range $reflist }}
       {{ $type    := . }}
       {{ with (index (partialCached "render/lastfile.html" (dict "context" . "project" $project "type" $type) $project .) "auditfile-all-path") }}
+      {{ if (not (in . "false")) }}
         {{ range $id, $file := last 1 (sort .) }}
           {{ $render := (partialCached (printf "render/%s.html" $type) (dict "context" "aggregate" "auditfile" . ) .) }}
           {{ $data.SetInMap $project $type $render }}
@@ -118,16 +119,19 @@
 
         {{ end }}
       {{ end }}
+      {{ end }}
     {{ end }}
     {{/* END Loop over referential :: calculate */}}
 
     {{ with (index (partialCached "render/lastfile.html" (dict "context" . "project" $project "type" "performance") $project "performance") "auditfile-all-path") }}
-    {{ range $id, $value := last 1 (sort .) }}
-      {{ $render := (partialCached "render/performance.html" (dict "context" "aggregate" "auditfile" . ) .) }}
-      {{ $data.SetInMap $project "performance" $render }}
-      {{ $score := $render.ecoscore }}
-      {{ $data.Add "aggregate-performance-list" $score }}
-      {{ $data.Add "aggregate-performance-sum" $score }}
+    {{ if (not (in . "false")) }}
+      {{ range $id, $value := last 1 (sort .) }}
+        {{ $render := (partialCached "render/performance.html" (dict "context" "aggregate" "auditfile" . ) .) }}
+        {{ $data.SetInMap $project "performance" $render }}
+        {{ $score := $render.ecoscore }}
+        {{ $data.Add "aggregate-performance-list" $score }}
+        {{ $data.Add "aggregate-performance-sum" $score }}
+      {{ end }}
     {{ end }}
     {{ end }}
 
