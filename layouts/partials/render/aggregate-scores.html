@@ -162,17 +162,20 @@
   {{ end }}
   {{ if and ($data.Get (printf "average-%s-conforme" $type)) ($data.Get (printf "average-%s-nonconforme" $type)) }}
     {{ $dict1 = (dict
-      "pourcentage"              ($data.Get (printf "average-%s-pourcentage"     $type))
-      "pourcentage100"           ($data.Get (printf "average-%s-pourcentage-100" $type))
-      "pourcentage80"            ($data.Get (printf "average-%s-pourcentage-80"  $type))
-      "pourcentage50"            ($data.Get (printf "average-%s-pourcentage-50"  $type))
-      "pourcentage30"            ($data.Get (printf "average-%s-pourcentage-30"  $type))
-      "pourcentage00"            ($data.Get (printf "average-%s-pourcentage-00"  $type))
-      "conforme"                 ($data.Get (printf "average-%s-conforme"        $type))
-      "nonconforme"              ($data.Get (printf "average-%s-nonconforme"     $type))
-      "nonapplicable"            ($data.Get (printf "average-%s-nonapplicable"   $type))
-      "all"                      (merge (merge ($data.Get (printf "average-%s-conforme" $type)) ($data.Get (printf "average-%s-nonconforme" $type))) ($data.Get (printf "average-%s-nonapplicable" $type)))
+        "pourcentage"              ($data.Get (printf "average-%s-pourcentage"     $type))
+        "pourcentage100"           ($data.Get (printf "average-%s-pourcentage-100" $type))
+        "pourcentage80"            ($data.Get (printf "average-%s-pourcentage-80"  $type))
+        "pourcentage50"            ($data.Get (printf "average-%s-pourcentage-50"  $type))
+        "pourcentage30"            ($data.Get (printf "average-%s-pourcentage-30"  $type))
+        "pourcentage00"            ($data.Get (printf "average-%s-pourcentage-00"  $type))
+        "conforme"                 ($data.Get (printf "average-%s-conforme"        $type))
+        "nonconforme"              ($data.Get (printf "average-%s-nonconforme"     $type))
+        "nonapplicable"            ($data.Get (printf "average-%s-nonapplicable"   $type))
+        "all"                      (merge ($data.Get (printf "average-%s-conforme" $type)) ($data.Get (printf "average-%s-nonconforme" $type)))
     ) }}
+  {{ end }}
+  {{ if ($data.Get (printf "average-%s-nonapplicable" $type)) }}
+    {{ $dict1 = merge $dict1 (dict "all" ((merge (merge ($data.Get (printf "average-%s-conforme" $type)) ($data.Get (printf "average-%s-nonconforme" $type))) ($data.Get (printf "average-%s-nonapplicable" $type)))))}}
   {{ end }}
   {{ if and ($data.Get (printf "average-%s-conforme-t" $type)) ($data.Get (printf "average-%s-nonconforme-t" $type)) }}
 
