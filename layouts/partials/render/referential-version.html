@@ -21,7 +21,7 @@
 {{ $data.Set "name" $referential }}
 {{ $data.Set "version" (cond (not .version) (cond (not (delimit (last 1 ($data.Get "versionallarray")) "")) "ko" (delimit (last 1 ($data.Get "versionallarray")) "")) .version) }}
 
-{{ if and (ge ($patharray) 3) (ne (delimit (first 1 $patharray) "") "audits") (ne (delimit (first 1 $patharray) "") "organism") }}
+{{ if and (ge ($patharray) 3) (ne (delimit (first 1 $patharray) "") "audits") (ne (delimit (first 1 $patharray) "") "organism") ($data.Get "versionall") }}
   {{ $data.Set "name" (index $patharray 0) }}
   {{ $data.Set "version" (index (last 1 (index ($data.Get "versionall") (index $patharray 1))) 0) }}
 {{ end }}
