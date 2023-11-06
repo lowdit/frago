@@ -206,32 +206,6 @@
     {{- end -}}
     {{/* END - If publishing */}}
 
-    {{/* START - If greenit */}}
-    {{- if $greenit -}}
-      {{- $.Store.Set "audit" (partialCached "render/greenit.html" (dict "auditfile" ($.Store.Get "greenit-path")) ($.Store.Get "greenit-path")) -}}
-      <h3 class="m-0">GreenIT - 74 bonnes pratiques
-        {{- if or ($.Store.Get "audit").scores.compliance (eq ($.Store.Get "audit").scores.compliance 0) -}}
-          {{- $pageauditpath := (printf "/content/audits/%s/greenit.md" ($project | urlize)) -}}
-          {{- if (fileExists $pageauditpath) -}}
-            <small> - <a href="{{ $context.Site.BaseURL | default "/" }}{{ replace (replace (replace $pageauditpath ".md" "/") "/content/" "") "//" "/" }}" aria-label="Accéder au rapport greenit">Accéder au rapport</a></small>
-          {{- else -}}
-            {{- with (first 1 (where (where $OutputFormats "MediaType.Type" "eq" "text/html") "Format.BaseName" "eq" "greenit")) }}
-              {{- $AuditLink := cond (in $project (index . 0).Permalink) (index . 0).Permalink (printf "%saudits/%s%s.html" ($context.Site.BaseURL | default "/") (cond (not $project) "" (printf "%s/" (urlize $project))) (index . 0).Format.BaseName) -}}
-              <small> - <a href="{{ $AuditLink }}" aria-label="Accéder au rapport greenit">Accéder au rapport</a></small>
-            {{- end -}}
-          {{- end -}}
-        {{- end -}}
-      </h3>
-      {{- if or ($.Store.Get "audit").scores.compliance (eq ($.Store.Get "audit").scores.compliance 0) -}}
-        {{- $conforme := ($.Store.Get "audit").scores.compliance -}}
-        {{- partialCached "components/scores/greenit" (dict "context" . "score" $conforme) $conforme -}}
-      {{- else -}}
-        <p>L’audit de conformité est en cours.</p>
-      {{- end -}}
-    {{- end -}}
-    {{/* END - If greenit */}}
-
-
     {{/* START - If Recommendation */}}
     {{- if $recommendation -}}
       <h3 class="m-0">
