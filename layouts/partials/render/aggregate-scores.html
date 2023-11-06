@@ -4,8 +4,8 @@
 {{ with .File }}{{ $path = .Path }}{{ end }}
 {{ $data          := newScratch }}
 {{ $time          := now.UnixMilli }}
-{{ $timepartial   := now.UnixMilli }}
 {{ $reflist       := (slice "accessibility" "ecoconception" "opquast" "publishing") }}
+{{ $t             := debug.Timer "Aggregate scores" }}
 
 {{/* Declare Var */}}
 {{ $data.Delete "allscores" }}
@@ -20,6 +20,8 @@
 {{ $data.Set "aggregate-performance-sum" 0 }}
 
 {{ range sort .pages ".Title" "desc" }}
+  {{ $timepartial   := now.UnixMilli }}
+  {{ $p            := debug.Timer "Aggregate scores parti" }}
   {{ $project := partialCached "render/projectpath" . . }}
   {{ if ne $project "" }}
   {{ $context := . }}
@@ -139,6 +141,7 @@
       {{ $data.SetInMap "debugperf" $path (string (sub now.UnixMilli $timepartial)) }}
       {{ $timepartial   = now.UnixMilli }}
     {{ end }}
+    {{ $p.Stop }}
 
   {{ end }}
   {{ $data.SetInMap "allscores" $project           ($data.Get $project) }}
@@ -233,3 +236,4 @@
   {{ warnf "=> Aggregates     Total | %s%sms|" (cond (eq (len $time) 4) "" (cond (eq (len $time) 3) " " (cond (eq (len $time) 2) "  " "   "))) $time }}
   {{ warnf "------------------------------------------------------------/" }}
 {{ end }}
+{{ $t.Stop }}
