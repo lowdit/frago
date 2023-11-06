@@ -2,4 +2,4 @@ module github.com/lowdit/fragodocs
 
 go 1.18
 
-require github.com/lowdit/frago v1.15.3 // indirect
+require github.com/lowdit/frago v1.16.2 // indirect
