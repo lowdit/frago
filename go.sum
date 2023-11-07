@@ -1,2 +1,4 @@
 github.com/lowdit/frago v1.16.0 h1:kmvFZvWyvvxXsg8yx4xX4Doav0U0vBNhsJAKLVvreH4=
 github.com/lowdit/frago v1.16.0/go.mod h1:dRC9CDJUGzTw76RChx7cR4n/j8TsLD4R7deHd9xxBxE=
+github.com/lowdit/frago v1.16.5 h1:GjGCtCfNhpSTt5S1YzL6VubXFkg3cKOKR58PVRZ+Fjo=
+github.com/lowdit/frago v1.16.5/go.mod h1:dRC9CDJUGzTw76RChx7cR4n/j8TsLD4R7deHd9xxBxE=
