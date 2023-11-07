@@ -4,6 +4,7 @@
 {{- $data         := newScratch -}}
 {{- $projectPath  := cond (fileExists (printf "audits/%s/index.md" ($project))) (printf "audits/%s/index.md" ($project)) (printf "audits/%s/_index.md" ($project)) -}}
 {{- $projectTitle := ($context.GetPage $projectPath).Title -}}
+{{- $t            := debug.Timer "Ecoconception   Page" -}}
 
 <article class="fg-wrapper narrow">
 {{- $data.Set "audits" (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "ecoconception" "datafilename" .context.Params.datafilename) $project "ecoconception" .context.Params.datafilename) -}}
@@ -111,3 +112,4 @@
   {{- end -}}
 {{- end -}}
 </article>
+{{ $t.Stop }}

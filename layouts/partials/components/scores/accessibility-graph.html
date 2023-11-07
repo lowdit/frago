@@ -6,7 +6,7 @@
 {{- $time          := now.UnixMilli -}}
 {{- $timepartial   := now.UnixMilli -}}
 
-{{ $t := debug.Timer "A11Y graph" }}
+{{ $t := debug.Timer "Accessibility  Graph" }}
 {{- if (eq (getenv "HUGO_ENV") "debugperf") -}}
   {{ $data.Set "debugperf" (slice $auditfile) }}
 {{- end -}}

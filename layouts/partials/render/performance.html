@@ -5,8 +5,8 @@
 {{ $context       := .context }}
 {{ $time          := now.UnixMilli }}
 {{ $timepartial   := now.UnixMilli }}
-
-{{ $t := debug.Timer "performance render" }}
+{{ warnf "%s %s" $context .auditfile }}
+{{ $t := debug.Timer "Performance   Render" }}
 {{- if (eq (getenv "HUGO_ENV") "debugperf") -}}
   {{ $data.Set "debugperf" (slice $auditfile) }}
 {{- end -}}

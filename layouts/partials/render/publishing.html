@@ -4,7 +4,7 @@
 {{ $time          := now.UnixMilli }}
 {{ $timepartial   := now.UnixMilli }}
 
-{{ $t := debug.Timer "Publishing Render" }}
+{{ $t := debug.Timer "Publishing    Render" }}
 {{ if (eq (getenv "HUGO_ENV") "debugperf") }}
   {{ $data.Set "debugperf" (slice $auditfile) }}
 {{ end }}

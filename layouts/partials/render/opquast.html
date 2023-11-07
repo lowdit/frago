@@ -5,7 +5,7 @@
 {{ $time          := now.UnixMilli }}
 {{ $timepartial   := now.UnixMilli }}
 
-{{ $t := debug.Timer "Opquast Render" }}
+{{ $t := debug.Timer "Opquast       Render" }}
 {{ if (eq (getenv "HUGO_ENV") "debugperf") }}
   {{ $data.Set "debugperf" (slice $auditfile) }}
 {{ end }}

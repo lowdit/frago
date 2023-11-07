@@ -1,22 +1,23 @@
 {{- $context      := .context -}}
 {{- $project      := partialCached "render/projectpath" $context $context -}}
 {{- $data         := newScratch -}}
-{{- $projectPath  := cond (fileExists (printf "audits/%s/index.md" ($project))) (printf "audits/%s/index.md" ($project)) (printf "audits/%s/_index.md" ($project)) -}}
-{{- $projectTitle := ($context.GetPage $projectPath).Title -}}
-
-<article class="fg-wrapper narrow">
-{{- $data.Set "audits" (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "greenit" "datafilename" .context.Params.datafilename) $project "greenit" .context.Params.datafilename) -}}
-{{- $data.Set "auditpath-csv" (index ($data.Get "audits") "auditfile-path") -}}
+{{- $t            := debug.Timer "GreenIT         Page" -}}
 
 {{ if (eq (getenv "HUGO_ENV") "debugfiles") }}
   {{ warnf "GreenIT : %s" ($data.Get "auditpath-csv") }}
 {{ end }}
 
+<article class="fg-wrapper narrow">
+{{- $data.Set "audits" (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "greenit" "datafilename" .context.Params.datafilename) $project "greenit" .context.Params.datafilename) -}}
+{{- $data.Set "auditpath-csv" (index ($data.Get "audits") "auditfile-path") -}}
+
 {{- if and ($data.Get "auditpath-csv") (not (in ($data.Get "auditpath-csv") "false")) -}}
-w
+
   {{- $data.Set "auditfile-csv" (getCSV "," ($data.Get "auditpath-csv")) -}}
   {{- $data.Set "scores" (partialCached "render/greenit.html" (dict "auditfile" ($data.Get "auditpath-csv")) ($data.Get "auditpath-csv") ) -}}
-
+  <pre hidden>
+  {{- debug.Dump ($data.Get "scores") }}
+  </pre>
   {{/* START Test if the csv file has a good name : YYYY-MM-DD.csv */}}
     {{- if ne "0" (printf "%v" (len (findRE "((?:19|20)\\d\\d)-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])" (index ($data.Get "audits") "auditfile-name")))) -}}
       {{- $data.Set "date" (time (string (index ($data.Get "audits") "auditfile-name"))) -}}
@@ -27,7 +28,7 @@ w
   {{/* END Test if the csv file has a good name : YYYY-MM-DD.csv */}}
 
   <p>← <a href="{{ $context.Site.BaseURL }}/organism" class="link-more link-back">Retour à la page organisme</a></p>
-  <h1>Synthèse 74 bonnes pratiques greenit</h1>
+  <h1>Synthèse des 74 bonnes pratiques GreenIT</h1>
 
   {{/* START Display page note if exists */}}
   {{- with .context.Params.note -}}
@@ -38,76 +39,68 @@ w
   {{/* END Display page note if exists */}}
 
   {{/* Use the audit last version */}}
-  {{- $referential  := (partialCached "render/referential-version.html" (dict "context" $context "referential" "greenit") $context "greenit").guideline -}}
+  {{- $referential    := (partialCached "render/referential-version.html" (dict "context" $context "referential" "greenit") $context "greenit").guideline -}}
   {{- $criteriafile   := (index (index $context.Site.Data $referential.name) (string $referential.version)).criteria.criteres -}}
 
   {{- if and ($data.Get "auditfile-csv") -}}
-  <h2 class="text-center">Scores{{- with ($data.Get "scores").scores.criteria -}}&nbsp;-&nbsp;{{- .total -}}&nbsp;critères{{ end }}</h2>
-  <time class="text-center" datetime="{{ ($data.Get "date").Format "2006-01-02T15:04:05Z07:00" | safeHTML }}">Le {{ ($data.Get "date").Day }} {{ index $.context.Site.Data.month (printf "%d" ($data.Get "date").Month) }} {{ ($data.Get "date").Year }}</time>
+    <h2 class="text-center">Scores{{- with ($data.Get "scores").scores.criteria -}}&nbsp;-&nbsp;{{- .total -}}&nbsp;critères{{ end }}</h2>
+    <time class="text-center" datetime="{{ ($data.Get "date").Format "2006-01-02T15:04:05Z07:00" | safeHTML }}">Le {{ ($data.Get "date").Day }} {{ index $.context.Site.Data.month (printf "%d" ($data.Get "date").Month) }} {{ ($data.Get "date").Year }}</time>
 
-  {{- if or ($data.Get "scores").scores.compliance (eq ($data.Get "scores").scores.compliance 0) -}}
+    {{- if or ($data.Get "scores").scores.compliance (eq ($data.Get "scores").scores.compliance 0) -}}
       {{- $conforme := ($data.Get "scores").scores.compliance -}}
       {{- partialCached "components/scores/greenit" (dict "context" . "score" $conforme) $conforme -}}
-  {{- end -}}
+    {{- end -}}
 
-  {{- $data.Set "key" slice }}
-  {{- range $key, $value := $criteriafile }}
-    {{- $data.Set "potentiel" 0 -}}
-    {{- range $key, $value := $value.potentiel }}
-      {{- $data.Add "potentiel" (float $value) -}}
+    {{/* START Create a Map with criteria sorted by effort value */}}
+    {{- $data.Set "key" slice -}}
+    {{- range $key, $value := $criteriafile }}
+      {{- $data.Set "potentiel" 0 -}}
+      {{- range $key, $value := $value.potentiel }}
+        {{- $data.Add "potentiel" (float $value) -}}
+      {{ end -}}
+      {{ $divider := ((index ($data.Get "scores").criteria.all (string $value.id))) }}
+      {{- $effort := div 100 (add (div $value.priority $value.difficulty) (div ($data.Get "potentiel") 10)) | lang.NumFmt 2 -}}
+      {{- with $divider }}{{- $effort  = sub (float $effort) (mul (div (float $effort) 5) (int .)) | lang.NumFmt 0 -}}{{ end }}
+      {{- $data.Add "key" (string $effort) }}
+      {{- $data.SetInMap (printf "slice%s" $effort) (string $key) .id -}}
+      {{- $data.SetInMap "criteriascores" (string $effort) (sort ($data.Get (printf "slice%s" $effort))) -}}
     {{ end -}}
-    {{ $divider := ((index ($data.Get "scores").criteria.all (string $value.id))) }}
-    {{- $score := div 100 (add (div $value.priority $value.difficulty) (div ($data.Get "potentiel") 10)) | lang.NumFmt 2 -}}
-    {{ with $divider }}{{- $score  = sub (float $score) (mul (div (float $score) 5) (int .)) | lang.NumFmt 0 -}}{{ end }}
-    {{- $data.Add "key" (string $score) }}
-    {{- $data.SetInMap (printf "slice%s" $score) (string $key) .id -}}
-    {{- $data.SetInMap "criteriascores" (string $score) (sort ($data.Get (printf "slice%s" $score))) -}}
-  {{ end -}}
+    {{/* END Create a Map with criteria sorted by effort value */}}
 
-    <h2>Actions par ordre de moindre effort pour les compléter</h2>
-    {{- range $id, $score := first 3 (sort (uniq ($data.Get "key"))) }}
-      {{ $top := index ($data.Get "criteriascores") . }}
-      {{- range $key, $value := ($data.Get "scores").criteria.all }}
-        {{- $data.Set "potentiel" 0 -}}
-        {{ $value := index (where $criteriafile "id" $key) 0 }}
-        {{- if gt (len (intersect (slice $value.id) $top)) 0 }}
-          {{ range $key, $value := $value.potentiel }}
-            {{- $data.Add "potentiel" $value -}}
+    <h2>Actions <small>par ordre de moindre effort pour les compléter</small></h2>
+    {{- range $id, $effort := first 5 (sort (uniq ($data.Get "key"))) }}
+      {{- $top := index ($data.Get "criteriascores") . -}}
+      {{ if ne $effort "0" }}
+        <h3>Valeur de l’effort : {{ $effort }}/100</h3>
+        {{- range $key, $value := ($data.Get "scores").criteria.all }}
+          {{- $value := index (where $criteriafile "id" $key) 0 }}
+          {{- if gt (len (intersect (slice $value.id) $top)) 0 }}
+            <h4>#{{ $value.id }} - {{ $value.title }}</h4>
           {{ end -}}
-          <h4>#{{ $value.id }} {{ $value.title }}</h4>
-          {{ $Scores := div 100 (add (div $value.priority $value.difficulty) (div ($data.Get "potentiel") 10)) | lang.NumFmt 0 }}
-          <p hidden>{{- $Scores -}} - --{{ $score }}</p>
         {{ end -}}
       {{ end -}}
     {{ end -}}
+
   {{- end -}}
 
-  <h2>Actions en fonction de leur avancée</h2>
-  {{ range (seq 5) }}
-    {{- $counter := . }}
-    {{ if (index ($data.Get "scores").criteria (string $counter)) }}<h3>Critères avec le score de {{ . }}</h3>{{ end }}
-    {{- range (sort (uniq ($data.Get "key"))) }}
-    {{ $top := index ($data.Get "criteriascores") . }}
-    {{- range $key, $value := (index ($data.Get "scores").criteria (string $counter)) }}
-      {{- $data.Set "potentiel" 0 -}}
-      {{ $value := index (where $criteriafile "id" $key) 0 }}
-      {{ if gt (len (intersect (slice $value.id) $top)) 0 }}
-        {{ range $key, $value := $value.potentiel }}
-          {{- $data.Add "potentiel" $value -}}
-        {{ end }}
-        <h4>#{{ $value.id }} {{ $value.title }}</h4>
-        {{ $Scores := div 100 (add (div $value.priority $value.difficulty) (div ($data.Get "potentiel") 10)) | lang.NumFmt 0 }}
-        <p hidden>
-          {{- $Scores -}} - {{- div (float $Scores) 5 -}}<br>
-          Effort pour compléter l’action : {{- sub (float $Scores) (mul (div (float $Scores) 5) $counter) | lang.NumFmt 0 -}}
-        </p>
-      {{ end -}}
+  <hr class="divider">
+
+  <h2>Actions <small>en fonction de leur avancée</small></h2>
+
+  {{- range $key, $value := ($data.Get "scores").criteria }}
+    {{- if and (ne $key "all") (ne $key "nonteste") }}
+      <h3>Critères avec le score de {{ $key }}</h3>
+      {{- range $key, $value := . }}
+        {{- $value := index (where $criteriafile "id" $key) 0 }}
+        <h4>#{{ $value.id }} - {{ $value.title }}</h4>
       {{ end -}}
     {{ end -}}
-  {{- end -}}
+  {{ end -}}
 
 {{- else }}
 <p>Aucun fichier d’audit présent</p>
-
 {{- end -}}
 </article>
+{{ $t.Stop }}
+
+

@@ -23,10 +23,11 @@
 {{- end -}}
 {{- $img := ($.Scratch.Get "img") -}}
 {{- if $meta.pagetitle -}}
+  {{ $textsize := cond (ne $meta.pagetitle "") 250 (cond (gt (len $meta.pagetitle) 60) (cond (gt (len $meta.pagetitle) 80) 200 250) 300) }}
   {{- $img = $img.Filter (images.Text $meta.pagetitle (dict
     "font" $font
     "color" "#000000"
-    "size" 350
+    "size" $textsize
     "linespacing" 2
     "x" 110
     "y" 1200
@@ -42,7 +43,7 @@
   "y" 300
 )) -}}
 {{/* Nom du site */}}
-{{ $textsize := cond (ne $meta.pagetitle "") 250 (cond (gt (len $meta.title) 60) (cond (gt (len $meta.title) 80) 200 250) 300) }}
+{{ $textsize := cond (ne $meta.title "") 250 (cond (gt (len $meta.title) 60) (cond (gt (len $meta.title) 80) 200 250) 300) }}
 {{- $img = $img.Filter (images.Text $meta.title (dict
   "font" $font
   "color" "#000000"
@@ -51,7 +52,8 @@
   "x" (cond (ne $meta.audit "") 1500 100)
   "y" 500
 )) -}}
-{{- $img := $img.Resize "x600" -}}
+{{ warnf "%s %s %s %s" (int $textsize) $meta.title $meta.pagetitle . }}
+{{- $img = $img.Resize "x600" -}}
 <meta property="og:image" content="{{ $img.Permalink }}">
 <meta property="og:image:height" content="">
 <meta property="og:image:width" content="932">
