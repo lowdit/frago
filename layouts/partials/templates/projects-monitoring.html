@@ -41,6 +41,7 @@
           {{- $lighthouse        := fileExists (printf "/%s/lighthouse/" $projectFolders) -}}
 
             {{- if or $accessibility $recommendation $lighthouse -}}
+
               {{- if eq $pageType "accessibility" -}}
                 {{/* If Accessibility exists */}}
                 {{- if $accessibility -}}
@@ -50,11 +51,11 @@
               {{- end -}}
 
               {{- if eq $pageType "recommendation" -}}
-              {{/* If Recommendation exists */}}
-              {{- if $recommendation -}}
-                {{ $auditfile := (index (partialCached "render/lastfile.html" (dict "context" . "project" $project "type" "recommendation") $project "recommendation") "auditfile-path") }}
-                {{ $data.Add "recommendation" (partialCached "render/quality" (dict "context" . "project" $project "auditfile" $auditfile) $auditfile).total }}
-              {{- end -}}
+                {{/* If Recommendation exists */}}
+                {{- if $recommendation -}}
+                  {{ $auditfile := (index (partialCached "render/lastfile.html" (dict "context" . "project" $project "type" "recommendation") $project "recommendation") "auditfile-path") }}
+                  {{ $data.Add "recommendation" (partialCached "render/quality" (dict "context" . "project" $project "auditfile" $auditfile) $auditfile).total }}
+                {{- end -}}
               {{- end -}}
 
               {{- if eq $pageType "performance" -}}
@@ -64,7 +65,8 @@
                   {{- $performance := partialCached "render/performance.html" (dict "context" "template" "auditfile" $lastfile) $lastfile -}}
                   {{ $data.Add "performance" (div ($performance.LCP) 1000 | lang.NumFmt 1) }}
                 {{- end -}}
-              {{ end }}
+              {{- end -}}
+
           {{- end -}}
         {{- end -}}
       {{- end -}}

@@ -3,7 +3,7 @@
 {{- $context       := .context -}}
 {{- $context.Store.Set    "rangepages" (where $context.Site.Pages "Section" "audits") -}}
 {{- $context.Store.Set    "aggregates" (partialCached "render/aggregate-scores.html" (dict "pages" ($context.Store.Get "rangepages")) ($context.Store.Get "rangepages")) -}}
-{{- $score := index (index ($context.Store.Get "aggregates").allscores $project) .type -}}
+{{- $score         := index (index ($context.Store.Get "aggregates").allscores $project) .type -}}
 
 {{- with $score -}}
   <small class="text-center d-block">

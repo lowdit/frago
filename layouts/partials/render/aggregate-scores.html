@@ -21,14 +21,13 @@
 
 {{ range sort .pages ".Title" "desc" }}
   {{ $timepartial   := now.UnixMilli }}
-  {{ $p             := debug.Timer "Aggregate       Part" }}
   {{ $project       := partialCached "render/projectpath" . . }}
   {{ if ne $project "" }}
   {{ $context := . }}
   {{ $ref  := $context.Site.Data.referential }}
   {{ $path := "" }}{{ with .File }}{{ $path = .Path }}{{ end }}
   {{ if and (in (path.Base $path) "index.md") (not (in "audits/_index.md" $path)) (ne (len (split $path "/")) 4) }}
-
+    {{ $p             := debug.Timer "Aggregate       Part" }}
     {{/* START Loop over referential :: calculate */}}
     {{ range $reflist }}
       {{ $type    := . }}
