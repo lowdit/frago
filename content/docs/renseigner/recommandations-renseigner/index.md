@@ -1,5 +1,5 @@
 ---
-title: 'Renseigner des recommandations'
+title: 'Recommandations'
 weight: 4
 summary: 'Renseigner des préconisations et les affecter à des lots de correction'
 ---

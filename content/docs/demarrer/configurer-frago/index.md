@@ -18,7 +18,7 @@ Le thème Frago a pour objectif d’aider à la génération de synthèses pour 
 
 ### Architecture de contenu
 
-Exemple d'architecture d'un projet avec `goHugo`, voir : [L'exemple d’architecture](https://github.com/lowdit/frago/tree/master/exampleSite)
+Exemple d'architecture d'un projet avec `goHugo`, voir : [L’exemple d’architecture sur Github](https://github.com/lowdit/frago/tree/master/exampleSite)
 
 ```
 .
@@ -27,31 +27,42 @@ Exemple d'architecture d'un projet avec `goHugo`, voir : [L'exemple d’architec
     └── audits
          ├── projet1
          │     ├── index.md // Ajouter un entête avec le titre de la démarche
-         │     └── accessibility
-         │          ├── 2020-10-15.csv
-         │          ├── 2020-11-15.csv
+         │     └── accessibility ou rgaa
+         │          ├── 2023-10-15.csv
+         │          ├── 2023-11-15.csv
          │          └── context.yml // Déclarer le contexte de chaque audit
          └── projet2
                 ├── index.md // Ajouter un entête avec le titre de la démarche
-                └── accessibility
-                    ├── 2020-10-15.csv
-                    ├── 2020-10-15.csv
+                └── accessibility ou rgaa
+                    ├── 2023-10-15.csv
+                    ├── 2023-10-15.csv
                     └── context.yml // Déclarer le contexte de chaque audit
 ```
 
-Récupérer un exemple de structure de contenu : <https://github.com/lowdit/frago/tree/content>/
+Récupérer un exemple de structure de contenu : <https://github.com/lowdit/frago/tree/content>
 
-### Installer le thème
+### A. Installer le thème par téléchargement (plusieurs options)
 
-#### Télécharger le thème (pour un premier essai)
+Obtenir ce genre de structure de répertoire sur votre machine.
 
-Télécharger le thème sur votre dépôt dans `themes`: `themes/frago`.
+```
+.
+├── config.toml
+├── content
+│   └── audits
+└── themes
+    └── frago
+```
+
+#### 1. Télécharger le thème (pour un premier essai)
+
+Télécharger le thème sur votre dépôt de contenu précédent dans `themes`: `themes/frago`.
 
 Lien de la dernière version du thème au format `.zip` : <https://github.com/lowdit/frago/archive/refs/heads/master.zip>.
 
-**Note :** Si vous le téléchargez, il ne sera pas synchronisé avec le dépôt GitHub, il faudra le mettre à jour à la main. Pour le mettre à jour, supprimer, puis recréer le thème déjà initialement présent.
+**Note :** Si vous le téléchargez, il ne sera pas synchronisé avec le dépôt GitHub, il faudra le mettre à jour à la main (en le re-téléchargeant). Pour le mettre à jour, supprimer, puis recréer le thème déjà initialement présent.
 
-#### Appeler le dépôt du thème Hugo
+#### 2. Appeler le dépôt du thème Hugo avec `Git`
 
 Option pour la synchronisation et mise à jour « automatiques ».
 
@@ -90,11 +101,11 @@ theme = "frago"
     address = "11, rue des deux Communes, 93558 Montreuil, cedex FRANCE"
 ```
 
-### Installation et configuration (avec les Modules goHugo)
+### B. Installation et configuration (avec les Modules goHugo)
 
 #### Appeler le thème Hugo pour synchronisation et mise à jour automatiques (avec le système de module `Go`)
 
-⚠️ Le langage Go doit être installé sur le système. Installé sur MacOS/Unix ou Linux, mais difficile à installer sur Windows sans les droits administrateurs.
+⚠️ Le langage `Go` doit être installé sur le système d’exploitation. Installé sur `MacOS/Unix` ou `Linux`, mais difficile à installer sur `Windows` sans les droits administrateurs.
 
 ```toml
 title = "Mon administration"
@@ -117,11 +128,15 @@ title = "Mon administration"
 hugo mod init github.com/organisme/nomdepotgit
 ```
 
+Vous pouvez mettre n’importe quoi comme nom de dépôt, c‘est juste une déclaration formelle pour déclarer le module à `Go`.
+
 ##### Créer le fichier `go.sum`  (commande dans le terminal)
 
 ```bash
 hugo mod get github.com/lowdit/frago
 ```
+
+C‘est l’adresse du dépôt Frago sur le site github.com.
 
 ##### Mettre à jour le thème le fichier `go.sum`  (commande dans le terminal)
 
@@ -137,6 +152,9 @@ Ligne de commande pour lancer le serveur en local sur votre machine
 ```bash
 hugo serve
 ```
+
+Avec cette commande, la génération est en mode serveur. C'est à dire que les JSON de l’API ne sont pas générés (gain de performance).
+
 **Serveur local : mode synthèse (pour tester en local l'environnement de production)**
 
 ```bash
@@ -152,9 +170,9 @@ HUGO_ENV="production" hugo --buildFuture --gc --minify --cleanDestinationDir
 **Site généré : mode portail (à venir)**
 HUGO_ENV="portal" hugo --gc --minify --cleanDestinationDir
 
-  * `HUGO_ENV="production"` lance l’environnement de production (sans les outils d'aide à l’audit, peut être lancé avec le mode serve).
+  * `HUGO_ENV="production"` lance l’environnement de production (sans les outils d’aide à l’audit, peut être lancé avec le mode serve).
   * `--buildFuture` Publier des éléments avec une date future. Ex: [phase](#phases) (optionnel) ou plan d’actions.
-  * `--gc` met à jour le cache de goHugo.
+  * `--gc` met à jour le cache de goHugo à chaque re-génération.
   * `--cleanDestinationDir` nettoie le répertoire de génération du code (au cas où du code d’une précédente génération serait encore présent).
   * `--minify` permet ¨de compresser le code `HTML` en ligne.
 

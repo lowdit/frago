@@ -1,5 +1,5 @@
 ---
-title: 'Renseigner un audit de performance'
+title: 'Uudit de performance'
 weight: 5
 summary: 'Intégrer un audit Lighthouse'
 ---

@@ -5,9 +5,6 @@ weight: 10
 
 Le code source de ce dépôt est publié sous licence [MIT](https://opensource.org/licenses/mit-license.php).
 
-La marque d’État est à usage exclusif des acteurs de la sphère étatique. En particulier, la typographie Marianne© est protégée par le droit d’auteur.
-Lire [les explications](https://www.gouvernement.fr/charte/charte-graphique-les-fondamentaux/la-typographie) sur le site de la marque d’État.
-
 Le thème FRAGO utilise cette liste de bibliothèques :
 
   1. Frappe Charts ([MIT](https://github.com/mermaid-js/mermaid/blob/develop/LICENSE)) : <https://github.com/frappe/charts> - <https://github.com/frappe/charts>

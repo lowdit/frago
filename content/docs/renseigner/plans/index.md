@@ -1,5 +1,5 @@
 ---
-title: 'Renseigner un plan d’actions'
+title: 'Plan d’action'
 weight: 5
 summary: 'Intégrer un plan d’actions par année'
 ---
@@ -22,21 +22,24 @@ Pour avoir un plan d’actions, il est nécessaire de créer un nouveau type de 
     │   ├── projet1
     │   │     ├── index.md // Ajouter un entête avec le titre de la démarche
     │   │     └── accessibility
-    │   │          ├── 2020-10-15.csv
-    │   │          ├── 2020-11-15.csv
+    │   │          ├── 2022-10-15.csv
+    │   │          ├── 2023-11-15.csv
     │   │          └── context.yml // Déclarer le contexte de chaque audit
     │   └── projet2
     │          ├── index.md // Ajouter un entête avec le titre de la démarche
     │          └── accessibility
-    │              ├── 2020-10-15.csv
-    │              ├── 2020-10-15.csv
-    │              └── context.yml // Déclarer le contexte de chaque audit
+    │          │   ├── 2022-10-15.csv
+    │          │   ├── 2023-10-15.csv
+    │          │   └── context.yml // Déclarer le contexte de chaque audit
+    │          └── actions // Répertoire pour insérer les actions spécifique à un service
+    │              ├── 2022-01-15.csv // La date de création, la publication récupère la dernière date de mise à jour du fichier
+    │              └── 2023-02-10.csv
     └── plans
-        ├── 2021.md // Page du plan d’actions 2021, le nom du fichier doit comporter l’année
-        ├── 2022.md // Page du plan d’actions 2022, le nom du fichier doit comporter l’année
+        ├── 2023.md // Page du plan d’actions 2023, le nom du fichier doit comporter l’année
+        ├── 2024.md // Page du plan d’actions 2024, le nom du fichier doit comporter l’année
         └── actions // Répertoire pour insérer les actions générales à tout l'organisme
-            ├── 2021-01-15.csv // La date de création, la publication récupère la dernière date de mise à jour du fichier
-            └── 2022-02-10.csv
+            ├── 2022-01-15.csv // La date de création, la publication récupère la dernière date de mise à jour du fichier
+            └── 2023-02-10.csv
 ```
 
 ### Format fichier d’actions (csv)
@@ -91,7 +94,9 @@ Il y a effectivement des actions générales à un organisme : formation, RH, mi
 
 Au final on obtient un tableau des actions avec les actions par services numériques. La date du plan d’actions correspond à la dernière date de modification d’un fichier concerné par cette année en particulier.
 
-Dans le plan d’actions, on affiche en dessous la liste des derniers audits réalisés par services numérique. A développer, la possibilité d'ajouter un audit vierge à une démarche (avec une date) pour le considérer comme un audit planifié dans le plan d’actions.
+Dans le plan d’action, on affiche en dessous la liste des derniers audits réalisés par services numérique.
+
+> A développer, la possibilité d’ajouter un audit vierge à une démarche (avec une date) pour le considérer comme un audit planifié dans le plan d’actions.
 
 | Démarches                                        | Type               | Action                  | Détails                                 | Avancement              |
 |--------------------------------------------------|--------------------|-------------------------|-----------------------------------------|-------------------------|

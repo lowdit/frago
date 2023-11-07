@@ -1,5 +1,5 @@
 ---
-title: 'Renseigner un audit d’accessibilité'
+title: 'Audit d’accessibilité'
 weight: 3
 summary: 'Renseigner un audit d’accessibilité avec FRAGO'
 ---

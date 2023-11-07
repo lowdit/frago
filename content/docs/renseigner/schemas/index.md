@@ -1,11 +1,11 @@
 ---
-title: 'Renseigner un schéma pluriannuel'
+title: 'Schéma pluri-annuel'
 summary: 'Intégrer un schéma pluriannuel à pour un organisme'
 ---
 
-⚠️  La possibilité de générer un schéma pluriannuel est en chantier.
+⚠️  La possibilité de générer un schéma pluriannuel est en chantier. Si vous avez un besoin sur ce sujet, une simple demande pourra permettre d’engager des évolutions.
 
-La raison est que ce schéma pluriannuel est le document propre à chaque organisme, il est sensé être très personnel. De plus certaines données à afficher ne proviennent pas directement des données par services.
+La raison est que ce schéma pluri-annuel est le document propre à chaque organisme, il est sensé être très personnel. De plus certaines données à afficher ne proviennent pas directement des données par services.
 
 ## Architecture
 
@@ -63,12 +63,14 @@ team:
 
 ## Résultat
 
-Pour le moment, le schéma généré est indicatif car il se sert d’un modèle lambda avec, insérée automatiquement, les données nécessaires.
+Pour le moment, le schéma généré est indicatif car il se sert d’un modèle lambda avec, insérées automatiquement, les données nécessaires.
 
 Cependant, cela reste très pratique, car il va lister :
 
  * L’ensemble des démarches
  * Les plans d’actions correspondants à l’interval d’années du schéma.
+
+Ce schéma devrait être édité à partir de la rédaction de plusieurs paragaphes et l‘insertion de `shortcode`.
 
 ## Site portail
 

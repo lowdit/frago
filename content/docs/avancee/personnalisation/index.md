@@ -7,7 +7,7 @@ Hugo permet de surcharger les fichiers présents dans le thème, la condition es
  * Sa police
  * Son logo
  * Ses couleurs
- *…
+ * …
 
 Il suffit de créer tous ces fichiers dans le répertoire `static`. Le thème appelle automatiquement les polices contenues dans le répertoire `static/assets/fonts` (à la place de la police Marianne).
 
@@ -71,7 +71,7 @@ static
     ┋
     ┋ ⚠️ Autre choix d’arborescence avec un seul projet ⚠️
     ┋
-    └── audits // Les pages pour afficher les audits (accessibilité, qualité, performance…)
+    └── audits // Les pages pour afficher les audits (accessibilité, recommandation, performance…)
           ├── index.md
           ├── accessibility
           │   ├── 2020-10-15.csv
@@ -95,7 +95,7 @@ static
 ├── config.toml
 ├── content
 │   ├── _index.md // page d’accueil du site :: ⚠️ Ajouter `type: projects` dans l’entête du fichier en cas de mono projet => va afficher directement la page de synthèse de tous les audits
-│   ├── audits // Les pages pour afficher les audits (accessibilité, qualité, performance…) pour chaque projet
+│   ├── audits // Les pages pour afficher les audits (accessibilité, recommandation, performance…) pour chaque projet
 │   │    ├── projet1 // Doit reprendre le nom du répertoire donné au projet dans `static`
 │   │    │     └── index.md // ⚠️  pour avoir lister les pages sur l’accueil et avoir la page intermédiaire qui liste tous les rapports
 │   │    └── projet2 // Doit reprendre le nom du répertoire donné au projet dans `static`
@@ -114,7 +114,7 @@ static
 ┋   ┋
 ┋   ┋ ⚠️ Autre choix d’arborescence avec un seul projet ⚠️
 ┋   ┋
-│   └── audits // Les pages pour afficher les audits (accessibilité, qualité, performance…)
+│   └── audits // Les pages pour afficher les audits (accessibilité, recommandation, performance…)
 │         └── index.md
 └── static
     ├── projet1
@@ -206,7 +206,7 @@ Lister les personnes contactées pendant la durée du défi de mise en conformit
 
 Les tests utilisateurs de type quantitatifs consistent à poser des questions similaires à un panel important d’usagers. Pour le service *usertests*, il existe une mise en forme pour l’analyse rapide de ces résultats.
 
-Fonctionne à partir d’un JSON, mais pourrait marcher avec du CSV directement (Ici, penser à convertir le CSV en JSON).
+Fonctionne à partir d’un `JSON`, mais pourrait marcher avec du `CSV` directement (Ici, penser à convertir le `CSV` en `JSON`).
 
 Éditer : `static/nomdelademarche/usertests/nometude.json` (à faire évoluer)
 

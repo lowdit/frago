@@ -14,7 +14,7 @@ Lister les personnes contactées pendant la durée du défi de mise en conformit
 
 Les tests utilisateurs de type quantitatifs consistent à poser des questions similaires à un panel important d’usagers. Pour le service *usertests*, il existe une mise en forme pour l’analyse rapide de ces résultats.
 
-Fonctionne à partir d’un JSON, mais pourrait marcher avec du CSV directement (Ici, penser à convertir le CSV en JSON).
+Fonctionne à partir d’un `JSON`, mais pourrait marcher avec du `CSV` directement (Ici, penser à convertir le `CSV` en `JSON`).
 
 Éditer : `static/nomdelademarche/usertests/nometude.json` (à faire évoluer)
 
@@ -27,7 +27,7 @@ datafilename: etudiants // appelle le fichier nommé etudiants :: dans static/no
 ---
 ```
 
-![usertests](/DISIC/frago/raw/master//images/usertests.png)
+![usertests](/frago/images/usertests.png)
 
 ### Personas
 
