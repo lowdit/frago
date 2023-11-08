@@ -1,10 +1,10 @@
 ---
-title: 'Recommandations'
+title: 'Rapport de Recommandations'
 weight: 4
 summary: 'Renseigner des préconisations et les affecter à des lots de correction'
 ---
 
-Affiche les données du fichier plus récent dans `content/audits/nomdelademarche/recommendation/YYYY-MM-JJ.yml`.
+Affiche les données du fichier plus récent dans `content/audits/nomduservicenumerique/recommendation/YYYY-MM-JJ.yml`.
 
 Le fichier de recommandation est fastidieux à remplir, mais permet de suivre des corrections de manière sereine avec une synthèse disponible sous format `HTML` et plus facilement que dans un `.doc`.
 

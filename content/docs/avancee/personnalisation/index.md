@@ -208,14 +208,14 @@ Les tests utilisateurs de type quantitatifs consistent à poser des questions si
 
 Fonctionne à partir d’un `JSON`, mais pourrait marcher avec du `CSV` directement (Ici, penser à convertir le `CSV` en `JSON`).
 
-Éditer : `static/nomdelademarche/usertests/nometude.json` (à faire évoluer)
+Éditer : `static/nomduservicenumerique/usertests/nometude.json` (à faire évoluer)
 
 Ajouter à l’entête du fichier de contenu :
 
 ```yaml
 ---
 type: usertests // appel le gabarit usertests
-datafilename: etudiants // appelle le fichier nommé etudiants :: dans static/nomdelademarche/usertests/etudiants.json
+datafilename: etudiants // appelle le fichier nommé etudiants :: dans static/nomduservicenumerique/usertests/etudiants.json
 ---
 ```
 
@@ -225,9 +225,9 @@ datafilename: etudiants // appelle le fichier nommé etudiants :: dans static/no
 
 Définir des personas et les afficher sur une même page pour les partager à l’équipe projet. On peut sélectionner les profils retenus pour les tests.
 
-> Hugo nécessite de créer les pages correspondantes pour chaque persona ; si on veut afficher les personas en détail. Créer les pages dans  `content/personas/nomdelademarche/prenom-nom.md`.
+> Hugo nécessite de créer les pages correspondantes pour chaque persona ; si on veut afficher les personas en détail. Créer les pages dans  `content/personas/nomduservicenumerique/prenom-nom.md`.
 
-Éditer : `static/nomdelademarche/personas.json`
+Éditer : `static/nomduservicenumerique/personas.json`
 
 ![Personas](/frago/images/personas.png)
 
@@ -235,7 +235,7 @@ Définir des personas et les afficher sur une même page pour les partager à l�
 
 Ajouter un parcours type par persona pour fournir une base visuelle à l’équipe projet de ce qui est testé. Le gabarit permet de partir d’un élément parent unique puis de développer autant de sous branches possibles dans la limite de 4 niveaux de profondeur (compatible mobile).
 
-Éditer : `static/nomdelademarche/personas.json`
+Éditer : `static/nomduservicenumerique/personas.json`
 
 ![Parcours](/frago/images/parcours.png)
 
@@ -267,7 +267,7 @@ Afficher une liste de captures d’écran pour illustrer une étude comparative.
 
 Afficher la liste des sites similaires à la démarche (action de benchmarking). Les sites sont rangés par pays.
 
-Éditer : `static/nomdelademarche/similary.json`
+Éditer : `static/nomduservicenumerique/similary.json`
 
 ```go
 {{"{{"}}< similary project="amendes" >{{"}}"}}{{"{{"}}< /similary >{{"}}"}}

@@ -1,4 +1,4 @@
 ---
 title: Configuration avancée
-weight: 3
+weight: 5
 ---

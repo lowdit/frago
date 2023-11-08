@@ -1,6 +1,6 @@
 ---
-title: 'Uudit de performance'
-weight: 5
+title: 'Audit de performance'
+weight: 4
 summary: 'Intégrer un audit Lighthouse'
 ---
 
@@ -8,6 +8,6 @@ L’audit de performance apporte une complémentarité à l’audit d’accessib
 
 Note : Lancer un audit `Lighthouse` à ma même date qu’un audit accessibilité
 
-Éditer : `content/audits/nomdelademarche/lighthouse/YYYY-MM-JJ.json`
+Éditer : `content/audits/nomduservicenumerique/lighthouse/YYYY-MM-JJ.json`
 
 ![Performance](/frago/images/performance.png)

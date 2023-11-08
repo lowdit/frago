@@ -3,7 +3,7 @@ title: 'Schéma pluri-annuel'
 summary: 'Intégrer un schéma pluriannuel à pour un organisme'
 ---
 
-⚠️  La possibilité de générer un schéma pluriannuel est en chantier. Si vous avez un besoin sur ce sujet, une simple demande pourra permettre d’engager des évolutions.
+⚠️  La possibilité de générer un schéma pluriannuel est en chantier. Si vous avez un besoin sur ce sujet, une simple demande pourra permettre d’engager des évolutions. ⚠️
 
 La raison est que ce schéma pluri-annuel est le document propre à chaque organisme, il est sensé être très personnel. De plus certaines données à afficher ne proviennent pas directement des données par services.
 
@@ -27,11 +27,11 @@ La raison est que ce schéma pluri-annuel est le document propre à chaque organ
     │              ├── 2020-10-15.csv
     │              └── context.yml // Déclarer le contexte de chaque audit
     ├── plans
-    │   ├── 2021.md
-    │   ├── 2022.md
+    │   ├── 2023.md
+    │   ├── 2024.md
     │   └── actions
-    │       ├── 2021-01-15.csv
-    │       └── 2022-02-10.csv
+    │       ├── 2023-01-15.csv
+    │       └── 2024-02-10.csv
     └── schemas
         ├── 2021-2023.md // Page du plan d’action 2021-2023, le nom du fichier doit comporter les 2 années de début et fin
         └── 2024-2026.md
@@ -70,7 +70,7 @@ Cependant, cela reste très pratique, car il va lister :
  * L’ensemble des démarches
  * Les plans d’actions correspondants à l’interval d’années du schéma.
 
-Ce schéma devrait être édité à partir de la rédaction de plusieurs paragaphes et l‘insertion de `shortcode`.
+Ce schéma devrait être édité à partir de la rédaction de plusieurs paragraphes et l‘insertion de `shortcode`.
 
 ## Site portail
 
