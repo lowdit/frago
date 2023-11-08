@@ -1,7 +1,7 @@
 ---
-title: 'Audit d’écoconception'
+title: 'Audit d’Éco-conception'
 weight: 3
-summary: 'Renseigner un audit d’écoconception avec FRAGO'
+summary: 'Renseigner un audit RGESN avec FRAGO'
 ---
 
 Les audits de *conformité* sont présents dans le répertoire `content/audits/nomduservicenumerique/rgesn/`.
