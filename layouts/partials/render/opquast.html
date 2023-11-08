@@ -5,7 +5,6 @@
 {{ $time          := now.UnixMilli }}
 {{ $timepartial   := now.UnixMilli }}
 
-{{ $t := debug.Timer "Opquast       Render" }}
 {{ if (eq (getenv "HUGO_ENV") "debugperf") }}
   {{ $data.Set "debugperf" (slice $auditfile) }}
 {{ end }}
@@ -101,4 +100,3 @@
   {{ $time := string (sub now.UnixMilli $time) }}
   {{ warnf "=> Opquast        Total | %s%sms| %q %#v" (cond (eq (len $time) 4) "" (cond (eq (len $time) 3) " " (cond (eq (len $time) 2) "  " "   "))) $time .context (delimit ($data.Get "debugperf") " ") }}
 {{- end -}}
-{{ $t.Stop }}

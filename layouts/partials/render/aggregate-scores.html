@@ -5,7 +5,6 @@
 {{ $data          := newScratch }}
 {{ $time          := now.UnixMilli }}
 {{ $reflist       := (slice "accessibility" "ecoconception" "opquast" "publishing") }}
-{{ $t             := debug.Timer "Aggregate     Render" }}
 
 {{/* Declare Var */}}
 {{ $data.Delete "allscores" }}
@@ -27,7 +26,6 @@
   {{ $ref  := $context.Site.Data.referential }}
   {{ $path := "" }}{{ with .File }}{{ $path = .Path }}{{ end }}
   {{ if and (in (path.Base $path) "index.md") (not (in "audits/_index.md" $path)) (ne (len (split $path "/")) 4) }}
-    {{ $p             := debug.Timer "Aggregate       Part" }}
     {{/* START Loop over referential :: calculate */}}
     {{ range $reflist }}
       {{ $type    := . }}
@@ -140,7 +138,6 @@
       {{ $data.SetInMap "debugperf" $path (string (sub now.UnixMilli $timepartial)) }}
       {{ $timepartial   = now.UnixMilli }}
     {{ end }}
-    {{ $p.Stop }}
 
   {{ end }}
   {{ $data.SetInMap "allscores" $project           ($data.Get $project) }}
@@ -235,4 +232,3 @@
   {{ warnf "=> Aggregates     Total | %s%sms|" (cond (eq (len $time) 4) "" (cond (eq (len $time) 3) " " (cond (eq (len $time) 2) "  " "   "))) $time }}
   {{ warnf "------------------------------------------------------------/" }}
 {{ end }}
-{{ $t.Stop }}

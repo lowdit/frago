@@ -1,7 +1,6 @@
 {{- $context      := .context -}}
 {{- $project      := partialCached "render/projectpath" $context $context -}}
 {{- $data         := newScratch -}}
-{{- $t            := debug.Timer "GreenIT         Page" -}}
 
 {{ if (eq (getenv "HUGO_ENV") "debugfiles") }}
   {{ warnf "GreenIT : %s" ($data.Get "auditpath-csv") }}
@@ -101,6 +100,3 @@
 <p>Aucun fichier d’audit présent</p>
 {{- end -}}
 </article>
-{{ $t.Stop }}
-
-

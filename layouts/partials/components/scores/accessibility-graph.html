@@ -6,7 +6,6 @@
 {{- $time          := now.UnixMilli -}}
 {{- $timepartial   := now.UnixMilli -}}
 
-{{ $t := debug.Timer "Accessibility  Graph" }}
 {{- if (eq (getenv "HUGO_ENV") "debugperf") -}}
   {{ $data.Set "debugperf" (slice $auditfile) }}
 {{- end -}}
@@ -120,4 +119,4 @@
   {{ $time = string (sub now.UnixMilli $time) }}
   {{ warnf "=> A11y Graphique Parti | %s%sms| %q %#v" (cond (eq (len $time) 4) "" (cond (eq (len $time) 3) " " (cond (eq (len $time) 2) "  " "   "))) $time (cond (eq (printf "%T" $context ) "string" ) $context $context.Path) (delimit ($data.Get "debugperf") " ") }}
 {{- end -}}
-{{ $t.Stop }}
+

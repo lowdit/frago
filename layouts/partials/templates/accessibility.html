@@ -4,7 +4,7 @@
 {{- $data         := newScratch -}}
 {{- $projectPath  := cond (fileExists (printf "audits/%s/index.md" ($project))) (printf "audits/%s/index.md" ($project)) (printf "audits/%s/_index.md" ($project)) -}}
 {{- $projectTitle := ($context.GetPage $projectPath).Title -}}
-{{- $t            := debug.Timer "Accessibility   Page" -}}
+
 {{- $data.Set "pageslist" "" -}}
 {{- $data.Set "scores"    "" -}}
 
@@ -343,4 +343,4 @@
   {{- else -}}
   {{- end -}}
 {{- end -}}
-{{ $t.Stop }}
+

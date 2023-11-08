@@ -24,7 +24,7 @@ Schéma Pluriannuel
       {{ printf "%s - %s - %s - %s - %s - %s" $organisation $contact $rangedate $teamNumber $webNumber $appNumber $dateStart $dateEnd }}
     </div>
     {{- end -}}
-  <h1>Schéma Pluriannuel {{ if and hugo.IsServer (not (eq (getenv "HUGO_ENV") "production" | or (eq .Site.Params.env "production"))) }}{{ if and $dateStart $dateEnd }}{{ $dateStart }}-{{ $dateEnd }}{{ end }}{{ end }}</h1>
+  <h1>Schéma Pluriannuel {{ if and .Site.IsServer (not (eq (getenv "HUGO_ENV") "production" | or (eq .Site.Params.env "production"))) }}{{ if and $dateStart $dateEnd }}{{ $dateStart }}-{{ $dateEnd }}{{ end }}{{ end }}</h1>
     <h2 id="introduction">Introduction</h2>
     <p>L’article 47 de la loi n°2005-102 du 11 février 2005 pour l’égalité des droits et des chances, la participation
       et
