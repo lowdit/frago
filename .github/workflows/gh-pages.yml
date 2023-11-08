@@ -18,6 +18,6 @@ jobs:
         uses: chabad360/hugo-gh-pages@master
         with:
           githubToken: ${{ secrets.GITHUB_TOKEN }}
-          hugoVersion: extended_0.122.3
+          hugoVersion: extended_0.120.3
           branch: gh-pages
           args: --gc --minify --cleanDestinationDir
