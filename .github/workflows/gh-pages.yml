@@ -1,23 +1,26 @@
-name: Publish Site
+name: github pages
 
 on:
   push:
     branches:
-      - docs
+    - master
 
 jobs:
   build-deploy:
-    runs-on: ubuntu-latest
-
+    runs-on: ubuntu-18.04
     steps:
-      - name: Checkout Repo
-        uses: actions/checkout@master
-        with:
-          submodules: true
-      - name: Publish Site
-        uses: chabad360/hugo-gh-pages@master
-        with:
-          githubToken: ${{ secrets.GITHUB_TOKEN }}
-          hugoVersion: extended_0.120.3
-          branch: gh-pages
-          args: --gc --minify --cleanDestinationDir
+    - uses: actions/checkout@master
+
+    - name: Setup Hugo
+      uses: peaceiris/actions-hugo@v2.2.0
+      with:
+        hugo-version: '0.120.3'
+
+    - name: Build
+      run: hugo --gc --minify --cleanDestinationDir
+
+    - name: Deploy
+      uses: peaceiris/actions-gh-pages@v2.4.0
+      env:
+        ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+        PUBLISH_BRANCH: gh-pages
