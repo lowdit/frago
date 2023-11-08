@@ -49,7 +49,7 @@
       stroke-width: 0.1px;
     }
   </style>
-    <h1>{{ (index (index $.Site.Data $referential.name) $referential.version).criterias.title | safeHTML }}</h1>
+    <h1>{{ (index (index $.Site.Data $referential.name) (string $referential.version)).criterias.title | safeHTML }}</h1>
 
     {{- if $criteriafile -}}
       {{- $data.Set "counterthematique" 0 }}

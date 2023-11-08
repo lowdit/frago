@@ -6,7 +6,7 @@
 
   {{/* Use the audit last version */}}
   {{- $referential := (partialCached "render/referential-version.html" (dict "context" $ "referential" "cigref") $ "cigref").guideline -}}
-  {{- $.Store.Set "file" (index (index $.Site.Data $referential.name) $referential.version) -}}
+  {{- $.Store.Set "file" (index (index $.Site.Data $referential.name) (string $referential.version)) -}}
   {{- $criteriafile   := ($.Store.Get "file").criteria.criteres -}}
 
   <article class="fg-wrapper narrow">
@@ -48,7 +48,7 @@
       stroke-width: 0.1px;
     }
   </style>
-  <h1>{{ (index (index $.Site.Data $referential.name) $referential.version).criteria.title | safeHTML }}</h1>
+  <h1>{{ (index (index $.Site.Data $referential.name) (string $referential.version)).criteria.title | safeHTML }}</h1>
 
   {{ $data.Set "counterthematique" 0 }}
   {{ $data.Set "thematique" slice }}

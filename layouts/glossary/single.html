@@ -6,7 +6,7 @@
   {{- $patharray := split (path.Dir $path) "/" -}}
 
   {{- $referential := (partialCached "render/referential-version.html" (dict "context" . "referential" "rgaa") . "rgaa").guideline -}}
-  {{- $.Store.Set "criteriafile" (index (index $.Site.Data $referential.name) $referential.version).glossary -}}
+  {{- $.Store.Set "criteriafile" (index (index $.Site.Data $referential.name) (string $referential.version)).glossary -}}
 
   {{ partialCached "utils/css.html" (dict "context" . "filefolder" "element" "filename" "definitionlists") "definitionlists" }}
   {{ partialCached "utils/css.html" (dict "context" . "filefolder" "element" "filename" "codeformatting") "codeformatting" }}
@@ -35,7 +35,7 @@
         {{- end -}}
       {{- end -}}
     {{- else -}}
-    {{- range $key, $value := (index (index $.Site.Data $referential.name) $referential.version).glossary -}}
+    {{- range $key, $value := (index (index $.Site.Data $referential.name) (string $referential.version)).glossary -}}
       {{- range $value -}}
       <h2>{{ .section }}</h2>
       <dl>
