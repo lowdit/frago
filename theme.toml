@@ -3,9 +3,9 @@ license = "MIT"
 licenselink = "https://github.com/lowdit/frago/blob/master/LICENSE"
 description = "Tool for a French governemental Reports for Accessibility compliance with goHugo"
 homepage = "https://github.com/lowdit/frago/"
-tags = ["audits", "accessibility", "compliance","RGAA","quality","front-end","RGESN","CIGREF","GREEN-IT"]
-min_version = 0.122
-theme_version = "1.15.1"
+tags = ["audits", "accessibility", "compliance","RGAA","quality insurance","front-end","RGESN","CIGREF","GREEN-IT"]
+min_version = 0.111
+theme_version = "1.16"
 
 [author]
   name = "Bertrand Keller"

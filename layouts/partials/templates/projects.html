@@ -401,7 +401,7 @@
   {{- partialCached "elements/content.html" $partial "organismlist" -}}
 {{ end }}
 {{- if  eq (path.Dir $path) "audits" -}}
-  {{- $partial := (partialCached "templates/projects-list.html" . .) -}}
+  {{- $partial := (partialCached "templates/projects-list.html" . "projects-list") -}}
   {{- partialCached "elements/content.html" $partial "projectslist" -}}
 {{ end }}
 {{- end -}}

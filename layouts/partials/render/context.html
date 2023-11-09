@@ -39,12 +39,12 @@
 {{/* If context.yml doesn’t exist in audit path try to find context information it in another location */}}
 {{ if not ($data.Get "context") }}
   {{/* In a front matter of the current page */}}
-  {{ $contextpath := cond (fileExists (printf "/audits/%s/accessibility.md" $project)) (printf "/audits/%s/accessibility.md" $project) (cond (fileExists (printf "/audits/%s/_index.md" $project)) (printf "/audits/%s/_index.md" $project) (printf "/audits/%s/index.md" $project)) }}
-  {{ with $context.GetPage $contextpath }}{{ $data.SetInMap "context" ($data.Get "datecontext") (dict "declared" .Params.accessibility "contacts" (cond (not .Params.accessibility.contacts) ($context.Site.Params.contacts) (.Params.accessibility.contacts)) "website" .Params.accessibility.website "audit" (.Params.accessibility.audit) "path" $contextpath) }}{{ end }}
+  {{ $contextpath := cond (fileExists (printf "/audits/%s/%s.md" $type $project)) (printf "/audits/%s/%s.md" $type $project) (cond (fileExists (printf "/audits/%s/_index.md" $project)) (printf "/audits/%s/_index.md" $project) (printf "/audits/%s/index.md" $project)) }}
+  {{ with $context.GetPage $contextpath }}{{ $data.SetInMap "context" ($data.Get "datecontext") (dict "declared" (index .Params $type) "contacts" (cond (not (index .Params $type).contacts) ($context.Site.Params.contacts) ((index .Params $type).contacts)) "website" (index .Params $type).website "audit" ((index .Params $type).audit) "path" $contextpath) }}{{ end }}
   {{/* If content has only one project */}}
   {{ if (partialCached "render/issimpleproject.html" "arg" "arg") }}
-    {{ $contextpath := cond (fileExists "/audits/accessibility.md") ("/audits/accessibility.md") (cond (fileExists "/audits/_index.md") ("/audits/_index.md") ("/audits/index.md")) }}
-    {{ with $context.GetPage $contextpath }}{{ $data.SetInMap "context" ($data.Get "datecontext") (dict "declared" .Params.accessibility "contacts" (cond (not .Params.accessibility.contacts) ($context.Site.Params.contacts) (.Params.accessibility.contacts)) "website" .Params.accessibility.website "audit" (.Params.accessibility.audit) "path" $contextpath) }}{{ end }}
+    {{ $contextpath := cond (fileExists (printf "/audits/%s.md" $type)) ((printf "/audits/%s.md" $type)) (cond (fileExists "/audits/_index.md") ("/audits/_index.md") ("/audits/index.md")) }}
+    {{ with $context.GetPage $contextpath }}{{ $data.SetInMap "context" ($data.Get "datecontext") (dict "declared" (index .Params $type) "contacts" (cond (not (index .Params $type).contacts) ($context.Site.Params.contacts) ((index .Params $type).contacts)) "website" (index .Params $type).website "audit" ((index .Params $type).audit) "path" $contextpath) }}{{ end }}
   {{ end }}
 {{ end }}
 {{/* If context information doesn’t exist try to warn */}}

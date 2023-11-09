@@ -4,6 +4,7 @@
 {{ $datalastfile       := newScratch }}
 {{ $type               := .type }}
 {{ $rootpath           := partialCached "render/rootpath" (dict "context" . "project" $project "type" "accessibility") $project "accessibility" }}{{/* Accessibility give the location :: maybe has to be change */}}
+{{ $rootpath           := "content" }}
 {{/* LOOK AT FILEPATH file if a new referentiel is added */}}
 {{ $path               := partialCached "render/filepath" (dict "context" $context "project" $project "type" .type) $context $project .type }}
 

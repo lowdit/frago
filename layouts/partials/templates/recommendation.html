@@ -76,7 +76,7 @@
     {{- $data.Set "auditfile-name" (index $lastfile "auditfile-name") -}}
 
     {{/* Find the folder where images are stored */}}
-    {{- $data.Set "pathimage" (partialCached "render/rootpath-assets" (dict "context" . "project" $project "type" "recommendation" "auditfilename" ($data.Get "auditfile-name"))) }}
+    {{- $data.Set "pathimage" (partialCached "render/rootpath-assets" (dict "context" . "project" $project "type" "recommendation" "auditfilename" ($data.Get "auditfile-name")) "rootpath") }}
 
     {{- with index (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "recommendation") $project "recommendation") "auditfile-path" -}}
       {{- partial "components/scores/quality" (dict "context" $context "counter" (partialCached "render/recommendation" (dict "context" $context "project" $project "auditfile" .) .)) -}}
