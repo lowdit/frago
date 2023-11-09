@@ -56,7 +56,7 @@ Le fichier de recommandation est fastidieux à remplir, mais permet de suivre de
           </div>
 ```
 
-![Qualité](/frago/images/qualite.png)
+Accéder à un exemple de [rapport de Recommandation](https://frago-sandbox.netlify.app/audits/contributions-indirectes-en-ligne/recommendation).
 
 ## Captures d’écran
 

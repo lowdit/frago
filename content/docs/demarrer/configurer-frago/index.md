@@ -27,13 +27,13 @@ Exemple d'architecture d'un projet avec `goHugo`, voir : [L’exemple d’archit
     └── audits
          ├── projet1
          │     ├── index.md // Ajouter un entête avec le titre de la démarche
-         │     └── accessibility ou rgaa
+         │     └── accessibility (ou rgaa)
          │          ├── 2023-10-15.csv
          │          ├── 2023-11-15.csv
          │          └── context.yml // Déclarer le contexte de chaque audit
          └── projet2
                 ├── index.md // Ajouter un entête avec le titre de la démarche
-                └── accessibility ou rgaa
+                └── accessibility (ou rgaa)
                     ├── 2023-10-15.csv
                     ├── 2023-10-15.csv
                     └── context.yml // Déclarer le contexte de chaque audit
@@ -155,20 +155,22 @@ hugo serve
 
 Avec cette commande, la génération est en mode serveur. C'est à dire que les JSON de l’API ne sont pas générés (gain de performance).
 
-**Serveur local : mode synthèse (pour tester en local l'environnement de production)**
+**Serveur local : mode synthèse**
 
 ```bash
-HUGO_ENV="production" hugo serve --buildFuture --gc --minify
+hugo serve --buildFuture --gc --minify
 ```
 
 **Site généré : mode synthèse**
 
 ```bash
-HUGO_ENV="production" hugo --buildFuture --gc --minify --cleanDestinationDir
+hugo --buildFuture --gc --minify --cleanDestinationDir
 ```
 
 **Site généré : mode portail (à venir)**
+```bash
 HUGO_ENV="portal" hugo --gc --minify --cleanDestinationDir
+```
 
   * `HUGO_ENV="production"` lance l’environnement de production (sans les outils d’aide à l’audit, peut être lancé avec le mode serve).
   * `--buildFuture` Publier des éléments avec une date future. Ex: [phase](#phases) (optionnel) ou plan d’actions.

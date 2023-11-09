@@ -40,3 +40,5 @@ Les audits de *conformité* sont présents dans le répertoire `content/audits/n
 |      8      |    12    |     nc     |
 
 Accéder au fichier exemple de [Grille critères RGESN vierge](https://raw.githubusercontent.com/lowdit/frago/master/exampleSite/exampleFiles/grille-criteres-rgesn-1.0.csv)
+
+Accéder à un exemple de [Synthèse RGESN](https://frago-sandbox.netlify.app/audits/contributions-indirectes-en-ligne/ecoconception)

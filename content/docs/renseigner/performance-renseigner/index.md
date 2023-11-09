@@ -10,4 +10,4 @@ Note : Lancer un audit `Lighthouse` à ma même date qu’un audit accessibilit�
 
 Éditer : `content/audits/nomduservicenumerique/lighthouse/YYYY-MM-JJ.json`
 
-![Performance](/frago/images/performance.png)
+Accéder à un exemple de [synthèse de Performance](https://frago-sandbox.netlify.app/audits/contributions-indirectes-en-ligne/performance).

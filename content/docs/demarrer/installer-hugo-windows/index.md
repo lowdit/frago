@@ -30,7 +30,7 @@ Pour les actions ci-dessous. Si vous ne pouvez pas créer de répertoire à la r
  1. Créer un répertoire, ex: `monprojet`
  1. Créer la structure de fichiers
    (télécharger: https://github.com/lowdit/frago/archive/refs/heads/content.zip)
- 1. Télécharger le thème FRAGO (<https://github.com/lowdit/frago/>) dans le répertoire `c:\hugo\sites\monprojet\themes\`
+ 1. Télécharger le thème FRAGO (<https://github.com/lowdit/frago/>) dans le répertoire `c:\hugo\sites\monprojet\themes\frago\`
 
 Notes : Dans `config.toml`, appeler le thème avec `theme = "frago"` et supprimer les lignes qui appellent le module.
 

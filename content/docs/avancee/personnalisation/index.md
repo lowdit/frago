@@ -41,54 +41,36 @@ static
 .
 ├── config.toml
 └── content
-    ├── _index.md // page d’accueil du site :: ⚠️ Ajouter `type: projects` dans l'entête du fichier en cas de mono projet => va afficher directement la page de synthèse de tous les audits
-    ├── audits // Type de contenu audits, les projets doivent être dans un répertoire avec le nom audits
-    │     ├── projet1
-    │     │    ├── index.md // ⚠️  Page intermédiaire qui liste les sous rapports (accessibilité, performance…)
-    │     │    ├── accessibility
-    │     │    │   ├── 2020-10-15.csv
-    │     │    │   ├── 2020-11-15.csv
-    │     │    │   └── context.yml // Déclarer le contexte ce chaque audit
-    │     │    ├── lighthouse
-    │     │    │   ├── 2020-10-15.json
-    │     │    │   └── 2020-11-15.json
-    │     │    └── recommendation
-    │     │        ├── 2020-10-15.yml
-    │     │        └── 2020-11-15.yml
-    │     │
-    │     └── projet2
-    │          ├── index.md
-    │          ├── accessibility
-    │          │   ├── 2020-10-15.csv
-    │          │   ├── 2020-11-15.csv
-    │          │   └── context.yml // Déclarer le contexte ce chaque audit
-    │          ├── lighthouse
-    │          │   ├── 2020-10-15.json
-    │          │   └── 2020-11-15.json
-    │          └── recommendation
-    │              ├── 2020-10-15.yml
-    │              └── 2020-11-15.yml
-    ┋
-    ┋ ⚠️ Autre choix d’arborescence avec un seul projet ⚠️
-    ┋
-    └── audits // Les pages pour afficher les audits (accessibilité, recommandation, performance…)
-          ├── index.md
-          ├── accessibility
-          │   ├── 2020-10-15.csv
-          │   └── 2020-11-15.csv
-          │   └── context.yml // Déclarer le contexte ce chaque audit
-          ├── lighthouse
-          │   ├── 2020-10-15.json
-          │   └── 2020-11-15.json
-          └── recommendation
-              ├── 2020-10-15.yml
-              └── 2020-11-15.yml
+    ├── _index.md // page d’accueil du site
+    └── audits // Type de contenu audits, les projets doivent être dans un répertoire avec le nom audits
+          ├── projet1
+          │    ├── index.md // ⚠️  Page intermédiaire qui liste les sous rapports (accessibilité, performance…)
+          │    ├── accessibility
+          │    │   ├── 2020-10-15.csv
+          │    │   ├── 2020-11-15.csv
+          │    │   └── context.yml // Déclarer le contexte ce chaque audit
+          │    ├── lighthouse
+          │    │   ├── 2020-10-15.json
+          │    │   └── 2020-11-15.json
+          │    └── recommendation
+          │        ├── 2020-10-15.yml
+          │        └── 2020-11-15.yml
+          │
+          └── projet2
+               ├── index.md
+               ├── accessibility
+               │   ├── 2020-10-15.csv
+               │   ├── 2020-11-15.csv
+               │   └── context.yml // Déclarer le contexte ce chaque audit
+               ├── lighthouse
+               │   ├── 2020-10-15.json
+               │   └── 2020-11-15.json
+               └── recommendation
+                   ├── 2020-10-15.yml
+                   └── 2020-11-15.yml
 ```
 
-### Architecture complète (⚠️ Ancienne présente une architecture alternative, elle doit évoluer pour correspondre à tous les types de contenus)
-
-> Attention dans ce cas de figure: ⚠️ Le nom des pages projets `content/projects/projets1.md`, des répertoires projets `static/projet1/` et des répertoires des pages d’audits `content/audits/projets1/accessibility.md` doivent bien comporter la même clef ou slug, ici : `projet1`.  ⚠️
-> Un script devrait permettre de créer ces fichiers automatiquement à partir du moment un répertoire dans `static` est créé, mais il n’existe pas encore. La création doit se faire manuellement.
+### Architecture complète
 
 ```txt
 .
@@ -103,49 +85,16 @@ static
 │   ├── meetings
 │   │    ├── _index.md // liste les réunions
 │   │    └── 2020-10-22-reunion1.md // On indique la date dans le nom de fichier pour ranger les fichiers visuellement, il faut la répéter dans l’entête YML du fichier pour afficher les réunions sur la page dans un ordre par date.
-│   ├── personas // ⚠️ Ne fonctionne pas en mono projet
-│   │    ├── _index.md // Liste tous les personas
-│   │    ├── simon.md
-│   │    ├── annie.md
-│   │    └── projet1
-│   │         ├── _index.md // liste tous les personas
-│   │         ├── simon.md
-│   │         └── annie.md
-┋   ┋
-┋   ┋ ⚠️ Autre choix d’arborescence avec un seul projet ⚠️
-┋   ┋
-│   └── audits // Les pages pour afficher les audits (accessibilité, recommandation, performance…)
-│         └── index.md
+│   └── personas // ⚠️ Ne fonctionne pas en mono projet
+│        ├── _index.md // Liste tous les personas
+│        ├── simon.md
+│        ├── annie.md
+│        └── projet1
+│             ├── _index.md // liste tous les personas
+│             ├── simon.md
+│             └── annie.md
 └── static
-    ├── projet1
-    │    ├── accessibility
-    │    │    ├── 2020-10-15.csv
-    │    │    └── 2020-11-15.csv
-    │    ├── lighthouse
-    │    │    ├── 2020-10-15.json
-    │    │    └── 2020-11-15.json
-    │    ├── recommendation
-    │    │    ├── 2020-10-15.yml
-    │    │    └── 2020-11-15.yml
-    │    ├── usertests
-    │    │    ├── test1.json
-    │    │    └── test2.json
-    │    ├── backlinks.json
-    │    ├── personas.json
-    │    └── similary.json
-    ├── projet2
-    │    └── accessibility
-    │         ├── 2020-10-15.csv
-    │         └── 2020-11-15.csv
     ┋
-    ┋ ⚠️ Autre choix d’arborescence avec un seul projet ⚠️
-    ┋
-    ├── accessibility
-    │    ├── 2020-10-15.csv
-    │    └── 2020-11-15.csv
-    ├── recommendation // Ne fonctionne pas complètement en mono projet
-    │    ├── 2020-10-15.yml
-    │    └── 2020-11-15.yml
     ├── usertests // Ne fonctionne pas en mono projet
     │    ├── test1.json
     │    └── test2.json
@@ -168,167 +117,4 @@ static
          ├── projet2
          └── personas
 
-```
-
-### API
-
-La configuration de l’API est contenue dans le fichier `config.toml` du thème. Il existe une configuration par défaut qui peut-être surchargée en fonction de la structure de fichier. Pour la structure simplifiée, il n’y a rien à ajouter.
-
-L’idée est d’éviter de créer des pages uniquement pour avoir une URL (pour accessibility.html, recommendation.html et performance.html) lors du build du site (seul défaut, un export de page peut-être vide si l’audit correspondant n’existe pas ; et on perd les `pretty` url pour les exports `HTML`).
-
-Cette API permet d’obtenir des fichiers `json` de type :
-
- * https://monurl.com/index.json
- * https://monurl.com/audits/monprojet/index.json
- * https://monurl.com/audits/monprojet/accessibility.json
- * https://monurl.com/audits/monprojet/recommendation.json
- * https://monurl.com/audits/monprojet/performance.json
-
-Mais aussi des affichages de pages de type :
-
- * https://monurl.com/audits/monprojet/accessibility.html
- * https://monurl.com/audits/monprojet/recommendation.html
- * https://monurl.com/audits/monprojet/performance.html
- * https://monurl.com/audits/monprojet/declaration.html
- * https://monurl.com/audits/monprojet/declaration.txt
-
-**Exemple de configuration de l’API (Voir la Documentation goHugo sur les Output Format).**
-
-## Contenus complémentaires
-
-### Annuaire
-
-Lister les personnes contactées pendant la durée du défi de mise en conformité. Cet annuaire permet de partager les contacts dans le temps de l’amélioration de la démarche.
-
-Éditer : `static/directory.json`
-
-#### Recueil de tests utilisateurs
-
-Les tests utilisateurs de type quantitatifs consistent à poser des questions similaires à un panel important d’usagers. Pour le service *usertests*, il existe une mise en forme pour l’analyse rapide de ces résultats.
-
-Fonctionne à partir d’un `JSON`, mais pourrait marcher avec du `CSV` directement (Ici, penser à convertir le `CSV` en `JSON`).
-
-Éditer : `static/nomduservicenumerique/usertests/nometude.json` (à faire évoluer)
-
-Ajouter à l’entête du fichier de contenu :
-
-```yaml
----
-type: usertests // appel le gabarit usertests
-datafilename: etudiants // appelle le fichier nommé etudiants :: dans static/nomduservicenumerique/usertests/etudiants.json
----
-```
-
-![usertests](/frago/images/usertests.png)
-
-#### Personas
-
-Définir des personas et les afficher sur une même page pour les partager à l’équipe projet. On peut sélectionner les profils retenus pour les tests.
-
-> Hugo nécessite de créer les pages correspondantes pour chaque persona ; si on veut afficher les personas en détail. Créer les pages dans  `content/personas/nomduservicenumerique/prenom-nom.md`.
-
-Éditer : `static/nomduservicenumerique/personas.json`
-
-![Personas](/frago/images/personas.png)
-
-### Parcours
-
-Ajouter un parcours type par persona pour fournir une base visuelle à l’équipe projet de ce qui est testé. Le gabarit permet de partir d’un élément parent unique puis de développer autant de sous branches possibles dans la limite de 4 niveaux de profondeur (compatible mobile).
-
-Éditer : `static/nomduservicenumerique/personas.json`
-
-![Parcours](/frago/images/parcours.png)
-
-### Composants
-
-##### Scores
-
-![Scores](/frago/images/scores.png)
-
-#### Phases
-
-Nécessite d’ajouter un type de catégorie dans le `config.toml` ; et d’ajouter le *tag* dans chacun des contenus qu’on souhaite voir afficher dans une phase.
-
-Les contenus listés sont donc hétérogènes.
-
-![Phases](/frago/images/phases.png)
-
-### Shortcodes
-
-#### Galerie de capture écrans
-
-Afficher une liste de captures d’écran pour illustrer une étude comparative.
-
-```go
-{{"{{"}} < benchmark datafile="amendes" src="-explications" >{{"}}"}}{{"{{"}}< /benchmark >{{"}}"}}
-```
-
-#### Sites similaires
-
-Afficher la liste des sites similaires à la démarche (action de benchmarking). Les sites sont rangés par pays.
-
-Éditer : `static/nomduservicenumerique/similary.json`
-
-```go
-{{"{{"}}< similary project="amendes" >{{"}}"}}{{"{{"}}< /similary >{{"}}"}}
-```
-
-#### Diagrammes
-
-Appel de la librairie *mermaid.JS*. Ajouter la syntaxe *Mermaid* dans le contenu du shortcode.
-
-```go
-{{"{{"}}< mermaid >{{"}}"}}
-    graph TD
-      A(Je reçois un avis)
-      A --> B{Je paye une amende}
-      B --> |Carte Bancaire| C(Site web)
-      B --> |Carte Bancaire| D(Application)
-      B --> |Chèque| E(Courrier)
-      B --> |Chèque/Espèce/CB| F(Buraliste)
-      B --> |Carte Bancaire| G(Téléphone)
-      B --> |Chèque/Espèce/CB| H(Trésor Public)
-      B --> |Virement pour étrangers| I(Site web)
-{{"{{"}}< /mermaid >{{"}}"}}
-```
-
-![graphiques](/frago/images/diagramme.png)
-
-#### Graphiques
-
-Petit aide pour l’affichage de graphiques. Passer les données dans le contenu du *shortcode*. Choisir le titre et le type de graphique à afficher : bar, line, donut…
-
-```go
-{{"{{"}}< graphic title="Ventilation des paiements dans l’année (en milliers)" type="bar">{{"}}"}}
-{
-    labels: ["Vitesse", "PV électronique", "Feux rouges"],
-    datasets: [
-      {
-        name: "Internet",
-        values: [3351, 2482, 85],
-      },
-      {
-        name: "Smartphone",
-        values: [492, 497, 12]
-      }
-    ]
-}
-{{"{{"}}< /graphic >{{"}}"}}
-```
-![graphiques](/frago/images/graphiques.png)
-
-### Personas
-
-Afficher les personas sur la page de son choix en fonction du projet de son choix.
-
-```go
-{{"{{"}}< personas project="amendes" >{{"}}"}} {{"{{"}}< /personas >{{"}}"}}
-```
-
-### Parcours
-
-Afficher les parcours sur la page de son choix en fonction du projet de son choix.
-
-```go
-{{"{{"}}< parcours project="amendes" >{{"}}"}} {{"{{"}}< /parcours >{{"}}"}}
 ```

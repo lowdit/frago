@@ -49,4 +49,3 @@ audits:
       environment: ["MacOS", "Firefox", "Chrome", "ChromeVox"]
 ```
 
-![Accessibilite](/frago/images/accessibilite.png)

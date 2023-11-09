@@ -1,7 +1,7 @@
 ---
 title: 'Audit GreenIT'
 weight: 4
-summary: 'Renseigner un audit 74 bonnes pratiques du GReenIT avec FRAGO'
+summary: 'Renseigner un audit 74 bonnes pratiques du GreenIT avec FRAGO'
 ---
 
 Les audits de *conformité* sont présents dans le répertoire `content/organism/greenit/`.
@@ -19,7 +19,7 @@ Les audits de *conformité* sont présents dans le répertoire `content/organism
          ├── greenit
          │     ├── 2023-10-15.csv
          │     └── 2024-11-15.csv
-         └── _index.md // à créer pour voir afficher le tableau de synthèse en page d’acceuil
+         └── _index.md // à créer pour voir afficher le tableau de synthèse en page d’accueil
 ```
 
 ### Tableau de grille de critères
@@ -34,3 +34,5 @@ Les audits de *conformité* sont présents dans le répertoire `content/organism
 |    903   |      1     |
 
 Accéder au fichier exemple de [Grille critères GreenIT vierge](https://raw.githubusercontent.com/lowdit/frago/master/exampleSite/exampleFiles/grille-criteres-greenit-1.0.csv).
+
+Accéder à un exemple de [Synthèse 74 bonnes pratiques du GreenIT](https://frago-sandbox.netlify.app/organism/greenit)

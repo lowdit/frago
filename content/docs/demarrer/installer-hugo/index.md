@@ -25,8 +25,6 @@ Pour utiliser `goHugo`, il faut :
 Pour cela, il faut ouvrir son éditeur ; ouvrir le répertoire de travail ; lancer le terminal à partir de l'éditeur (disponible dans la barre de menu supérieure) ; lancer la commande `hugo serve`.
 
 
-
-
 ### MacOs
 
 * [Premiers pas avec Terminal sur Mac](https://support.apple.com/fr-fr/guide/terminal/pht23b129fed/2.14/mac/14.0)

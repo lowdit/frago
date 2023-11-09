@@ -2,6 +2,7 @@
 title: 'Naviguer dans les contenus'
 weight: 9
 summary: 'Découvrir les pages de navigation'
+draft: true
 ---
 
 ## Accueil

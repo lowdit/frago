@@ -39,3 +39,5 @@ Les audits de *conformité* sont présents dans le répertoire `content/audits/n
 |   105  |      C     |
 
 Accéder au fichier exemple de [Grille critères Opquast vierge](https://raw.githubusercontent.com/lowdit/frago/master/exampleSite/exampleFiles/grille-criteres-opquast-1.0.csv)
+
+Accéder à un exemple de [Synthèse Opquast](https://frago-sandbox.netlify.app/audits/contributions-indirectes-en-ligne/recommendation)
