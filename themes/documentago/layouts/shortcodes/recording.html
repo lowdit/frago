@@ -1,0 +1,13 @@
+{{ if eq .Ordinal 0 }}
+{{ $scripts := resources.Get "js/asciinema-player.min.js" }}
+<script type="text/javascript" src="{{ $scripts.RelPermalink }}"></script>
+{{ $style := resources.Get "css/asciinema-player.css" }}
+<link rel="stylesheet" href="{{ ($style).RelPermalink }}">
+{{ end }}
+
+<div id="recording-{{ .Ordinal }}"></div>
+<script>
+  AsciinemaPlayer.create('{{ $.Site.BaseURL | default "/" }}/recording/{{ .Get 0 }}', document.getElementById('recording-{{ .Ordinal }}'),{
+    theme: 'solarized-dark'
+  });
+</script>

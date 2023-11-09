@@ -20,16 +20,10 @@
   {{ if .Site.IsServer }}
   {{ $style := resources.Get "scss/style.scss" | toCSS (dict "targetPath" "css/style.css" "enableSourceMap" true) }}
   <link rel="stylesheet" href="{{ ($style).RelPermalink }}">
-  {{ else }}
+  {{ else }}ss
   {{ $style := resources.Get "scss/style.scss" | toCSS (dict "targetPath" "css/style.css" "enableSourceMap" false) }}
   <link rel="stylesheet" href="{{ ($style | minify | fingerprint).RelPermalink }}">
   {{ end }}
-  <!-- CSS fonts file -->
-  <link rel="preload" href="{{ $.Site.BaseURL | default "/" }}css/fonts.css" as="style">
-  <link rel="stylesheet" href="{{ $.Site.BaseURL | default "/" }}css/fonts.css" media="print" onload="this.media='all'" />
-  <noscript>
-    <link rel="stylesheet" href="{{ $.Site.BaseURL | default "/" }}css/fonts.css" media="screen">
-  </noscript>
   {{ block "header_css" . }}{{ end }}
 
 </head>

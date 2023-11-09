@@ -22,7 +22,10 @@ Pour utiliser `goHugo`, il faut :
 
 ⚠️ Il est possible d’utiliser le terminal à partir d’un éditeur de code (ex. [https://vscodium.com/](https://vscodium.com/)). C'est très pratique, car la commande sera lancée dans le bon répertoire de travail. Celui dans lequel vous allez éditer les fichiers pour `Frago`.
 
-Pour celà, il faut ouvrir son éditeur ; ouvrir le répertoire de travail ; lancer le terminal à partir de l'éditeur (disponible dans la barre de menu supérieure) ; lancer la commande `hugo serve`.
+Pour cela, il faut ouvrir son éditeur ; ouvrir le répertoire de travail ; lancer le terminal à partir de l'éditeur (disponible dans la barre de menu supérieure) ; lancer la commande `hugo serve`.
+
+
+
 
 ### MacOs
 
