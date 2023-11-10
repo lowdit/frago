@@ -22,7 +22,7 @@ Note : Le titre d’une page peut être suivi de l’URL de la page ; titre et U
 
 **Liste des fichiers exemples à télécharger**
 
-  * [Grille critères RGAA 4 vierge](https://raw.githubusercontent.com/lowdit/frago/master/exampleSite/exampleFiles/grille-criteres-rgaa.csv)
+  * [Grille critères RGAA 4 vierge](https://raw.githubusercontent.com/lowdit/frago/master/exampleSite/exampleFiles/grille-criteres-rgaa-4.csv)
   * [Grille tests RGAA 4.0 vierge](https://raw.githubusercontent.com/lowdit/frago/master/exampleSite/exampleFiles/grille-tests-rgaa-4.0.csv)
   * [Grille tests RGAA 4.1 vierge](https://raw.githubusercontent.com/lowdit/frago/master/exampleSite/exampleFiles//grille-tests-rgaa-4.1.csv)
 
