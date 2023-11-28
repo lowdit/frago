@@ -172,12 +172,21 @@
         "nonapplicable"            ($data.Get (printf "average-%s-nonapplicable"   $type))
         "all"                      (merge ($data.Get (printf "average-%s-conforme" $type)) ($data.Get (printf "average-%s-nonconforme" $type)))
     ) }}
+    {{ if and ($data.Get (printf "average-%s-conforme" $type)) ($data.Get (printf "average-%s-nonconforme" $type)) }}
+        {{ $dict1 = merge $dict1 (dict "all" (merge ($data.Get (printf "average-%s-conforme" $type)) ($data.Get (printf "average-%s-nonconforme" $type)))) }}
+    {{ end }}
+    {{ if ($data.Get (printf "average-%s-nonapplicable" $type)) }}
+        {{ $dict1 = merge $dict1 (dict "all" ((merge (merge ($data.Get (printf "average-%s-conforme" $type)) ($data.Get (printf "average-%s-nonconforme" $type))) ($data.Get (printf "average-%s-nonapplicable" $type)))))}}
+    {{ end }}
+    {{ if and ($data.Get (printf "average-%s-nonapplicable" $type)) (not (and ($data.Get (printf "average-%s-conforme" $type)) ($data.Get (printf "average-%s-nonconforme" $type)))) }}
+        {{ $dict1 = merge $dict1 (dict "all" ($data.Get (printf "average-%s-nonapplicable" $type))) }}
+    {{ end }}
+    {{ if and ($data.Get (printf "average-%s-nonconforme" $type)) (not (and ($data.Get (printf "average-%s-conforme" $type)) ($data.Get (printf "average-%s-nonapplicable" $type)))) }}
+        {{ $dict1 = merge $dict1 (dict "all" ($data.Get (printf "average-%s-nonconforme" $type))) }}
+    {{ end }}
   {{ end }}
   {{ if ($data.Get (printf "average-%s-nonapplicable" $type)) }}
     {{ $dict1 = merge $dict1 (dict "all" ((merge (merge ($data.Get (printf "average-%s-conforme" $type)) ($data.Get (printf "average-%s-nonconforme" $type))) ($data.Get (printf "average-%s-nonapplicable" $type)))))}}
-  {{ else }}
-      {{ warnf "no nonapplicable data for %s" $type}}
-      {{ $data.SetInMap (printf "average-%s-nonapplicable-t" $type) ("what?") (dict) }}
   {{ end }}
   {{ if and ($data.Get (printf "average-%s-conforme-t" $type)) ($data.Get (printf "average-%s-nonconforme-t" $type)) }}
 
