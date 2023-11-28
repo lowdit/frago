@@ -175,6 +175,9 @@
   {{ end }}
   {{ if ($data.Get (printf "average-%s-nonapplicable" $type)) }}
     {{ $dict1 = merge $dict1 (dict "all" ((merge (merge ($data.Get (printf "average-%s-conforme" $type)) ($data.Get (printf "average-%s-nonconforme" $type))) ($data.Get (printf "average-%s-nonapplicable" $type)))))}}
+  {{ else }}
+      {{ warnf "no nonapplicable data for %s" $type}}
+      {{ $data.SetInMap (printf "average-%s-nonapplicable-t" $type) ("what?") (dict) }}
   {{ end }}
   {{ if and ($data.Get (printf "average-%s-conforme-t" $type)) ($data.Get (printf "average-%s-nonconforme-t" $type)) }}
 
