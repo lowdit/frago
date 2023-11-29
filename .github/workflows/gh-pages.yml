@@ -16,25 +16,25 @@ jobs:
           submodules: true
       - name: Generate pre-filtered CSV examples
         run: |
-          mkdir -p docs/demarrer/audit-demarrer
+          mkdir -p static/examples
           curl  https://raw.githubusercontent.com/lowdit/frago/master/exampleSite/exampleFiles/grille-criteres-rgaa-4.csv --output grille-criteres-rgaa-4.csv
           curl  https://raw.githubusercontent.com/lowdit/frago/master/exampleSite/exampleFiles/grille-tests-rgaa-4.0.csv --output grille-tests-rgaa-4.0.csv
           curl  https://raw.githubusercontent.com/lowdit/frago/master/exampleSite/exampleFiles/grille-tests-rgaa-4.1.csv --output grille-tests-rgaa-4.1.csv
           
-          cat grille-criteres-rgaa-4.csv| grep -E '25|Thématique' > docs/demarrer/audit-demarrer/grille-criteres-rgaa-4_25.csv
-          cat grille-criteres-rgaa-4.csv| grep -E '25|50|Thématique' > docs/demarrer/audit-demarrer/grille-criteres-rgaa-4_50.csv
-          cat grille-criteres-rgaa-4.csv| grep -E '25|50|81|Thématique' > docs/demarrer/audit-demarrer/grille-criteres-rgaa-4_81.csv
-          cat grille-criteres-rgaa-4.csv > docs/demarrer/audit-demarrer/grille-tests-rgaa-4_all.csv
+          cat grille-criteres-rgaa-4.csv| grep -E '25|Thématique' > static/examples/grille-criteres-rgaa-4_25.csv
+          cat grille-criteres-rgaa-4.csv| grep -E '25|50|Thématique' > static/examples/grille-criteres-rgaa-4_50.csv
+          cat grille-criteres-rgaa-4.csv| grep -E '25|50|81|Thématique' > static/examples/grille-criteres-rgaa-4_81.csv
+          cat grille-criteres-rgaa-4.csv > static/examples/grille-tests-rgaa-4_all.csv
               
-          cat grille-tests-rgaa-4.0.csv | grep -E '25|Thématique' > docs/demarrer/audit-demarrer/grille-tests-rgaa-4.0_25.csv
-          cat grille-tests-rgaa-4.0.csv | grep -E '25|50|Thématique' > docs/demarrer/audit-demarrer/grille-tests-rgaa-4.0_50.csv
-          cat grille-tests-rgaa-4.0.csv | grep -E '25|50|81|Thématique' > docs/demarrer/audit-demarrer/grille-tests-rgaa-4.0_81.csv
-          cat grille-tests-rgaa-4.0.csv > docs/demarrer/audit-demarrer/grille-tests-rgaa-4.0_all.csv
+          cat grille-tests-rgaa-4.0.csv | grep -E '25|Thématique' > static/examples/grille-tests-rgaa-4.0_25.csv
+          cat grille-tests-rgaa-4.0.csv | grep -E '25|50|Thématique' > static/examples/grille-tests-rgaa-4.0_50.csv
+          cat grille-tests-rgaa-4.0.csv | grep -E '25|50|81|Thématique' > static/examples/grille-tests-rgaa-4.0_81.csv
+          cat grille-tests-rgaa-4.0.csv > static/examples/grille-tests-rgaa-4.0_all.csv
           
-          cat grille-tests-rgaa-4.1.csv | grep -E '25|50|81|Thématique' > docs/demarrer/audit-demarrer/grille-tests-rgaa-4.1_81.csv
-          cat grille-tests-rgaa-4.1.csv | grep -E '25|50|Thématique' > docs/demarrer/audit-demarrer/grille-tests-rgaa-4.1_50.csv
-          cat grille-tests-rgaa-4.1.csv | grep -E '25|Thématique' > docs/demarrer/audit-demarrer/grille-tests-rgaa-4.1_25.csv
-          cat grille-tests-rgaa-4.1.csv > docs/demarrer/audit-demarrer/grille-tests-rgaa-4.1_all.csv
+          cat grille-tests-rgaa-4.1.csv | grep -E '25|50|81|Thématique' > static/examples/grille-tests-rgaa-4.1_81.csv
+          cat grille-tests-rgaa-4.1.csv | grep -E '25|50|Thématique' > static/examples/grille-tests-rgaa-4.1_50.csv
+          cat grille-tests-rgaa-4.1.csv | grep -E '25|Thématique' > static/examples/grille-tests-rgaa-4.1_25.csv
+          cat grille-tests-rgaa-4.1.csv > static/examples/grille-tests-rgaa-4.1_all.csv
           rm -rf ./*.csv
       - name: Publish Site
         uses: chabad360/hugo-gh-pages@master
