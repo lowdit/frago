@@ -22,10 +22,19 @@ Note : Le titre d’une page peut être suivi de l’URL de la page ; titre et U
 
 **Liste des fichiers exemples à télécharger**
 
-  * [Grille critères RGAA 4 vierge](https://raw.githubusercontent.com/lowdit/frago/master/exampleSite/exampleFiles/grille-criteres-rgaa-4.csv)
-  * [Grille tests RGAA 4.0 vierge](https://raw.githubusercontent.com/lowdit/frago/master/exampleSite/exampleFiles/grille-tests-rgaa-4.0.csv)
-  * [Grille tests RGAA 4.1 vierge](https://raw.githubusercontent.com/lowdit/frago/master/exampleSite/exampleFiles//grille-tests-rgaa-4.1.csv)
 
+  * [Grille critères RGAA 4 vierge](https://lowdit.github.io/frago/examples/grille-criteres-rgaa-4_all.csv)
+    * [25 critères](https://lowdit.github.io/frago/examples/grille-criteres-rgaa-4_25.csv)
+    * [50 critères](https://lowdit.github.io/frago/examples/grille-criteres-rgaa-4_50.csv)
+    * [81 critères](https://lowdit.github.io/frago/examples/grille-criteres-rgaa-4_81.csv)
+  * [Grille tests RGAA 4.0 vierge](https://lowdit.github.io/frago/examples/grille-tests-rgaa-4.0_all.csv)
+    * [25 critères](https://lowdit.github.io/frago/examples/grille-tests-rgaa-4.0_25.csv)
+    * [50 critères](https://lowdit.github.io/frago/examples/grille-tests-rgaa-4.0_50.csv)
+    * [81 critères](https://lowdit.github.io/frago/examples/grille-tests-rgaa-4.0_81.csv)
+  * [Grille tests RGAA 4.1 vierge](https://lowdit.github.io/frago/examples/grille-tests-rgaa-4.1_all.csv)
+    * [25 critères](https://lowdit.github.io/frago/examples/grille-tests-rgaa-4.1_25.csv)
+    * [50 critères](https://lowdit.github.io/frago/examples/grille-tests-rgaa-4.1_50.csv)
+    * [81 critères](https://lowdit.github.io/frago/examples/grille-tests-rgaa-4.1_81.csv)
 *Dans chacun de ces fichiers figurent des numéros qui correspondent aux notions d’audit rapide (25 critères), complémentaire (50 critères), intermédiaire (81 critères). Ces dénominations sont proposées et reconnue par la DINUM.*
 
 *Exemple, pour un audit rapide, ne traiter que les cellules avec le numéro **25**.*
