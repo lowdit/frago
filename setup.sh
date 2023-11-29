@@ -56,8 +56,8 @@ if [[ $REPLY =~ ^[Oo]$ ]]; then
     mkdir $projectname
   fi
   cd ${projectname}
-  echo "${green}1. Récupération du code sur https://github.com/DISIC/frago/archive/refs/heads/content.zip${reset}"
-  curl -s -L -O https://github.com/DISIC/frago/archive/refs/heads/content.zip
+  echo "${green}1. Récupération du code sur https://github.com/lowdit/frago/archive/refs/heads/content.zip${reset}"
+  curl -s -L -O https://github.com/lowdit/frago/archive/refs/heads/content.zip
   echo "${green}2. Écriture des fichiers : ${reset}"
   bsdtar --strip-components=1 -xvf content.zip
   echo "${green}3. Suppression de content.zip${reset}"
