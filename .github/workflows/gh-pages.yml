@@ -16,7 +16,7 @@ jobs:
           submodules: true
       - name: Generate pre-filtered CSV examples
         run: |
-          mkdir docs/demarrer/audit-demarrer
+          mkdir -p docs/demarrer/audit-demarrer
           curl  https://raw.githubusercontent.com/lowdit/frago/master/exampleSite/exampleFiles/grille-criteres-rgaa-4.csv --output grille-criteres-rgaa-4.csv
           curl  https://raw.githubusercontent.com/lowdit/frago/master/exampleSite/exampleFiles/grille-tests-rgaa-4.0.csv --output grille-tests-rgaa-4.0.csv
           curl  https://raw.githubusercontent.com/lowdit/frago/master/exampleSite/exampleFiles/grille-tests-rgaa-4.1.csv --output grille-tests-rgaa-4.1.csv
