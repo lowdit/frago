@@ -24,7 +24,7 @@ jobs:
           cat grille-criteres-rgaa-4.csv| grep -E '25|Thématique' > static/examples/grille-criteres-rgaa-4_25.csv
           cat grille-criteres-rgaa-4.csv| grep -E '25|50|Thématique' > static/examples/grille-criteres-rgaa-4_50.csv
           cat grille-criteres-rgaa-4.csv| grep -E '25|50|81|Thématique' > static/examples/grille-criteres-rgaa-4_81.csv
-          cat grille-criteres-rgaa-4.csv > static/examples/grille-tests-rgaa-4_all.csv
+          cat grille-criteres-rgaa-4.csv > static/examples/grille-criteres-rgaa-4_all.csv
               
           cat grille-tests-rgaa-4.0.csv | grep -E '25|Thématique' > static/examples/grille-tests-rgaa-4.0_25.csv
           cat grille-tests-rgaa-4.0.csv | grep -E '25|50|Thématique' > static/examples/grille-tests-rgaa-4.0_50.csv
