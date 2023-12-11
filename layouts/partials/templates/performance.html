@@ -36,7 +36,7 @@
       {{- if (not (in ($data.Get "lastfile") "false")) -}}
         <h2>Scores</h2>
         {{- with ($data.Get "lastfile") -}}
-          {{- partialCached "components/scores/performance" (dict "counter" (partialCached "render/performance" (dict "context" "template" "auditfile" .) .)) -}}
+          {{- partialCached "components/scores/performance" (dict "counter" (partialCached "render/performance" (dict "context" "template" "auditfile" .) .) "project" $project ) -}}
         {{- end -}}
 
         {{- with ($data.Get "lastfile") -}}

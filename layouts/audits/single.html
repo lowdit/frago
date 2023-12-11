@@ -16,31 +16,14 @@
   {{- if ne (len $alternate) 0 -}}
     {{- with $alternate -}}
       {{- range $key, $value := . -}}
-        {{- if eq .Format.BaseName "accessibility" -}}
-          {{- $partial := (partialCached "templates/accessibility.html" (dict "context" $context) $context) -}}
-          {{- partialCached "elements/content.html" $partial $partial -}}
-        {{- else if or (eq .Format.BaseName "ecoconception") -}}
-          {{- $partial := (partialCached "templates/ecoconception.html" (dict "context" $context) $context) -}}
-          {{- partialCached "elements/content.html" $partial $partial -}}
-        {{- else if or (eq .Format.BaseName "greenit") -}}
-          {{- $partial := (partialCached "templates/greenit.html" (dict "context" $context) $context) -}}
-          {{- partialCached "elements/content.html" $partial $partial -}}
-        {{- else if eq .Format.BaseName "opquast" -}}
-          {{- $partial := (partialCached "templates/opquast.html" (dict "context" $context) $context) -}}
-          {{- partialCached "elements/content.html" $partial $partial -}}
-        {{- else if eq .Format.BaseName "publishing" -}}
-          {{- $partial := (partialCached "templates/publishing.html" (dict "context" $context) $context) -}}
-          {{- partialCached "elements/content.html" $partial $partial -}}
-        {{- else if or (eq .Format.BaseName "recommendation") -}}
-          {{- $partial := (partialCached "templates/recommendation.html" (dict "context" $context) $context) -}}
-          {{- partialCached "elements/content.html" $partial $partial -}}
-        {{- else if eq .Format.BaseName "recommendation" -}}
-          {{- $partial := (partialCached "templates/recommendation.html" (dict "context" $context) $context) -}}
-          {{- partialCached "elements/content.html" $partial $partial -}}
-        {{- else if eq .Format.BaseName "performance" -}}
-          {{- $partial := (partialCached "templates/performance.html" (dict "context" $context) $context) -}}
-          {{- partialCached "elements/content.html" $partial $partial -}}
-        {{- else if eq .Format.BaseName "declaration" -}}
+        {{ $format := .Format.BaseName }}
+        {{ range (slice "accessibility" "ecoindex" "ecoconception" "opquast" "publishing" "recommendation" "performance") }}
+          {{- if eq $format . -}}
+            {{- $partial := (partialCached (printf "templates/%s.html" . ) (dict "context" $context) $context) -}}
+            {{- partialCached "elements/content.html" $partial $partial -}}
+          {{- end -}}
+        {{- end -}}
+        {{- if eq .Format.BaseName "declaration" -}}
           <article class="fg-wrapper narrow">
             {{- $context.Scratch.Set "audits" (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "accessibility" "datafilename" $context.Params.datafilename) $project "accessibility" $context.Params.datafilename) -}}
             {{- $partial := (partialCached "templates/declaration.html" (dict "context" $context "audits" ($context.Scratch.Get "audits")) ($context.Scratch.Get "audits")) -}}

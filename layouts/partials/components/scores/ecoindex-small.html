@@ -1,0 +1,15 @@
+{{- $project     := .project -}}
+{{- $lastfile    := (index (partialCached "render/lastfile.html" (dict "context" . "project" $project "type" "ecoindex") $project "ecoindex") "auditfile-path") -}}
+
+{{- $grade := (index (first 1 (sort (getJSON $lastfile))) 0).index.grade -}}
+{{ if not (reflect.IsSlice (getJSON $lastfile)) }}
+  {{- $grade = (getJSON $lastfile).index.grade -}}
+{{ end }}
+
+{{- $ecostyle    := (partialCached "utils/ecoindex-class" (dict "ecograde" $grade) $grade) -}}
+
+{{- if $grade }}
+  <p class="counter text-center {{ $ecostyle.ecoindexclass  }}"><span>Ecoindex<br>{{ $grade }}<b></b></span></p>
+{{- else }}
+  {{- warnf "Ecoindex file %s doesn’t exist" $lastfile -}}
+{{ end -}}

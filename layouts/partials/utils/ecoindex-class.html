@@ -1,0 +1,31 @@
+{{ $data          := newScratch }}
+
+{{ if eq .ecograde "A" }}
+  {{ $data.Set "ecoindex-weight" "7" }}
+  {{ $data.Set "ecoindexclass" "good" }}
+{{ else if eq .ecograde "B" }}
+  {{ $data.Set "ecoindex-weight" "6" }}
+  {{ $data.Set "ecoindexclass" "good" }}
+{{ else if eq .ecograde "C" }}
+  {{ $data.Set "ecoindex-weight" "5" }}
+  {{ $data.Set "ecoindexclass" "medium" }}
+{{ else if eq .ecograde "D" }}
+  {{ $data.Set "ecoindex-weight" "4" }}
+  {{ $data.Set "ecoindexclass" "bad" }}
+{{ else if eq .ecograde "E" }}
+  {{ $data.Set "ecoindex-weight" "3" }}
+  {{ $data.Set "ecoindexclass" "bad" }}
+{{ else if eq .ecograde "F" }}
+  {{ $data.Set "ecoindex-weight" "2" }}
+  {{ $data.Set "ecoindexclass" "bad" }}
+{{ else if le .ecograde "G" }}
+  {{ $data.Set "ecoindex-weight" "1" }}
+  {{ $data.Set "ecoindexclass" "bad" }}
+{{ end }}
+
+{{ return
+  (dict
+    "ecoindex-weight" ($data.Get "ecoindex-weight")
+    "ecoindexclass"   ($data.Get "ecoindexclass")
+  )
+}}

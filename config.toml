@@ -53,6 +53,12 @@ disableKinds = ["RSS", "sitemap", "taxonomy", "taxonomyTerm"]
   mediaType = "application/json"
   isPlainText = true
   notAlternative = false
+[outputFormats.ecoindexpage]
+  baseName = "ecoindex"
+  mediaType = "text/html"
+  notAlternative = false
+  permalinkable = true
+  isHTML = true
 [outputFormats.ecoconceptionpage]
   baseName = "ecoconception"
   mediaType = "text/html"
