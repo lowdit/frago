@@ -10,6 +10,11 @@
   {{- $.Store.Set "file" (index (index $.Site.Data $referential.name) (string $referential.version)) -}}
   {{- $criteriafile   := ($.Store.Get "file").criteria.criteres -}}
 
+  {{ if eq $referential.version "2.0" }}
+  {{- $criteriafile   = ($.Store.Get "file").crit.criteres -}}
+  {{ end }}
+
+
 
     <article class="fg-wrapper narrow">
       <h1>{{ ($.Store.Get "file").criteria.title | safeHTML }}</h1>
@@ -39,15 +44,37 @@
         {{/* Range all topics */}}
         {{- range $key1, $value1 := $.Scratch.Get "thematique" -}}
           <h2 id="{{ . | urlize }}" >{{ . }}</h2>
+          {{- if (eq $referential.version "2.0") }}
+              {{ (index (where ($.Store.Get "file").crit.thematiques "nom" .) 0).description }}
+          {{ end -}}
           {{- range $key2, $value2 := where $criteriafile "thematique" . -}}
-            <h3 id="{{ .critere | urlize }}" >#{{ add $key1 1 }}.{{ add $key2 1 }} - {{ .critere }}</h3>
+            <h3 id="{{ add $key1 1 }}.{{ add $key2 1 }}" >#{{ add $key1 1 }}.{{ add $key2 1 }} - {{ .critere }}</h3>
+            {{ if or .difficulte .priorite }}
+            <hr>
             <p>
+              {{ with .difficulte }}<strong>Niveau de difficulté :</strong> {{ . }}{{ end }}<br>
+              {{ with .priorite }}<strong>Niveau de priorité :</strong> {{ . }}{{ end }}
+            </p>
+            <hr>
+            {{ end }}
+            <p>
+              <h4>Objectif</h4>
               <strong>{{ .objectif | markdownify }}</strong><br>
+            </p>
+            <p>
+              <h4>Mise en œuvre</h4>
               {{ .miseEnOeuvre | markdownify }}
             </p>
             <div class="note">
+              <h4 class="m-0">Moyen de test ou de contrôle</h4>
               <p>{{ .controle | markdownify }}</p>
             </div>
+            {{- with .source }}
+            <div>
+              <h4 class="m-0">Pour aller plus loin</h4>
+              <p>{{ . | markdownify }}</p>
+            </div>
+            {{ end -}}
             <hr>
           {{- end -}}
         {{- end -}}
