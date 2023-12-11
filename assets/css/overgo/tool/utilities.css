@@ -173,7 +173,23 @@
   padding-top: var(--baseline,1.5em);
 }
 
+.pb-1 {
+  padding-bottom: calc(var(--baseline,1.5em) / 2);
+}
+
+.pb-2 {
+  padding-bottom: var(--baseline,1.5em);
+}
+
 /* Width */
+
+.w-full {
+  width: 100%;
+}
+
+.h-full {
+  height: 100%;
+}
 
 .w-max-content {
   width: max-content;
