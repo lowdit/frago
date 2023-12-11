@@ -1,7 +1,14 @@
-{{- $context       := . -}}
+
+{{- $context       := .             -}}
+{{- $time          := now.UnixMilli -}}
 {{- $path          := "" }}{{ with .File }}{{ $path = .Path }}{{ end }}
 {{- $project       := (partial "render/projectpath" $context $context) -}}
 {{- $OutputFormats := cond (fileExists "content/audits/index.md") ($context.GetPage "/audits/index.md").OutputFormats .OutputFormats -}}
+
+{{- if (eq (getenv "HUGO_ENV") "debugperf") -}}
+  {{ $.Scratch.Set "debugperf" (slice .) }}
+{{- end -}}
+
 
 {{- if and (ne $project "audits") (ne $path "audits") (ne $project "") -}}
 <section class="fg-wrapper narrow">
@@ -32,6 +39,7 @@
     {{/*- $greenit        := fileExists (index (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "greenit")        $project "greenit") "auditfile-path") -*/}}
     {{- $recommendation := fileExists (index (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "recommendation") $project "recommendation") "auditfile-path") -}}
     {{- $lighthouse     := fileExists (index (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "lighthouse")     $project "lighthouse") "auditfile-path") -}}
+    {{- $ecoindex       := fileExists (index (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "ecoindex")       $project "ecoindex") "auditfile-path") -}}
 
     {{/* START - Display medium compliance */}}
     {{- if and $accessibility (eq (len (split $project "/")) 1) -}}
@@ -279,8 +287,8 @@
         {{- partialCached "components/scores/performance" (dict "context" $context "counter" $performance) $performance -}}
       {{- end -}}
       {{/* START - If several Lighthouse files */}}
-      {{- $lasfileobj := (partialCached "render/lastfile.html" (dict "context" . "project" $project "type" "lighthouse") $project "lighthouse") -}}
-      {{- $lastfiles  := index $lasfileobj "auditfile-all-path" -}}
+      {{- $lasfileobj  := (partialCached "render/lastfile.html" (dict "context" . "project" $project "type" "lighthouse") $project "lighthouse") -}}
+      {{- $lastfiles   := index $lasfileobj "auditfile-all-path" -}}
       {{- $lasfiledate := index $lasfileobj "auditfile-all-name" -}}
 
       {{- if gt (len $lastfiles) 1 -}}
@@ -326,6 +334,10 @@
       {{/* END - If several Lighthouse files */}}
     {{- end -}}
     {{/* END - If Lighthouse */}}
+
+    {{ if $ecoindex }}
+      sss
+    {{ end }}
 
     {{/*
     <section>
@@ -404,4 +416,11 @@
   {{- $partial := (partialCached "templates/projects-list.html" . "projects-list") -}}
   {{- partialCached "elements/content.html" $partial "projectslist" -}}
 {{ end }}
+{{- end -}}
+
+{{- if (eq (getenv "HUGO_ENV") "debugperf") -}}
+  {{ $path := "" }}
+  {{ with .File }}{{ $path = .Path }}{{ end }}
+  {{ $time = string (sub now.UnixMilli $time) }}
+  {{ warnf "=> Service page   Total | %s%sms| %q %#v" (cond (eq (len $time) 4) "" (cond (eq (len $time) 3) " " (cond (eq (len $time) 2) "  " "   "))) $time (cond (eq (printf "%T" $context ) "string" ) . $path) (delimit ($.Scratch.Get "debugperf") " ") }}
 {{- end -}}
