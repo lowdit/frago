@@ -5,7 +5,7 @@
 
 {{- with (where .context.Site.Pages "Section" "audits") -}}
   <style>
-    .flex b {
+    .grid b {
       padding: 1em;
       border: 1px solid;
     }
@@ -20,8 +20,8 @@
 
     <h2>Conformité du parc de services</h2>
 
-    <div class="flex flex-gap align-items-center text-center lh-1 mr-2 font-bigger">
-      {{- partialCached "components/scores/aggregate-small.html" (dict "value" (index $render $name) "type" (index $ref $name)) $render $name -}}
+    <div class="grid grid-4 align-items-center text-center lh-1 font-bigger">
+      {{- partialCached "components/scores/aggregate-small.html" (dict "value" (index $render $name) "type" (index $ref $name).name ) $render $name -}}
     </div>
     {{ with (index $render.allaverage $name) }}
       {{- $range := . -}}
@@ -74,6 +74,7 @@
         </tbody>
       </table>
       {{- end -}}
+      {{- if .all }}
       <h2>Tableau des statistiques par critère</h2>
       <table>
         <thead>
@@ -104,6 +105,7 @@
           {{- end -}}
         </tbody>
       </table>
+      {{ end -}}
     {{ end -}}
   </article>
 {{- end -}}

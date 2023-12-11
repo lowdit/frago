@@ -37,17 +37,17 @@
                 60 règles Opquast <small>Validité</small>
               </a>
             </h2>
-            <span class="flex flex-gap align-items-center text-center lh-1 mr-2">
+            <span class="flex flex-small flex-gap align-items-center text-center lh-1">
               {{- (partialCached "components/scores/aggregate-small.html" (dict "value" (($.Store.Get "aggregates").opquast) "type" "Opquast") "Opquast" ) -}}
             </span>
           </li>
           <li class="enlarge-link card-inline card-shadow">
             <h2 class="h3">
               <a class="link-text" href="{{ $context.Site.BaseURL }}organism/publishing.html">
-                Sobriété éditoriale <small>Conformité</small></h2>
+                Sobriété éditoriale <small>Conformité</small>
               </a>
             </h2>
-            <span class="flex flex-gap align-items-center text-center lh-1 mr-2">
+            <span class="flex flex-small flex-gap align-items-center text-center lh-1">
               {{- (partialCached "components/scores/aggregate-small.html" (dict "value" (($.Store.Get "aggregates").publishing) "type" "éditorial") "éditorial" ) -}}
             </span>
           </li>

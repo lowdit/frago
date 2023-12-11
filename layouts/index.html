@@ -31,7 +31,7 @@
         <br>
       <h2 class="text-center wrapper">Liste des Services numériques</h2>
       {{- end -}}
-      {{- $partial := (partialCached "templates/projects-list.html" . .) -}}
+      {{- $partial := (partialCached "templates/projects-list.html" . "projects-list") -}}
       {{- partialCached "elements/content.html" $partial "projectslist" -}}
     {{- end -}}
   {{- end -}}

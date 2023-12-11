@@ -44,9 +44,9 @@
 {{/* Call the same value as in templates/accessibility :: with cache */}}
 {{ $referential := (partialCached "render/referential-version.html" (dict "context" $context "referential" "rgaa" "patharray" $patharray) $context).guideline }}
 
-{{- $lastfile              := (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "recommendation" "datafilename" .context.Params.datafilename) $project "recommendation" .context.Params.datafilename) -}}
+{{- $lastfile              := (partialCached "render/lastfile.html"        (dict "context" $context "project" $project "type" "recommendation" "datafilename" .context.Params.datafilename) $project "recommendation" .context.Params.datafilename) -}}
 {{- $data.Set "auditpath-csv" (index (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "accessibility") $project "accessibility") "auditfile-path") -}}
-{{- $data.Set "scores"        (partialCached "render/accessibility.html" (dict "context" "recommendation" "auditfile" ($data.Get "auditpath-csv")) ($data.Get "auditpath-csv") ) -}}
+{{- $data.Set "scores"        (partialCached "render/accessibility.html"   (dict "context" "recommendation" "auditfile" ($data.Get "auditpath-csv")) ($data.Get "auditpath-csv")) -}}
 
 {{ if in "/audits/_index.md" $path }}
 
