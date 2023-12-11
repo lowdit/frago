@@ -8,6 +8,8 @@
 
   <article class="fg-wrapper narrow">
     <h1>Critères {{ replace ($.Store.Get "guidelinename" | upper) "RGAA" "RGAA "}}</h1>
+    {{- with ($.Store.Get "file").criterias.licence }}<p class="mt-1-minus"><strong>License :</strong> {{ . }}</p>{{ end }}
+
     {{ partialCached "utils/css.html" (dict "context" . "filefolder" "element" "filename" "tableofcontents") "tableofcontents" }}
     <div class="tableofcontents">
       <h2>Thématiques</h2>

@@ -49,6 +49,7 @@
   }
 </style>
 <h1>{{ ($.Store.Get "file").criteria.title | safeHTML }}</h1>
+{{- with ($.Store.Get "file").criteria.licence }}<p class="mt-1-minus"><strong>License :</strong> {{ . }}</p>{{ end }}
 
 {{- $data.Set "counterthematique" 0 }}
 {{- $data.Set "thematique" slice }}
