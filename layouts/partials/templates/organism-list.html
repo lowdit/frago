@@ -5,7 +5,7 @@
 
   {{- $.Store.Set "aggregates" (partialCached "render/aggregate-scores.html" (dict "pages" ($.Store.Get "rangepages")) ($.Store.Get "rangepages")) -}}
 
-  <section class="section text-center">
+  <section class="section text-center m-0">
     <div class="fg-wrapper">
       {{- partialCached "utils/css.html" (dict "context" . "filefolder" "object" "filename" "card") "card" -}}
       {{- if gt (len ($.Store.Get "aggregates").accessibility.all) 0 }}
@@ -17,7 +17,7 @@
                 Accessibilité <small>Conformité</small>
               </a>
             </h2>
-            <span class="flex flex-gap align-items-center text-center lh-1 mr-2">
+            <span class="flex flex-small flex-gap align-items-center text-center lh-1">
               {{- (partialCached "components/scores/aggregate-small.html" (dict "value" (($.Store.Get "aggregates").accessibility) "type" "RGAA") "RGAA" ) -}}
             </span>
           </li>
@@ -27,7 +27,7 @@
                 Éco-conception <small>Conformité</small>
               </a>
             </h2>
-            <span class="flex flex-gap align-items-center text-center lh-1 mr-2">
+            <span class="flex flex-small flex-gap align-items-center text-center lh-1">
               {{- (partialCached "components/scores/aggregate-small.html" (dict "value" (($.Store.Get "aggregates").ecoconception) "type" "RGESN") "RGESN" ) -}}
             </span>
           </li>
