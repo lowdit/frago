@@ -1,0 +1,17 @@
+[{
+  "url": "https://douanes.gouv.fr/ciel/",
+  "index": {
+    "score": 13,
+    "grade": "F",
+    "ghg": 2.74,
+    "water": 4.11
+  }
+}, {
+  "url": "https://douanes.gouv.fr/ciel/dashboard.html",
+  "index": {
+    "score": 23,
+    "grade": "E",
+    "ghg": 2.54,
+    "water": 3.81
+  }
+}]
