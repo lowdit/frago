@@ -13,7 +13,7 @@
 {{- with .File }}{{ $path = .Path }}{{ else }}{{ $path = .Path }}{{ end }}
 {{- $patharray := split (path.Dir $path) "/" -}}
 {{- $context    := . -}}
-{{- $path := "" }}sss
+{{- $path := "" }}
 {{- with .File }}{{ $path = .Path }}{{ end }}
 {{- $project    := cond (eq (len (split (path.Dir $path) "/")) 1) "audits" (replace (path.Dir $path) "audits/" "") -}}
 {{- if or (and (gt (len $patharray) 1) ($project)) (eq (len (split (.RelPermalink) "/")) 2) (eq (len $patharray) 1) -}}
