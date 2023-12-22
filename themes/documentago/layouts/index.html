@@ -16,7 +16,25 @@
           <p>{{ .Site.Params.homepage_intro }}</p>
           {{ end }}
         </div>
-        <a class="button button-primary mb-2" href="{{ .Site.Params.homepage_button_link | relURL }}">
+        <style>
+          .button-giant {
+            position: relative
+            display: block;
+            margin-top: 0px;
+            padding: 1em 0.5em;
+            width: calc(90vw - 2rem);
+            max-width: 96%;
+            font-size: clamp(1rem, -1.5rem + 6vw, 4.5rem);
+            box-shadow: 0px 15px 0px 0px blue, 0px 0px 20px 0px #bbb;
+            transition: all 0.2s;
+            border-radius: 10px;
+          }
+          .button-giant:active {
+            margin-top: 10px;
+            box-shadow: 0px 7px 0px 0px blue;
+          }
+        </style>
+        <a class="button button-primary button-giant" href="{{ .Site.Params.homepage_button_link | relURL }}">
           {{ .Site.Params.homepage_button_text }}
         </a>
       </div>

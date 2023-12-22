@@ -73,7 +73,7 @@ p {
 }
 h1 {
   font-family: $font-family-title;
-  font-size: 3.8rem;
+  font-size: clamp(1rem, 8vw, 3.8rem);
   line-height: 1;
   font-weight: 800;
   margin-top: 2.25rem;
