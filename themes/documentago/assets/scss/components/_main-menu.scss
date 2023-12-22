@@ -16,6 +16,8 @@
         display: inline-block;
         font-weight: normal;
         text-decoration: none;
+        font-family: $font-family-title;
+        font-weight: 500;
         &:hover {
           text-decoration: underline;
         }

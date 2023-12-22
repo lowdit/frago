@@ -16,6 +16,7 @@
   <meta name="twitter:site" content="{{ .Site.Params.homepage_meta_tags.meta_twitter_site }}" />
   <meta name="twitter:creator" content="{{ .Site.Params.homepage_meta_tags.meta_twitter_creator }}" />
   <link rel="icon" href="{{ "favicon-32x32.png" | absURL}}">
+  <link href="https://fonts.cloudcannon.com/css/TT-Norms-Pro_400_500_800.css" rel="stylesheet" type="text/css">
 
   {{ if .Site.IsServer }}
   {{ $style := resources.Get "scss/style.scss" | toCSS (dict "targetPath" "css/style.css" "enableSourceMap" true) }}
