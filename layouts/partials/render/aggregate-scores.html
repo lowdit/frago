@@ -82,7 +82,7 @@
               {{ $data.SetInMap (printf "average-%s-nonapplicable-t" $type) (string $thematique) ($data.Get (printf "%s%s-na-t" $thematique $type)) }}
             {{ end }}
             {{ range $id, $value := $render.criteria.all }}
-              {{ if and (gt (int (index ($data.Get (printf "average-%s-nonconforme" $type)) $id)) 0) (gt (int (index ($data.Get (printf "average-%s-conforme" $type)) $id)) 0) }}
+              {{ if and (($data.Get (printf "average-%s-nonconforme" $type))) (gt (int (index ($data.Get (printf "average-%s-nonconforme" $type)) $id)) 0) (gt (int (index ($data.Get (printf "average-%s-conforme" $type)) $id)) 0) }}
                 {{ $result := (div (mul (index ($data.Get (printf "average-%s-conforme" $type)) $id) 100) (add (index ($data.Get (printf "average-%s-conforme" $type)) $id) (index ($data.Get (printf "average-%s-nonconforme" $type)) $id))) }}
 
                 {{ if eq $result 100 }}
