@@ -36,7 +36,8 @@
   {{/* START Range csv file per lines/criteria */}}
   {{ range $key1, $value1 := after 1 $auditfilecsv }}
     {{ $data.Set (printf "%s%s" $scorekey "critPageValues") slice }}
-    {{ $crit := printf "%s.%s" (index . 0) (index . 1) }}
+
+    {{ $crit := cond (eq $auditmethodology 1) (index . 0) (printf "%s.%s" (index . 0) (index . 1)) }}
 
     {{ if ne $crit ($data.Get (printf "%s%s" $scorekey "critere")) }}
       {{ $data.Set (printf "%s" "iCrit") 0 }}

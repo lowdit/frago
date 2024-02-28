@@ -10,6 +10,7 @@ enableInlineShortcodes = true
 removePathAccents = true
 enableGitInfo = true
 
+
 disableKinds = ["RSS", "sitemap", "taxonomy", "taxonomyTerm"]
 
 [outputformats]
@@ -50,6 +51,11 @@ disableKinds = ["RSS", "sitemap", "taxonomy", "taxonomyTerm"]
   notAlternative = false
 [outputFormats.accessibility]
   baseName = "accessibility"
+  mediaType = "application/json"
+  isPlainText = true
+  notAlternative = false
+[outputFormats.ecoindex]
+  baseName = "ecoindex"
   mediaType = "application/json"
   isPlainText = true
   notAlternative = false

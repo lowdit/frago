@@ -27,7 +27,8 @@
   {{/* START :: Range by line for displaying the corresponding graph */}}
   {{- range $id, $value := after 1 $auditfile -}}
     {{/* Variables */}}
-    {{- $key := index $topics (sub (int (index . 0)) 1) }}
+    {{ warnf "%s" . }}
+    {{- $key := index $topics (sub (int (delimit (first 1 (split (index $value 0) ".")) "" )) 1) }}
     {{- $data.Set "counterconforme"      0 -}}
     {{- $data.Set "counternonapplicable" 0 -}}
     {{- $data.Set "counternonconforme"   0 -}}

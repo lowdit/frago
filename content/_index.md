@@ -10,7 +10,7 @@ disableKinds:
   - accessibility
 cascade:
 - _target:
-    path: /audits/**/index.md
+    path: /audits/**/
   outputs:
     - html
     - json
@@ -34,7 +34,7 @@ cascade:
     - recommendationpage
     - performancepage
 - _target:
-    path: /audits/**/_index.md
+    path: /audits/**/
   outputs:
     - html
     - json
@@ -43,7 +43,7 @@ cascade:
     - declarationeco
     - declarationecopage
 - _target:
-    path: /audits/_index.md
+    path: /audits/**
   outputs:
     - html
     - json
@@ -66,10 +66,10 @@ cascade:
     - recommendationpage
     - performancepage
 - _target:
-    path: /audits/index.md
+    path: /audits/
   type: "audits"
 - _target:
-    path: /organism/**/_index.md
+    path: /organism/**/
   outputs:
     - html
     - json

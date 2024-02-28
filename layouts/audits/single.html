@@ -40,7 +40,7 @@
     {{- end -}}
   {{- else -}}
     <div class="fg-wrapper narrow"><p class="no-print">← <a href="{{ if eq (.Site.GetPage "/").Title "Accueil Audits" }}/{{ else }}{{ $.Site.BaseURL | default "/"}}audits{{ end }}" class="link-more link-back">Retour à la liste des services</a></p></div>
-    {{ with .Title }}<h1 class="text-center fg-wrapper">{{ . }}</h1>{{ end }}
+    {{ with .Title }}<h1 class="text-center fg-wrapper narrow">{{ . }}</h1>{{ end }}
     {{- if and (not (in (path.Base $path) "index.md")) -}}
       <article class="fg-wrapper narrow">
         {{ partialCached "elements/content.html" .Content .Content }}

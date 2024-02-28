@@ -297,7 +297,7 @@
   {{- $condcontentlen := gt (len (split $indication "|")) 1 -}}
   {{- $condcontentnc := (eq $content "nc") -}}
   {{- $condcontentc := (eq $content "c") -}}
-  {{- $thematiques := index $value 0 -}}
+  {{- $thematiques := delimit (first 1 (split (index $value 0) ".")) "" -}}
   {{- $criteria := index $value 1 -}}
   {{- $tests := index $value 2 -}}
   {{- if or $condcontentlen $condcontentnc -}}
