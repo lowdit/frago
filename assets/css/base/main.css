@@ -54,7 +54,7 @@ hr {
   width: auto;
   height: 0;
   border: none;
-  border-top: 2px dotted var(--color-grey-light);
+  border-top: 2px solid var(--color-grey-light);
   border-right: 90px solid transparent;
   border-left: 90px solid transparent;
   background: none;
