@@ -27,7 +27,6 @@
   {{/* START :: Range by line for displaying the corresponding graph */}}
   {{- range $id, $value := after 1 $auditfile -}}
     {{/* Variables */}}
-    {{ warnf "%s" . }}
     {{- $key := index $topics (sub (int (delimit (first 1 (split (index $value 0) ".")) "" )) 1) }}
     {{- $data.Set "counterconforme"      0 -}}
     {{- $data.Set "counternonapplicable" 0 -}}
@@ -55,7 +54,6 @@
   {{/* END :: Range by line for displaying the corresponding graph */}}
 
   {{- $total := add $counterconformesum $counternonconformesum -}}
-
   {{- if and (gt (len (index $scores.conformepage "0")) 3) (index $scores.nonconformepage "0") -}}
     <div id="chartpagecriteres-csv"></div>
     <link rel="preload" href="{{ (resources.Get "js/frappe-charts.min.iife.js").Permalink }}" as="script">
