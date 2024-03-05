@@ -48,7 +48,9 @@ cascade:
     - html
     - json
     - declaration
+    - declarationpage
     - declarationeco
+    - declarationecopage
     - accessibility
     - ecoindex
     - ecoconception
@@ -69,7 +71,8 @@ cascade:
     path: /audits/
   type: "audits"
 - _target:
-    path: /organism/**/
+    path: /organism/**
+    kind: section
   outputs:
     - html
     - json
