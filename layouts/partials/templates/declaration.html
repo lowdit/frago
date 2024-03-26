@@ -62,7 +62,8 @@
       {{ end }}
       {{/* END If "organisation" */}}
       <h2>État de conformité</h2>
-      <p>{{ with .website }}{{ partialCached "utils/isURL.html" (dict "context" $context "projectTitle" .) . }}{{ else }}{{ with $data.Get "organisation" }}{{ . }}{{ end }}{{ end }} est {{ if ($data.Get "scores") }}{{ if lt (index ($data.Get "scores") "compliance") 50 }}non{{ else if ge (index ($data.Get "scores") "compliance") 50 }}partiellement{{ else if eq (index ($data.Get "scores") "compliance") 100 }}totalement{{ end }}{{ end }} conforme avec le référentiel général d’amélioration de l’accessibilité (RGAA), version {{ ($data.Get "guidelineversion") }}, en raison des non-conformités et des dérogations énumérées ci-dessous.</p>
+      {{ ($data.Get "scores").scores.compliance }}
+      <p>{{ with .website }}{{ partialCached "utils/isURL.html" (dict "context" $context "projectTitle" .) . }}{{ else }}{{ with $data.Get "organisation" }}{{ . }}{{ end }}{{ end }} est {{ if ($data.Get "scores") }}{{ if lt (($data.Get "scores").scores.compliance) 50 }}non{{ else if ge (($data.Get "scores").scores.compliance) 50 }}partiellement{{ else if eq (($data.Get "scores").scores.compliance) 100 }}totalement{{ end }}{{ end }} conforme avec le référentiel général d’amélioration de l’accessibilité (RGAA), version {{ ($data.Get "guidelineversion") }}, en raison des non-conformités et des dérogations énumérées ci-dessous.</p>
       <h3>Résultats des tests</h3>
       {{/* START If criteria */}}
       {{- if ($data.Get "scores").criteria -}}
