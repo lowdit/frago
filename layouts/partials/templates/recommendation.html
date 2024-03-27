@@ -279,9 +279,10 @@
               </dt>
               {{- if .description }}
                 <dd>{{ .description | markdownify | safeHTML }}</dd>
+                {{ with .verification }}<dd class="d-block mt-1 mb-1"><i>{{ . | markdownify }}</i></dd>{{ end }}
               {{ end -}}
               {{- if .path }}
-                <dd><strong>XPath :</strong> <span>{{ .path | markdownify | safeHTML }}</span></dd>
+                <dd class="mt-1"><strong>XPath :</strong> <span>{{ .path | markdownify | safeHTML }}</span></dd>
               {{ end -}}
               {{- if .criterion }}
               {{- range (split (replace .criterion " " "") ",") }}
@@ -293,7 +294,7 @@
                 <dd class="details mt-1 mb-1">
                   <p class="summary">
                     {{ (replaceRE "=\"#" $glossaire ((((index (index $s 0).criteria (sub (int ($criteria)) 1)).criterium).title) | markdownify) 100) | safeHTML  }}<br>
-                    Critère : <a href="{{ $.context.Site.BaseURL | default "/" }}{{- $data.Get "guidelinename" }}/{{- $data.Get "guidelineversion" }}/criteres/#{{ replace . "." "-" }}">{{ . | safeHTML }}</a> du {{ $data.Get "guidelinename" }} {{ $data.Get "guidelineversion" }}.
+                    Critère : <a href="{{ $.context.Site.BaseURL | default "/" }}{{- $data.Get "guidelinename" }}/{{- $data.Get "guidelineversion" }}/criteres/#{{ replace . "." "-" }}">{{ . | safeHTML }}</a> du {{ upper $referential.name }} {{ $referential.version }}.
                     {{/* Pourcentage potentiel de correction du RGAA : {{ index ($data.Get "criteriavalue") (string .criterion) */}}
                   </p>
                 </dd>
@@ -305,6 +306,7 @@
                 {{- with (index (where (index ($context.Store.Get "criteriafilepidila") "1.0").criteria.criterias "id" .criterion) 0).description }}<dd>{{ . }}</dd>{{- end -}}
                 {{- if .description }}
                   <dd>{{ .description | markdownify | safeHTML }}</dd>
+                  {{ with .verification }}<dd class="d-block mt-1 mb-1"><i>{{ . | markdownify }}</i></dd>{{ end }}
                 {{ end -}}
                 <dd>
                   <details class="details-arrow mt-1 mb-1">

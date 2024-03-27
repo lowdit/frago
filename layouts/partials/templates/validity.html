@@ -34,45 +34,49 @@
   {{- $key := cond (lt (index (split $key ".") 1) 10) (printf "%s.0%s" (index (split $key ".") 0) (index (split $key ".") 1)) $key -}}
   {{- $data.SetInMap "crit" $key $value -}}
 {{- end -}}
-{{ range $key, $value :=  ($data.Get "crit") }}
-  {{- $thematiques := float (index (split $key ".") 0) -}}
-  {{- $criteria    := float (index (split $key ".") 1) -}}
-  <p><strong>Critère {{ $thematiques }}.{{ $criteria }}</strong><br/>
-  {{- $s := where ($context.Site.Data.rgaa.criteria.topics) "number" "eq" (float (index (split $key ".") 0)) -}}
-  {{- if ge (len $s) 1 -}}
-    {{- $content := (index (index $s 0).criteria (sub (int ($criteria)) 1)).criterium.title -}}
-    <em>{{ replaceRE "\\[(.*?)\\]\\(.*?\\)" "$1" $content | markdownify }}</em>
-    </br>
-  {{- end -}}
-  {{- with ($data.Get "criterion") -}}
-  {{ with (index . (printf "%v.%v" $thematiques $criteria)) }}
-      <table>
-        {{ range first 1 (index (sort .) 0) }}
-        <thead>
-          <tr>
-            <th class="w-100">Page</th>
-            <th class="w-100">Bloc</th>
-            <th class="w-120">Titre</th>
-            <th>Description</th>
-            {{ if ne .pathexist 0 }}<th>Xpath</th>{{ end }}
-          </tr>
-        </thead>
-        {{- end -}}
-        <tbody>
-        {{- range $key, $value := . -}}
-          <tr>
-          {{ range . }}
-            <td>{{ .page }}</td>
-            <td>{{ .block }}</td>
-            <td>{{ .name }}</td>
-            <td>{{ .description | markdownify }}</td>
-            {{ if ne .pathexist 0 }}<td aria-label="{{ .path }}">{{ substr .path 0 20 }}</td>{{ end }}
-          {{ end }}
-          </tr>
-        {{- end -}}
-        </tbody>
-      </table>
-  {{- end -}}
-  {{- end -}}
+{{ with ($data.Get "crit") }}
+  {{ range $key, $value := ($data.Get "crit") }}
+    {{- $thematiques := float (index (split $key ".") 0) -}}
+    {{- $criteria    := float (index (split $key ".") 1) -}}
+    <p><strong>Critère {{ $thematiques }}.{{ $criteria }}</strong><br/>
+    {{- $s := where ($context.Site.Data.rgaa.criteria.topics) "number" "eq" (float (index (split $key ".") 0)) -}}
+    {{- if ge (len $s) 1 -}}
+      {{- $content := (index (index $s 0).criteria (sub (int ($criteria)) 1)).criterium.title -}}
+      <em>{{ replaceRE "\\[(.*?)\\]\\(.*?\\)" "$1" $content | markdownify }}</em>
+      </br>
+    {{- end -}}
+    {{- with ($data.Get "criterion") -}}
+    {{ with (index . (printf "%v.%v" $thematiques $criteria)) }}
+        <table>
+          {{ range first 1 (index (sort .) 0) }}
+          <thead>
+            <tr>
+              <th class="w-100">Page</th>
+              <th class="w-100">Bloc</th>
+              <th class="w-120">Titre</th>
+              <th>Description</th>
+              {{ if ne .pathexist 0 }}<th>Xpath</th>{{ end }}
+            </tr>
+          </thead>
+          {{- end -}}
+          <tbody>
+          {{- range $key, $value := . -}}
+            <tr>
+            {{ range . }}
+              <td>{{ .page }}</td>
+              <td>{{ .block }}</td>
+              <td>{{ .name }}</td>
+              <td>{{ .description | markdownify }}</td>
+              {{ if ne .pathexist 0 }}<td aria-label="{{ .path }}">{{ substr .path 0 20 }}</td>{{ end }}
+            {{ end }}
+            </tr>
+          {{- end -}}
+          </tbody>
+        </table>
+    {{- end -}}
+    {{- end -}}
+  {{ end }}
+{{ else }}
+  <p>Aucune non conformité n’a été relevée dans l’audit.</p>
 {{ end }}
 
