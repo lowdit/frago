@@ -7,7 +7,7 @@
   padding: 0 var(--baseline,1.5em) var(--baseline,1.5em);
   color: var(--text-color);
   border: 1px solid #dedede;
-  background: var(--background-color-body, #fff);
+  background: var(--background-color-body, #f5f5f5);
 }
 
 .tableofcontents ul {

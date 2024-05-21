@@ -63,7 +63,7 @@ textarea {
   vertical-align: middle;
   border: 1px solid var(--color-grey-dark);
   outline: none;
-  background-color: #fff;
+  background-color: #f5f5f5;
 }
 
 input[type=text]:optional,

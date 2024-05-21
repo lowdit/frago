@@ -23,7 +23,7 @@
   --text-color: hsl(0 0% var(--l-0));
   --text-color-lighter: hsl(0 0% var(--l-10));
   --title-color: var(--text-color);
-  --background-color-selection: var(--color-primary-light);
+  --background-color-selection: var(--color-primary-verylight);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -74,7 +74,7 @@ body {
   min-height: 100vh;
   min-height: -webkit-fill-available;
   color: var(--text-color, --color-grey-dark);
-  background-color: var(--background-color-body, #fff);
+  background-color: var(--background-color-body, #f5f5f5);
 }
 
 /* = Error = */
@@ -115,5 +115,5 @@ header {
 
 .chart-container {
   margin-bottom: var(--baseline,1.5em);;
-  background: #fff;
+  background: #f5f5f5;
 }
