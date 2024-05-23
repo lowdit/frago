@@ -1,7 +1,12 @@
+{{- $name          := .name    -}}
+{{- $score         := .score   -}}
+{{- $score         := int (cond (and (ne $score.complianceRGAA 0) (or (eq $name "RGAA") (eq $name "accessibility"))) $score.complianceRGAA $score.compliance) -}}
+{{- $correction    := cond (ge $score 100) (sub $score 100) 0 -}}
 <div class="scores mb-1">
     <ul class="flex flex-gap flex-wrap">
-      {{ $correction := cond (gt .score 100) (sub .score 100) .score }}
-      <li class="counter text-center good"><span><b>{{- .score -}}%</b><br>Critères conformes</span></li>
-      <li class="counter text-center bad"><span><b>{{- add (sub 100 .score) $correction -}}%</b><br>Critères non conformes</span></li>
+      <li class="counter text-center good"><span><b>{{- $score }}%</b><br>Critères conformes</span></li>
+      <li class="counter text-center bad"><span><b>{{- add (sub 100 $score) $correction -}}%</b><br>Critères non conformes</span></li>
     </ul>
 </div>
+
+

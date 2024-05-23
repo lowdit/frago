@@ -17,7 +17,6 @@
 
 {{- define "main" -}}
   {{- $context := . -}}
-  {{ $context.Permalink }} § 1
-  {{- $partial := (partial "templates/accessibility.html" (dict "context" $context)) -}}
+  {{- $partial := (partial "templates/accessibility.html" (dict "context" $context "type" "accessibility")) -}}
   {{- partialCached "elements/content.html" $partial $partial -}}
 {{- end -}}

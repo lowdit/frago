@@ -1,5 +1,25 @@
 home:
   other: "Accueil"
+accessibility:
+  other: "Accessibilité"
+raweb:
+  other: "Raweb"
+ecoconception:
+  other: "Éco-conception"
+publishing:
+  other: "Sobriété editoriale"
+opquast:
+  other: "Assurance Qualité"
+greenit:
+  other: "Bonnes Pratiques GreenIT"
+cigref:
+  other: "Cigref"
+recommendation:
+  other: "Recommandations"
+lighthouse:
+  other: "Performance"
+ecoindex:
+  other: "EcoIndex"
 nav-main:
   other: Navigation principale
 nav-content:
@@ -685,8 +705,7 @@ geolocation-on-startdescription:
 geolocation-on-startfailureTitle:
   other: Demandes d'autorisation de géolocalisation lors du chargement de page
 geolocation-on-starttitle:
-  other: Aucune autorisation de géolocalisation n'est demandée au chargement de
-    la page
+  other: Aucune autorisation de géolocalisation n'est demandée au chargement de la page
 js-librariescolumnVersion:
   other: Version
 js-librariesdescription:

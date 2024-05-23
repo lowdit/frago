@@ -10,6 +10,7 @@
 {{ $data.Delete "allscores" }}
 {{ range $reflist }}
   {{ $data.Set (printf "%s-list-t" .) slice }}
+  {{ $data.Set (printf "aggregate-%s-context" .) slice }}
   {{ $data.Set (printf "aggregate-%s-list" .) slice }}
   {{ $data.Set (printf "aggregate-%s-nc" .) slice }}
   {{ $data.Set (printf "aggregate-%s-c" .) slice }}
@@ -31,14 +32,13 @@
     {{/* START Loop over each referential :: calculate */}}
     {{ range $reflist }}
       {{ $type    := . }}
-      {{ $auditsfiles := (partialCached "render/lastfile.html" (dict "context" . "project" $project "type" $type) $project .) }}
+      {{ $auditsfiles := (partial "render/lastfile.html" (dict "context" . "project" $project "type" $type) . $project $type) }}
       {{ with (index $auditsfiles "auditfile-all-path") }}
       {{ if (not (in . "false")) }}
         {{ range $id, $file := last 1 (sort .) }}
-        {{ warnf "aasaad%s %s %s aaaa" . $type $auditsfiles }}
           {{/* Calculate the score for a referential */}}
-          {{ $contextaudit := (partial "render/context.html" (dict "context" $context "project" $project "type" $type) $context $project $type) }}
-          {{ $render       := (partialCached (printf "render/%s.html" $type) (dict "context" "aggregate" "auditfile" . "auditname" (index $contextaudit (index $auditsfiles "auditfile-name")).guidelines.name) . (index $contextaudit (index $auditsfiles "auditfile-name")).guidelines.name)  }}
+          {{ $data.Set (printf "aggregate-%s-contextaudit" $type) (partial "render/context.html" (dict "context" $context "project" $project "type" $type) $project $type) }}
+          {{ $render       := (partialCached (printf "render/%s.html" (cond (eq $type "raweb") "accessibility" $type )) (dict "context" "aggregate" "auditfile" . "auditname" (index ($data.Get (printf "aggregate-%s-contextaudit" $type)) (index $auditsfiles "auditfile-name")).guidelines.name) . (index ($data.Get (printf "aggregate-%s-contextaudit" $type)) (index $auditsfiles "auditfile-name")).guidelines.name $type) }}
           {{/* Store each result un a map */}}
           {{ $data.SetInMap $project $type $render }}
           {{/* START Count the sum for each criteria */}}
@@ -126,14 +126,14 @@
           {{ end }}
 
           {{ $score := $render.scores.compliance }}
-          {{ $data.Set (printf "aggregate-%s-context" $type) $contextaudit }}
+          {{ $data.Add (printf "aggregate-%s-context" $type) ((index ($data.Get (printf "aggregate-%s-contextaudit" $type)) (index $auditsfiles "auditfile-name")).guidelines) }}
           {{ $data.Add (printf "aggregate-%s-list" $type) $score }}
-          {{ $data.Add (printf "aggregate-%s-sum" $type) $score  }}
+          {{ $data.Add (printf "aggregate-%s-sum"  $type) $score }}
           {{ if lt $score 50 }}
             {{ $data.Add (printf "aggregate-%s-nc" $type) $score }}
           {{ end }}
           {{ if eq $score 100 }}
-            {{ $data.Add (printf "aggregate-%s-c" $type) $score }}
+            {{ $data.Add (printf "aggregate-%s-c" $type) $score  }}
           {{ end }}
 
         {{ end }}
@@ -171,11 +171,12 @@
   {{ $dict1 := dict }}
   {{ $dict2 := dict }}
 
-  {{ $data.SetInMap (printf "aggregate%s" .) "context"            ($data.Get (printf "aggregate-%s-context" .)) }}
+  {{/* $data.SetInMap (printf "aggregate%s" .) "context"            ($data.Get (printf "aggregate-%s-context" .)) */}}
   {{ $data.SetInMap (printf "aggregate%s" .) "all"                ($data.Get (printf "aggregate-%s-list" .)) }}
   {{ $data.SetInMap (printf "aggregate%s" .) "invalid"            ($data.Get (printf "aggregate-%s-nc" .)) }}
   {{ $data.SetInMap (printf "aggregate%s" .) "valid"              ($data.Get (printf "aggregate-%s-c" .)) }}
   {{ $data.SetInMap (printf "aggregate%s" .) "sum"                ($data.Get (printf "aggregate-%s-sum" .)) }}
+  {{ $data.SetInMap (printf "aggregate%s" .) "guidelines"         ((($data.Get (printf "aggregate-%s-context" .)))) }}
   {{ $data.SetInMap (printf "aggregate%s" .) "average"            slice }}
   {{ with ($data.Get (printf "aggregate-%s-list" .)) }}
     {{ $data.SetInMap (printf "aggregate%s" $type) "average"          (div ($data.Get (printf "aggregate-%s-sum" $type)) (len .)) }}

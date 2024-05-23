@@ -351,7 +351,7 @@
     }}
 
     {{ if and (ne .auditname "rgaa") (eq ($data.Get (printf "%s%s" $scorekey "complianceBase")) 100) }}
-      {{ $data.Set (printf "%s%s" $scorekey "compliance")
+      {{ $data.Set (printf "%s%s" $scorekey "complianceRGAA")
         (div (mul ($data.Get (printf "%s" "iCritC")) 100) (len ($data.Get "critCountBase")))
       }}
     {{ end }}
@@ -398,7 +398,9 @@
                             "nonteste"      ($data.Get (printf "%s%s" $scorekey "iCritNT"))
                       )
                       "isempty"           ($data.Get (printf "%s" "render-is-empty"))
+                      "auditname"         .auditname
                       "compliance"        (int ($data.Get (printf "%s%s" $scorekey "compliance")))
+                      "complianceRGAA"    (int ($data.Get (printf "%s%s" $scorekey "complianceRGAA")))
                       "complianceBase"    (int ($data.Get (printf "%s%s" $scorekey "complianceBase")))
                       "complianceaverage" (int ($data.Get (printf "%s%s" $scorekey "Average")))
                     )

@@ -5,7 +5,6 @@
 {{ $Type         := cond (not .type) "accessibility" .type }}
 {{ $project      := .project }}
 {{ $path         := "/" }}
-{{ warnf "conexte %s %s" . $Type }}
 {{ range (index (partialCached "utils/keyaudits" "keyaudits") $Type) }}
   {{ $result     := (partialCached "render/filepath" (dict "project" $project "type" .) $project .) }}
   {{ $path       = cond (fileExists $result) $result $path }}
@@ -46,7 +45,6 @@
   {{ $contextpath := cond (fileExists (printf "/audits/%s/%s.md" $Type $project)) (printf "/audits/%s/%s.md" $Type $project) (cond (fileExists (printf "/audits/%s/_index.md" $project)) (printf "/audits/%s/_index.md" $project) (printf "/audits/%s/index.md" $project)) }}
   {{ $guidelines  := (partial "render/guideline.html" $value.audit) }}
   {{ $guidelines  := (partialCached "render/referential-version.html" (dict "context" $context "Type" $Type "referential" $guidelines.name "version" $guidelines.version) $context $guidelines.name $Type).guideline }}
-  {{ warnf "%s %s dddddkkk" $guidelines $Type $value }}
   {{ with $context.GetPage $contextpath }}{{ $data.SetInMap "context" ($data.Get "datecontext") (dict "declared" $value "contacts" (cond (not $value.contacts) ($context.Site.Params.contacts) ($value.contacts)) "website" $value.website "audit" ($value.audit) "guidelines" $guidelines "path" $contextpath "type" $Type) }}{{ end }}
   {{/* If content has only one project */}}
   {{ if (partialCached "render/issimpleproject.html" "arg" "arg") }}
@@ -54,7 +52,7 @@
     {{ with $context.GetPage $contextpath }}{{ $data.SetInMap "context" ($data.Get "datecontext") (dict "declared" $value "contacts" (cond (not $value.contacts) ($context.Site.Params.contacts) ($value.contacts)) "website" $value.website "audit" ($value.audit) "guidelines" $guidelines "path" $contextpath "type" $Type) }}{{ end }}
   {{ end }}
 {{ end }}
-{{/* If context information doesn’t exist try to warn */}}
+{{/* If context information doesn’t exist :: try to warn */}}
 {{ if not ($data.Get "context") }}
   {{ warnf "Context is not declared for %s see the documentation" $path }}
 {{ else }}
@@ -75,7 +73,7 @@
     {{ end }}
   {{ else }}
     {{/* This line Should debug "audits/_index.md" path for list.xxxx.json output */}}
-    {{ if and (ne (printf "%s/%s" (path.Dir $pathFile) (path.Base $pathFile)) "audits/_index.md") (partialCached "render/issimpleproject.html" "arg" "arg") }}
+    {{ if and (ne (printf "%s/%s" (path.Dir $path) (path.Base $path)) "audits/_index.md") (partialCached "render/issimpleproject.html" "arg" "arg") }}
       {{ warnf "Context is not declared for %s see the documentation - it can be done in files content/audits/%s or content/audits/%s/accessibility/context.yml" (cond (not $projectname) (printf "this project") (printf "the project %s" $project)) $path $project }}
     {{ end }}
   {{ end }}

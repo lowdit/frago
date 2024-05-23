@@ -26,7 +26,7 @@
   {{- $data.Set "scores" (partialCached "render/accessibility.html" (dict "context" $context "auditfile" ($data.Get "auditpath-csv")) ($data.Get "auditpath-csv")) -}}
   {{- $date := (string (index $audit "auditfile-name")) -}}
 
-  {{ with (partialCached "render/context.html" (dict "context" $context "project" $project) $project) }}
+  {{ with (partialCached "render/context.html" (dict "context" $context "project" $project "type" "accessibility") $project "accessibility") }}
     {{- $contextlast := cond (not (index . $date)) (index (last 1 (sort .)) 0) (index . $date) -}}
     {{- $data.Set "context" $contextlast -}}
     {{- if (not (index . $date)) -}}
@@ -91,10 +91,9 @@
           {{- $map := . -}}
           {{- if ne (len .compliance) 1 -}}
             {{/* Cumulated scores */}}
-            {{ warnf "%s" ($data.Get "context") }}
-            <li>{{ .percentage }}% {{ with ($data.Get "scores").scores.criteria.total }}des {{ . }} critères {{ end }}{{ with ($data.Get "context").audit.guidelines }}du {{ . }}{{ end }} sont respectés sur l’ensemble des parcours.</li>
+            <li>{{ .percentage }}% {{ with ($data.Get "scores").scores.criteria.total }}des {{ . }} critères {{ end }}{{ with ($data.Get "context").audit }}du {{ .guidelines }}{{ end }} sont respectés sur l’ensemble des parcours.</li>
             {{- if ($data.Get "scores").criteria -}}
-              <li>{{ ($data.Get "scores").scores.compliance }}% {{ with ($data.Get "scores").scores.criteria.total }}des {{ . }} critères{{ end }} {{ with (index ($data.Get "scores") "criteretotal") }}testés {{ end }}{{ with ($data.Get "context").audit.guidelines }}du {{ . }}{{ end }} sont respectés {{ with ($data.Get "context").website }}pour {{ . }}{{ end }} (le taux moyen est de {{ ($data.Get "scores").scores.complianceaverage }}%).</li>
+              <li>{{ ($data.Get "scores").scores.compliance }}% {{ with ($data.Get "scores").scores.criteria.total }}des {{ . }} critères{{ end }} {{ with (index ($data.Get "scores") "criteretotal") }}testés {{ end }}{{ with ($data.Get "context").audit }}du {{ .guidelines }}{{ end }} sont respectés {{ with ($data.Get "context").website }}pour {{ . }}{{ end }} (le taux moyen est de {{ ($data.Get "scores").scores.complianceaverage }}%).</li>
             {{- end -}}
               {{/* Specific score for sub services */}}
             {{- range $id, $value := .names }}
@@ -104,7 +103,7 @@
             {{- end }}
             {{- else -}}
               {{/* If any sub services */}}
-              {{ if ($data.Get "scores").criteria }}<li>{{ ($data.Get "scores").scores.compliance }}% {{ with ($data.Get "scores").scores.criteria.total }}des {{ . }} critères testés{{ end }} {{ with (index ($data.Get "scores") "criteretotal") }}testés {{ end }}{{/* with ($data.Get "context").audit.guidelines }}du {{ . }}{{ end */}} sont respectés (le taux moyen est de {{ ($data.Get "scores").scores.complianceaverage }}%).</li>{{ end }}
+              {{ if ($data.Get "scores").criteria }}<li>{{ ($data.Get "scores").scores.complianceBase }}% {{ with ($data.Get "scores").scores.criteria.total }}des {{ . }} critères testés{{ end }} {{ with (index ($data.Get "scores") "criteretotal") }}testés {{ end }}{{/* with ($data.Get "context").audit.guidelines }}du {{ . }}{{ end */}} sont respectés (le taux moyen est de {{ ($data.Get "scores").scores.complianceaverage }}%).</li>{{ end }}
             {{- end -}}
           {{- end -}}
           {{/*- if ($data.Get "auditpath-csv") -}}<li>Accès à la grille d’audit RGAA : <a href="{{ $context.Site.BaseURL | default "/" }}{{ replace ($data.Get "auditpath-csv") "/content/" "" }}">Télécharger la grille d’audit RGAA{{ with .website }} pour {{ . }}{{ end }}</a>{{- end -*/}}

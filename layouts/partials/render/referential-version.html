@@ -1,11 +1,15 @@
-{{ $context    := .context }}
-{{ $data       := newScratch }}
-{{ $path       := "" }}
-{{ $patharray  := (symdiff (split ($context.RelPermalink) "/") (slice ""))}}
+{{ $context        := .context }}
+{{ $referential    := .referential }}
+{{ $Type           := cond (not .Type) "" .Type }}
+{{ $data           := newScratch }}
+{{ $path           := "" }}
+{{ $patharray      := (symdiff (split ($context.RelPermalink) "/") (slice ""))}}
 
 {{/* Only for accessibility because of differents guidelines :: RGAA, RAWeb, WCAG */}}
-{{ $referential := cond (and (eq .referential "any") (eq .Type "accessibility")) "rgaa" .referential }}
-{{ warnf "%s %s %s hjhjh" $referential .Type .context }}
+{{ $referential := cond (and (eq $referential "any") (eq $Type "accessibility")) "rgaa"  $referential }}
+{{ $referential := cond (and (eq $referential "any") (eq $Type "raweb"))         "raweb" $referential }}
+{{ $referential := cond (and (eq $referential "any") (eq $Type "ecoconception")) "rgesn" $referential }}
+
 {{ $versionallarray := "" }}
 {{ $data.Set "versionallarray" slice }}
 
@@ -31,5 +35,6 @@
   "guideline" (dict
       "name"                ($data.Get "name")
       "version"             ($data.Get "version")
+      "namessss"            (and (eq .referential "any") (eq $Type "accessibility"))
     )
 )}}

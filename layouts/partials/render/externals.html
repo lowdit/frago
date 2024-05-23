@@ -1,6 +1,6 @@
 {{/* Return value for loading externals projects */}}
 {{ $context    := .context   }}
-{{- $path := "" }}{{ with .File }}{{ $path = .Path }}{{ end }}
+{{ $path := "" }}{{ with .File }}{{ $path = .Path }}{{ end }}
 {{ $project    := .project   }}
 {{ $data       := newScratch }}
 {{ $auditfile  := .auditfile }}
@@ -8,6 +8,7 @@
 {{ $data.Delete "compliance" }}
 
 {{/* Declare all the variables */}}
+{{ $data.SetInMap "scores" "0"           $results.scores }}
 {{ $data.SetInMap "compliance" "0"       $results.scores.compliance }}
 {{ $data.Set      "criteriatotal"        $results.scores.total }}
 {{ $data.Set      "compliancetotal"      (index ($data.Get "compliance") "0") }}
@@ -20,13 +21,14 @@
     {{/* If subproject */}}
     {{ with .folder }}
       {{ $data.SetInMap "name" (string (add $id 1)) $name }}
-      {{- $path := "" }}{{ with $context.File }}{{ $path = .Path }}{{ else }}{{ $path = .Path }}{{ end }}
+      {{ $path := "" }}{{ with $context.File }}{{ $path = .Path }}{{ else }}{{ $path = .Path }}{{ end }}
       {{ $project  := replace (printf "%s/%s" (path.Dir $path) .) "audits" "" }}
       {{ $lastfile := (partialCached "render/lastfile.html" (dict "project" $project "type" "accessibility") $project "accessibility") }}
       {{ if index $lastfile "auditfile-name" }}
         {{ with index $lastfile "auditfile-path" }}
           {{ $file         := (partialCached "render/accessibility.html" (dict "context" $context "auditfile" .) .) }}
-          {{ $auditcontext := index (partialCached "render/context.html" (dict "context" $context "project" $project) $project) (index $lastfile "auditfile-name") }}
+          {{ $auditcontext := index (partialCached "render/context.html" (dict "context" $context "project" $project) $project "type" "accessibility") (index $lastfile "auditfile-name") $project "accessibility" }}
+          {{ $data.SetInMap "scores"               (string (add $id 1)) $file.scores }}
           {{ $data.SetInMap "compliance"           (string (add $id 1)) $file.scores.compliance }}
           {{ $data.SetInMap "complianceaverage"    (string (add $id 1)) $file.scores.complianceaverage }}
           {{ $data.SetInMap "project"              (string (add $id 1)) $project }}
@@ -43,6 +45,7 @@
       {{ with (getJSON .url).rgaa }}
         {{ $data.SetInMap "name" (string (add $id 1000)) $name }}
           {{ range last 1 (sort .) }}
+            {{ $data.SetInMap "scores"               (string (add $id 1000)) .score }}
             {{ $data.SetInMap "compliance"           (string (add $id 1000)) .score.compliance }}
             {{ $data.SetInMap "complianceaverage"    (string (add $id 1000)) .score.complianceaverage }}
             {{ $data.SetInMap "criteriatotals"       (string (add $id 1000)) .score.criteria.total }}
@@ -59,6 +62,7 @@
 {{ return
     (dict
       "names"             ($data.Get "name")
+      "scores"            ($data.Get "scores")
       "compliance"        ($data.Get "compliance")
       "complianceaverage" ($data.Get "complianceaverage")
       "project"           ($data.Get "project")

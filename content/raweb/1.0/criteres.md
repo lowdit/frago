@@ -4,5 +4,5 @@ type: rgaa
 menu:
   footer:
     name: "Critères RAWeb"
-    weight: 1
+    weight: 2
 ---
