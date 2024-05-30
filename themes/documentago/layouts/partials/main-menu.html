@@ -1,0 +1,18 @@
+<nav id="main-menu" class="main-menu" aria-labelledby="Navigation principale">
+  <ul>
+    {{ $currentPage := . }}
+    {{ range .Site.Menus.main }}
+    <li class="menu-item-{{ .Name | lower }}{{ if $currentPage.IsMenuCurrent "main" . }} active{{ end }}">
+      <a href="{{ .URL }}">
+        <span>{{ .Name }}</span>
+      </a>
+    </li>
+    {{ end }}
+    <li>
+      <a href="https://github.com/lowdit/frago/">
+        <img class="nav-links" src="{{ $.Site.BaseURL | default "/" }}/github.svg" alt="Frago on GitHub" width="16" height="16">
+        <span>Code Git</span>
+      </a>
+    </li>
+  </ul>
+</nav>

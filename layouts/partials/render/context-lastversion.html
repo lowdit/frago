@@ -1,0 +1,7 @@
+{{ $referential    := .referential }}
+
+
+{{ return (dict
+  "name"                $referential.name
+  "version"             $referential.version
+)}}

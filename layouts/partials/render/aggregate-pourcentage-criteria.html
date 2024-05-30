@@ -1,0 +1,55 @@
+{{ $data          := newScratch }}
+{{ $value         := .value }}
+{{ $type          := "pourcentage" }}
+{{ $conforme      := .conforme}}
+{{ $nonconforme   := .nonconforme }}
+{{ $nonapplicable := .nonapplicable}}
+
+{{ range $id, $value := $value }}
+  {{/* WARNING "average-%s-nonconforme" can have a nil value */}}
+  {{ with not $nonconforme }}
+    {{ $data.SetInMap (printf "average-%s-nonconforme" $type) (string $id) 0 }}
+  {{ end }}
+
+  {{ if and ($nonconforme) (gt (int (index $nonconforme $id)) 0) (gt (int (index $conforme $id)) 0) }}
+    {{ $result := (div (mul (index $conforme $id) 100) (add (index $conforme $id) (index $nonconforme $id))) }}
+    {{ if eq $result 100 }}
+      {{ $data.SetInMap (printf "average-%s-pourcentage-100" $type) (string $id) $result }}
+    {{ else if and (ge $result 80) (lt $result 100) }}
+      {{ $data.SetInMap (printf "average-%s-pourcentage-80" $type) (string $id) $result }}
+    {{ else if and (ge $result 50) (lt $result 80) }}
+      {{ $data.SetInMap (printf "average-%s-pourcentage-50" $type) (string $id) $result }}
+    {{ else if and (ge $result 30) (lt $result 50) }}
+      {{ $data.SetInMap (printf "average-%s-pourcentage-30" $type) (string $id) $result }}
+    {{ else }}
+      {{ $data.SetInMap (printf "average-%s-pourcentage-00" $type) (string $id) $result }}
+    {{ end }}
+    {{ $data.SetInMap (printf "average-%s-pourcentage" $type) (string $id) $result }}
+  {{ else if and (eq (int (index $nonconforme $id)) 0) (eq (int (index $conforme $id)) 0) }}
+    {{ $data.SetInMap (printf "average-%s-pourcentage" $type) (string $id) "NA" }}
+  {{ else if and (eq (int (index $nonconforme $id)) 0) (gt (int (index $conforme $id)) 0) }}
+    {{ $data.SetInMap (printf "average-%s-pourcentage" $type) (string $id) 100 }}
+  {{ else }}
+    {{ $data.SetInMap (printf "average-%s-pourcentage" $type) (string $id) "0" }}
+  {{ end }}
+{{ end }}
+
+{{ $data.Set "pourcentage" (dict
+  "pourcentage"              ""
+  "pourcentage100"           ""
+  "pourcentage80"            ""
+  "pourcentage50"            ""
+  "pourcentage30"            ""
+  "pourcentage00"            ""
+)}}
+
+{{ $data.Set "pourcentage" (dict
+    "pourcentage"              ($data.Get (printf "average-%s-pourcentage"     $type))
+    "pourcentage100"           ($data.Get (printf "average-%s-pourcentage-100" $type))
+    "pourcentage80"            ($data.Get (printf "average-%s-pourcentage-80"  $type))
+    "pourcentage50"            ($data.Get (printf "average-%s-pourcentage-50"  $type))
+    "pourcentage30"            ($data.Get (printf "average-%s-pourcentage-30"  $type))
+    "pourcentage00"            ($data.Get (printf "average-%s-pourcentage-00"  $type))
+  )}}
+
+{{ return ($data.Get "pourcentage") }}

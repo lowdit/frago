@@ -1,5 +1,6 @@
 {{/* Return the rootpath of the audits files :: rootpath is where are stored files */}}
 {{ $project   := .project }}
+{{ $type      := .type }}
 {{ $data      := newScratch }}
 {{/* Default rootpath is static folder */}}
 {{ $data.Set  "rootpath" "static" }}

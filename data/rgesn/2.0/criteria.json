@@ -1200,7 +1200,7 @@
       "miseEnOeuvre": "Faire le choix de la frugalité en privilégiant des méthodes simples comme une régression ou à défaut des réseaux de neurones simples à des technologies de deep-learning plus consommatrices de ressources de calcul.",
       "controle": "Vérifier la consommation énergétique et en ressources matérielles de la méthode d’entraînement utilisée par le service numérique : la méthode d’entraînement doit être testée ou reconnue comme pauvre en consommation d’énergie et ressources.\n\nSi le service ne repose pas sur des méthodes de régression ou autres méthodes peu coûteuses (low- complex, low-cost), justifier dans la déclaration d’écoconception du service le besoin de méthodes plus consommatrices par une référence à un état de l’art précisant la nécessité de méthodes plus complexes pour le cas d’usage cible.\n\nLe critère est validé si le choix de la méthode d’apprentissage est l’alternative la plus sobre disponible selon l’état de l’art et les caractéristiques du service et que ces choix sont documentés dans la déclaration d’écoconception associée et auditables par un tiers.",
       "difficulte": "Moyen",
-      "prioritée": "Prioritaire",
+      "priorite": "Prioritaire",
       "application": "N/A si le service numérique n'inclut pas de phase d’entraînement",
       "metiers": [
         "Porteur de projet",

@@ -1,7 +1,7 @@
 {{/* Find the guideline name and version inside a plain text value */}}
 {{ $guideline     := (replace (. | urlize) "-" " ") }}
 {{ $name          := "any" }}
-{{ $version       := 0     }}
+{{ $version       := "0"   }}
 {{ if $guideline }}
   {{ range (split $guideline " ") }}
     {{/* If value contain a number value in it */}}
@@ -10,7 +10,7 @@
     {{ $version  = cond (eq $Type "true")  . $version }}
   {{ end }}
 {{ else }}
-  {{ warnf "Guideline value in audit context in empty"}}
+  {{ warnf "Guideline value in audit context in empty" }}
 {{ end }}
 {{ return (dict
   "name"                $name

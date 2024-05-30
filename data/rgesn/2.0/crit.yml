@@ -50,7 +50,7 @@ criteres:
       Prendre en compte l’utilité du service numérique dès sa conception et son inscription dans au moins l’un des objectifs de développement durable (ODD), l’un des enjeux de limites planétaires ou tout autre référentiel du même type.
     miseEnOeuvre: |-
       Il s’agit de déterminer en amont du projet si l’utilité du service est avérée. Pour l’évaluer, se référer à des référentiels, en particulier :
-        
+
       - les [17 objectifs de développement durable](https://sdgs.un.org/fr/goals) (ODD) de l’ONU ;
       - les [9 limites planétaires](https://www.stockholmresilience.org/research/planetary-boundaries.html) ;
       - la [Taxonomie européenne sur les activités vertes](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=celex%3A32020R0852) ;
@@ -65,9 +65,9 @@ criteres:
       Il convient d’afficher dans la déclaration d’écoconception les ODD dans lequel le service s’inscrit.
     controle: |-
       Afficher dans la déclaration d’écoconception du service numérique comment a été évalué le service, par exemple dans quels objectifs de développement durable il s’inscrit, quelles sont les réponses apportées aux enjeux de limites planétaires ou autre référentiel utilisé (préciser lequel), et leur pertinence.
-      
+
       Un service numérique valide ce critère s’il est fait l’objet d’une étude visant à évaluer et justifier les impacts environnementaux et sociaux.
-      
+
       Le rapport comprendra a minima une réponse aux questions suivantes (source : [Designer Ethiques](https://eco-conception.designersethiques.org/guide/fr/content/1-besoin.html)) :
 
       1. L’utilisation du numérique pour ce service est-elle nécessaire ?
@@ -93,7 +93,7 @@ criteres:
       Pour la définition des cibles utilisatrices, mobiliser les outils et composants de la phase de Recherche UX (UX research) : étude concurrentielle, analyse de l’existant, définition des personas, réalisation d’entretiens ou de sondages avec les utilisateurs, observation, etc.
 
       Concernant l’identification des besoins métiers et des attentes réelles des utilisateurs cibles, les étapes suivantes pourront être suivies :
-        
+
       - Entretiens avec les différentes parties prenantes et les métiers concernés ;
       - Recherche UX auprès des utilisateurs ciblés ;
       - Définir les utilisateurs primaires et secondaires ;
@@ -112,7 +112,7 @@ criteres:
     thematique: "Stratégie"
     objectif: |-
       L’écoconception numérique adresse un très large périmètre, qu’il est difficile d’appréhender complètement dans chaque phase du projet. Il est indispensable que les professionnels intervenant sur ce dernier puissent s’appuyer à tout moment sur une ou des personnes référentes qui puissent les assister dans les meilleures pratiques à déployer. La fonction de référent écoconception est importante pour garantir une cohérence entre la mise en œuvre des mesures d’écoconception, leur suivi et leur pérennité.
-    miseEnOeuvre: |-  
+    miseEnOeuvre: |-
       Le ou les référent(s), internes ou externes, s’assurent de l’acculturation des équipes projet à l’écoconception de service numérique, afin d’encourager sa prise en compte.
       Le référent écoconception fera maintenir une documentation technique interne, afin que les techniques d’écoconception soient écrites et partagées dans l’équipe en charge du service numérique, pour en garantir la pérennité.
       Il s’assure également de la mise en place de revue régulière rendant compte de la démarche d’écoconception du service, et de la mise à jour de sa déclaration d’écoconception.
@@ -125,7 +125,7 @@ criteres:
   - id: "1.4"
     critere: "Le service numérique réalise-t-il régulièrement des revues pour s’assurer du respect de sa démarche d’écoconception ?"
     thematique: "Stratégie"
-    objectif: |- 
+    objectif: |-
       Selon le contexte, un service numérique peut évoluer : équipe qui change, ajout de contenu par les utilisateurs, traitements de plus en plus gourmands, etc. Pour veiller à ce que la démarche d’écoconception dure dans le temps, il est important de réaliser régulièrement une revue. Par ailleurs, la publication d’une déclaration d’écoconception œuvre à davantage de transparence sur la performance environnementale des services numériques à destination des utilisateurs et parties prenantes.
     miseEnOeuvre: |-
       Réaliser une revue, auto-évaluation ou audit régulier, appliquant ce référentiel. De plus, réaliser des audits de performances et tests de charge au sein de l’application / composant / micro service avec identification des *bottlenecks* (goulots d’étranglement), des ressources utilisées, etc. La fréquence de ces procédés devra être adaptée à la taille et à la nature du service numérique.
@@ -256,7 +256,7 @@ criteres:
       Un service numérique n’exploitant que des ressources techniques de toute dernière génération peut conduire les utilisateurs à renouveler leurs équipements afin d’y accéder (obsolescence matérielle). Ainsi, certaines utilisations peuvent être contraintes par les terminaux des utilisateurs. Pour permettre un choix plus large d’équipements même anciens et limiter le renouvellement de matériel, il est important de connaître les profils de matériel que les utilisateurs vont pouvoir employer, aujourd’hui et demain : débit minimum de la connexion internet, taille d’écran, vitesse du microprocesseur, nombre de Go de mémoire vive, écran tactile ou non, smartphone, tablette, ordinateur portable, ordinateur de bureau, etc.
     miseEnOeuvre: |-
      Définir le profil des matériels supportés, le plus ancien possible afin d’éviter toute obscolescence matérielle.
-    controle: |- 
+    controle: |-
       Le critère est validé si le profil des matériels supportés par le service est établi de façon à privilégier les équipements aussi anciens que possible et le profil matériel minimum est affiché dans la déclaration d’écoconception du service.
 
       Si certaines fonctionnalités requièrent une version plus récente, indiquer les versions minimales avec et sans support de ces fonctionnalités.
@@ -370,7 +370,7 @@ criteres:
       Quel est le processus de développement mis en place ? Le critère est validé si :
       - une revue de conception prenant en compte l’empreinte environnementale du service a été réalisée : dès sa conception, l’équipe projet devrait pouvoir définir un arbre des conséquences du service numérique en représentant par fonctionnalité les impacts directs et indirects du service numérique pour que toute l’équipe valide les fonctionnalités en connaissance des impacts environnementaux potentiels (cf la méthodologie [Empreinte projet de l’ADEME](https://librairie.ademe.fr/produire-autrement/5040-empreinte-projet-evaluer-l-empreinte-environnementale-d-un-projet.html)).
       - une revue de code visant à minimiser le coût environnemental du service a été produite en aval de la conception du service pour les services reposant sur du code informatique.
-      
+
       Ces revues sont – le cas échéant – référencées dans la déclaration d’écoconception du service.
     difficulte: "Faible"
     priorite: "Recommandé"
@@ -404,7 +404,7 @@ criteres:
     controle: |-
       Le critère est validé si les caractéristiques environnementales des fournisseurs pour la conception du service numérique sont prises en compte dans la politique d’achat ou de partenariat du service, en vue des impacts environnementaux associés et documentés dans la déclaration d’écoconception.
 
-      Les recommandations du Guide pratique pour des achats numériques responsables et/ou la norme ISO 20400 pourront en particulier être considérées.    
+      Les recommandations du Guide pratique pour des achats numériques responsables et/ou la norme ISO 20400 pourront en particulier être considérées.
     difficulte: "Fort"
     priorite: "Prioritaire"
     application: N/A si le service numérique ne repose pas sur l’appel à des fournisseurs extérieurs
@@ -455,11 +455,11 @@ criteres:
       - **Évaluation des frameworks :** Examiner les frameworks utilisés pour le développement du frontend et du backend en termes d'écoconception. L’analyse pourra notamment prendre en compte : l’utilisation efficace des ressources matérielles et énergétiques, l’utilisation de technique de compression efficace, l’optimisation des requêtes client- serveur.
       - **Évaluation des composants :** Vérifier si les composants, qu'ils soient internes ou externes, suivent des principes d’écoconception. L’analyse pourra notamment prendre en compte : l’utilisation efficace des ressources matérielles et énergétiques, l’utilisation de technique de compression efficace, l’optimisation des requêtes client-serveur.
 
-      Voir aussi les critères [2.9](#2.9) et [2.1](#2.1)0 pour la prise en compte des impacts des composants d’interface et des services tiers.
+      Voir aussi les critères [2.9](#2.9) et [2.10](#2.10) pour la prise en compte des impacts des composants d’interface et des services tiers.
     controle: |-
       Vérification de la mise en œuvre en analysant et optimisant l'empreinte environnementale pour évaluer la performance énergétique des composants et des frameworks. S’assurer notamment que le service ne s’appuie pas sur des briques technologiques particulièrement énergivores et consommatrices en ressources (apprentissage automatique, minage, métavers en particulier). En cas de recours à ce type de technologie, la solution la plus sobre en termes de consommation en ressources doit être utilisée par défaut, et le choix doit être documenté dans la déclaration d’écoconception du service numérique.
 
-      Le choix d'architecture et de composants est à documenter dans la déclaration d’écoconception au regard de l’impact environnemental (en vérifiant notamment la validation par ces éléments des critères [2.9](#2.9) et [2.1](#2.1)0 de ce référentiel), en intégrant un comparatif avec les autres options possibles.
+      Le choix d'architecture et de composants est à documenter dans la déclaration d’écoconception au regard de l’impact environnemental (en vérifiant notamment la validation par ces éléments des critères [2.9](#2.9) et [2.10](#2.10) de ce référentiel), en intégrant un comparatif avec les autres options possibles.
 
       Le critère est validé si le choix de frameworks et composants de l’architecture a été fait en prenant en compte leur empreinte environnementale et l’écoconception, et qu’il est documenté dans la déclaration d’écoconception du service.
     difficulte: "Fort"
@@ -491,7 +491,7 @@ criteres:
     objectif: |-
       Le choix des protocoles sous-jacents aux échanges réseaux associés au service numérique développé a un impact sur la sollicitation des infrastructures, mais aussi sur la durée de vie du service numérique. En effet, les évolutions techniques des protocoles non supportées par le service numérique peuvent conduire à des dysfonctionnements de certains modules ou fonctionnalités de celui-ci. Prendre en compte ces risques d’obsolescence pour faire les meilleurs choix en matière de protocole permettra de limiter les mises à jour/modernisations nécessaires, et rendra ainsi le service numérique plus durable et pérenne. L’objectif est donc de limiter l’obsolescence du service induite par l’obsolescence des protocoles utilisés, en tenant compte particulièrement des éléments suivants :
 
-      - Protocole d’adressage : face à la pénurie d’IPv4 et la généralisation d’IPv6 (à moyen terme, certains accès à internet ne proposeront plus de connectivité IPv4), un service disponible en IPv6 en assure sa pérennité. Ce choix permet aussi de limiter le nombre de plateformes nécessaires et la consommation d’énergie associée chez les opérateurs ayant recours à du partage d’IPv4 entre client. L’IPv6 n’a pas besoin de passer par la plateforme CG-Nat qui est coûteuse en matériel et en énergie ([voir la présentation vidéo « Adressage et transition IPv6 » de décembre 2023](https://www.dailymotion.com/video/x8qpqtz)-).
+      - Protocole d’adressage : face à la pénurie d’IPv4 et la généralisation d’IPv6 (à moyen terme, certains accès à internet ne proposeront plus de connectivité IPv4), un service disponible en IPv6 en assure sa pérennité. Ce choix permet aussi de limiter le nombre de plateformes nécessaires et la consommation d’énergie associée chez les opérateurs ayant recours à du partage d’IPv4 entre client. L’IPv6 n’a pas besoin de passer par la plateforme CG-Nat qui est coûteuse en matériel et en énergie ([voir la présentation vidéo « Adressage et transition IPv6 » de décembre 2023](https://www.dailymotion.com/video/x8qpqtz)).
       - Protocole de chiffrement/d’authentification : les navigateurs tendent vers le blocage du protocole HTTP et l’obligation d’utiliser HTTPS, qui devient donc le choix le plus pérenne. En outre, la couche de chiffrement TLS doit être adaptés à l’évolution de ce protocole puisque les anciennes versions de TLS (TLS v1.0 et TLS v1.1) ne sont plus prises en charge par les navigateurs web.
       - Protocole d’échanges de données : s’assurer de l’adéquation entre le choix du protocole et le type des contenus échangés.
     miseEnOeuvre: |-
@@ -790,7 +790,7 @@ criteres:
       Limiter les échanges clients / serveurs de fichiers volumineux en informant l’utilisateur des prérequis attendus.
     miseEnOeuvre: |-
       - Fichiers téléchargés : Indiquer clairement à l’utilisateur, au minimum pour les fichiers de plus de 10 Mo et avant le transfert, des poids et des formats de fichier attendus : un type de fichier, une taille maximale d’image, etc.
-      - Fichiers téléversés (ou upload) : la soumission du formulaire n’est pas possible si les prérequis indiqués de poids et de format de fichier ne sont pas respectés. La limite mise en place doit toutefois prendre en compte tous les usages, y compris ceux nécessitant un envoi des fichiers volumineux, car bloquer la démarche numérique de l’utilisateur serait contreproductif. Il est important également de prendre en charge les nouveaux formats de fichiers (exemple : images WebP et AVIF en plus des images JPEG et PNG) afin d’éviter d’imposer à l’utilisateur de passer par une étape de conversion contreproductive.  
+      - Fichiers téléversés (ou upload) : la soumission du formulaire n’est pas possible si les prérequis indiqués de poids et de format de fichier ne sont pas respectés. La limite mise en place doit toutefois prendre en compte tous les usages, y compris ceux nécessitant un envoi des fichiers volumineux, car bloquer la démarche numérique de l’utilisateur serait contreproductif. Il est important également de prendre en charge les nouveaux formats de fichiers (exemple : images WebP et AVIF en plus des images JPEG et PNG) afin d’éviter d’imposer à l’utilisateur de passer par une étape de conversion contreproductive.
         À noter : les limitations devront être définies de façon proportionnée afin de ne pas engendrer d’effet de bord négatif sur l’accessibilité du service, en tenant compte des cibles utilisatrices.
     controle: |-
       Le critère est validé si :
@@ -980,7 +980,7 @@ criteres:
       - De manière optionnelle, proposer un mode « haute qualité » =, utilisé uniquement sur demande de l’utilisateur (en l’informant le cas échéant que le recours à ce mode « haute qualité » peut avoir un impact sur la quantité de données transmises et la consommation énergétique).
 
       Définition maximum selon le terminal et le mode :
-      
+
       |                      | Mode « sobriété énergétique » | Mode « qualité standard » | Mode « haute qualité » | AV1 GPU 2020 à 2024                         |
       |----------------------|-------------------------------|---------------------------|------------------------|---------------------------------------------|
       | Smartphone           | 480p maximum                  | 720p maximum              | Pas de contrainte      | Oui (depuis 2018)                           |
@@ -990,7 +990,7 @@ criteres:
       | Type d’écran inconnu | 720p maximum                  | 1080p maximum             | Pas de contrainte      | Oui (depuis 2019)                           |
       | Samsung Internet     | Oui (toutes les versions)     | Oui (depuis 2016)         | Support partiel        | Oui (depuis 2020)                           |
       | Opera                | Oui (depuis 2014)             | Oui (depuis 2013)         | Support partiel        | Oui (depuis 2018)                           |
-      
+
       Si le service numérique unicast qui ne peut pas gérer de multiples définitions vidéo pour un même contenu, choisir la plus faible définition possible sans que cela altère sa compréhension ou l’expérience utilisateur : définition vidéo de 720p pouvant être portée à 1080p pour un contenu difficilement lisible (par exemple : vidéos avec du texte dans une petite police de caractères).
     controle: |-
       Tester, y compris périodiquement, la lecture des vidéos sur différents terminaux afin de vérifier que ces vidéos en mode « qualité standard » et « sobriété énergétique » ont un format adapté à ces terminaux.
@@ -1127,7 +1127,7 @@ criteres:
       Le critère est validé si :
 
         - Le service propose un mode « écoute seule » sur les vidéos, activable à la demande de l’utilisateur et qui s’enclenche lorsqu’il peut être détecté que la vidéo n’est pas affichée sur le terminal (par exemple : changement d’onglet dans un navigateur ou d’application sur un terminal, fermeture d’écran, etc.). Dans l’éventualité où les vidéos du service sont déjà hébergées par un service tiers qui ne propose pas ce mode « écoute seule », il est possible de valider le critère en proposant un enregistrement « écoute seule » sous chaque vidéo (sans préchargement de la vidéo associée).
-        - Sont documentés dans la déclaration d’écoconception du service numérique l’emplacement et le fonctionnement du mode « écoute seule ». 
+        - Sont documentés dans la déclaration d’écoconception du service numérique l’emplacement et le fonctionnement du mode « écoute seule ».
     difficulte: "Fort"
     priorite: "Prioritaire"
     application: N/A si le service numérique ne propose pas de contenu vidéo avec piste audio
@@ -1263,7 +1263,7 @@ criteres:
   - id: "6.4"
     critere: "Le service numérique affiche-t-il majoritairement des éléments graphiques et des médias dont les dimensions d’origine correspondent aux dimensions du contexte d’affichage ?"
     thematique: "Frontend"
-    objectif: |- 
+    objectif: |-
       Réduire ou limiter les données téléchargées en proposant un redimensionnement côté serveur pour les images dans une définition trop importante. Il s’agit également de minimiser la consommation d’énergie du terminal.
     miseEnOeuvre: |-
       Les images matricielles (ou images bitmap) proposées par un service numérique sont soit affichées dans leur taille d’origine, soit proposées dans de multiples définitions, afin de ne pas charger une image avec une définition significativement supérieure à celle du contexte d’affichage utilisé par le client.
@@ -1297,7 +1297,7 @@ criteres:
   - id: "6.6"
     critere: "Le service numérique restreint-il l’usage des capteurs des terminaux utilisateurs au besoin du service ?"
     thematique: "Frontend"
-    objectif: |- 
+    objectif: |-
       Réduire ou limiter les données échangées, dont des données personnelles (comme la webcam, le micro ou la géolocalisation, par exemple), avec le service numérique.
     miseEnOeuvre: |-
       Prévoir des mécanismes d’alerte, d’information et de consentement et une validation avant tout déclenchement de capteur du terminal par l’utilisateur. Il s’agit de limiter l'activation des capteurs aux moments où ils sont réellement nécessaires au bon fonctionnement du service, ou par l’activation d’une fonctionnalité expressément demandée par l’utilisateur. La définition du « moment où ils sont réellement nécessaires » doit être objectivée pour chaque usage : l’usage des capteurs doit être minimal par défaut, mais peut également être proposé à l’utilisateur un « mode dégradé » permettant de répondre à l’usage essentiel souhaité, optimisant les ressources matérielles et en particulier la batterie, sans aller jusqu’au fonctionnement nominal ou idéal.
@@ -1312,7 +1312,7 @@ criteres:
   - id: "6.7"
     critere: "Le service numérique héberge-t-il les ressources statiques transférées dont il est l’émetteur sur un même domaine ?"
     thematique: "Frontend"
-    objectif: |- 
+    objectif: |-
       Permettre de diminuer la taille des échanges et de requêtes en utilisant HTTP/2 ou HTTP/3 à la place de HTTP/1.1 et en limitant le nombre de domaines différents pour les ressources utilisées. Il s’agit ainsi d’optimiser la sollicitation des serveurs.
     miseEnOeuvre: |-
       Activer HTTP/2 ou HTTP/3 et limiter le nombre de domaines différents pour les ressources utilisées afin notamment de profiter du multiplexage proposé par HTTP/2 ou HTTP/3.
@@ -1428,7 +1428,7 @@ criteres:
       Il convient de rester vigilant au greenwashing lorsqu’il s’agit de communications sur la neutralité carbone, d’une charte, d’une politique ou d’une feuille de route interne, sans possibilité de vérifier la mise en œuvre ou sans un tiers indépendant qui certifie la mise en œuvre.
     controle: |-
       Fournir un justificatif, si possible dans la déclaration d’écoconception du service, qui rend compte de la mise en place des engagements environnementaux en question des hébergeurs. Ces engagements doivent être communiqués dans un document public, auditable par un tiers et aborder des voies de minimisation des impacts environnementaux suivants : émissions de GES, consommation énergétique et consommation d’eau.
-    source: |- 
+    source: |-
       Des références à consulter en ligne :
 
       - [Qu’est-ce que le Code de conduite européen sur les datacentres ?](https://ecoinfo.cnrs.fr/2020/05/19/guide-des-bonnes-pratiques-du-code-de-conduite-europeen-sur-les-datacentres/)
@@ -1524,7 +1524,7 @@ criteres:
       Identifier la localisation des utilisateurs et la localisation des serveurs.
 
       Par valider ce critère, il conviendra de vérifier que l’hébergeur du service numérique est situé dans un pays où l’intensité carbone de la consommation électrique est minimale. Pour cela, vérifier que cette intensité est en dessous du seuil annuel de 100 gCO₂eq/kWh , en lien avec la trajectoire de réduction des émissions de gaz à effet de serre telle que définie par l’initiative Science-Based Targets (SBTi) et conformément aux objectifs de l’Accord de Paris (à partir de 2030, le seuil à respecter est de 80 gCO₂eq/kWh puis 0 gCO₂eq/kWh à partir de 2050 – source : [Quick start guide for electric utilities (PDF – 2 Mo)](https://sciencebasedtargets.org/resources/legacy/2020/06/SBTi-Power-Sector-15C-guide-FINAL.pdf) De façon complémentaire (pas nécessaire pour la validation de ce critère), favoriser le choix d’un hébergement dans le pays où la majorité de ses utilisateurs sont localisés.
-        
+
       Documenter dans la déclaration d’écoconception, la localisation (pays, ville) de l’hébergement du service numérique.
     difficulte: "Moyen"
     priorite: "Recommandé"
@@ -1566,7 +1566,7 @@ criteres:
     critere: "Le service numérique duplique-t-il les données uniquement lorsque cela est nécessaire ?"
     thematique: "Hébergement"
     objectif: |-
-      Réduire les ressources informatiques et les ressources de stockage utilisées. 
+      Réduire les ressources informatiques et les ressources de stockage utilisées.
       Il s’agit de se poser la question du bon niveau de service sélectionné par rapport au besoin. Plus le taux de disponibilité demandé est haut, plus cela mobilise une infrastructure coûteuse financièrement et environnementalement.
     miseEnOeuvre: |-
       Se questionner sur la pertinence de la redondance du service. Est-ce critique si le service numérique n’est pas disponible pendant un certain temps ?
@@ -1634,7 +1634,7 @@ criteres:
 
       Le critère est validé si le choix de la méthode d’apprentissage est l’alternative la plus sobre disponible selon l’état de l’art et les caractéristiques du service et que ces choix sont documentés dans la déclaration d’écoconception associée et auditables par un tiers.
     difficulte: "Moyen"
-    prioritée: Prioritaire
+    priorite: "Prioritaire"
     application: N/A si le service numérique n'inclut pas de phase d’entraînement
     metiers: [Porteur de projet, Data Scientist, Architecte Logiciel, Responsable RSE/Numérique soutenable]
   - id: "9.3"
@@ -1662,7 +1662,7 @@ criteres:
     objectif: |-
       Il s’agit de s’interroger sur les données collectées et de minimiser les impacts environnementaux associés à leur collecte et à leur traitement pour la phase d’entraînement, en privilégiant des données existantes et en limitant la collecte de nouvelles données. Ce critère est pertinent pour la phase d’apprentissage, caractérisée le plus souvent par une forte obsolescence des bases de données utilisées.
 
-      Comme le souligne le rapport de la CNIL « Données, Empreinte et Libertés » (2023), certains impératifs de respect de la vie privée et objectifs d’écoconception se rejoignent. 
+      Comme le souligne le rapport de la CNIL « Données, Empreinte et Libertés » (2023), certains impératifs de respect de la vie privée et objectifs d’écoconception se rejoignent.
     miseEnOeuvre: |-
       Veiller à réutiliser, si possible, des données existantes (notamment libres de droit) afin de limiter la collecte de nouvelles données et la puissance de calcul requise pour l’analyse incrémentielle de données. Questionner l’empreinte environnementale de l’acquisition de nouveau matériel de stockage contre celui du téléchargement systématique des données lorsque nécessaire.
 

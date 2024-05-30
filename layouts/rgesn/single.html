@@ -11,22 +11,59 @@
   {{- $.Store.Set "file" (index (index $.Site.Data $referential.name) (string $referential.version)) -}}
   {{- $criteriafile   := ($.Store.Get "file").criteria.criteres -}}
 
-  {{ if eq $referential.version "2.0" }}
+  {{- if eq $referential.version "2.0" }}
   {{- $criteriafile   = ($.Store.Get "file").crit.criteres -}}
-  {{ end }}
+  {{ end -}}
 
     <article class="fg-wrapper narrow">
-      <h1>{{ ($.Store.Get "file").criteria.title | safeHTML }}</h1>
+      <h1>{{ ($.Store.Get "file").criteria.title | safeHTML }} - version {{ $referential.version }}</h1>
       {{- with ($.Store.Get "file").criterias.licence }}<p class="mt-1-minus"><strong>License :</strong> {{ . }}</p>{{ end }}
 
       {{- if $criteriafile -}}
+
         {{- $.Scratch.Set "thematique" slice -}}
+        {{- $.Scratch.Set "metier" slice -}}
+        {{- $.Scratch.Set "difficulte" slice -}}
         {{- $thematiqueCounter := 1 -}}
         {{- range $key1, $value1 := $criteriafile -}}
+          {{- $.Scratch.Add "metier" .metiers -}}
+          {{ range .metiers }}
+            {{ $.Scratch.Add (printf "metiers%s" .) 1 }}
+            {{ $.Scratch.SetInMap "metiers" (string .) (dict "name" (string .) "criteria" (string $key1) "score" (int ($.Scratch.Get (printf "metiers%s" .)))) }}
+          {{ end }}
+
           {{- $thematique := int (index (first 1 (split .id ".")) 0) -}}
           {{- if eq $thematique $thematiqueCounter -}}
             {{- $.Scratch.Add "thematique" .thematique -}}
             {{- $thematiqueCounter = add $thematiqueCounter 1 -}}
+          {{ end }}
+        {{- end -}}
+          {{- if eq $referential.version "2.0" }}
+          <hr>
+          {{ len $criteriafile }}
+          {{ len (where $criteriafile "priorite" "Prioritaire") }}
+          {{ len (where $criteriafile "priorite" "Recommandé") }}
+          {{ len (where $criteriafile "priorite" "Modéré") }}
+          <hr>
+          {{ range (where (where $criteriafile "difficulte" "Fort") "priorite" "Prioritaire") }}
+            {{ .id }} - {{ .critere }}<br>
+          {{ end }}
+          <hr>
+          {{ range (where (where $criteriafile "difficulte" "Moyen") "priorite" "Prioritaire") }}
+            {{ .id }} - {{ .critere }}<br>
+          {{ end }}
+          <hr>
+          {{ range (where (where $criteriafile "difficulte" "Faible") "priorite" "Prioritaire") }}
+            {{ .id }} - {{ .critere }}<br>
+          {{ end }}
+          <hr>
+          {{ with ($.Scratch.Get "metiers") }}
+            {{ range sort . "score" "desc" }}
+              {{ .name }} : {{ .score }}<br>
+            {{ end }}
+          {{ end }}
+          {{ with ($.Scratch.Get "difficulte") }}
+            {{ . }}<hr>
           {{ end }}
         {{- end -}}
 
@@ -50,23 +87,23 @@
           {{- range $key2, $value2 := where $criteriafile "thematique" . -}}
             <h3 id="{{ add $key1 1 }}.{{ add $key2 1 }}" >#{{ add $key1 1 }}.{{ add $key2 1 }} - {{ .critere }}</h3>
             {{ if or .difficulte .priorite }}
-            <hr>
-            <p>
+            <p class="b-bottom pb-2">
               {{ with .difficulte }}<strong>Niveau de difficulté :</strong> {{ . }}{{ end }}<br>
               {{ with .priorite }}<strong>Niveau de priorité :</strong> {{ . }}{{ end }}<br>
               {{ with .application }}<strong>S’applique :</strong> {{ . }}{{ end }}<br>
               {{ with .metiers }}<strong>Métiers concernés :</strong> {{ delimit . ", " }}{{ end }}
             </p>
-            <hr>
             {{ end }}
-            <p>
+            <div>
               <h4>Objectif</h4>
-              <strong>{{ .objectif | markdownify }}</strong><br>
-            </p>
-            <p>
+              <p>
+                <strong>{{ .objectif | markdownify }}</strong>
+              </p>
+            </div>
+            <div>
               <h4>Mise en œuvre</h4>
-              {{ .miseEnOeuvre | markdownify }}
-            </p>
+              <p>{{ .miseEnOeuvre | markdownify }}</p>
+            </div>
             <div class="note">
               <h4 class="m-0">Moyen de test ou de contrôle</h4>
               <p>{{ .controle | markdownify }}</p>
