@@ -1,0 +1,31 @@
+{{ $data    := newScratch }}
+{{ $context := .context }}
+{{ $project := .project }}
+{{ $scores  := .scores }}
+{{ $path := "" }}{{ with $context.File }}{{ $path = .Path }}{{ end }}
+
+{{- $data.Set "guidelinename"    "" -}}
+{{- $data.Set "guidelineversion" "" -}}
+{{- $data.Set "context" (partialCached "render/context.html" (dict "context" $context "project" $project) $project) -}}
+{{- with ($data.Get "context") -}}
+  {{- with (index $scores "auditfile-name") -}}
+    {{- with (index ($data.Get "context") .) -}}
+      {{- with .audit -}}
+        {{- with .guidelines -}}
+          {{- $guideline := (replace (. | urlize) "-" "") -}}
+          {{- $data.Set "guidelinename"    (cond (in $guideline "raweb") "raweb" ((cond (in $guideline "rgaa") "rgaa" (cond (in $guideline "wcag") "wcag" "none")))) -}}
+          {{- $data.Set "guidelineversion" (replace $guideline ($data.Get "guidelinename") "") -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+  {{- else -}}
+    {{- if ne (path.Dir $path) "audits/_index.md" -}}
+      {{- warnf "(index $scores 'auditfile-name') est vide" -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{ return (dict
+  "name"                ($data.Get "guidelinename")
+  "version"             ($data.Get "guidelineversion")
+)}}

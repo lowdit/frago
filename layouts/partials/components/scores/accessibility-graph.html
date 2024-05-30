@@ -13,8 +13,8 @@
 {{- $context.Store.Set "rangepages" (where $context.Site.Pages "Section" "audits") -}}
 
 {{- with $auditfile -}}
-  {{- $auditfile := . }}
-  {{- $topics := $ref.accessibility.topics -}}
+  {{- $auditfile        := . }}
+  {{- $topics           := $ref.accessibility.topics -}}
   {{- $auditmethodology := (index (partialCached "render/methodology.html" (dict "auditfile" $auditfile) $auditfile) "methodology") -}}
   {{- $pageslist        := (index (partialCached "render/methodology.html" (dict "auditfile" $auditfile) $auditfile) "pageslist")  -}}
 
@@ -90,7 +90,6 @@
         })
     </script>
   {{- end -}}
-
   <div id="chartpie-csv"></div>
 
   {{- $data.Set "graphcounter1" 0 -}}

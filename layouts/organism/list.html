@@ -5,12 +5,13 @@
   {{- $projectPath  := cond (fileExists (printf "organism/%s/index.md" ($project))) (printf "organism/%s/index.md" ($project)) (printf "organism/%s/_index.md" ($project)) -}}
   {{- $projectTitle := (.GetPage $projectPath).Title -}}
   {{- $ref          := $context.Site.Data.referential -}}
+  {{- $reflist      := (slice "accessibility" "raweb" "ecoconception" "opquast" "publishing") }}
 
   {{- $alternate  := where (where .OutputFormats "Permalink" "eq" .Permalink) "Rel" "eq" "alternate" -}}
   {{- if ne (len $alternate) 0 -}}
     {{- with $alternate -}}
       {{- range $key, $value := . -}}
-        {{- if or (eq .Format.BaseName "accessibility") (eq .Format.BaseName "ecoconception") (eq .Format.BaseName "opquast") (eq .Format.BaseName "publishing") -}}
+        {{- if eq (len (intersect (slice .Format.BaseName) $reflist)) 1 -}}
           Synthèse {{ (index $ref .Format.BaseName).name }}
         {{- else if eq .Format.BaseName "greenit" -}}
           GreenIT - 74 bonnes pratiques
@@ -31,6 +32,7 @@
 {{- $patharray       := split (path.Dir $path) "/" -}}
 {{- $Permalinkarray  := split (.RelPermalink) "/" -}}
 {{- $context         := . -}}
+{{- $reflist         := (slice "accessibility" "raweb" "ecoconception" "opquast" "publishing") }}
 {{- $project         := cond (eq (len (split (path.Dir $path) "/")) 1) "organism" (replace (path.Dir $path) "organism/" "") -}}
 {{- if or (and (gt (len $patharray) 1) ($project)) (eq (len (split (.RelPermalink) "/")) 2) (eq (len $patharray) 1) -}}
   {{ if eq (len $Permalinkarray) 1 }}<h1 class="text-center fg-wrapper m-0">Organisme</h1>{{ end }}
@@ -38,7 +40,7 @@
     {{ if ne (len $alternate) 0 }}
       {{- with $alternate -}}
         {{- range $key, $value := . -}}
-          {{- if or (eq .Format.BaseName "accessibility") (eq .Format.BaseName "ecoconception") (eq .Format.BaseName "opquast") (eq .Format.BaseName "publishing") -}}
+          {{- if eq (len (intersect (slice .Format.BaseName) $reflist)) 1 -}}
             {{- $.Store.Set "rangepages" (where $.Site.Pages "Section" "audits") -}}
             {{- $render  := (partialCached "render/aggregate-scores.html" (dict "pages" ($.Store.Get "rangepages")) ($.Store.Get "rangepages")) }}
             {{- $partial := (partialCached "templates/accessibility-statistic.html" (dict "context" $context "render" $render "name" .Format.BaseName) .Format.BaseName) -}}

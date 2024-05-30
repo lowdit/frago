@@ -50,8 +50,8 @@
     {{- if not ($data.Get "scores").isempty }}
       <h3 class="mb-0">Conformité globale selon les critères</h3>
       {{- if or ($data.Get "scores").scores.compliance (eq ($data.Get "scores").scores.compliance 0) -}}
-        {{- $conforme := ($data.Get "scores").scores.compliance -}}
-        {{- partialCached "components/scores/accessibility" (dict "context" . "score" $conforme) $conforme -}}
+        {{- $conforme := ($data.Get "scores").scores -}}
+        {{- partialCached "components/scores/accessibility" (dict "context" . "score" $conforme "name" "Édito") $conforme -}}
         {{- partialCached "components/scores/criteria" (dict "context" $context "criteria" ($data.Get "scores").criteria) ($data.Get "scores").criteria -}}
 
         {{- with ($data.Get "scores").criteria.nonconforme -}}

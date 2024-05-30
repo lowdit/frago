@@ -1,7 +1,10 @@
 {{- define "main" -}}
 {{- partialCached "utils/css.html" (dict "context" . "filefolder" "base" "filename" "layout" "inline" "true") "layout" -}}
   {{/* Range all RGAA version according to data folder */}}
-  {{- $referential := (partialCached "render/referential-version.html" (dict "context" . "referential" "rgaa") . ).guideline -}}
+  {{- $path := "" }}{{ with .File }}{{ $path = .Path }}{{ end }}
+  {{- $refname := lower (index (split $path "/") 0) -}}
+  {{- $referential := (partialCached "render/referential-version.html" (dict "context" . "referential" $refname) . ).guideline -}}
+
   {{- $glossaire   := printf "=\"/%s/%s/glossaire/#" $referential.name $referential.version -}}
   {{- $.Store.Set "file" (index (index $.Site.Data $referential.name) (string $referential.version)) -}}
   {{- $criteriafile   := ($.Store.Get "file").criteria.topics -}}
@@ -25,7 +28,7 @@
     {{- $auditquick         := index ($.Store.Get "testfile") "25" -}}
     {{- $auditcomplementary := index ($.Store.Get "testfile") "50" -}}
     {{- $auditnecessary     := index ($.Store.Get "testfile") "81" -}}
-
+    {{/*
     {{- partialCached "utils/css.html" (dict "context" . "filefolder" "object" "filename" "buttons") "buttons" -}}
     <ul class="list-unstyled list-inline">
       <li><button id="auditall" class="btn btn-small mb-0">Tous les critères</button></li>&nbsp;
@@ -33,6 +36,7 @@
       <li><button id="auditcomplementary" class="btn btn-small mb-0">50 critères</button></li>&nbsp;
       <li><button id="auditnecessary" class="btn btn-small mb-0">81 critères</button></li>
     </ul>
+    */}}
   {{/* Range all topics */}}
   {{- if $criteriafile -}}
     {{- range $key1, $value1 := $criteriafile -}}

@@ -92,9 +92,10 @@
         {{ .Site.Title }} - {{ .Site.Params }}<hr>
         {{ .Permalink }} - {{ .Kind }} - {{ .Type }}<hr>
         {{ range .OutputFormats -}}
-        {{ .Rel }} - {{ .MediaType.Type }} - <a href="{{ .Permalink | safeURL }}">{{ .RelPermalink | safeURL }}</a> - {{ .Format.BaseName }} - {{ .Format.Path }}<br>
+        {{ .Rel }} - {{ .MediaType.Type }} - <a a href="{{ .Permalink | safeURL }}">{{ .RelPermalink | safeURL }}</a> - {{ .Format.BaseName }} - {{ .Format.Path }}<br>
         {{- end -}}
       </div>
+      {{ warnf "%s" .Permalink}}
     {{- end -}}
     {{- $baseURL := $.Site.BaseURL | default "/" -}}
     <div class="fg-wrapper flex align-items-center pb-1">

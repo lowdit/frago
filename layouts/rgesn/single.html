@@ -1,8 +1,9 @@
 {{- define "main" -}}
   {{- partialCached "utils/css.html" (dict "context" . "filefolder" "base" "filename" "layout" "inline" "true") "layout" -}}
   {{- partialCached "utils/css.html" (dict "context" . "filefolder" "base" "filename" "main" "inline" "true") "main" -}}
-  {{ $path := "" }}
-  {{ with .File }}{{ $path = .Path }}{{ end }}
+  {{- partialCached "utils/css.html" (dict "context" . "filefolder" "element" "filename" "table") "table" -}}
+  {{- $path := "" }}
+  {{- with .File }}{{ $path = .Path }}{{ end }}
   {{- $patharray := split (path.Dir $path) "/" -}}
 
   {{/* Use the audit last version */}}
@@ -13,8 +14,6 @@
   {{ if eq $referential.version "2.0" }}
   {{- $criteriafile   = ($.Store.Get "file").crit.criteres -}}
   {{ end }}
-
-
 
     <article class="fg-wrapper narrow">
       <h1>{{ ($.Store.Get "file").criteria.title | safeHTML }}</h1>
@@ -54,7 +53,9 @@
             <hr>
             <p>
               {{ with .difficulte }}<strong>Niveau de difficulté :</strong> {{ . }}{{ end }}<br>
-              {{ with .priorite }}<strong>Niveau de priorité :</strong> {{ . }}{{ end }}
+              {{ with .priorite }}<strong>Niveau de priorité :</strong> {{ . }}{{ end }}<br>
+              {{ with .application }}<strong>S’applique :</strong> {{ . }}{{ end }}<br>
+              {{ with .metiers }}<strong>Métiers concernés :</strong> {{ delimit . ", " }}{{ end }}
             </p>
             <hr>
             {{ end }}

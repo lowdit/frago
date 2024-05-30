@@ -1,5 +1,25 @@
 home:
   other: "Home"
+accessibility:
+  other: "Accessibilité"
+raweb:
+  other: "Raweb"
+ecoconception:
+  other: "Éco-conception"
+publishing:
+  other: "Sobriété editoriale"
+opquast:
+  other: "Assurance Qualité"
+greenit:
+  other: "Bonnes Pratiques GreenIT"
+cigref:
+  other: "Cigref"
+recommendation:
+  other: "Recommandations"
+lighthouse:
+  other: "Performance"
+ecoindex:
+  other: "EcoIndex"
 nav-content:
   other: "Other contents"
 nav-package:
