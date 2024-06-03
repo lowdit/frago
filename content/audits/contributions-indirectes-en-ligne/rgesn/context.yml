@@ -1,0 +1,11 @@
+website: "amendes.gouv.fr"
+contacts:
+    email: stap-amendes@dgfip.finances.gouv.fr
+    address : 139 rue de Bercy, 75572 Paris, Cedex 12
+audits:
+    2024-05-01:
+      guidelines: "RGESN 2.0"
+      condition: "Auto-évaluation"
+    2020-07-07:
+      guidelines: "RGESN 1.0"
+      condition: "Auto-évaluation"
