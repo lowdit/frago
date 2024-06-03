@@ -20,10 +20,11 @@
 
     {{- $conditions := slice -}}
     {{- range $reflist -}}
-      {{- $.Store.Set (printf "%s-lastfile" .)  (partialCached "render/lastfile.html" (dict "context" . "project" $project "type" .) $project .) -}}
-      {{- $.Store.Set (printf "%s-path"     .)  (index ($.Store.Get (printf "%s-lastfile" .)) "auditfile-path")     -}}
-      {{- $.Store.Set (printf "%s-all-path" .)  (index ($.Store.Get (printf "%s-lastfile" .)) "auditfile-all-path") -}}
-      {{- $.Store.Set (printf "%s-all-name" .)  (index ($.Store.Get (printf "%s-lastfile" .)) "auditfile-all-name") -}}
+      {{- $.Store.Set (printf "%s-lastfile" .)    (partialCached "render/lastfile.html" (dict "context" . "project" $project "type" .) $project .) -}}
+      {{- $.Store.Set (printf "%s-referential" .) (partialCached "render/referential-version.html" (dict "context" $context  "Type" . "referential" "any") . ).guideline -}}
+      {{- $.Store.Set (printf "%s-path"     .)    (index ($.Store.Get (printf "%s-lastfile" .)) "auditfile-path")     -}}
+      {{- $.Store.Set (printf "%s-all-path" .)    (index ($.Store.Get (printf "%s-lastfile" .)) "auditfile-all-path") -}}
+      {{- $.Store.Set (printf "%s-all-name" .)    (index ($.Store.Get (printf "%s-lastfile" .)) "auditfile-all-name") -}}
       {{- $cond := fileExists (index ($.Store.Get (printf "%s-lastfile" .)) "auditfile-path") -}}
       {{- $conditions = $conditions | append $cond -}}
     {{- end -}}
@@ -46,7 +47,7 @@
         {{/* END - Display medium compliance */}}
       {{- end -}}
       {{- if (eq . true) -}}
-        {{- template "module" (dict "context" $context "project" $project "path" ($.Store.Get (printf "%s-path" $key)) "OutputFormats" $OutputFormats "value" $key) -}}
+        {{- template "module" (dict "context" $context "project" $project "path" ($.Store.Get (printf "%s-path" $key)) "referential" ($.Store.Get (printf "%s-referential" $key)) "OutputFormats" $OutputFormats "value" $key) -}}
       {{- end -}}
       {{- if and (eq . true) (eq $key "accessibility") -}}
       {{/* START - If several accessibility files */}}
@@ -363,10 +364,11 @@
   {{- $value         := .value -}}
   {{- $project       := .project -}}
   {{- $path          := .path -}}
-
+  {{- $referential   := .referential }}
   {{- $OutputFormats := .OutputFormats -}}
   {{- $.Store.Set "render" slice -}}
-  {{- $audit := (partialCached (printf "render/%s.html" (cond (eq $value "raweb") "accessibility" $value)) (dict "context" $context "auditfile" $path) $path) -}}
+  {{- $audit := (partialCached (printf "render/%s.html" (cond (eq $value "raweb") "accessibility" $value)) (dict "context" "project" "auditfile" $path "version" $referential.version) $path) -}}
+
   <h3 class="m-0">{{ i18n $value . | humanize }}
     {{- if or $audit.scores.compliance (eq $audit.scores.compliance 0) -}}
       {{- $pageauditpath := (printf "/content/audits/%s/%s.md" ($project | urlize) $value) -}}

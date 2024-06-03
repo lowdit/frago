@@ -1601,7 +1601,7 @@ criteres:
     metiers: [Responsable de la programmation, Ingénieur Logiciel, Responsable RSE/Numérique soutenable]
   - id: "9.1"
     critere: "Le service numérique a-t-il interrogé la nécessité d’une phase d’entraînement pour éviter un usage non justifié et déraisonné ?"
-    thematique: "Apprentissage"
+    thematique: "Algorithmie"
     objectif: |-
       La phase d’apprentissage repose sur une infrastructure numérique qui, dans certains cas, peut nécessiter l’utilisation d’un important volume de données et de calculs. Largement répandue dans le domaine de l’intelligence artificielle, la phase d’entraînement peut engendrer une grande consommation d’énergie et de ressources. L’objectif est donc de réduire l’empreinte environnementale de la phase d’apprentissage en choisissant une méthode adaptée et proportionnée aux caractéristiques du service numérique.
 
@@ -1622,7 +1622,7 @@ criteres:
     metiers: [Porteur de projet, Responsable R&D, Responsable RSE/Numérique soutenable, Data Scientist]
   - id: "9.2"
     critere: "Le service numérique utilise-t-il une phase d’apprentissage avec un niveau de complexité minimisé et proportionné à l’usage effectif du service ?"
-    thematique: "Apprentissage"
+    thematique: "Algorithmie"
     objectif: |-
       Mettre en question le choix de la méthode d’apprentissage pour le service numérique et choisir la méthode d’entraînement la plus frugale, adéquate et proportionnée à l’usage du service.
     miseEnOeuvre: |-
@@ -1639,7 +1639,7 @@ criteres:
     metiers: [Porteur de projet, Data Scientist, Architecte Logiciel, Responsable RSE/Numérique soutenable]
   - id: "9.3"
     critere: "Le service numérique a-t-il mis en place des mécanismes visant à limiter la quantité d’entraînement nécessaire à son fonctionnement ?"
-    thematique: "Apprentissage"
+    thematique: "Algorithmie"
     objectif: |-
       Limiter la phase d’entraînement utilisée par le service numérique en choisissant des modèles déjà existants et pré-entraînés. Éviter le surentraînement en maitrisant la consommation énergétique du mécanisme choisi.
     miseEnOeuvre: |-
@@ -1658,7 +1658,7 @@ criteres:
     metiers: [Porteur de projet, Data Scientist, Architecte Logiciel, Responsable RSE/Numérique soutenable]
   - id: "9.4"
     critere: "Le service numérique limite-il la quantité de données utilisées pour la phase d’apprentissage au strict nécessaire ?"
-    thematique: "Apprentissage"
+    thematique: "Algorithmie"
     objectif: |-
       Il s’agit de s’interroger sur les données collectées et de minimiser les impacts environnementaux associés à leur collecte et à leur traitement pour la phase d’entraînement, en privilégiant des données existantes et en limitant la collecte de nouvelles données. Ce critère est pertinent pour la phase d’apprentissage, caractérisée le plus souvent par une forte obsolescence des bases de données utilisées.
 
@@ -1681,7 +1681,7 @@ criteres:
     metiers: [Data Scientist, Architecte Logiciel, Responsable RSE/Numérique soutenable, Responsable de la protection des données, Développeur]
   - id: "9.5"
     critere: "Le service numérique optimise-t-il l’occurrence de mise à jour et de réentraînement des modèles en fonction de ses besoins et des cibles utilisatrices ?"
-    thematique: "Apprentissage"
+    thematique: "Algorithmie"
     objectif: |-
       Il s’agit de questionner la fréquence des mises à jour et des réentraînements des modèles sous-jacents au service numérique en fonction des besoins réels du service (en termes de qualité et de vérifiabilité) et des besoins des cibles utilisatrices. Chaque mise à jour ou nouvel entraînement est consommateur en ressources et génère des émissions de gaz à effet de serre.
     miseEnOeuvre: |-
@@ -1696,7 +1696,7 @@ criteres:
     metiers: [Porteur de projet, Data Scientist, Chef de produit marketing]
   - id: "9.6"
     critere: "Le service numérique utilise-t-il des techniques de compression pour les modèles utilisées lors de la phase d’entraînement ?"
-    thematique: "Apprentissage"
+    thematique: "Algorithmie"
     objectif: |-
       Compresser les modèles d’intelligence artificielle (réduction de complexité des modèles) pour réduire l’impact environnemental.
     miseEnOeuvre: |-
@@ -1717,7 +1717,7 @@ criteres:
     metiers: [Data Scientist, Architecte Logiciel, Responsable RSE/Numérique soutenable]
   - id: "9.7"
     critere: "Le service numérique utilise-t-il une stratégie d’inférence optimisée en termes de consommation de ressources et des cibles utilisatrices ?"
-    thematique: "Apprentissage"
+    thematique: "Algorithmie"
     objectif: |-
       Réduire l’empreinte environnementale des modèles algorithmiques utilisés dans le domaine de l’intelligence artificielle en optimisant le besoin en ressources de leur phase d’inférence. Ce critère est particulièrement important pour l’intelligence artificielle (IA) générative. Si la phase d’entraînement a longtemps été perçue comme la plus consommatrice en énergie, le développement de l’IA générative tend à accroître la part de consommation d’énergie de la phase d’inférence, du fait du nombre de requêtes utilisateurs pour les services massivement consommés par le grand public. L’optimisation de la phase d’inférence est nécessaire pour aboutir à des modèles d’intelligence artificielle plus frugaux.
     miseEnOeuvre: |-

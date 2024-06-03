@@ -1,13 +1,14 @@
 {{/* Build an object with all the scores :: context, path... */}}
 {{ $types          := .type }}
 {{ $contextaudit   := (partialCached "render/context.html"  (dict "context" .context "project" .project "type" $types) .project $types) }}
+{{ $referential    := (partialCached "render/referential-version.html" (dict "context" .context "referential" $types) .context).guideline }}
 {{ $auditsfiles    := (partialCached "render/lastfile.html" (dict "context" .context "project" .project "type" $types "datafilename" .datafilename) .project $types .datafilename) }}
 {{ $auditlastpath  := (index $auditsfiles "auditfile-path") }}
 {{ $auditcontent   := "" }}
 {{ $auditscores    := dict }}
 {{ if (not (in $auditlastpath "false")) }}
   {{ $auditcontent = (getCSV "," $auditlastpath) }}
-  {{ $auditscores  = cond (ne $auditlastpath "") (partialCached (printf "render/%s.html" (cond (eq $types "raweb") "accessibility" $types )) (dict "context" "accessibilityscores" "auditfile" $auditlastpath "auditname" (index $contextaudit (index $auditsfiles "auditfile-name")).guidelines.name) $auditlastpath) "" }}
+  {{ $auditscores  = cond (ne $auditlastpath "") (partialCached (printf "render/%s.html" (cond (eq $types "raweb") "accessibility" $types )) (dict "context" "accessibilityscores" "auditfile" $auditlastpath "auditname" (index $contextaudit (index $auditsfiles "auditfile-name")).guidelines.name "$guidelines" $referential ) $auditlastpath) "" }}
 {{ end }}
 
 {{ return

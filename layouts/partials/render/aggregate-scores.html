@@ -49,14 +49,14 @@
           {{ $data.Set (printf "aggregate-%s-contextaudit" $type) (partialCached "render/context.html" (dict "context" $context "project" $project "type" $type) $project $type) }}
 
           {{/* Variables  */}}
-          {{ $render       := (partialCached (printf "render/%s.html" (cond (eq $type "raweb") "accessibility" $type )) (dict "context" "aggregate" "auditfile" . "auditname" (index ($data.Get (printf "aggregate-%s-contextaudit" $type)) (index $auditsfiles "auditfile-name")).guidelines.name) . (index ($data.Get (printf "aggregate-%s-contextaudit" $type)) (index $auditsfiles "auditfile-name")).guidelines.name $type) }}
           {{ $guidelines   := ((index ($data.Get (printf "aggregate-%s-contextaudit" $type)) (index $auditsfiles "auditfile-name")).guidelines) }}
-
           {{/* Determine the audit version :: switch to RGAA 4 if RAweb 1 */}}
           {{ $versionlong := (cond (eq $guidelines.name "raweb") "4.1" $guidelines.version ) }}
           {{ $version     := (index (split $versionlong ".") 0) }}
           {{ $data.Add (printf "aggregate-%s-version" $type) $version }}
-          {{/* Store each result un a map */}}
+
+          {{/* Store each result in a map */}}
+          {{ $render       := (partialCached (printf "render/%s.html" (cond (eq $type "raweb") "accessibility" $type )) (dict "context" "aggregate" "auditfile" . "referential" $guidelines "auditname" (index ($data.Get (printf "aggregate-%s-contextaudit" $type) ) (index $auditsfiles "auditfile-name")).guidelines.name) . (index ($data.Get (printf "aggregate-%s-contextaudit" $type)) (index $auditsfiles "auditfile-name")).guidelines.name $type) }}
           {{ $data.SetInMap $project $type $render }}
 
           {{/* START Count the sum for each criteria */}}
@@ -213,7 +213,7 @@
       {{ if and ($data.Get (printf "average-%s-conforme-%s" $type (string .version))) ($data.Get (printf "average-%s-nonconforme-%s" $type (string .version))) }}
         {{ $dictall = (merge ($data.Get (printf "average-%s-conforme-%s" $type (string .version))) ($data.Get (printf "average-%s-nonconforme-%s" $type (string .version)))) }}
       {{ end }}
-      {{ if and ($data.Get (printf "average-%s-nonapplicable" $type)) ($data.Get (printf "average-%s-nonconforme-%s" $type (string .version))) }}
+      {{ if and ($data.Get (printf "average-%s-nonapplicable-%s" $type (string .version))) ($data.Get (printf "average-%s-nonconforme-%s" $type (string .version))) }}
         {{ $dictall = ((merge (merge ($data.Get (printf "average-%s-conforme-%s" $type (string .version))) ($data.Get (printf "average-%s-nonconforme-%s" $type (string .version)))) ($data.Get (printf "average-%s-nonapplicable-%s" $type (string .version))))) }}
       {{ end }}
       {{ if and ($data.Get (printf "average-%s-nonapplicable-%s" $type (string .version))) (not (and ($data.Get (printf "average-%s-conforme-%s" $type (string .version))) ($data.Get (printf "average-%s-nonconforme-%s" $type (string .version))))) }}

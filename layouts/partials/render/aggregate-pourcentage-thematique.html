@@ -2,8 +2,8 @@
 {{ $type          := "pourcentage" }}
 {{ $conforme      := .conforme}}
 {{ $nonconforme   := .nonconforme }}
-{{ $nonapplicable := .nonapplicable}}
-{{ range $id, $value := (merge (merge $conforme $nonconforme) $nonapplicable) }}
+{{ $nonapplicable := .nonapplicable }}
+{{ range $id, $value := (merge $conforme $nonconforme) }}
   {{ if and (gt (int (index $nonconforme $id)) 0) (gt (int (index $conforme $id)) 0) }}
     {{ $result := (div (mul (index $conforme $id) 100) (add (index $conforme $id) (index $nonconforme $id))) }}
     {{ $data.SetInMap "pourcentage" (string $id) $result }}

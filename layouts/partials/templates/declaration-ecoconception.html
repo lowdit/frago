@@ -25,7 +25,7 @@
   {{/* END Load the criteria file for the good audit version */}}
 
   {{/* START Load Scores, context and pageslist */}}
-  {{- $data.Set "scores" (partialCached "render/ecoconception.html" (dict "context" $context "auditfile" ($data.Get "auditpath-csv")) ($data.Get "auditpath-csv")) -}}
+  {{- $data.Set "scores" (partialCached "render/ecoconception.html" (dict "context" $context "auditfile" ($data.Get "auditpath-csv") "referential" $referential) ($data.Get "auditpath-csv")) -}}
   {{- $date := (string (index $audit "auditfile-name")) -}}
 
   {{ with (partialCached "render/context.html" (dict "context" $context "project" $project "type" "ecoconception") $project "ecoconception") }}
