@@ -42,10 +42,16 @@
 {{ if not ($data.Get "context") }}
   {{/* In a front matter of the current page */}}
   {{ $value       := (index $context.Params $Type) }}
-  {{ $contextpath := cond (fileExists (printf "/audits/%s/%s.md" $Type $project)) (printf "/audits/%s/%s.md" $Type $project) (cond (fileExists (printf "/audits/%s/_index.md" $project)) (printf "/audits/%s/_index.md" $project) (printf "/audits/%s/index.md" $project)) }}
-  {{ $guidelines  := (partial "render/guideline.html" (dict "project" $project "guidelines" $value.audit.guidelines)) }}
-  {{ $guidelines  := (partialCached "render/referential-version.html" (dict "context" $context "Type" $Type "project" "contextfile" "referential" $guidelines.name "version" $guidelines.version) $context $guidelines.name $Type).guideline }}
-  {{ with $context.GetPage $contextpath }}{{ $data.SetInMap "context" ($data.Get "datecontext") (dict "declared" $value "contacts" (cond (not $value.contacts) ($context.Site.Params.contacts) ($value.contacts)) "website" $value.website "audit" ($value.audit) "guidelines" $guidelines "path" $contextpath "type" $Type) }}{{ end }}
+  {{ $contextpath := cond (fileExists (printf "/audits/%s/%s.md" $project $Type)) (printf "/audits/%s/%s.md" $project $Type) (cond (fileExists (printf "/audits/%s/_index.md" $project)) (printf "/audits/%s/_index.md" $project) (printf "/audits/%s/index.md" $project)) }}
+  {{ if (fileExists $contextpath) }}
+    {{ $value = cond (not (index ($context.GetPage $contextpath).Params $Type)) $value (index ($context.GetPage $contextpath).Params $Type) }}
+  {{ end }}
+  {{ $guideline   := (partial "render/guideline.html" (dict "project" $project "guidelines" $value.audit.guidelines)) }}
+  {{ $guidelines  := (partialCached "render/referential-version.html" (dict "context" $context "Type" $Type "project" "contextfile" "referential" $guideline.name "version" $guideline.version) $contextpath $guideline.name $Type).guideline }}
+  {{ $data.SetInMap "context" ($data.Get "datecontext") (dict "declared" $value) }}
+  {{ if $value }}
+    {{ $data.SetInMap "context" ($data.Get "datecontext") (dict "declared" $value "contacts" (cond (not $value.contacts) ($context.Site.Params.contacts) ($value.contacts)) "website" $value.website "audit" ($value.audit) "guidelines" $guidelines "path" $contextpath "type" $Type) }}
+  {{ end }}
   {{/* If content has only one project */}}
   {{ if (partialCached "render/issimpleproject.html" "arg" "arg") }}
     {{ $contextpath := cond (fileExists (printf "/audits/%s.md" $Type)) ((printf "/audits/%s.md" $Type)) (cond (fileExists "/audits/_index.md") ("/audits/_index.md") ("/audits/index.md")) }}

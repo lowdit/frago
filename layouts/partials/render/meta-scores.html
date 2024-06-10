@@ -1,7 +1,7 @@
 {{/* Build an object with all the scores :: context, path... */}}
 {{ $types          := .type }}
 {{ $auditsfiles    := (partialCached "render/lastfile.html" (dict "context" .context "project" .project "type" $types "datafilename" .datafilename) .project $types .datafilename) }}
-{{ $contextaudit   := (partialCached "render/context.html"  (dict "context" .context "project" .project "type" $types) .project $types) }}
+{{ $contextaudit   := (partialCached "render/context.html"  (dict "context" .context "project" .project "type" $types) .context .project $types) }}
 
 {{ $referential    := "" }}
 {{ $auditlastpath  := (index $auditsfiles "auditfile-path") }}

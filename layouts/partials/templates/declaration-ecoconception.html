@@ -10,9 +10,13 @@
 {{- $topics        := $ref.ecoconception.topics -}}
 
 {{/* START Determine the version of the audit from the context declaration */}}
-{{- $referential    := (partialCached "render/referential-version.html" (dict "context" $context "referential" "rgesn") . ).guideline -}}
-{{- $data.Set "criteriafile" (index (index $context.Site.Data $referential.name) (string $referential.version)).criteria.criteres -}}
+{{- $data.Set "audits"        (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "ecoconception" "datafilename" .context.Params.datafilename) $project "ecoconception" .context.Params.datafilename) -}}
+{{- $data.Set "auditscores"   (partialCached "render/meta-scores.html" (dict "context" $context "project" $project "type" "ecoconception") $context $project "ecoconception") -}}
+{{- $referential              := (index ($data.Get "auditscores").context ((index ($data.Get "audits") "auditfile-name"))).guidelines -}}
+{{- $data.Set "criteriafile" (index (index $context.Site.Data (string $referential.name)) (string $referential.version)).criteria.criteres -}}
 {{/* END Determine the version of the audit form the context declaration */}}
+
+{{ ($data.Get "auditscores") }}<hr>
 
 {{/* START Load the criteria file for the good audit version */}}
 {{- $data.Set "organisation"  (cond (ne $.context.Site.Params.organisation "") $.context.Site.Params.organisation "") -}}
@@ -20,7 +24,6 @@
 {{- $data.Set "auditpath-csv" (index $audit "auditfile-path") -}}
 
 {{- $data.Set "rangepages" (where $context.Site.Pages "Section" "audits") -}}
-
 
 {{ if (eq (getenv "HUGO_ENV") "debugfiles") }}
   {{ warnf "Ecoconception dcl : %s" ($data.Get "auditpath-csv") }}
@@ -37,6 +40,8 @@
     {{- $data.Set "scores" (partialCached "render/ecoconception.html" (dict "context" $context "auditfile" ($data.Get "auditpath-csv") "referential" $referential) ($data.Get "auditpath-csv")) -}}
     {{- $thematiques    := (partialCached "render/score-thematiques.html" (dict "scores" ($data.Get "scores").criteria "topics" $topics) ($data.Get "scores")) -}}
     {{- $date           := (string (index $audit "auditfile-name")) -}}
+
+    {{- $referential -}}
 
     {{ with (partialCached "render/context.html" (dict "context" $context "project" $project "type" "ecoconception") $project "ecoconception") }}
       {{- $contextlast := cond (not (index . $date)) (index (last 1 (sort .)) 0) (index . $date) -}}
@@ -57,7 +62,7 @@
           </p>
         {{ end }}
         {{/* END If "organisation" */}}
-
+        
         <h2>Qu’est-ce que le Référentiel général d’écoconception&nbsp;?</h2>
         <p>Recommandé dans le <a href="https://ecoresponsable.numerique.gouv.fr/posts/rapport-obsolescence-logicielle/" target="_blank" rel="external noopener">rapport sur l’obsolescence logicielle</a> que le Gouvernement a remis au Parlement en juin 2021, le Référentiel général d’écoconception des services numériques est un engagement de la <a href="https://www.gouvernement.fr/actualite/numerique-et-environnement-la-feuille-de-route-du-gouvernement" target="_blank" rel="external noopener">feuille de route gouvernementale « Numérique et Environnement »</a> publiée en février 2021. Piloté par la Direction interministérielle du numérique (DINUM), le Ministère de la Transition Écologique, mais également l’ADEME et l’Institut du Numérique Responsable (INR), ce référentiel vise deux objectifs principaux :</p>
         <ul>
@@ -71,7 +76,7 @@
         <h3>État de conformité</h3>
 
         <p>
-          Le site{{- with ($data.Get "context").website }} du site {{ partialCached "utils/isURL.html" (dict "context" $context "projectTitle" .) . }}{{ end }} est en conformité partielle avec le Référentiel général d’écoconception des services numériques version bêta du 19 octobre 2021.
+          Le site{{- with ($data.Get "context").website }} du site {{ partialCached "utils/isURL.html" (dict "context" $context "projectTitle" .) . }}{{ end }} est en conformité partielle avec le Référentiel Général d’Écoconception des Services Numériques version bêta du 19 octobre 2021.
           L’audit de conformité{{ with $context.Params.ecoconception.audit.company }}, réalisé par la société {{ . }}, {{ end }}{{ with (time $date) }} le {{ .Day }} {{ index $context.Site.Data.month (printf "%d" .Month) }} {{ .Year }}{{ end }}, révèle que {{ .compliance }} % des critères du référentiel sont respectés.
         </p>
 
@@ -88,7 +93,7 @@
           conforme avec le Référentiel Général d’Éco-conception des Services Numériques (RGESN), version {{ $referential.version }}, en raison des non-conformités.
         </p>
 
-      {{- else if eq (index (split $referential.version ".") 0) "2" -}}
+      {{- else if ge $referential.versionmajor 2 -}}
         <p>{{ with ($data.Get "organisation") }}{{ . }}{{ end }} s’inscrit dans une démarche d’écoconception visant à réduire les impacts environnementaux. À cette fin, cette déclaration a été rédigée dans le cadre de la mise en œuvre du référentiel général de l’écoconception des services numériques (version 2024).
         Le référentiel général de l’écoconception des services numériques, document réalisé par l’Arcep et l’Arcom, en collaboration avec l’ADEME, la DINUM, la CNIL et l’Inria, est disponible sur le site web de l’Arcep : <a href="https://www.arcep.fr/demarches-et-services/professionnels/referentiel-general-ecoconception-services-numeriques.html">https://www.arcep.fr/demarches-et-services/professionnels/referentiel-general-ecoconception-services-numeriques.html</a></p>
 
@@ -134,6 +139,8 @@
             </tbody>
           </table>
       {{- end -}}
+
+      {{- if ge $referential.versionmajor 2 -}}
       {{- with ($data.Get "scores").criteria.all -}}
         <h2>Déclaration pour chaque critère</h2>
         {{ i18n "works-offlinewarningNoLoad" | markdownify }}
@@ -141,7 +148,7 @@
           {{- $b := dict -}}
           {{- $c := dict -}}
           {{- $a := (index (where (index (index $context.Site.Data $referential.name) (string $referential.version)).declaration "id" .id) 0) }}
-          {{- with ($data.Get "context").audit.criteria -}}
+          {{- if and ($data.Get "context").audit ($data.Get "context").audit.criteria -}}
             {{- $b = (index (where ($data.Get "context").audit.criteria "id" ($value.id)) 0)  }}
           {{- end -}}
           {{- range $key, $value := $b -}}
@@ -178,7 +185,8 @@
           <hr>
           {{ end }}
         {{ end }}
-      {{ end }}
+      {{ end -}}
+      {{ end -}}
     </section>
     {{- else -}}
         <p>Déclaration vide ; l’entête du fichier de contenu <code>ecoconception.md</code> ou le fichier <code>/rgesn/context.yml</code> sont manquants.</p>

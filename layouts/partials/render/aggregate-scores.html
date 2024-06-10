@@ -51,8 +51,8 @@
           {{/* Variables  */}}
           {{ $guidelines   := ((index ($data.Get (printf "aggregate-%s-contextaudit" $type)) (index $auditsfiles "auditfile-name")).guidelines) }}
           {{/* Determine the audit version :: switch to RGAA 4 if RAweb 1 */}}
-          {{ $versionlong := (cond (eq $guidelines.name "raweb") "4.1" $guidelines.version ) }}
-          {{ $version     := (index (split $versionlong ".") 0) }}
+          {{ $versionlong := (cond (and (eq $guidelines.name "raweb") (eq $type "accessibility")) "4.1" $guidelines.version ) }}
+          {{ $version     := $guidelines.versionmajor }}
           {{ $data.Add (printf "aggregate-%s-version" $type) $version }}
 
           {{/* Store each result in a map */}}
