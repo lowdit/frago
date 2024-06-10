@@ -1,20 +1,26 @@
 {{ $context        := .context }}
-{{ $referential    := .referential }}
-{{ $Type           := cond (not .Type) "" .Type }}
+{{ $referential    := trim .referential " " }}
+{{ $Type           := trim (cond (not .Type) "" .Type) " " }}
 {{ $data           := newScratch }}
 {{ $path           := "" }}
 {{ $patharray      := (symdiff (split ($context.RelPermalink) "/") (slice ""))}}
 
-{{/* Only for accessibility because of differents guidelines :: RGAA, RAWeb, WCAG */}}
+{{ if (and (eq $referential "any") (or (eq $Type "accessibility") (eq $Type "ecoconception"))) }}
+  {{ warnf "Guideline value in audit context in empty %s --%s-- %s" $Type .project $context }}
+{{ end }}
+
+{{/* Only for accessibility because of differents guidelines version are existing :: RGAA, RAWeb, WCAG */}}
 {{ $referential := cond (and (eq $referential "any") (eq $Type "accessibility")) "rgaa"  $referential }}
 {{ $referential := cond (and (eq $referential "any") (eq $Type "raweb"))         "raweb" $referential }}
+{{ $referential := cond (and (eq $referential "any") (eq $Type "opquast"))       "opquast" $referential }}
 {{ $referential := cond (and (eq $referential "any") (eq $Type "ecoconception")) "rgesn" $referential }}
+{{ $referential := cond (and (eq $referential "any") (eq $Type "publishing"))    "publishing" $referential }}
 
 {{ $versionallarray := "" }}
 {{ $data.Set "versionallarray" slice }}
 
 {{/* Loop over all directories in a guidelines for finding all versions of this guideline */}}
-{{ range $key, $value := (index $context.Site.Data $referential) }}
+{{ range $key, $value := (index $context.Site.Data (trim $referential " ") )}}
   {{ if in $key "." }}
     {{ if ne $versionallarray (slicestr $key 0 3) }}{{ $data.Set "versionallarray" slice }}{{ end }}
     {{ $data.Add "versionallarray" $key }}
@@ -24,7 +30,7 @@
 {{ end }}
 
 {{ $data.Set "name"    $referential }}
-{{ $data.Set "version" (cond (not .version) (cond (not (delimit (last 1 ($data.Get "versionallarray")) "")) "ko" (delimit (last 1 ($data.Get "versionallarray")) "")) .version) }}
+{{ $data.Set "version" (cond (or (eq .version "0") (not .version)) (cond (not (delimit (last 1 ($data.Get "versionallarray")) "")) "ko" (delimit (last 1 ($data.Get "versionallarray")) "")) .version) }}
 
 {{ if and (ge ($patharray) 3) (ne (delimit (first 1 $patharray) "") "audits") (ne (delimit (first 1 $patharray) "") "organism") (index ($data.Get "versionall") (index $patharray 1)) }}
   {{ $data.Set "name" (index $patharray 0) }}
@@ -35,6 +41,7 @@
   "guideline" (dict
       "name"                ($data.Get "name")
       "version"             ($data.Get "version")
+      "versionmajor"        (index (split ($data.Get "version") ".") 0)
       "versionall"          ($data.Get "versionall")
     )
 )}}

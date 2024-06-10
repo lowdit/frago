@@ -264,8 +264,9 @@
           {{ if and (eq (len $rendercritererest) 1) (eq (index $rendercritererest 0) "c") }}
             {{ $data.SetInMap (printf "%s%s" $scorekey "critC") (string $id) . }}
             {{ $data.SetInMap "AllCriteria" (string $id) "c" }}
-          {{ else if and (eq (len $rendercritererest) 2) (in $rendercritererest "NA") }}
-            {{ warnf "%v" . }}
+          {{ else if and (eq (len $rendercritererest) 2) (in $rendercritererest "na") }}
+            {{ $data.SetInMap (printf "%s%s" $scorekey "critNA") (string $id) . }}
+            {{ $data.SetInMap "AllCriteria" (string $id) "na" }}
           {{ else if and (eq (len $rendercritererest) 1) (eq (index $rendercritererest 0) "na") }}
             {{ $data.SetInMap (printf "%s%s" $scorekey "critNA") (string $id) . }}
             {{ $data.SetInMap "AllCriteria" (string $id) "na" }}

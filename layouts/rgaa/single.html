@@ -3,7 +3,7 @@
   {{/* Range all RGAA version according to data folder */}}
   {{- $path := "" }}{{ with .File }}{{ $path = .Path }}{{ end }}
   {{- $refname := lower (index (split $path "/") 0) -}}
-  {{- $referential := (partialCached "render/referential-version.html" (dict "context" . "referential" $refname) . ).guideline -}}
+  {{- $referential := (partialCached "render/referential-version.html" (dict "context" . "referential" $refname) . $refname).guideline -}}
 
   {{- $glossaire   := printf "=\"/%s/%s/glossaire/#" $referential.name $referential.version -}}
   {{- $.Store.Set "file" (index (index $.Site.Data $referential.name) (string $referential.version)) -}}

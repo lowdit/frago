@@ -1,5 +1,5 @@
 {{/* Find the guideline name and version inside a plain text value */}}
-{{ $guideline     := (replace (. | urlize) "-" " ") }}
+{{ $guideline     := (replace (.guidelines | urlize) "-" " ") }}
 {{ $name          := "any" }}
 {{ $version       := "0"   }}
 {{ if $guideline }}
@@ -9,8 +9,6 @@
     {{ $name     = cond (eq $Type "false") . $name }}
     {{ $version  = cond (eq $Type "true")  . $version }}
   {{ end }}
-{{ else }}
-  {{ warnf "Guideline value in audit context in empty" }}
 {{ end }}
 {{ return (dict
   "name"                $name

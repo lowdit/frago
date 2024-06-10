@@ -47,8 +47,8 @@
     "1.6":
       other: |-
         {{ with .tools }}Le service numérique collecte des données afin de répondre aux besoins de **{{ . }}**.{{ end }}
-        {{ with .functionalities }}
-        Il ne comporte pas de collecte de métadonnées à des fins publicitaires / Il collecte des métadonnées à des fins publicitaires, sous réserve du consentement explicite et éclairé de l’utilisateur, puisqu’il s’agit d’une démarche essentielle pour les fonctionnalités suivantes {{ . }}
+        {{ if .functionalities }}
+        Il ne comporte pas de collecte de métadonnées à des fins publicitaires / Il collecte des métadonnées à des fins publicitaires, sous réserve du consentement explicite et éclairé de l’utilisateur, puisqu’il s’agit d’une démarche essentielle pour les fonctionnalités suivantes {{ .functionalities }}
         {{ with .mention }}Mentions légales : <a href="{{ . }}">Mentions Légales</a>.{{ end }}
         {{ end }}
     "1.7":

@@ -14,6 +14,16 @@
 {{- if and (ne $project "audits") (ne $path "audits") (ne $project "") -}}
 <section class="fg-wrapper narrow">
     {{/* Load lasts file */}}
+    {{- $.Store.Set "accessibility-Exists" false -}}
+    {{- $.Store.Set "raweb-Exists"         false -}}
+    {{- $.Store.Set "ecoconception-Exists" false -}}
+    {{- $.Store.Set "opquast-Exists"       false -}}
+    {{- $.Store.Set "publishing-Exists"    false -}}
+    {{- $greenit        := false }}
+    {{/*- $greenit        := fileExists (index (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "greenit")        $project "greenit") "auditfile-path") -*/}}
+    {{- $recommendation := fileExists (index (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "recommendation") $project "recommendation") "auditfile-path") -}}
+    {{- $lighthouse     := fileExists (index (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "lighthouse")     $project "lighthouse") "auditfile-path") -}}
+    {{- $ecoindex       := fileExists (index (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "ecoindex")       $project "ecoindex") "auditfile-path") -}}
 
     {{- $.Store.Set "greenit-lastfile"        (partialCached "render/lastfile.html" (dict "context" . "project" $project "type" "greenit" "datafilename" .Params.datafilename) $project "greenit" .Params.datafilename) -}}
     {{- $.Store.Set "greenit-path"            (index ($.Store.Get "greenit-lastfile") "auditfile-path")     -}}
@@ -21,10 +31,13 @@
     {{- $conditions := slice -}}
     {{- range $reflist -}}
       {{- $.Store.Set (printf "%s-lastfile" .)    (partialCached "render/lastfile.html" (dict "context" . "project" $project "type" .) $project .) -}}
-      {{- $.Store.Set (printf "%s-referential" .) (partialCached "render/referential-version.html" (dict "context" $context  "Type" . "referential" "any") . ).guideline -}}
-      {{- $.Store.Set (printf "%s-path"     .)    (index ($.Store.Get (printf "%s-lastfile" .)) "auditfile-path")     -}}
-      {{- $.Store.Set (printf "%s-all-path" .)    (index ($.Store.Get (printf "%s-lastfile" .)) "auditfile-all-path") -}}
-      {{- $.Store.Set (printf "%s-all-name" .)    (index ($.Store.Get (printf "%s-lastfile" .)) "auditfile-all-name") -}}
+      {{- $.Store.Set (printf "%s-Exists" .)      (fileExists (index ($.Store.Get (printf "%s-lastfile" .)) "auditfile-path")) -}}
+      {{- if ($.Store.Get (printf "%s-Exists" .)) -}}
+        {{- $.Store.Set (printf "%s-referential" .) (partialCached "render/referential-version.html" (dict "context" $context "Type" . "project" "pageprojet" "referential" .) . ).guideline -}}
+        {{- $.Store.Set (printf "%s-path"     .)    (index ($.Store.Get (printf "%s-lastfile" .)) "auditfile-path")     -}}
+        {{- $.Store.Set (printf "%s-all-path" .)    (index ($.Store.Get (printf "%s-lastfile" .)) "auditfile-all-path") -}}
+        {{- $.Store.Set (printf "%s-all-name" .)    (index ($.Store.Get (printf "%s-lastfile" .)) "auditfile-all-name") -}}
+      {{- end -}}
       {{- $cond := fileExists (index ($.Store.Get (printf "%s-lastfile" .)) "auditfile-path") -}}
       {{- $conditions = $conditions | append $cond -}}
     {{- end -}}
@@ -109,19 +122,8 @@
       {{- end -}}
     {{- end -}}
 
-    {{- $accessibility  := fileExists (index (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "accessibility")  $project "accessibility") "auditfile-path") -}}
-    {{- $ecoconception  := fileExists (index (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "ecoconception")  $project "rgesn") "auditfile-path") -}}
-    {{- $opquast        := fileExists (index (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "opquast")        $project "opquast") "auditfile-path") -}}
-    {{- $publishing     := fileExists (index (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "publishing")     $project "publishing") "auditfile-path") -}}
-    {{- $greenit        := false }}
-    {{/*- $greenit        := fileExists (index (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "greenit")        $project "greenit") "auditfile-path") -*/}}
-    {{- $recommendation := fileExists (index (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "recommendation") $project "recommendation") "auditfile-path") -}}
-    {{- $lighthouse     := fileExists (index (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "lighthouse")     $project "lighthouse") "auditfile-path") -}}
-    {{- $ecoindex       := fileExists (index (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "ecoindex")       $project "ecoindex") "auditfile-path") -}}
-
-
     {{/* START - If accessibility and recommendation and lighthouse */}}
-    {{- if or $accessibility $ecoconception $recommendation $lighthouse -}}
+    {{- if or ($.Store.Get "accessibility-Exists") ($.Store.Get "ecoconception-Exists") $recommendation $lighthouse -}}
 
     {{/* START - If Recommendation */}}
     {{- if $recommendation -}}
@@ -273,7 +275,7 @@
     {{- end -}}
     {{/* END - If accessibility and recommendation and lighthouse */}}
 
-    {{- if and $accessibility (eq (len (split $project "/")) 1) -}}
+    {{- if and ($.Store.Get "accessibility-Exists") (eq (len (split $project "/")) 1) -}}
     {{- with partialCached "render/externals" (dict "context" $context "project" $project "auditfile" ($.Store.Get "accessibility-path")) $context $project ($.Store.Get "accessibility-path") -}}
       {{ $map := . }}
       {{- if ne (len .compliance) 1 -}}

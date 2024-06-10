@@ -7,7 +7,9 @@
 {{ $path         := "/" }}
 
 {{ $result     := (partialCached "render/filepath" (dict "project" $project "type" $Type) $project $Type) }}
-{{ $path       = cond (fileExists $result) $result $path }}
+{{ $path        = cond (fileExists $result) $result $path }}
+
+{{ if fileExists $result }}
 
 {{ $data.Set "datecontext" "" }}
 {{ $projectname  := delimit (last 1 (split $project "/")) "" }}
@@ -21,7 +23,7 @@
         {{ $filecontent := $file | transform.Unmarshal }}
         {{/* Range context.yml file content */}}
         {{ range $date, $value := $filecontent.audits }}
-          {{ $guidelines := (partial "render/guideline.html" .guidelines) }}
+          {{ $guidelines := (partial "render/guideline.html" (dict "project" $project "guidelines" .guidelines)) }}
           {{ $guidelines := (partial "render/referential-version.html" (dict "context" $context "Type" $Type "referential" $guidelines.name "version" $guidelines.version) $guidelines.name $context).guideline }}
           {{ $data.SetInMap "context" $date (dict "declared" true "contacts" (cond (not $filecontent.contacts) ($context.Site.Params.contacts) ($filecontent.contacts)) "website" $filecontent.website "audit" (index $filecontent.audits $date) "guidelines" $guidelines "path" $path "type" $Type) }}
         {{ end }}
@@ -41,8 +43,8 @@
   {{/* In a front matter of the current page */}}
   {{ $value       := (index $context.Params $Type) }}
   {{ $contextpath := cond (fileExists (printf "/audits/%s/%s.md" $Type $project)) (printf "/audits/%s/%s.md" $Type $project) (cond (fileExists (printf "/audits/%s/_index.md" $project)) (printf "/audits/%s/_index.md" $project) (printf "/audits/%s/index.md" $project)) }}
-  {{ $guidelines  := (partial "render/guideline.html" $value.audit.guidelines) }}
-  {{ $guidelines  := (partialCached "render/referential-version.html" (dict "context" $context "Type" $Type "referential" $guidelines.name "version" $guidelines.version) $context $guidelines.name $Type).guideline }}
+  {{ $guidelines  := (partial "render/guideline.html" (dict "project" $project "guidelines" $value.audit.guidelines)) }}
+  {{ $guidelines  := (partialCached "render/referential-version.html" (dict "context" $context "Type" $Type "project" "contextfile" "referential" $guidelines.name "version" $guidelines.version) $context $guidelines.name $Type).guideline }}
   {{ with $context.GetPage $contextpath }}{{ $data.SetInMap "context" ($data.Get "datecontext") (dict "declared" $value "contacts" (cond (not $value.contacts) ($context.Site.Params.contacts) ($value.contacts)) "website" $value.website "audit" ($value.audit) "guidelines" $guidelines "path" $contextpath "type" $Type) }}{{ end }}
   {{/* If content has only one project */}}
   {{ if (partialCached "render/issimpleproject.html" "arg" "arg") }}
@@ -76,6 +78,8 @@
       {{ warnf "Context is not declared for %s see the documentation - it can be done in files content/audits/%s or content/audits/%s/accessibility/context.yml" (cond (not $projectname) (printf "this project") (printf "the project %s" $project)) $path $project }}
     {{ end }}
   {{ end }}
+{{ end }}
+
 {{ end }}
 
 {{ return ($data.Get "context") }}
