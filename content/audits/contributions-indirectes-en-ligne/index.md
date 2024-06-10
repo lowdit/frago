@@ -7,7 +7,4 @@ accessibility:
     technologies: ["HTML", "CSS"]
     tools: ["Wave", "AXE", "MOZ DevTools","Usability Hike"]
     environment: ["MacOS", "Chrome", "VoiceOver"]
-ecoconception:
-  audit:
-    company: Société d’audit internationale
 ---
