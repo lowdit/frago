@@ -372,7 +372,7 @@
 
     {{ $data.SetInMap $scorekey "testtotal"              ($data.Get (printf "%s" "totalTest")) }}
     {{ $data.SetInMap $scorekey "all"                    ($data.Get "AllCriteria") }}
-    {{ $data.SetInMap $scorekey "total"                  (cond (eq (index ($data.Get (printf "%s%s" $scorekey "critNAtest")) "0") "false") ($data.Get "critCount") (merge ($data.Get "critCount") ($data.Get (printf "%s%s" $scorekey "critNAtest")))) }}
+    {{ $data.SetInMap $scorekey "total"                  (cond (eq (index ($data.Get (printf "%s%s" $scorekey "critNAtest")) "0") "false") (len ($data.Get "critCount")) (len (merge ($data.Get "critCount") ($data.Get (printf "%s%s" $scorekey "critNAtest"))))) }}
     {{ $data.SetInMap $scorekey "conforme"               ($data.Get (printf "%s%s" $scorekey "critC")) }}
     {{ $data.SetInMap $scorekey "nonconforme"            ($data.Get (printf "%s%s" $scorekey "critNC")) }}
     {{ $data.SetInMap $scorekey "nonapplicable"          ($data.Get (printf "%s%s" $scorekey "critNA")) }}

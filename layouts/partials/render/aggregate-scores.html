@@ -78,11 +78,12 @@
                   {{ $thematique      = (index (index (where $criteriafile "number" (float $id)) 0).thema 0).fr }}
                 {{ end }}
                 {{ $data.Add (printf "%s%s-%s-t" $thematique $type $valuekey) 1 }}
+                {{ $data.Add (printf "%s%s-%s-%-t" $thematique $type $valuekey $version) 1 }}
                 {{ $data.Add (printf "%s-list-t" $type) $thematique }}
                 {{ $data.Add (printf "%s-%s-list-t" $type $version) (printf ",%s" $thematique) }}
                 {{/* Store conforme criteria */}}
                 {{ $data.SetInMap (printf "average-%s-%s-t" $type $valuekey) (string $thematique) ($data.Get (printf "%s%s-%s-t" $thematique $type $valuekey)) }}
-                {{ $data.SetInMap (printf "average-%s-%s-%s-t" $type $valuekey $version) (string $thematique) ($data.Get (printf "%s%s-%s-t" $thematique $type $valuekey)) }}
+                {{ $data.SetInMap (printf "average-%s-%s-%s-t" $type $valuekey $version) (string $thematique) ($data.Get (printf "%s%s-%s-%-t" $thematique $type $valuekey $version)) }}
               {{ end }}
               {{/* END Loop conforme criteria */}}
             {{ end }}

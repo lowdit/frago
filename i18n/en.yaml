@@ -1,99 +1,97 @@
-home:
-  other: "Home"
-accessibility:
-  other: "Accessibilité"
-raweb:
-  other: "Raweb"
-ecoconception:
-  other: "Éco-conception"
-publishing:
-  other: "Sobriété editoriale"
-opquast:
-  other: "Assurance Qualité"
-greenit:
-  other: "Bonnes Pratiques GreenIT"
-cigref:
-  other: "Cigref"
-recommendation:
-  other: "Recommandations"
-lighthouse:
-  other: "Performance"
-ecoindex:
-  other: "EcoIndex"
-nav-content:
-  other: "Other contents"
-nav-package:
-  other: "View the other categories"
-nav-anchor:
-  other: "Discover the thematics"
-promise-title:
-  other: "Content library"
-promise-text:
-  other: "Improving teaching and learning outcomes in the Northern region of Ghana"
-title-related-content:
-  other: "related content"
-link-access-more:
-  other: "See more"
-link-access-content:
-  other: "See more"
-form-legend-sort:
-  other: "Sort by:"
-form-legend-sort-date:
-  other: "Sort by date:"
-form-label-title:
-  other: "Title"
-form-label-lang:
-  other: "Language"
-form-legend-lang:
-  other: "Languages:"
-form-label-date:
-  other: "Date"
-form-label-ascending:
-  other: "Ascending"
-form-label-descending:
-  other: "Descending"
-form-label-all:
-  other: "All"
-search-placeholder:
-  other: "What are you looking for?"
-search-button:
-  other: "Search"
-assets-images:
-  other: "images"
-assets-audio:
-  other: "sounds"
-assets-documents:
-  other: "documents"
-assets-videos:
-  other: videos
-message-video-compatibility:
-  other: "Your browser does not support the video tag."
-message-audio-compatibility:
-  other: "Your browser does not support the audio tag."
-message-notfound:
-  other: "Page not found"
-languages:
-  one: "Language"
-  other: "Languages"
-category:
-  one: "category"
-  other: "categories"
-optional:
-  other: "optional"
-required:
-  other: "required"
-location:
-  other: "location"
-name:
-  other: "name"
-email:
-  other: "email"
-phone:
-  other: "phone"
-message:
-  other: "message"
-send:
-  other: "send"
-contact-us:
-  other: "Contact Us"
+- id: home
+  translation: "Home"
+- id: accessibility
+  translation: "Accessibilité"
+- id: raweb
+  translation: "Raweb"
+- id: ecoconception
+  translation: "Éco-conception"
+- id: publishing
+  translation: "Sobriété editoriale"
+- id: opquast
+  translation: "Assurance Qualité"
+- id: greenit
+  translation: "Bonnes Pratiques GreenIT"
+- id: cigref
+  translation: "Cigref"
+- id: recommendation
+  translation: "Recommandations"
+- id: lighthouse
+  translation: "Performance"
+- id: ecoindex
+  translation: "EcoIndex"
+- id: nav-content
+  translation: "Other contents"
+- id: nav-package
+  translation: "View the other categories"
+- id: nav-anchor
+  translation: "Discover the thematics"
+- id: promise-title
+  translation: "Content library"
+- id: promise-text
+  translation: "Improving teaching and learning outcomes in the Northern region of Ghana"
+- id: title-related-content
+  translation: "related content"
+- id: link-access-more
+  translation: "See more"
+- id: link-access-content
+  translation: "See more"
+- id: form-legend-sort
+  translation: "Sort by:"
+- id: form-legend-sort-date
+  translation: "Sort by date:"
+- id: form-label-title
+  translation: "Title"
+- id: form-label-lang
+  translation: "Language"
+- id: form-legend-lang
+  translation: "Languages:"
+- id: form-label-date
+  translation: "Date"
+- id: form-label-ascending
+  translation: "Ascending"
+- id: form-label-descending
+  translation: "Descending"
+- id: form-label-all
+  translation: "All"
+- id: search-placeholder
+  translation: "What are you looking for?"
+- id: search-button
+  translation: "Search"
+- id: assets-images
+  translation: "images"
+- id: assets-audio
+  translation: "sounds"
+- id: assets-documents
+  translation: "documents"
+- id: assets-videoslulslslls
+  translation: "Your browser does not support the audio tag."
+- id: message-notfound
+  translation: "Page not found"
+- id: languages
+  translation:
+    one: "Language"
+    other: "Languages"
+- id: category
+  translation:
+    one: "category"
+    other: "categories"
+- id: optional
+  translation: "optional"
+- id: required
+  translation: "required"
+- id: location
+  translation: "location"
+- id: name
+  translation: "name"
+- id: email
+  translation: "email"
+- id: phone
+  translation: "phone"
+- id: message
+  translation: "message"
+- id: send
+  translation: "send"
+- id: contact-us
+  translation: "Contact Us"
 

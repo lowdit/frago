@@ -56,10 +56,10 @@
             <h3>Dans les critères "{{ $priorite }}"</h3>
             {{- range (slice "non conforme" "non applicable" "non teste") }}
             {{- $value := . -}}
-            {{- with (index ($data.Get "scores").criteria (anchorize (replace . " " "") )) -}}
+            {{- with (index ($data.Get "scores").criteria ((replace . " " "") )) -}}
               <h4 id="criteria-{{ $value }}">Tous les critères "{{ humanize $value }}"</h4>
                 {{- range $key, $value := . -}}
-                  {{- $crit := (index (where $criteriafile "id" $key) 0) -}}
+                  {{- $crit := (index (where (where $criteriafile "priorite" $priorite) "id" $key) 0) -}}
                   {{- if eq $crit.priorite $priorite -}}
                   <p>
                     <strong>Critère {{ $key }}</strong> - <small>{{ $crit.difficulte }}</small><br>

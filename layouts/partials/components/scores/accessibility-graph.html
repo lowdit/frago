@@ -15,45 +15,9 @@
 {{- with $auditfile -}}
   {{- $auditfile        := . }}
   {{- $topics           := $ref.accessibility.topics -}}
-  {{- $auditmethodology := (index (partialCached "render/methodology.html" (dict "auditfile" $auditfile) $auditfile) "methodology") -}}
   {{- $pageslist        := (index (partialCached "render/methodology.html" (dict "auditfile" $auditfile) $auditfile) "pageslist")  -}}
+  {{- $thematiques := partialCached "render/score-thematiques.html" (dict "scores" $scores "topics" $topics) $scores -}}
 
-  {{/* Variables */}}
-  {{- $counter                 := 0 -}}
-  {{- $counterconformesum      := 0 -}}
-  {{- $counternonapplicablesum := 0 -}}
-  {{- $counternonconformesum   := 0 -}}
-
-  {{/* START :: Range by line for displaying the corresponding graph */}}
-  {{- range $id, $value := after 1 $auditfile -}}
-    {{/* Variables */}}
-    {{- $key := index $topics (sub (int (delimit (first 1 (split (index $value 0) ".")) "" )) 1) }}
-    {{- $data.Set "counterconforme"      0 -}}
-    {{- $data.Set "counternonapplicable" 0 -}}
-    {{- $data.Set "counternonconforme"   0 -}}
-    {{/* Range columns */}}
-    {{- range $id, $value := after $auditmethodology $value -}}
-      {{- if eq . "c" -}}
-        {{- $data.Add      "counterconforme" 1 -}}
-        {{- $data.Add      (printf "counterconforme%s" $key) 1 -}}
-        {{- $data.SetInMap "conforme" (string $key) ($data.Get (printf "counterconforme%s" $key)) }}
-      {{- end -}}
-      {{- if eq . "na" -}}
-        {{- $data.Add "counternonapplicable" 1 -}}
-      {{- end -}}
-      {{- if and (ne . "na") (ne . "c") (ne . "?") (ne . "") (ne . "25") (ne . "50") (ne . "81") -}}
-        {{- $data.Add      "counternonconforme" 1 -}}
-        {{- $data.Add      (printf "counternonconforme%s" $key) 1 -}}
-        {{- $data.SetInMap "nonconforme" (string $key) ($data.Get (printf "counternonconforme%s" $key)) }}
-      {{- end -}}
-    {{- end -}}
-    {{- $counterconformesum      = add $counterconformesum      ($data.Get "counterconforme") -}}
-    {{- $counternonapplicablesum = add $counternonapplicablesum ($data.Get "counternonapplicable") -}}
-    {{- $counternonconformesum   = add $counternonconformesum   ($data.Get "counternonconforme") -}}
-  {{- end -}}
-  {{/* END :: Range by line for displaying the corresponding graph */}}
-
-  {{- $total := add $counterconformesum $counternonconformesum -}}
   {{- if and (gt (len (index $scores.conformepage "0")) 3) (index $scores.nonconformepage "0") -}}
     <div id="chartpagecriteres-csv"></div>
     <link rel="preload" href="{{ (resources.Get "js/frappe-charts.min.iife.js").Permalink }}" as="script">
@@ -96,16 +60,16 @@
   {{- $data.Set "graphcounter2" 0 -}}
   <script>
       const datapiecsv = {
-          labels: [{{ range $id, $value := $topics }}{{ if (index ($data.Get "nonconforme") $value) }}{{ if ne ($data.Get "graphcounter1") 0 }},{{ end }}"{{ $data.Add "graphcounter1" 1 }}{{ $value }}"{{ end }}{{ end }}],
+          labels: [{{ range $id, $value := $topics }}{{ if (index $thematiques.thematiques.nonconformes $value) }}{{ if ne ($data.Get "graphcounter1") 0 }},{{ end }}"{{ $data.Add "graphcounter1" 1 }}{{ $value }}"{{ end }}{{ end }}],
           datasets: [
             {
               name: "Non Conforme",
-              values: [{{ range $id, $value := $topics }}{{ if (index ($data.Get "nonconforme") $value) }}{{- if ne ($data.Get "graphcounter2") 0 -}},{{- end -}}{{ (div (mul (float (index (($data.Get "nonconforme")) $value)) 100) $total) | lang.NumFmt 1 -}}{{- $data.Add "graphcounter2" 1 | safeJS  -}}{{- end -}}{{ end }}]
+              values: [{{ range $id, $value := $topics }}{{ if (index $thematiques.thematiques.nonconformes $value) }}{{- if ne ($data.Get "graphcounter2") 0 -}},{{- end -}}{{ (div (mul (float (index ($thematiques.thematiques.nonconformes) $value)) 100) $thematiques.total ) | lang.NumFmt 1 -}}{{- $data.Add "graphcounter2" 1 | safeJS  -}}{{- end -}}{{ end }}]
             }
           ]
       }
       const chartpiecsv = new frappe.Chart("#chartpie-csv", {
-          title: "Part du total des {{ if eq $auditmethodology 3 }}tests{{ else }}critères{{ end }} non conformes (en %)",
+          title: "Part du total des critères non conformes (en %)",
           data: datapiecsv,
           ...options
       })

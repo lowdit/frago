@@ -1,0 +1,391 @@
+"rgesn":
+  "2":
+    "1.1":
+      other: |-
+        Le service **{{ with .servicemain }}**{{ . }}**{{ else }}##Manquant##{{ end }}** a été évalué favorablement en termes d’utilité en tenant compte de {{ with .norms }}**{{ . }}**{{ else }}##Manquant##{{ end }}.
+
+        {{ with .description }}
+        **En effet, le service devrait permettre de :**
+        {{ . }}
+        {{ end }}
+    "1.2":
+      other: |-
+        {{ if .studies }}
+        Les cibles utilisatrices du service **{{ with .servicemain }}{{ . }}{{ else }}##Manquant##{{ end }}** ont été identifiées en procédant à **{{ .studies }}**.
+        {{ end }}
+        {{ if .target }}
+        Ainsi, les cibles utilisatrices du service sont : **{{ .target }}**.
+        {{ with .functionalities }}
+        **En cohérence, le service numérique répond à leurs besoins puisque présentant les fonctionnalités suivantes :**
+        {{ . }}
+        {{ end }}
+        {{ end }}
+    "1.3":
+      other: |-
+        {{ with .referent }}
+        Personnes référentes en écoconception numérique pour le service :
+        {{ range . }}
+        {{ with .name }}**{{ . }}**{{ else }}##Manquant##{{ end }}
+        - Poste : {{ with .title }}**{{ . }}**{{ else }}##Manquant##{{ end }}
+        - Service: {{ with .service }}**{{ . }}**{{ else }}##Manquant##{{ end }}
+        {{ end }}
+        {{ end }}
+    "1.4":
+      other: |-
+        {{ with .date }}Pour ce faire, des audits réguliers sont réalisés tous les **{{ . }}** pour améliorer en continu la performance environnementale du service{{ else }}Aucune date d'audit n'a été stipulée{{ end }}.
+    "1.5":
+      other: |-
+        L’empreinte environnementale du service {{ with .servicemain }}{{ . }}{{ else }}##Manquant##{{ end }} a été évaluée le {{ with .date }}{{ . }}{{ else }}##Manquant##{{ end }} en suivant la méthode de quantification d'impact {{ with .method }}**{{ . }}**{{ end }}.
+
+        **Ainsi, les indicateurs environnementaux suivants ont pu être calculés :**
+        {{ with .scores }}
+        {{ with .co2 }}- Empreinte carbone : **{{ . }}** kgCO2e{{ end }}
+        {{ with .energy }}- Consommation d’énergie : **{{ . }}** MJ{{ end }}
+        {{ with .abiotic }}- Consommation en ressources abiotiques minérales/métaux : **{{ . }}** KgSbeq{{ end }}
+        {{ with .water }}- Consommation en eau bleue : **{{ . }}** m3 eq.{{ end }}
+        {{ end }}
+    "1.6":
+      other: |-
+        {{ with .tools }}Le service numérique collecte des données afin de répondre aux besoins de **{{ . }}**.{{ end }}
+        {{ with .functionalities }}
+        Il ne comporte pas de collecte de métadonnées à des fins publicitaires / Il collecte des métadonnées à des fins publicitaires, sous réserve du consentement explicite et éclairé de l’utilisateur, puisqu’il s’agit d’une démarche essentielle pour les fonctionnalités suivantes {{ . }}
+        {{ with .mention }}Mentions légales : <a href="{{ . }}">Mentions Légales</a>.{{ end }}
+        {{ end }}
+    "1.7":
+      other: |-
+        {{ with .technologies }}
+        Afin d’assurer la sécurité des données du service, des mécanismes cryptographiques sont mis en place.
+        Le choix s’est orienté vers les technologies {{ with . }}**{{ . }}**{{ else }}##Manquant##{{ end }}
+        {{ end }}
+        {{ with .description }}
+        après une analyse des risques de sécurité informatique du service et de l’empreinte environnementale associée, dont voici les contours publics :
+        {{ . }}
+        {{ else }}
+        .
+        {{ end }}
+    "1.8":
+      other: |-
+        {{ with .license }}
+        Le service numérique publie {{ with .perimeter }}**{{ . }}**{{ else }}##Manquant##{{ end }} de son code en opensource, sous la licence {{ with .name }}**{{ . }}**{{ else }}##Manquant##{{ end }}.
+        {{ end }}
+        {{ with .description }}
+        **Des efforts sont déployés pour favoriser l’ouverture et le partage des ressources du service en opensource comme le montre les actions suivantes :**
+        {{ . }}
+        {{ end }}
+    "2.1":
+      other: |-
+        {{ with .materials }}
+        {{ with .processors }}- Processeur minimum : **{{ . }}**{{ end }}
+        {{ with .memory }}- Mémoire vive minimum : **{{ . }}**{{ end }}
+        {{ end }}
+
+        {{ with .evolution }}
+        **Évolution à venir sur la configuration matérielle minimum à partir de [date + 2 ans] {{ .date }} :**
+        {{ .description }}
+        {{ end }}
+    "2.2":
+      other: |-
+        {{ with .description }}
+        **Caractéristiques matérielles et logicielles de l’équipement ancien qui permet de faire fonctionner le service :**
+        {{ . }}
+        {{ end }}
+    "2.3":
+      other: |-
+        {{ with .connexion }}
+        Connexion internet minimum : **{{ . }}**
+        {{ end }}
+    "2.4":
+      other: |-
+        {{ with .configuration }}
+        {{ with .actual }}- Prérequis logiciels / Configuration logicielle minimum : **{{ . }}**{{ end }}
+        {{ with .evolution }}- Évolutions à venir sur la configuration logicielle minimum : **{{ . }}**{{ end }}
+        {{ end }}
+    "2.5":
+      other: |-
+        {{ with .display }}
+        {{ with .dynamique }}- Le service numérique s’appuie sur un affichage dynamique : **{{ . }}**{{ end }}
+        {{ with .type }}- Type d’interface compatible : **{{ . }}**{{ end }}
+        {{ with .size }}- Tailles d’affichage supportées par le service : **{{ . }}**{{ end }}
+        {{ with .test }}- Détail des tests réalisés : **{{ . }}**{{ end }}
+        {{ end }}
+    "2.6":
+      other: |-
+        Le service numérique {{ with .servicemain }}**{{ . }}**{{ else }}##Manquant##{{ end }} a procédé à une revue de code et de conception pour réduire le coût environnemental du service.
+    "2.7":
+      other: |-
+        Les fonctionnalités du service sont adaptées de façon dynamique dans le cadre de la politique de maintenance et de décommissionnement mis en œuvre pour assurer l’adéquation entre ces fonctionnalités et les besoins utilisateurs.
+    "2.8":
+      other: |-
+        {{ with .description }}
+        **En cohérence avec le Guide pratique pour des achats numériques responsables, il a été demandé aux fournisseurs à qui il est fait appel pour l’opération du service de respecter les dispositions suivantes :**
+        {{ . }}
+        {{ end }}
+    "2.9":
+      other: |-
+        {{ with .functionalities }}Le service numérique a recours à des composants prêts à l’emploi pour les fonctionnalités suivantes : **{{ . }}**{{ end}}.
+        {{ with .description }}
+        **Le choix de ces composants a été effectué afin de minimiser leur l’empreinte environnementale, comme l’atteste les éléments suivants :**
+        {{ . }}
+        {{ end }}
+    "2.10":
+      other: |-
+        {{ with .services }}**D’après les informations :**
+        {{ range . }}
+        {{ if .name }}Le service tiers **{{ .name }}** {{ with .url }}({{ . }}){{ end }} {{ with .criteria }}respecte les critères d’écoconception suivants :
+        {{ . }}
+        {{ end }}
+        {{ end }}
+        {{ end }}
+        {{ end }}
+    "3.1":
+      other: |-
+        {{ with .framework }}Le développement du backend et frontend du service numérique repose sur différents frameworks. Ils s’inscrivent dans la droite ligne de la démarche d’écoconception du service, comme le montre les éléments suivants :
+        {{ range . }}
+        {{ if .name }}Le framework **{{ .name }}** {{ if .criteria }}respecte les critères d’écoconception suivants :
+        {{ .criteria }}
+
+        Les composants de l’architecture, internes {{ .internal }} et externes {{ .internal }} respectent également les principes d’écoconception que sont [à compléter].
+        {{ end }}
+        {{ end }}
+        {{ end }}
+        {{ end }}
+    "3.2":
+      other: |-
+        {{ with .description }}
+        **Tests effectués démontrant l’adaptation de la consommation en ressource de l’architecture en fonction des besoins du service :**
+        {{ . }}
+        {{ end }}
+    "3.3":
+      other: |-
+        Afin de prévenir les risques d’obsolescence et de limiter le besoin en mise à jour ou modernisation, le service numérique repose sur des protocoles pérennes et adaptés à ses fonctionnalités.
+
+        **En particulier :**
+        - Le service numérique est accessible en IPV6 (et en IPV4)
+        - Le service numérique repose sur le protocole HTTPS
+        - La version de TLS utilisée doit prendre en charge la version la plus récente, c’est-à-dire [à compléter - à l’heure de rédaction de ce document, il s’agit de : TLS v1.3]
+        [etc]
+    "3.4":
+      other: |-
+        La politique de mises à jour du service numérique {{ with .servicemain }}**{{ . }}**{{ else }}##Manquant##{{ end }} intègre également des principes d’écoconception afin de prévenir tout risque d’obsolescence logicielle et de limiter les mises à jour aux stricts besoins du service.
+
+        {{ with .description }}
+        **Les actions suivantes sont en particulier mises en place :**
+        {{ . }}
+        {{ end }}
+
+    "3.7":
+      other: |-
+        {{ with .description }}
+        **Les environnements de développement, de préproduction ou de test sont désactivés la nuit, sur les plages horaires où ils sont inutilisés / Le service numérique utilise des environnements de développement, de préproduction ou de test mutualisés :**
+        {{ . }}
+        {{ end }}
+    "4.5":
+      other: |-
+        L’interface du service numérique s’appuie majoritairement sur des composants fonctionnels.
+        {{ with .description }}
+        **L’utilisation des composants non natifs est justifiée au regard de :**
+        {{ . }}
+        {{ end }}
+    "4.6":
+      other: |-
+        Le service numérique n’intègre pas de contenu vidéo, audio et animé à titre purement décoratif.
+        {{ with .description }}
+        {{ . }}
+        {{ end }}
+    "4.7":
+      other: |-
+        {{ with .description }}
+        **En cohérence avec les cibles utilisatrices identifiées et l’impact environnemental différencié des contenus audiovisuels, les choix suivants de recours au texte, à l’image, l’audio ou la vidéo ont été effectués :**
+        {{ . }}
+        {{ end }}
+    "4.12":
+      other: |-
+        {{ with .functionalities }}
+        L’évaluation environnementale du service met en lumière ces fonctionnalités comme ayant un impact environnemental le plus significatif : **{{ . }}. **
+        {{ end }}
+        {{ if and .ways .indicators }}
+        Ainsi, lorsque l’utilisateur demande l’accès à ces fonctionnalités par son interface, il est informé de l’impact environnemental de cette fonctionnalité aux moyens de {{ with .ways }}**{{ . }}**{{ end }}, qui met les indicateurs environnementaux suivants : {{ with .indicators }}**{{ . }}**{{ end }}
+        {{ end }}
+    "4.13":
+      other: |-
+        {{ with .notifications }}En matière de notifications, le service par défaut prévoit {{ .number }} tous les {{ .frequency }}.{{ end }}
+        {{ with .description }}
+        **L’utilisateur a bien la possibilité de désactiver ou de réduire les notifications du service :**
+        {{ . }}
+        {{ end }}
+    "4.15":
+      other: |-
+        Le service numérique permet également à l’utilisateur de connaître l’impact environnemental de son usage, en lien avec les recommandations [de la recommandation de l’Arcom quant à l'information des consommateurs par les services de télévision, les services de médias audiovisuels à la demande et les services de plateforme de partage de vidéos / du « Référentiel par catégorie de produit » de l’ADEME / autre référentiel reconnu par la puissance publique].
+
+        L’utilisateur a accès à un mode [d’usage/d’affichage] de type « sobriété énergétique » [par défaut / via son interface utilisateur principale] qui comprend les caractéristiques suivantes [à détailler].
+    "5.2":
+      other: |-
+        {{ with .resolution }}- Présence de résolutions multiples : **{{ . }}**{{ end }}
+        {{ with .settings }}- Politique de paramétrage de la qualité, lors de l’enregistrement des images : **{{ . }}**{{ end }}
+    "5.3":
+      other: |-
+        {{ with .resolution }}- Définitions proposées selon les types de terminaux : **{{ . }}**{{ end }}
+        {{ with .settings }}- Description mode « économie de données » / « sobriété énergétique » : **{{ . }}**{{ end }}
+    "5.4":
+      other: |-
+        {{ with .codec }}- Codec(s) vidéo et audio utilisé(s) pour chaque définition vidéo : **{{ . }}**{{ end }}{{ with .encoding }}
+        {{ with .video }}- Type d’encodage vidéo : **{{ . }}**{{ end }}
+        {{ with .audio }}- Type d’encodage audio : **{{ . }}**{{ end }}
+        {{ end }}
+    "5.5":
+      other: |-
+        {{ with .settings }}- Emplacement et fonctionnement du mode « écoute seule » : **{{ . }}**{{ end }}
+    "5.6":
+      other: |-
+        {{ with .codec }}- Codec(s) audio utilisé(s) : **{{ . }}**{{ end }}{{ with .encoding }}
+        {{ with .audio }}- Type d’encodage audio : débit, nombre de canaux : **{{ . }}**{{ end }}
+        {{ end }}
+    "5.7":
+      other: |-
+        {{ with .strategy }}- Stratégie de compression des documents : **{{ . }}**{{ end }}
+    "6.1":
+      other: |-
+        {{ with .sizemax }}- Poids des ressources maximum astreint par écran : **{{ . }}**{{ end }}
+        {{ with .requestmax }}- Nombre de requêtes serveurs maximum astreinte par écran : **{{ . }}**{{ end }}
+    "6.2":
+      other: |-
+        Le service numérique a mis en place une stratégie de cache, optimisée au regard du type de contenu, du contexte d’application et des scénarios d’usage.
+        {{ with .description }}
+        **En voici les principaux contours côté terminal :**
+        {{ . }}
+        {{ end }}
+    "7.1":
+      other: |-
+        Le service numérique a mis en place une stratégie de cache, optimisée au regard du type de contenu, du contexte d’application et des scénarios d’usage.
+        {{ with .description }}
+        **En voici les principaux contours côté serveurs :**
+        {{ . }}
+        {{ end }}
+    "7.4":
+      other: |-
+        {{ with .consensus }}Le service repose sur une blockchain qui utilise l’algorithme de consensus suivant : **{{ . }}**.{{ end }}
+        {{ with .description }}
+        **Le choix de la technologie utilisée minimise l’impact environnemental du service puisque :**
+        {{ . }}
+        {{ end }}
+    "8.1":
+      other: |-
+        {{ with .hosting }}- L’hébergement du service est assuré par **{{ . }}**.{{ end }}
+        {{ with .code }}- Cet hébergeur est signataire du Code de Conduite sur les Datacentres.{{ end }}
+
+        {{ with .commitment }}**Il a par ailleurs pris les engagements suivant pour diminuer son empreinte environnementale :** {{ . }}.{{ end }}
+    "8.2":
+      other: |-
+        L’engagement écologique de l’hébergeur repose également sur une politique de gestion durable des équipements.
+        {{ with .actions }}
+        Afin de diminuer l’impact environnemental des équipements nécessaires à l’hébergement, les actions suivantes ont été entreprises :
+        {{ with .servicelife }}- Communication sur la durée de vie moyenne de son parc d’équipements : **{{ . }}**{{ end }}
+        {{ with .impact }}- Informations sur l’impact environnemental de l’achat de ces équipements : **{{ . }}**{{ end }}
+        {{ with .purchase }}- Politique d’achat durable : **{{ . }}**{{ end }}
+        {{ with .use }}- Actions pour optimiser la phase d’usage des équipements : **{{ . }}**{{ end }}
+        {{ with .endoflife }}- Actions pour optimiser la fin de vie des équipements (recyclage, réutilisation, reconditionnement) : **{{ . }}**{{ end }}
+        {{ end }}
+    "8.3":
+      other: |-
+        {{ with .pue }}
+        L’hébergement fournit les indicateurs suivants sur son efficacité énergétique :
+        - PUE (Power Usage Effectiveness) **{{ .type }}**: **{{ .value }}**
+        {{ end }}
+    "8.4":
+      other: |-
+        {{ with .wue }}
+        L’hébergement fournit les indicateurs suivants sur son utilisation d’eau :
+        - WUE (Water Usage Effectiveness) **{{ .type }}**: **{{ .value }}**
+        {{ end }}
+    "8.5":
+      other: |-
+        Le mix énergétique de l’hébergement du service numérique est documenté et présente une consommation d’énergie renouvelable majoritaire comme l’attestent les données suivantes :
+        {{ with .energy }}{{ with .quantity }}- Quantité annuelle d’énergie contractualisée : **{{. }}**.{{ end }}
+            {{ with .ppa }}- part de PPA sur le réseau français, mais hors site : **{{ . }}**{{ end }}
+            {{ with .autoconsumption }}- part autoconsommation (potentiellement par PPA ou support complet des coûts de capital et autres) : **{{ . }}**.{{ end }}
+            {{ with .guaranties }}- part des garanties d’origines : {{ . }}.{{ end }}{{ end }}
+        {{ with .renewable }}- REF (Renewable Energy Factor) : **{{ . }}**.{{ end }}
+        {{ with .energycarbone }}- Part d’énergie part carbone : **{{ . }}**.{{ end }}
+    "8.6":
+      other: |-
+        - {{ with .cities }}L’hébergement du service est situé dans les villes : **{{ . }}**{{  end }}
+        - {{ with .mix }}L’intensité carbone du mix énergétique du pays où sont localisés l’hébergement est estimé à **{{ .value }}** CO₂eq/kWh d’après **{{ .source }}**.{{  end }}
+        - {{ with .sbti }}Il s’agit d’une valeur conforme à la trajectoire SBTi (Science-based Target Initiative) de réduction des émissions de gaz à effet de serre requise par l’accord de Paris.{{  end }}
+        - {{ with .proximity }}Il s’agit également du pays où la majorité des utilisateurs du service sont situés.{{ end }}
+    "8.7":
+      other: |-
+        {{ with .puissance }}
+        L’hébergeur du service numérique a mis en place un système de récupération et de réutilisation de la chaleur fatale.
+        Ce système permet de récupérer {{ . }} Wh en pleine capacité
+        {{ end }}
+    "8.10":
+      other: |-
+        Le service numérique {{ with .servicemain }}{{ . }}{{ else }}##Manquant##{{ end }} décale les (sauvegarde, mises à jour, entraînement…) en fonction de la disponibilité de l’énergie électrique et de sa carbonation, de la charge du réseau internet et éventuellement en fonction de la disponibilité des ressources de calcul quand cela est pertinent.
+
+        Plus en détails, les paramétrages suivants ont été mis en place :
+        {{ with .settings }}
+        {{ with .supply }}- Prise en compte des tensions sur l’approvisionnement énergétique : **{{ . }}**{{ end }}
+        {{ with .availability }}- Prise en compte de la disponibilité des ressources calculs : **{{ . }}**{{ end }}
+        {{ with .request }}- Prise en compte des pics de sollicitation des réseaux : **{{ . }}**{{ end }}
+        {{ end }}
+    "9.1":
+      other: |-
+        {{ if .target }}
+        L’inclusion d’une phase d’entraînement pour le service numérique {{ with .servicemain }}{{ . }}{{ else }}##Manquant##{{ end }} est justifiée par le besoin des cibles utilisatrices {{ .target }}.
+        {{ end }}
+        {{ with .functionalities }}
+        Ainsi, les fonctionnalités **{{ . }}** pour y répondre ne pouvaient être développées de façon optimale avec la recherche classique sans phase d’entraînement
+        {{ end }}
+        {{ with .gains }}
+        Les principaux gains pour les utilisateurs sont : **{{ . }}**.
+        {{ end }}
+        {{ with .trainingfrequency }}
+        En conséquence, la fréquence d’entraînement ne dépassera pas : **{{ .number }}** tous les **{{ .frequency }}**.
+        {{ end }}
+    "9.2":
+      other: |-
+        {{ with .method }}Un état de l’art a été réalisé pour choisir la méthode d’apprentissage la plus sobre dont voici les principaux contours publics **{{ . }}**.{{ end }}
+
+        {{ with .features }}En cohérence, la méthode d’entraînement choisie comprend les caractéristiques suivantes **{{ . }}**.
+
+        Il s’agit de la méthode la plus sobre disponible pour réponse au besoin actuel selon les connaissances et l’état de la recherche actuel.
+        {{ end }}
+    "9.3":
+      other: |-
+        Sur la base de l’état de l’art des modèles d’entraînement existant, le service numérique {{ with .training }}n’utilise pas un modèle préexistant (déjà entraîné ou pré-entraîné), en raison de **{{ . }}**{{ else }}s’appuie sur un modèle pré-entraîné, ce qui œuvre à rationaliser la quantité de ressources nécessaires pour le fonctionnement du service{{ end }}.
+
+        {{ with .indicators }}Par ailleurs, les indicateurs suivants ont été mis en place pour adapter et jauger la quantité d’entraînement nécessaire aux réels besoins : **{{ . }}**{{ end }}
+    "9.4":
+      other: |-
+        Le service numérique **{{ with .servicemain }}{{ . }}{{ else }}##Manquant##{{ end }}** intègre les enjeux de sobriété pour la gestion des données nécessaire à la phase d’entraînement.
+
+        {{ with .actions }}
+        Ainsi, les actions suivantes sont mises en place :
+        {{ with .bdd }}- Utilisation de bases de données existantes : **{{ . }}**{{ end }}
+        {{ with .limitation }}- Limitation de la captation de nouvelles données : **{{ . }}**{{ end }}
+        {{ with .cache }}- Système de mise en cache et de compression : **{{ . }}**{{ end }}
+        {{ end }}
+    "9.5":
+      other: |-
+        {{ with .parameters }}Le service a défini les paramètres suivants de déclenchement des mises à jour des modèles algorithmiques : **{{ . }}**{{ end }}
+
+        {{ with .indicator }}Des indicateurs de suivi ont été mis en place pour ajuster ces fréquences : **{{ . }}**{{ end }}
+
+        {{ with .description }}Il s’agit de l’option la plus frugale puisque : **{{ . }}**{{ end }}
+    "9.6":
+      other: |-
+        {{ with .training }}Les modèles utilisés pour l’entraînement sous-jacent au service numérique s’appuie sur les méthodes de compression suivantes : **{{ . }}**.{{ end }}
+
+        {{ with .gains }}Ceux-ci permettent des gains d’efficacité en termes de : **{{ . }}**.{{ end }}
+    "9.7":
+      other: |-
+        {{ with .inference }}La phase d’inférence du service numérique est adaptée aux cibles utilisatrices, comme le montre les éléments suivants : **{{ . }}**{{ end }}
+
+        {{ with .satisfaction }}Des indicateurs de satisfaction sont mis en place : **{{ . }}**{{ end }}
+
+        {{ with .consommation }}La consommation de ressources représenterait : **{{ . }}**{{ end }}
+
+        {{ with .goal }}Ces valeurs seront minimisées pour atteindre : **{{ . }}**{{ end }}
+
+        {{ with .action }}Les actions suivantes ont été mises en place pour atteindre cet objectif : **{{ . }}**{{ end }}
+

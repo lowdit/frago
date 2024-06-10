@@ -19,7 +19,7 @@
   {{ $auditfilecsv        := (getCSV "," .auditfile) }}
   {{ $auditmethodology := (index (partialCached "render/methodology.html" (dict "auditfile" $auditfilecsv) $auditfilecsv) "methodology") }}
   {{ $pageslist        := (index (partialCached "render/methodology.html" (dict "auditfile" $auditfilecsv) $auditfilecsv) "pageslist") -}}
-  {{ warnf "++ %s" (index (partialCached "render/methodology.html" (dict "auditfile" $auditfilecsv) $auditfilecsv) "methodology") }}
+
   {{ $data.Set "date" (replace (path.Base .auditfile) (path.Ext .auditfile) "") }}
 
   {{ range $key1, $value1 := after 1 $auditfilecsv }}
@@ -89,7 +89,7 @@
     {{ $data.Add "compliance-version-2-count" $cond }}
     {{ $data.SetInMap "compliance-version-2" (string $key) $cond }}
   {{ end }}
-  {{ $data.Set "compliance" (div (mul 100 ($data.Get "compliance-version-2-conforme")) ($data.Get "compliance-version-2-count")) }}
+  {{ $data.Set "compliance" (float (lang.NumFmt 0 (div (mul 100 ($data.Get "compliance-version-2-conforme")) ($data.Get "compliance-version-2-count")))) }}
 {{ end }}
 {{/* END calculate compliance for the 2.0 version */}}
 
