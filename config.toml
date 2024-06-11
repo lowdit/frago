@@ -1,10 +1,8 @@
-baseURL = ""
+baseURL = "https://frago-sandbox.netlify.app/"
 languageCode = "fr-FR"
 title = "Sandbox Frago"
 
 theme = ["github.com/lowdit/frago"]
-
-ignoreErrors = ["error-remote-getcsv"]
 
 pygmentsCodeFences = true
 pygmentsCodefencesGuessSyntax = true
