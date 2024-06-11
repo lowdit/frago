@@ -1,5 +1,5 @@
 module github.com/lowdit/sandbox
 
-go 1.23
+go 1.22.4
 
-require github.com/lowdit/frago v1.22.1-0.20240610193610-8cbc61e006c4 // indirect
+require github.com/lowdit/frago v1.22.1-0.20240611071417-6812f15f2a3b // indirect
