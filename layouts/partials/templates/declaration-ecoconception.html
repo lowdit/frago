@@ -58,7 +58,7 @@
           </p>
         {{ end }}
         {{/* END If "organisation" */}}
-        
+
         <h2>Qu’est-ce que le Référentiel général d’écoconception&nbsp;?</h2>
         <p>Recommandé dans le <a href="https://ecoresponsable.numerique.gouv.fr/posts/rapport-obsolescence-logicielle/" target="_blank" rel="external noopener">rapport sur l’obsolescence logicielle</a> que le Gouvernement a remis au Parlement en juin 2021, le Référentiel général d’écoconception des services numériques est un engagement de la <a href="https://www.gouvernement.fr/actualite/numerique-et-environnement-la-feuille-de-route-du-gouvernement" target="_blank" rel="external noopener">feuille de route gouvernementale « Numérique et Environnement »</a> publiée en février 2021. Piloté par la Direction interministérielle du numérique (DINUM), le Ministère de la Transition Écologique, mais également l’ADEME et l’Institut du Numérique Responsable (INR), ce référentiel vise deux objectifs principaux :</p>
         <ul>
@@ -139,7 +139,7 @@
       {{- if ge $referential.versionmajor 2 -}}
       {{- with ($data.Get "scores").criteria.all -}}
         <h2>Déclaration pour chaque critère</h2>
-        {{ i18n "works-offlinewarningNoLoad" | markdownify }}
+
         {{ range $key, $value := ($data.Get "criteriafile") }}
           {{- $b := dict -}}
           {{- $c := dict -}}
@@ -147,6 +147,9 @@
           {{- if and ($data.Get "context").audit ($data.Get "context").audit.criteria -}}
             {{- $b = (index (where ($data.Get "context").audit.criteria "id" ($value.id)) 0)  }}
           {{- end -}}
+          {{ . }}
+          <hr>
+          {{ ($data.Get "context") }}
           {{- range $key, $value := $b -}}
             {{- if and (not (reflect.IsMap .)) (not (reflect.IsSlice .)) -}}
               {{- $c = merge $c (dict $key $value) -}}
