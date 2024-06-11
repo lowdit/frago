@@ -147,12 +147,9 @@
           {{- if and ($data.Get "context").audit ($data.Get "context").audit.criteria -}}
             {{- $b = (index (where ($data.Get "context").audit.criteria "id" ($value.id)) 0)  }}
           {{- end -}}
-          <hr>
-          {{ ($data.Get "context").audit.criteria }}
-          <hr>
           {{- with $b }}
-            {{ $b }}
             {{- range $key, $value := . -}}
+              {{ . }}<br>
               {{- if and (not (reflect.IsMap .)) (not (reflect.IsSlice .)) -}}
                 {{- $c = merge $c (dict $key $value) -}}
               {{- else if (reflect.IsMap .) }}
