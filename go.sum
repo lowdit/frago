@@ -14,3 +14,5 @@ github.com/lowdit/frago v1.22.1-0.20240611075245-ebb9dda2b3f6 h1:hsMe9hDZlaIS8K5
 github.com/lowdit/frago v1.22.1-0.20240611075245-ebb9dda2b3f6/go.mod h1:dRC9CDJUGzTw76RChx7cR4n/j8TsLD4R7deHd9xxBxE=
 github.com/lowdit/frago v1.22.1-0.20240611080802-eb32c13463f1 h1:Q1H1Arnp7g6GXh70jJim4RC9Mso1qa8qmtc2D9h3gzk=
 github.com/lowdit/frago v1.22.1-0.20240611080802-eb32c13463f1/go.mod h1:dRC9CDJUGzTw76RChx7cR4n/j8TsLD4R7deHd9xxBxE=
+github.com/lowdit/frago v1.22.1-0.20240611082430-0865948f8f04 h1:sNrhILik0i8NZN+dWCXWC9wFnJFZiwBnkN3p0ocpIho=
+github.com/lowdit/frago v1.22.1-0.20240611082430-0865948f8f04/go.mod h1:dRC9CDJUGzTw76RChx7cR4n/j8TsLD4R7deHd9xxBxE=
