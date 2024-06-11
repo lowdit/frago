@@ -4,6 +4,8 @@ title = "Sandbox Frago"
 
 theme = ["github.com/lowdit/frago"]
 
+ignoreLogs = ['error-remote-getcsv']
+
 pygmentsCodeFences = true
 pygmentsCodefencesGuessSyntax = true
 pygmentsUseClasses = true
