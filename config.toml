@@ -1,11 +1,14 @@
 baseURL = "https://frago-sandbox.netlify.app/"
-languageCode = "fr-FR"
 title = "Sandbox Frago"
 
 theme = ["github.com/lowdit/frago"]
 
 ignoreLogs = ['error-remote-getcsv']
 
+languageCode = "fr-FR"
+defaultContentLanguage = "fr"
+removePathAccents = true
+enableGitInfo = true
 pygmentsCodeFences = true
 pygmentsCodefencesGuessSyntax = true
 pygmentsUseClasses = true
