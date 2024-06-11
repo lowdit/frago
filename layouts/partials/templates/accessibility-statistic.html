@@ -11,7 +11,7 @@
     }
   </style>
   <article class="fg-wrapper">
-    <p>← <a href="{{ $context.Site.BaseURL }}/organism" class="link-more link-back">Retour à la page organisme</a></p>
+    <p>← <a href="{{ $context.Site.BaseURL }}organism" class="link-more link-back">Retour à la page organisme</a></p>
 
     <h1>Synthèse générale - {{ (index $ref $name).name }}</h1>
     {{- $referential   := (partialCached "render/referential-version.html" (dict "context" $context "project" "statistics" "referential" (index $ref $name).referential) (index $ref $name).referential).guideline -}}
