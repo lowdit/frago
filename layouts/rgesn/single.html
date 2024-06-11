@@ -31,20 +31,15 @@
             {{ $.Scratch.Add (printf "metiers%s" .) 1 }}
             {{ $.Scratch.SetInMap "metiers" (string .) (dict "name" (string .) "criteria" (string $key1) "score" (int ($.Scratch.Get (printf "metiers%s" .)))) }}
           {{ end }}
-
           {{- $thematique := int (index (first 1 (split .id ".")) 0) -}}
           {{- if eq $thematique $thematiqueCounter -}}
             {{- $.Scratch.Add "thematique" .thematique -}}
             {{- $thematiqueCounter = add $thematiqueCounter 1 -}}
           {{ end }}
         {{- end -}}
+        {{- if eq (getenv "HUGO_ENV") "dev" -}}
+          <div class="hidden"> 
           {{- if eq $referential.version "2.0" }}
-          <hr>
-          {{ len $criteriafile }}
-          {{ len (where $criteriafile "priorite" "Prioritaire") }}
-          {{ len (where $criteriafile "priorite" "Recommandé") }}
-          {{ len (where $criteriafile "priorite" "Modéré") }}
-          <hr>
           {{ range (where (where $criteriafile "difficulte" "Fort") "priorite" "Prioritaire") }}
             {{ .id }} - {{ .critere }}<br>
           {{ end }}
@@ -65,6 +60,8 @@
           {{ with ($.Scratch.Get "difficulte") }}
             {{ . }}<hr>
           {{ end }}
+        {{- end -}}
+        </div>
         {{- end -}}
 
         {{ partialCached "utils/css.html" (dict "context" . "filefolder" "element" "filename" "tableofcontents") "tableofcontents" }}
