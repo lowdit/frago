@@ -7,7 +7,7 @@
 {{- if $greenit.date -}}
 {{- with $greenit -}}
   <h2 class="h3">
-    <a class="link-text" href="{{ $context.Site.BaseURL }}/organism/greenit.html">
+    <a class="link-text" href="{{ $context.Site.BaseURL | default "/" }}organism/greenit.html">
       GreenIT <small>Les 74 bonnes pratiques</small>
     </a>
   </h2>

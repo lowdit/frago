@@ -25,7 +25,7 @@
       {{- if (fileExists "content/organism/_index.md") -}}
         {{- $partial := (partialCached "templates/organism-list.html" . "organism") -}}
         {{- partialCached "elements/content.html" $partial "organismlist" -}}
-        <p class="text-center wrapper"><a href="{{ .Site.BaseURL }}/organism">Accéder à la page de l’organisme</a></p>
+        <p class="text-center wrapper"><a href="{{ .Site.BaseURL | default "/" }}organism">Accéder à la page de l’organisme</a></p>
         <br>
         <hr>
         <br>
