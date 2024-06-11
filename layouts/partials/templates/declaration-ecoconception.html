@@ -149,7 +149,6 @@
           {{- end -}}
           {{- with $b }}
             {{- range $key, $value := . -}}
-              {{ . }}<br>
               {{- if and (not (reflect.IsMap .)) (not (reflect.IsSlice .)) -}}
                 {{- $c = merge $c (dict $key $value) -}}
               {{- else if (reflect.IsMap .) }}
