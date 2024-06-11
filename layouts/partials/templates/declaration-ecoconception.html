@@ -147,29 +147,32 @@
           {{- if and ($data.Get "context").audit ($data.Get "context").audit.criteria -}}
             {{- $b = (index (where ($data.Get "context").audit.criteria "id" ($value.id)) 0)  }}
           {{- end -}}
-          {{ . }}
           <hr>
-          {{ ($data.Get "context") }}
-          {{- range $key, $value := $b -}}
-            {{- if and (not (reflect.IsMap .)) (not (reflect.IsSlice .)) -}}
-              {{- $c = merge $c (dict $key $value) -}}
-            {{- else if (reflect.IsMap .) }}
-              {{- $d := slice }}
-              {{- range $keymap, $value := . -}}
-                {{- if (reflect.IsSlice .) }}
-                {{- $d = merge $d (dict $keymap (delimit $value ", ")) -}}
-                {{- else }}
-                {{- $d = merge $d (dict $keymap $value) -}}
-                {{- end -}}
-                {{- $c = merge $c (dict $key $d) -}}
-              {{ end -}}
-            {{- else if (reflect.IsSlice .) }}
-              {{ if reflect.IsMap (index . 0) }}
+          {{ ($data.Get "context").audit.criteria }}
+          <hr>
+          {{- with $b }}
+            {{ $b }}
+            {{- range $key, $value := . -}}
+              {{- if and (not (reflect.IsMap .)) (not (reflect.IsSlice .)) -}}
                 {{- $c = merge $c (dict $key $value) -}}
-              {{- else -}}
-                {{- $c = merge $c (dict $key (delimit $value ", ")) -}}
+              {{- else if (reflect.IsMap .) }}
+                {{- $d := slice }}
+                {{- range $keymap, $value := . -}}
+                  {{- if (reflect.IsSlice .) }}
+                  {{- $d = merge $d (dict $keymap (delimit $value ", ")) -}}
+                  {{- else }}
+                  {{- $d = merge $d (dict $keymap $value) -}}
+                  {{- end -}}
+                  {{- $c = merge $c (dict $key $d) -}}
+                {{ end -}}
+              {{- else if (reflect.IsSlice .) }}
+                {{ if reflect.IsMap (index . 0) }}
+                  {{- $c = merge $c (dict $key $value) -}}
+                {{- else -}}
+                  {{- $c = merge $c (dict $key (delimit $value ", ")) -}}
+                {{- end -}}
               {{- end -}}
-            {{- end -}}
+            {{ end -}}
           {{ end -}}
           {{- $result := merge $a (dict "organisation" ($data.Get "organisation") "servicemain" $projectTitle "dateaudit" $date) }}
           {{- if $b }}{{ $result = merge $result (merge $a $c) }}{{ end -}}
