@@ -1,0 +1,128 @@
+"Thématiques","Critères","Accueil","Espace Plaisancier","Mentions légales","Accessibilité","FAQ","Aide",Mon tableau de bord (mode connecté),Déclarer la cession / vente d'un navire (mode connecté)
+"1","1","nc|!F!L’icône « home » de la navigation n’a pas d’alternative. Il manque un attribut aria-label=”accueil démarches plaisance”","nc|!F!L’icône « home » de la navigation n’a pas d’alternative. Il manque un attribut aria-label=”accueil démarches plaisance”. Les 4 images de la page n'ont pas d'attribut `alt`.","nc|!F!L’icône « home » de la navigation n’a pas d’alternative. Il manque un attribut aria-label=”accueil démarches plaisance”","nc|!F!L’icône « home » de la navigation n’a pas d’alternative. Il manque un attribut aria-label=”accueil démarches plaisance”","nc|!F!L’icône « home » de la navigation n’a pas d’alternative. Il manque un attribut aria-label=”accueil démarches plaisance”","nc|!F!L’icône « home » de la navigation n’a pas d’alternative. Il manque un attribut aria-label=”accueil démarches plaisance”","nc|!F!L’icône « home » de la navigation n’a pas d’alternative. Il manque un attribut aria-label=”accueil démarches plaisance”.
+L'icône « burger » n’a pas d'alternative. Il manque un attribut aria-label=""Mon compte"".
+Ce bouton est-il vraiment indispensable ? On pourrait imaginer que le lien vers mon compte soit sur le nom de la personne et juste avoir un bouton de déconnexion à la place du burger menu.","nc|!F!Les icônes svg n'ont pas d'alternatives : home, menu, retour"
+"1","2","na","na","na","na","na","na",c,c
+"1","3","nc|!F!Le bloc marque devrait avoir un alt=”Ministère de la mer” 
+Dans ”Les actus de la mer”, les images doivent avoir un alt=””","nc|!F!Le bloc marque devrait avoir un alt=”Ministère de la mer”, l'image FranceConnect devrait avoir un alt=""S'identifier avec FranceConnect"" ","nc|!F!Le bloc marque devrait avoir un alt=”Ministère de la mer” ","nc|!F!Le bloc marque devrait avoir un alt=”Ministère de la mer” ","nc|!F!Le bloc marque devrait avoir un alt=”Ministère de la mer” ","nc|!F!Le bloc marque devrait avoir un alt=”Ministère de la mer” ",nc|!F!Le bloc marque devrait avoir un alt=”Ministère de la mer”,nc|!F!Le bloc marque devrait avoir un alt=”Ministère de la mer”
+"1","4","na","na","na","na","na","na",na,na
+"1","5","na","na","na","na","na","na",na,na
+"1","6","na","na","na","na","na","na",na,na
+"1","7","na","na","na","na","na","na",na,na 
+"1","8","nc|!F!L'image ""home"" du menu pourrait être remplacée par le mot ""Accueil""","nc|!F!L'image ""home"" du menu pourrait être remplacée par le mot ""Accueil""","nc|!F!L'image ""home"" du menu pourrait être remplacée par le mot ""Accueil""","nc|!F!L'image ""home"" du menu pourrait être remplacée par le mot ""Accueil""","nc|!F!L'image ""home"" du menu pourrait être remplacée par le mot ""Accueil""","nc|!F!L'image ""home"" du menu pourrait être remplacée par le mot ""Accueil""","nc|!F!L'image ""home"" du menu pourrait être remplacée par le mot ""Accueil""","nc|!F!L'image ""home"" du menu pourrait être remplacée par le mot ""Accueil"""
+"1","9","na","na","na","na","na","na",na,na
+"2","1","na","na","na","na","na","na",na,na
+"2","2","na","na","na","na","na","na",na,na
+"3","1","nc|!F!Seule la couleur permet de distinguer les liens dans le texte. Il faut les souligner.","nc|!F!Seule la couleur permet de distinguer les liens dans le texte. Il faut les souligner.","c","nc|!F!Seule la couleur permet de distinguer les liens dans le texte. Il faut les souligner.","nc|!F!Seule la couleur permet de distinguer les liens dans le texte. Il faut les souligner.","nc|!F!Seule la couleur permet de distinguer les liens dans le texte. Il faut les souligner.",c,"nc|La distinction entre les étapes passés ou à venir n'est faite que par la couleur. Ajouter un attribut `aria-current=""page""` sur l'élément `<li>` correspondant et éventuellement prévoir un traitement graphique indiquant l'étape en cours."
+"3","2","nc|!F!Le contraste de la mention ""Publié le 05/01/2022"" n'est pas sufficant","c","c","c","c","c","nc|!F!Le contraste entre l'astérisque rouge et le fond blanc n'est pas suffisant. De même pour le contrsate entre les messages d'erreur  du champ de recherche (`class=""mat-error""`)",nc|!F!Le contraste entre l'astérisque rouge et le fond blanc n'est pas suffisant. De même pour le contrsate du pourcentagedu total des parts de (co)propriété.
+"3","3","na","na","na","na","na","na",c,c
+"4","1","na","na","na","na","na","na",na,na
+"4","2","na","na","na","na","na","na",na,na
+"4","3","na","na","na","na","na","na",na,na
+"4","4","na","na","na","na","na","na",na,na
+"4","5","na","na","na","na","na","na",na,na
+"4","6","na","na","na","na","na","na",na,na
+"4","7","na","na","na","na","na","na",na,na
+"4","8","na","na","na","na","na","na",na,na
+"4","9","na","na","na","na","na","na",na,na
+"4","10","na","na","na","na","na","na",na,na
+"4","11","na","na","na","na","na","na",na,na
+"4","12","na","na","na","na","na","na",na,na
+"4","13","na","na","na","na","na","na",na,na
+"5","1","na","na","na","na","na","na",na,na
+"5","2","na","na","na","na","na","na",na,na
+"5","3","na","na","na","na","na","na",na,na
+"5","4","na","na","na","na","na","na",nc|Le titre du tableau est disponible seulement pour les utlisateurs d'aides techniques. Mettre un `<caption>Historique des démarches</caption>` et retirer l'attibut `aria-describedby`,"nc|Le titre du tableau est disponible seulement pour les utlisateurs d'aides techniques. Mettre un `<caption>Liste des pièces jointes</caption>` et retirer l'attibut `aria-describedby`.
+Apparemment, on ne peut télécharger qu'une seule pièce jointe : le tableau est-il indispensable ?"
+"5","5","na","na","na","na","na","na",na,na
+"5","6","na","na","na","na","na","na",nc|!F!Il manque un intitulé à la dernière colonne du tableau *Mes navires*,c
+"5","7","na","na","na","na","na","na",c,"nc|Chaque entête de colonne doit avoir un attribut `scope=""col""`"
+"5","8","na","na","na","na","na","na",na,na
+"6","1","nc|!F!Le bloc marque a l'attribut `alt=""logo République française""`. Le mieux serait de faire un lien composite avec le nom du service. Ex. https://gouvfr.atlassian.net/wiki/spaces/DB/pages/222789846/En-t+te+-+Header#[hardBreak]En-t%C3%AAte-simple-avec-nom-de-service-et-description","nc|!F!Le bloc marque a l'attribut `alt=""logo République française""`. Le mieux serait de faire un lien composite avec le nom du service. Ex. https://gouvfr.atlassian.net/wiki/spaces/DB/pages/222789846/En-t+te+-+Header#[hardBreak]En-t%C3%AAte-simple-avec-nom-de-service-et-description","nc|!F!Le bloc marque a l'attribut `alt=""logo République française""`. Le mieux serait de faire un lien composite avec le nom du service. Ex. https://gouvfr.atlassian.net/wiki/spaces/DB/pages/222789846/En-t+te+-+Header#[hardBreak]En-t%C3%AAte-simple-avec-nom-de-service-et-description","nc|!F!Le bloc marque a l'attribut `alt=""logo République française""`. Le mieux serait de faire un lien composite avec le nom du service. Ex. https://gouvfr.atlassian.net/wiki/spaces/DB/pages/222789846/En-t+te+-+Header#[hardBreak]En-t%C3%AAte-simple-avec-nom-de-service-et-description","nc|!F!Le bloc marque a l'attribut `alt=""logo République française""`. Le mieux serait de faire un lien composite avec le nom du service. Ex. https://gouvfr.atlassian.net/wiki/spaces/DB/pages/222789846/En-t+te+-+Header#[hardBreak]En-t%C3%AAte-simple-avec-nom-de-service-et-description","nc|!F!Le bloc marque a l'attribut `alt=""logo République française""`. Le mieux serait de faire un lien composite avec le nom du service. Ex. https://gouvfr.atlassian.net/wiki/spaces/DB/pages/222789846/En-t+te+-+Header#[hardBreak]En-t%C3%AAte-simple-avec-nom-de-service-et-description","nc|!F!Le bloc marque a l'attribut `alt=""logo République française""`. Le mieux serait de faire un lien composite avec le nom du service. Ex. https://gouvfr.atlassian.net/wiki/spaces/DB/pages/222789846/En-t+te+-+Header#[hardBreak]En-t%C3%AAte-simple-avec-nom-de-service-et-description
+Ajouter un attribut `aria-label=""Gérer navire *NOM DU NAVIRE*""` à chaque lien ""gérer navire"" de la liste des navires.","nc|!F!Le bloc marque a l'attribut `alt=""logo République française""`. Le mieux serait de faire un lien composite avec le nom du service. Ex. https://gouvfr.atlassian.net/wiki/spaces/DB/pages/222789846/En-t+te+-+Header#[hardBreak]En-t%C3%AAte-simple-avec-nom-de-service-et-description
+Le lien consulter la pièce jointe n'a pas d'intitulé : Ajouter un `aria-label=""voir la pièce jointe xxx.pdf""`"
+"6","2","nc|!F!L'icone ""home"" n'ayant pas d'alternative, le lien n'a pas d'intitulé. voir 1.1.","nc|!F!L'icone ""home"" n'ayant pas d'alternative, le lien n'a pas d'intitulé. voir 1.1.","nc|!F!L'icone ""home"" n'ayant pas d'alternative, le lien n'a pas d'intitulé. voir 1.1.","nc|!F!L'icone ""home"" n'ayant pas d'alternative, le lien n'a pas d'intitulé. voir 1.1.","nc|!F!L'icone ""home"" n'ayant pas d'alternative, le lien n'a pas d'intitulé. voir 1.1.","nc|!F!L'icone ""home"" n'ayant pas d'alternative, le lien n'a pas d'intitulé. voir 1.1.","nc|!F!L'icone ""home"" n'ayant pas d'alternative, le lien n'a pas d'intitulé. voir 1.1.","nc|!F!L'icone ""home"" n'ayant pas d'alternative, le lien n'a pas d'intitulé. voir 1.1."
+"7","1","nc|!M!Chaque actualité s’ouvre dans une fenêtre modale qui ne respecte pas le design pattern aria. Le lien ""Voir plus d'actualités"" pose également problème et n'est pas utilisable au clavier","nc|!M!Le bouton Franceconnect n'est ni un élément bouton et ni un lien (pas d'attribut ""href""... ","na","na","nc|!M!La faq n'est pas utilisable au clavier : les questions ne prennent pas le focus et les définitions ne peuvent pas être pliées ou déplies","na",nc|!F!le `button#dropdownMenuButton` n'ayant pas d'intitulé on ne sait pas à quoi il sert. cf 1.1,nc|La modification ou l'ajout de (co)propriétaire est impossible au clavier : aucun élément ne prend le focus.
+"7","2","na","na","na","na","na","na",na,na
+"7","3","na","na","na","na","na","na",c,
+"7","4","nc|L'utilisateur n'est pas averti du chargement de nouvelles actualités","na","na","na","nc|!M!La faq utilise les attributs `role=""tab*""` mais ne respecte pas scrupuleusement le [design pattern aria correpondant](https://www.w3.org/TR/wai-aria-practices/#tabpanel). D'ailleurs, un composant [accordéon](https://gouvfr.atlassian.net/wiki/spaces/DB/pages/312082509/Accord+on+-+Accordion) ou collapse serait plus approprié","na",na,"nc|Si l'activation du bouton ""besoin d'aide"" fonctionne au clavier, les aides techniques ne vocalise les 2 étapes du guide de la déclaration. Ces 2 étapes devrait être dans des composants respectant le design pattern aria-modale
+Ex. https://gouvfr.atlassian.net/wiki/spaces/DB/pages/476610770/Modale+-+Modal"
+"7","5","na","na","na","na","na","na","nc|Lorsque l'on saisi un numéro d'enregistrement ou d'immatriculation qui n'existe pas, le message d'erreur n'est pas transmis aux aides techniques : Ajouter un attribut `role=""alert""` au conteneur du message d'erreur.","nc|Aucun message que la pj a bien été téléchargée ou supprimée. Ajouter un <p role=""alert"">La piècejointe xxxx.yyy a bien été téléchargée/supprimée</p>"
+"8","1","c","c","c","c","c","c",c,c
+"8","2","nc|!M!Le code doit être valide : [validator.w3.org](https://validator.w3.org/)","nc|!M!Le code doit être valide : [validator.w3.org](https://validator.w3.org/)","nc|!M!Le code doit être valide : [validator.w3.org](https://validator.w3.org/)","nc|!M!Le code doit être valide : [validator.w3.org](https://validator.w3.org/)","nc|!M!Le code doit être valide : [validator.w3.org](https://validator.w3.org/)","nc|!M!Le code doit être valide : [validator.w3.org](https://validator.w3.org/)",nc|!M!Le code doit être valide : [validator.w3.org](https://validator.w3.org/),nc|!M!Le code doit être valide : [validator.w3.org](https://validator.w3.org/)
+"8","3","c","c","c","c","c","c",c,c
+"8","4","nc|La langue définie est anglais. Mettre `<html lang=""fr"">` Pour que la synthèse vocale prononce correctement.","nc|La langue définie est anglais. Mettre `<html lang=""fr"">` Pour que la synthèse vocale prononce correctement.","nc|La langue définie est anglais. Mettre `<html lang=""fr"">` Pour que la synthèse vocale prononce correctement.","nc|La langue définie est anglais. Mettre `<html lang=""fr"">` Pour que la synthèse vocale prononce correctement.","nc|La langue définie est anglais. Mettre `<html lang=""fr"">` Pour que la synthèse vocale prononce correctement.","nc|La langue définie est anglais. Mettre `<html lang=""fr"">` Pour que la synthèse vocale prononce correctement.","nc|La langue définie est anglais. Mettre `<html lang=""fr"">` Pour que la synthèse vocale prononce correctement.","nc|La langue définie est anglais. Mettre `<html lang=""fr"">` Pour que la synthèse vocale prononce correctement."
+"8","5","c","c","c","c","c","c",c,c
+"8","6","c","c","c","c","c","c",c,c
+"8","7","na","na","na","na","na","na",na,na
+"8","8","na","na","na","na","na","na",na,na
+"8","9","nc","nc|Le texte n'utilise pas les balises sémantiques adaptées `<p>`, '<ul><li>`","nc|Le texte n'utilise pas de balises `<p>`","nc|Le texte n'utilise pas de balises `<p>`","nc|des éléments `<p>`sont utilisés à des fns de présentations pour ""sauter"" des lignes","c",nc|Les 3 zones de textes devraient utiliser des balises `<p>` (et non des `<div>`),"nc|Les phrases ""Composition de la nouvelle (co)propriété"", ""Les champs marqués d'un * sont obligatoires."" et "" Le document déposé doit être au format PDF ou image (jpeg, png) et ne doit pas dépasser 5Mo."" devraient etre dans des `<p>`
+Le tableau de liste des pièces devrait p-ê être supprimé"
+"8","10","na","na","na","na","na","na",na,na
+"9","1","nc|!F!Il manque une balise `<h1>`. ""Les actus de la mer"" devrait être dans un élément `<h2>`, chaque titre d'actu dans une élément `<h3>`. ""Informations générales"" et ""Liens utiles"" n'ont pas besoin d'être dans un `<hx>`","nc|!F!Il manque un `<h1>Espace plaisancier</h1>`. ""Se connecter"" et ""Payer le DAFN/DAP"" devraient être dans une balise `<h2>`. Retirer les balises `<hx>` d'""Informations générales"" et ""liens utiles""","nc|!F!`<h1>Mentions légales</h1>`, `<h2> Éditeur</h2>`, `<h2>Directeur de la publication</h2>`, `<h2> Hébergement </h2>`. Retirer les balises `<hx>` d'""Informations générales"" et ""liens utiles""","nc|!F!Mettre `<h1>Accessiblité</h1>` et les autres titres titres dans des balises `<h2>`. Retirer les balises `<hx>` d'""Informations générales"" et ""liens utiles""","nc|!F!`<h1>FAQ</h1>`, `<h2>Questions...</h2>` et chaque question dans une balise `<h3>`. Retirer les balises `<hx>` d'""Informations générales"" et ""liens utiles""","nc|!F!`<h1>Information et aide</h1>`, `<h2>Comment obtenir de l'aide</h2>` , `<h3>Plaisanciers</h3>`, `<h3>Professionnels de la plaisance</h3>`. Retirer les balises `<hx>` d'""Informations générales"" et ""liens utiles"".","nc|!F!`<h1>Mon tableau de bord</h1>`, `<h2>Mes navires</h2>` , `<h3>Ajouter un navire</h3>`, `<h2>Mes démarches</h2>`, `<h3>Déclarer l'acquisition d'un navire</h3>`, `<h3>Demander un duplicata de permis</h3>`. Retirer les balises `<hx>` d'""Informations générales"" et ""liens utiles"".","nc|!F!`<h1>Gérer mon navire : OCEAN (896559)</h1>`, `<h2>Déclarer la cession / vente d'un navire</h2>` , `<h3>Déclaration cession/vente</h3>`. Retirer les balises `<hx>` d'""Informations générales"", ""liens utiles"" et ""Total des parts de (co)propriété""."
+"9","2","nc|!F!Il manque les les balises structurantes suivantes : `<header>, `<nav>`, '<footer>'","nc|!F!Il manque les les balises structurantes suivantes : `<header>, `<nav>`, '<footer>'","nc|!F!Il manque les les balises structurantes suivantes : `<header>, `<nav>`, '<footer>'","nc|!F!Il manque les les balises structurantes suivantes : `<header>, `<nav>`, '<footer>'","nc|!F!Il manque les les balises structurantes suivantes : `<header>, `<nav>`, '<footer>'","nc|!F!Il manque les les balises structurantes suivantes : `<header>, `<nav>`, '<footer>'","nc|!F!Il manque les les balises structurantes suivantes : `<header>, `<nav>`, '<footer>'","nc|!F!Il manque les les balises structurantes suivantes : `<header>, `<nav>`, '<footer>'"
+"9","3","c","nc|Une (voire plusieurs) liste à puce devrait structurer le contenu","c","c","nc|!F!Chaque ensemble de Q/R ne doit contenir qu'un seul élément `<dl>`qui contient plusieurs `<dt><dl>'. Dans les réponses, on devrait trouver des élements `<ul><li>` plutôt que des ""tirets et des sauts de ligne""","c",nc|Le menu dropdownMenuButton devrait être structuré en liste,"nc|Le menu dropdownMenuButton devrait être structuré en liste.
+La liste des gestionnaire devrait également être structurée en <ul><li>"
+"9","4","na","na","na","na","na","na",na,na
+"10","1","c","c","c","c","nc|on trouve une balise `<font color=""#000000"">'. Les balises servant à la présentation de l’information sont interdites.","c",c,c
+"10","2","c","c","c","c","nc|Les questions et les réponses ne sont pas affichées avec la css désactivée","c",c,nc|Le guide n'est pas affiché lorsque les css sont désactivées
+"10","3","c","c","c","c","nc|Les questions et les réponses ne sont pas affichées avec la css désactivée","c",c,c
+"10","4","c","c","c","c","c","c",c,"nc|La ""modale"" d'ajout de propriétaire ""déborde"" de l'écran et les boutons sont inateignables
+En mobile, le libellé du bouton Valider ""déborde"" de sa boite et est illisible (blanc sur blanc)"
+"10","5","c","c","c","c","c","c",c,c
+"10","6","nc|!F!Les liens doivent être soulignés","nc|!F!Les liens doivent être soulignés","nc|!F!Les liens doivent être soulignés","nc|!F!Les liens doivent être soulignés","nc|!F!Les liens doivent être soulignés","nc|!F!Les liens doivent être soulignés",c,c
+"10","7","nc|Aucun élément de la section ""Les actus de la mer"" ne prend le focus. Ça serait bien d'harmonisr l'outline (qui n'est pas le même sur tous les éléments)","nc|Le lien FC ne prend le focus. Ça serait bien d'harmonisr l'outline (qui n'est pas le même sur tous les éléments)","c","c","nc|!M!Aucun élément de la faq ne prend le focus. Le titre ""FAQ"" prend le focus alors qu'il ne devrait pas.","c",c,"nc|Aucun élément du bloc ""Composition de la nouvelle (co)propriété"" ne prend le focus"
+"10","8","na","na","na","na","c","na",na,na
+"10","9","c","c","c","c","c","c","nc|!F!La mention ""*"" au niveau du champ de formulaire n'est pas explicitée",c
+"10","10","na","na","na","na","na","na",na,na
+"10","11","nc|Perte du menu en petite résolution","nc|Perte du menu en petite résolution","nc|Perte du menu en petite résolution","nc|Perte du menu en petite résolution","nc|Perte du menu en petite résolution","nc|Perte du menu en petite résolution","nc|Perte du menu en petite résolution.
+La page est toujours structurée en deux colonnes : La liste des démarches est difficelment lisible","nc|Perte du menu en petite résolution.
+La page est toujours structurée en deux colonnes : La liste des démarches est difficelment lisible"
+"10","12","c","c","c","c","c","c",nc|Les informations de compte et le menu se chevauchent,nc|Les informations de compte et le menu se chevauchent
+"10","13","na","na","na","na","na","na",c,c
+"10","14","na","na","na","na","na","na",c,c
+"11","1","na","na","na","na","na","na","nc|!F!Le libellé ""Numéro d'enregistrement ou d'immatriculation"" n'est pas relié au champ. Ajouter un attribut `for=""numeroImmat""` à l'élément `<label>`",nc|Les libellés et champs des deux formulaires contenus dans les fenêtres modales ne sont pas reliés entre eux par des attributs for et id.
+"11","2","na","na","na","na","na","na","nc|!F!Le label contient un `<span _ngcontent-yni-c183="""" class=""required-symbole"">*</span>`dont le sens n'est pas explicité. Il peut être supprimé.",c
+"11","3","na","na","na","na","na","na",na,c
+"11","4","na","na","na","na","na","na",c,c
+"11","5","na","na","na","na","na","na",na,nc|les formulaire d'ajout de propriétaire devrait être dans un élément `<fieldset><legend>`
+"11","6","na","na","na","na","na","na",na,na
+"11","7","na","na","na","na","na","na",na,na
+"11","8","na","na","na","na","na","na",na,na
+"11","9","na","na","na","na","na","na","nc|!F!Ajouter l'attribut `aria-label=""rechercher un navire par son numéro d'enregistrement ou d'immatriculation""` au bouton de soumission du formulaire","nc|Les boutons ""Ajouter un propriétaire"" et ""supprimer une pj"" n'ont pas d'initulé "
+"11","10","na","na","na","na","na","na","nc|Il y a une astérisque rouge qui n'est pas légendée. Comme c'est un champ unique de recherche, l'indication visuelle ne semble pas indispensable et peut être retirée. Ajouter plutôt un attribut `required`au champ.
+Les messages d'erreurs doivent bien mentionner ""La saisie du **numéro d'enregistrement ou d'immatriculation**""
+Le caractère obligatoire et le format attendu pourrait être explicité dans le `<label>`. cf 
+https://gouvfr.atlassian.net/wiki/spaces/DB/pages/217088099/Champs+de+saisie+-+Input#Champ-avec-texte-d%E2%80%99aide
+```
+    <label for=""numero"">numéro d'enregistrement
+        <span class=""hint-text"">Texte de description additionnel</span>
+    </label>
+    <input  type=""text"" id=""numero"" name=""numero"" required >
+```",nc|Aucune info sur la réussite ou l'échec de l'ajout d'une pj
+"11","11","na","na","na","na","na","na",c,nc
+"11","12","na","na","na","na","na","na",na,na
+"11","13","na","na","na","na","na","na",na,na
+"12","1","nc","nc","nc","nc","nc","nc",nc,nc
+"12","2","c","c","c","c","c","c",c,c
+"12","3","nc","nc","nc","nc","nc","nc",nc,nc
+"12","4","na","na","na","na","na","na",na,na
+"12","5","na","na","na","na","na","na",na,na
+"12","6","nc","nc","nc","nc","nc","nc",nc,nc
+"12","7","nc","nc","nc","nc","nc","nc",nc,nc
+"12","8","nc","nc","c","c","nc","c",c,c
+"12","9","nc","nc","nc","nc","nc","nc",c,c
+"12","10","na","na","na","na","na","na",na,na
+"12","11","na","na","na","na","na","na",na,na
+"13","1","c","c","c","c","c","c",c,c
+"13","2","na","na","na","na","na","na",na,na
+"13","3","na","na","na","na","na","nc|Le pdf ou la version html de l'aide ne semble pas accessible",na,na
+"13","4","na","na","na","na","na","na",na,na
+"13","5","c","c","c","c","c","c",na,na
+"13","6","c","c","c","c","c","c",na,na
+"13","7","c","c","c","c","c","c",na,na
+"13","8","c","c","c","c","c","c",c,c
+"13","9","c","c","c","c","c","c",c,c
+"13","10","na","na","na","na","na","na",na,na
+"13","11","na","na","na","na","na","na",na,na
+"13","12","na","na","na","na","na","na",na,na
