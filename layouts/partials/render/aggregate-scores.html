@@ -51,8 +51,8 @@
           {{/* Variables  */}}
           {{ $guidelines   := ((index ($data.Get (printf "aggregate-%s-contextaudit" $type)) (index $auditsfiles "auditfile-name")).guidelines) }}
           {{/* Determine the audit version :: switch to RGAA 4 if RAweb 1 */}}
-          {{ $versionlong := (cond (and (eq $guidelines.name "raweb") (eq $type "accessibility")) "4.1" $guidelines.version ) }}
-          {{ $version     := $guidelines.versionmajor }}
+          {{ $versionlong := (cond (and (eq $guidelines.name "raweb") (eq $type "accessibility")) "4.1" $guidelines.version) }}
+          {{ $version     := (cond (and (eq $guidelines.name "raweb") (eq $type "accessibility")) "4" $guidelines.versionmajor) }}
           {{ $data.Add (printf "aggregate-%s-version" $type) $version }}
 
           {{/* Store each result in a map */}}
@@ -98,7 +98,6 @@
             {{/* END Loop all criteria */}}
 
             {{ $data.Set (printf "average-%s-pourcentage"   $type)          (partialCached "render/aggregate-pourcentage-criteria" (dict "value" $render.criteria.all "conforme" ($data.Get (printf "average-%s-conforme" $type)) "nonconforme" ($data.Get (printf "average-%s-nonconforme" $type)) "nonapplicable" ($data.Get (printf "average-%s-nonapplicable" $type))) $render.criteria.all "1") }}
-            {{ $data.Set (printf "average-%s-pourcentage-%" $type $version) (partialCached "render/aggregate-pourcentage-criteria" (dict "value" $render.criteria.all "conforme" ($data.Get (printf "average-%s-conforme-%s" $type $version)) "nonconforme" ($data.Get (printf "average-%s-nonconforme-%s" $type $version)) "nonapplicable" ($data.Get (printf "average-%s-nonapplicable-%s" $type $version))) $render.criteria.all "2") }}
           {{ end }}
           {{/* END Count the sum for each criteria */}}
 
@@ -223,7 +222,7 @@
       {{ if and ($data.Get (printf "average-%s-nonconforme-%s" $type (string .version))) (not (and ($data.Get (printf "average-%s-conforme-%s" $type (string .version))) ($data.Get (printf "average-%s-nonapplicable-%s" $type (string .version))))) }}
         {{ $dictall = ($data.Get (printf "average-%s-nonconforme-%s" $type (string .version))) }}
       {{ end }}
-
+      {{ $data.Set (printf "average-%s-pourcentage-%" $type (string .version)) (partialCached "render/aggregate-pourcentage-criteria" (dict "value" $dictall "conforme" ($data.Get (printf "average-%s-conforme-%s" $type (string .version))) "nonconforme" ($data.Get (printf "average-%s-nonconforme-%s" $type (string .version))) "nonapplicable" ($data.Get (printf "average-%s-nonapplicable-%s" $type (string .version)))) $dictall "2") }}
       {{ $data.SetInMap (printf "aggregate-%s-byauditall" $type) (string .version)
         (dict
             "average"     (div ($data.Get "sum") (len $map))

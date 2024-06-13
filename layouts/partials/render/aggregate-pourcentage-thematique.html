@@ -1,7 +1,7 @@
 {{ $data          := newScratch }}
 {{ $type          := "pourcentage" }}
-{{ $conforme      := .conforme}}
-{{ $nonconforme   := .nonconforme }}
+{{ $conforme      := cond (not .conforme) dict .conforme}}
+{{ $nonconforme   := cond (not .nonconforme) dict .nonconforme}}
 {{ $nonapplicable := .nonapplicable }}
 {{ range $id, $value := (merge $conforme $nonconforme) }}
   {{ if and (gt (int (index $nonconforme $id)) 0) (gt (int (index $conforme $id)) 0) }}

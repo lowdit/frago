@@ -21,9 +21,10 @@
       {{- $versionlong   := (delimit (first 2 (split $versionlong ".")) ".") -}}
       {{- $cond          := ($versionlong | strings.Count ".") -}}
 
-      {{- $versionlongs  := cond (eq $cond 1) (index (last 1 (index ($referential.versionall) $versionlong)) 0) $versionlong -}}
+      {{- $versionlongs  := (index (index (index $render $name).liste $key) 0).version -}}
       {{- $versionlongs  := cond (eq $cond 1) (index (last 1 (index ($referential.versionall) $versionlong)) 0) $versionlong -}}
       {{- $versionlongs  := cond (eq $cond 0) (index (last 1 (index (last 1 (sort $referential.versionall)) 0)) 0) $versionlongs -}}
+
       {{- $criterialfile := (index (index $context.Site.Data $referential.name) (string $versionlongs)).criteria -}}
       {{- $glossaire     :=  (printf "=\"%s%s%s/glossaire/#" (site.BaseURL | default "/") $referential.name $versionlongs) -}}
       <div class="grid grid-4 align-items-center text-center lh-1 font-bigger">

@@ -10,7 +10,6 @@
   {{ with not $nonconforme }}
     {{ $data.SetInMap (printf "average-%s-nonconforme" $type) (string $id) 0 }}
   {{ end }}
-
   {{ if and ($nonconforme) (gt (int (index $nonconforme $id)) 0) (gt (int (index $conforme $id)) 0) }}
     {{ $result := (div (mul (index $conforme $id) 100) (add (index $conforme $id) (index $nonconforme $id))) }}
     {{ if eq $result 100 }}
