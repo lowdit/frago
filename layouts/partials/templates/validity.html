@@ -1,6 +1,6 @@
 {{- $context     := .context -}}
 {{- $score       := .score.criteria -}}
-{{- $auditname   := .score.scores.auditname -}}
+{{- $auditname   := cond (not .score.scores.auditname) "rgaa" .score.scores.auditname -}}
 {{- $audit       := .audit -}}
 {{- $data        := newScratch -}}
 

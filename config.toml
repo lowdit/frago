@@ -60,13 +60,19 @@ disableKinds = ["RSS", "sitemap", "taxonomy", "taxonomyTerm"]
   notAlternative = false
   permalinkable = true
   isHTML = true
-[outputFormats.rawebcsv]
-  baseName = "raweb"
-  mediaType = "text/csv"
-  isPlainText = true
-  notAlternative = false
 [outputFormats.raweb]
   baseName = "raweb"
+  mediaType = "application/json"
+  isPlainText = true
+  notAlternative = false
+[outputFormats.raampage]
+  baseName = "raam"
+  mediaType = "text/html"
+  notAlternative = false
+  permalinkable = true
+  isHTML = true
+[outputFormats.raam]
+  baseName = "raam"
   mediaType = "application/json"
   isPlainText = true
   notAlternative = false

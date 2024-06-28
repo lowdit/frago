@@ -4,7 +4,7 @@
 {{- $path          := "" }}{{ with .File }}{{ $path = .Path }}{{ end }}
 {{- $project       := (partial "render/projectpath" $context $context) -}}
 {{- $OutputFormats := cond (fileExists "content/audits/index.md") ($context.GetPage "/audits/index.md").OutputFormats .OutputFormats -}}
-{{- $reflist       := (slice "accessibility" "raweb" "ecoconception" "opquast" "publishing" ) -}}
+{{- $reflist       := (slice "accessibility" "raweb" "raam" "ecoconception" "opquast" "publishing" ) -}}
 
 {{- if (eq (getenv "HUGO_ENV") "debugperf") -}}
   {{ $.Scratch.Set "debugperf" (slice .) }}
@@ -16,6 +16,7 @@
     {{/* Load lasts file */}}
     {{- $.Store.Set "accessibility-Exists" false -}}
     {{- $.Store.Set "raweb-Exists"         false -}}
+    {{- $.Store.Set "raam-Exists"          false -}}
     {{- $.Store.Set "ecoconception-Exists" false -}}
     {{- $.Store.Set "opquast-Exists"       false -}}
     {{- $.Store.Set "publishing-Exists"    false -}}
@@ -369,7 +370,7 @@
   {{- $referential   := .referential }}
   {{- $OutputFormats := .OutputFormats -}}
   {{- $.Store.Set "render" slice -}}
-  {{- $audit := (partialCached (printf "render/%s.html" (cond (eq $value "raweb") "accessibility" $value)) (dict "context" "project" "auditfile" $path "version" $referential.version) $path) -}}
+  {{- $audit := (partialCached (printf "render/%s.html" (cond (eq $value "raam") "accessibility" (cond (eq $value "raweb") "accessibility" $value))) (dict "context" "project" "auditfile" $path "version" $referential.version) $path) -}}
 
   <h3 class="m-0">{{ i18n $value . | humanize }}
     {{- if or $audit.scores.compliance (eq $audit.scores.compliance 0) -}}

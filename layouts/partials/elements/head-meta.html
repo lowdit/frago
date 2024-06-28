@@ -19,6 +19,9 @@
       {{- else if eq .Format.BaseName "raweb" -}}
         {{- $.Scratch.Set "pretitle" "Audit Accessibilité RAWeb" -}}
         {{- $.Scratch.Set "audit" ((index ((partialCached "render/meta-scores.html" (dict "context" $context "project" $project "type" "accessibility") $project "raweb")) "auditscores").scores.compliance) -}}
+      {{- else if eq .Format.BaseName "raam" -}}
+        {{- $.Scratch.Set "pretitle" "Audit Accessibilité RAAM" -}}
+        {{- $.Scratch.Set "audit" ((index ((partialCached "render/meta-scores.html" (dict "context" $context "project" $project "type" "accessibility") $project "raam")) "auditscores").scores.compliance) -}}
       {{- else if eq .Format.BaseName "ecoconception" -}}
         {{- $.Scratch.Set "pretitle" "Écoconception" -}}
         {{- $.Scratch.Set "audit" (index (partialCached "render/meta-scores.html" (dict "context" $context "project" $project "type" "ecoconception") $project "ecoconception") "auditscores").scores.compliance -}}

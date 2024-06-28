@@ -12,6 +12,7 @@
 {{/* Only for accessibility because of differents guidelines version are existing :: RGAA, RAWeb, WCAG */}}
 {{ $referential := cond (and (eq $referential "any") (eq $Type "accessibility")) "rgaa"  $referential }}
 {{ $referential := cond (and (eq $referential "any") (eq $Type "raweb"))         "raweb" $referential }}
+{{ $referential := cond (and (eq $referential "any") (eq $Type "raam"))          "raam" $referential }}
 {{ $referential := cond (and (eq $referential "any") (eq $Type "opquast"))       "opquast" $referential }}
 {{ $referential := cond (and (eq $referential "any") (eq $Type "ecoconception")) "rgesn" $referential }}
 {{ $referential := cond (and (eq $referential "any") (eq $Type "publishing"))    "publishing" $referential }}

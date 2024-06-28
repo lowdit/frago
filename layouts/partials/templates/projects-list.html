@@ -32,6 +32,7 @@
             {{- $accessibilitypath := index (partialCached "render/lastfile.html" (dict "context" . "project" $project "type" "accessibility" "datafilename" .Params.datafilename) $project "accessibility") "auditfile-path" -}}
             {{- $accessibility     := fileExists (printf "%s" $accessibilitypath) -}}
             {{- $raweb             := fileExists (printf "%s/raweb" $projectFolders) -}}
+            {{- $raam              := fileExists (printf "%s/raam" $projectFolders) -}}
             {{- $ecoconception     := fileExists (printf "/%s/rgesn/" $projectFolders) -}}
             {{- $opquast           := fileExists (printf "/%s/opquast/" $projectFolders) -}}
             {{- $publishing        := fileExists (printf "/%s/publishing/" $projectFolders) -}}
@@ -89,6 +90,11 @@
                   {{/* If RAWeb exists */}}
                   {{- if and $raweb -}}
                     <p class="mb-0">{{- partialCached "components/scores/indicator-small" (dict "context" . "project" $project "scores" (index (index ($.Store.Get "aggregates").allscores $project) "raweb") "name" "RAWeb") $project "raweb" -}}</p>
+                  {{- end -}}
+
+                  {{/* If RAAM exists */}}
+                  {{- if and $raam -}}
+                    <p class="mb-0">{{- partialCached "components/scores/indicator-small" (dict "context" . "project" $project "scores" (index (index ($.Store.Get "aggregates").allscores $project) "raam") "name" "RAAM") $project "raam" -}}</p>
                   {{- end -}}
 
                   {{/* If Accessibility exists */}}

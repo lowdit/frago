@@ -15,6 +15,7 @@ cascade:
     - html
     - accessibilitypage
     - rawebpage
+    - raampage
     - ecoindexpage
     - ecoconceptionpage
     - opquastpage
@@ -35,6 +36,7 @@ cascade:
     - declarationecopage
     - accessibility
     - raweb
+    - raam
     - ecoconception
     - opquast
     - publishing
@@ -42,6 +44,7 @@ cascade:
     - performance
     - accessibilitypage
     - rawebpage
+    - raampage
     - ecoindexpage
     - ecoconceptionpage
     - opquastpage

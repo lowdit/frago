@@ -3,7 +3,7 @@
 {{ $path := "" }}{{ with .File }}{{ $path = .Path }}{{ end }}
 {{ $data          := newScratch }}
 {{ $time          := now.UnixMilli }}
-{{ $reflist       := (slice "accessibility" "raweb" "ecoconception" "opquast" "publishing") }}
+{{ $reflist       := (slice "accessibility" "raweb" "raam" "ecoconception" "opquast" "publishing") }}
 
 {{/* Declare Var */}}
 {{ $data.Delete "allscores" }}
@@ -56,7 +56,7 @@
           {{ $data.Add (printf "aggregate-%s-version" $type) $version }}
 
           {{/* Store each result in a map */}}
-          {{ $render       := (partialCached (printf "render/%s.html" (cond (eq $type "raweb") "accessibility" $type )) (dict "context" "aggregate" "auditfile" . "referential" $guidelines "auditname" (index ($data.Get (printf "aggregate-%s-contextaudit" $type) ) (index $auditsfiles "auditfile-name")).guidelines.name) . (index ($data.Get (printf "aggregate-%s-contextaudit" $type)) (index $auditsfiles "auditfile-name")).guidelines.name $type) }}
+          {{ $render       := (partialCached (printf "render/%s.html" (cond (eq $type "raam") "accessibility" (cond (eq $type "raweb") "accessibility" $type))) (dict "context" "aggregate" "auditfile" . "referential" $guidelines "auditname" (index ($data.Get (printf "aggregate-%s-contextaudit" $type) ) (index $auditsfiles "auditfile-name")).guidelines.name) . (index ($data.Get (printf "aggregate-%s-contextaudit" $type)) (index $auditsfiles "auditfile-name")).guidelines.name $type) }}
           {{ $data.SetInMap $project $type $render }}
 
           {{/* START Count the sum for each criteria */}}
