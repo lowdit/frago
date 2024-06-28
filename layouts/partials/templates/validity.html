@@ -1,7 +1,8 @@
-{{- $context := .context -}}
-{{- $score   := .score -}}
-{{- $audit   := .audit -}}
-{{- $data    := newScratch -}}
+{{- $context     := .context -}}
+{{- $score       := .score.criteria -}}
+{{- $auditname   := cond (not .score.scores.auditname) "rgaa" .score.scores.auditname -}}
+{{- $audit       := .audit -}}
+{{- $data        := newScratch -}}
 
 {{- $data.Set "criterioncounter" 0 -}}
 {{- if or (fileExists (printf "%s/quality" (index $audit "pathproject"))) (fileExists (printf "%s/recommendation" (index $audit "pathproject"))) (fileExists (printf "%s/recommendations" (index $audit "pathproject"))) -}}
@@ -39,7 +40,7 @@
     {{- $thematiques := float (index (split $key ".") 0) -}}
     {{- $criteria    := float (index (split $key ".") 1) -}}
     <p><strong>Critère {{ $thematiques }}.{{ $criteria }}</strong><br/>
-    {{- $s := where ($context.Site.Data.rgaa.criteria.topics) "number" "eq" (float (index (split $key ".") 0)) -}}
+    {{- $s := where ((index $context.Site.Data $auditname).criteria.topics) "number" "eq" (float (index (split $key ".") 0)) -}}
     {{- if ge (len $s) 1 -}}
       {{- $content := (index (index $s 0).criteria (sub (int ($criteria)) 1)).criterium.title -}}
       <em>{{ replaceRE "\\[(.*?)\\]\\(.*?\\)" "$1" $content | markdownify }}</em>

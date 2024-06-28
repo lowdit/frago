@@ -1,0 +1,44 @@
+{{ $data          := newScratch }}
+{{ $scores         := .scores }}
+{{ $topics         := .topics }}
+
+{{ range $id, $value := $scores.all }}
+  {{- $key := index $topics (sub (int (delimit (first 1 (split $id ".")) "" )) 1) }}
+  {{- $data.Set "counterall"           0 -}}
+  {{- $data.Set "counterconforme"      0 -}}
+  {{- $data.Set "counternonconforme"   0 -}}
+  {{- if ($scores.conforme) }}
+    {{- if index $scores.conforme $id }}
+      {{- $data.Add      "counterall" 1 -}}
+      {{- $data.Add      "counterconforme" 1 -}}
+      {{- $data.Add      (printf "counterconforme%s" $key) 1 -}}
+      {{- $data.Add      (printf "counterall%s" $key) 1 -}}
+      {{- $data.SetInMap "conformes" (string $key) ($data.Get (printf "counterconforme%s" $key)) }}
+      {{- $data.SetInMap "all"       (string $key) ($data.Get (printf "counterall%s" $key)) }}
+    {{ end -}}
+  {{ end -}}
+  {{- if  ($scores.nonconforme) }}
+    {{- if and (index $scores.nonconforme $id) (ne (len $scores.nonconforme) 0) }}
+      {{- $data.Add      "counterall" 1 -}}
+      {{- $data.Add      "counternonconforme" 1 -}}
+      {{- $data.Add      (printf "counternonconforme%s" $key) 1 -}}
+      {{- $data.Add      (printf "counterall%s" $key) 1 -}}
+      {{- $data.SetInMap "nonconformes" (string $key) ($data.Get (printf "counternonconforme%s" $key)) }}
+      {{- $data.SetInMap "all"       (string $key) ($data.Get (printf "counterall%s" $key)) }}
+    {{ end -}}
+  {{ end -}}
+{{ end -}}
+
+{{- $conformes      := cond (not ($data.Get "conformes"))    0 (len $scores.conforme) -}}
+{{- $nonconformes   := cond (not ($data.Get "nonconformes")) 0 (len $scores.nonconforme) -}}
+
+{{ return (dict
+    "thematiques" (dict
+      "all"           ($data.Get "all")
+      "conformes"     ($data.Get "conformes")
+      "nonconformes"  ($data.Get "nonconformes")
+    )
+    "conformes"     $conformes
+    "nonconformes"  $nonconformes
+    "total"         (cond (and (eq $conformes 0) (eq $nonconformes 0)) 1 (add (len $scores.conforme) (len $scores.nonconforme)))
+)}}

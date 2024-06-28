@@ -1,17 +1,20 @@
 {{/* Return the rootpath of the audits files :: rootpath is where are stored files */}}
 {{ $project   := .project }}
+{{ $type      := .type }}
 {{ $data      := newScratch }}
 {{/* Default rootpath is static folder */}}
 {{ $data.Set  "rootpath" "static" }}
 {{ $loop      := (partialCached "utils/keyaudits" "keyaudits") }}
 
-{{ if or (eq "greenit" .type) (eq "cigref" .type)  }}
-  {{ range $key, $value := index $loop .type }}
-    {{ $data.Set "rootpath" (cond (fileExists (printf "content/organism/%s/" $value)) "content/organism" (cond (fileExists (printf "content/organism/%s/" $value)) "content/organism" ($data.Get "rootpath"))) }}
-  {{ end }}
-{{ else }}
-  {{ range $key, $value := index $loop .type }}
-    {{ $data.Set "rootpath" (cond (fileExists (printf "content/audits/%s/%s/" $project $value)) "content/audits" (cond (fileExists (printf "content/audits/%s/" $value)) "content/audits" ($data.Get "rootpath"))) }}
+{{ with .type }}
+  {{ if or (eq "greenit" .) (eq "cigref" .)  }}
+    {{ range $key, $value := index $loop . }}
+      {{ $data.Set "rootpath" (cond (fileExists (printf "content/organism/%s/" $value)) "content/organism" (cond (fileExists (printf "content/organism/%s/" $value)) "content/organism" ($data.Get "rootpath"))) }}
+    {{ end }}
+  {{ else }}
+    {{ range $key, $value := index $loop . }}
+      {{ $data.Set "rootpath" (cond (fileExists (printf "content/audits/%s/%s/" $project $value)) "content/audits" (cond (fileExists (printf "content/audits/%s/" $value)) "content/audits" ($data.Get "rootpath"))) }}
+    {{ end }}
   {{ end }}
 {{ end }}
 

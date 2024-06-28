@@ -6,7 +6,6 @@
 {{ $path          := printf "./static/images/%s/%s/" $project .type }}
 {{ $data.Set  "rootpath" $path }}
 {{ $loop          := (partialCached "utils/keyaudits" "keyaudits" ) }}
-
 {{ range $key, $value := index $loop .type }}
   {{ $data.Set "rootpath"
       (cond (fileExists (printf "static/images/%s/%s/%s" $project $value $auditfilename))

@@ -1,0 +1,19 @@
+{{ $data          := newScratch }}
+{{ $type          := "pourcentage" }}
+{{ $conforme      := cond (not .conforme) dict .conforme}}
+{{ $nonconforme   := cond (not .nonconforme) dict .nonconforme}}
+{{ $nonapplicable := .nonapplicable }}
+{{ range $id, $value := (merge $conforme $nonconforme) }}
+  {{ if and (gt (int (index $nonconforme $id)) 0) (gt (int (index $conforme $id)) 0) }}
+    {{ $result := (div (mul (index $conforme $id) 100) (add (index $conforme $id) (index $nonconforme $id))) }}
+    {{ $data.SetInMap "pourcentage" (string $id) $result }}
+  {{ else if and (eq (int (index $nonconforme $id)) 0) (eq (int (index $conforme $id)) 0) }}
+    {{ $data.SetInMap "pourcentage" (string $id) "NA" }}
+  {{ else if and (eq (int (index $nonconforme $id)) 0) (gt (int (index $conforme $id)) 0) }}
+    {{ $data.SetInMap "pourcentage" (string $id) 100 }}
+  {{ else }}
+    {{ $data.SetInMap "pourcentage" (string $id) "0" }}
+  {{ end }}
+{{ end }}
+
+{{ return ($data.Get "pourcentage") }}

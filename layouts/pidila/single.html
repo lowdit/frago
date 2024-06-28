@@ -1,7 +1,7 @@
 {{- define "main" -}}
 
   {{/* Use the audit last version */}}
-  {{- $referential  := (partialCached "render/referential-version.html" (dict "context" . "referential" "pidila") . ).guideline -}}
+  {{- $referential  := (partialCached "render/referential-version.html" (dict "context" . "referential" "pidila") "pidila" ).guideline -}}
   {{- $.Store.Set "criteriafile" (index (index $.Site.Data $referential.name) (string $referential.version)).criteria.criterias -}}
 
   <article class="fg-wrapper narrow">

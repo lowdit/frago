@@ -1,7 +1,7 @@
 {{- define "title" -}}
   {{- $context := . -}}
-  {{ $path := "" }}
-  {{ with .File }}{{ $path = .Path }}{{ end }}
+  {{- $path := "" }}
+  {{- with .File }}{{ $path = .Path }}{{ end }}
   {{- $alternate  := where (where .OutputFormats "Permalink" "eq" .Permalink) "Rel" "eq" "alternate" -}}
   {{- if ne (len $alternate) 0 -}}
     {{- with $alternate -}}
@@ -17,6 +17,6 @@
 
 {{- define "main" -}}
   {{- $context := . -}}
-  {{- $partial := (partialCached "templates/accessibility.html" (dict "context" $context) $context) -}}
+  {{- $partial := (partial "templates/accessibility.html" (dict "context" $context "type" "accessibility")) -}}
   {{- partialCached "elements/content.html" $partial $partial -}}
 {{- end -}}

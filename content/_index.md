@@ -7,76 +7,15 @@ disableKinds:
   - RSS
   - taxonomy
   - taxonomyTerm
-  - accessibility
 cascade:
 - _target:
-    path: /audits/**/
+    type: organism
+    path: /organism
   outputs:
     - html
-    - json
-    - declaration
-    - declarationpage
-    - declarationeco
-    - declarationecopage
-    - accessibility
-    - ecoconception
-    - opquast
-    - publishing
-    - quality
-    - recommendation
-    - performance
     - accessibilitypage
-    - ecoindexpage
-    - ecoconceptionpage
-    - opquastpage
-    - publishingpage
-    - qualitypage
-    - recommendationpage
-    - performancepage
-- _target:
-    path: /audits/**/
-  outputs:
-    - html
-    - json
-    - declaration
-    - declarationpage
-    - declarationeco
-    - declarationecopage
-- _target:
-    path: /audits/**
-  outputs:
-    - html
-    - json
-    - declaration
-    - declarationpage
-    - declarationeco
-    - declarationecopage
-    - accessibility
-    - ecoindex
-    - ecoconception
-    - opquast
-    - publishing
-    - quality
-    - recommendation
-    - performance
-    - accessibilitypage
-    - ecoindexpage
-    - ecoconceptionpage
-    - opquastpage
-    - publishingpage
-    - qualitypage
-    - recommendationpage
-    - performancepage
-- _target:
-    path: /audits/
-  type: "audits"
-- _target:
-    path: /organism/**
-    kind: section
-  outputs:
-    - html
-    - json
-    - accessibilitypage
+    - rawebpage
+    - raampage
     - ecoindexpage
     - ecoconceptionpage
     - opquastpage
@@ -85,4 +24,41 @@ cascade:
     - greenitpage
     - cigref
     - cigrefpage
+- _target:
+    path: /audits/*
+    type: audits
+  outputs:
+    - html
+    - json
+    - declaration
+    - declarationpage
+    - declarationeco
+    - declarationecopage
+    - accessibility
+    - raweb
+    - raam
+    - ecoconception
+    - opquast
+    - publishing
+    - recommendation
+    - performance
+    - accessibilitypage
+    - rawebpage
+    - raampage
+    - ecoindexpage
+    - ecoconceptionpage
+    - opquastpage
+    - publishingpage
+    - recommendationpage
+    - performancepage
+- _target:
+    path: /audits/*/*/
+    type: audits
+  outputs:
+    - html
+    - json
+    - declaration
+    - declarationpage
+    - declarationeco
+    - declarationecopage
 ---

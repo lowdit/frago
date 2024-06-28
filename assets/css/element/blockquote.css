@@ -7,7 +7,7 @@ blockquote {
   padding: calc(var(--baseline,1.5em) / 2) var(--baseline,1.5em) calc(var(--baseline,1.5em) / 4);
   font-size: calc(1rem * var(--ms1));
   border-left: 5px solid var(--color-primary);
-  background-color: #fff;
+  background-color: #f5f5f5;
   quotes: "\201C""\201D""\2018""\2019";
 }
 

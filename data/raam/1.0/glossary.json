@@ -1,0 +1,292 @@
+{
+  "glossary": [
+    {
+      "title": "Accessible aux technologies d’assistance",
+      "body": "<p>Pour qu’une information soit accessible aux technologies d’assistance, il faut qu’elle soit mise à disposition de ces dernières, au travers du logiciel lui-même ou par l’intermédiaire d’une API d’accessibilité, cette dernière méthode étant la plus répandue.</p><p>Ceci peut être réalisé au travers des propriétés descriptives parfois non visibles sur l’interface mais restituées par les technologies d’assistance, soit au travers des paramètres de l’API définissant par exemple des états (sélectionné, actif, désactivé, etc.)</p>"
+    },
+    {
+      "title": "Accessible et activable par le clavier et tout dispositif de pointage",
+      "body": "<p>Les dispositifs de pointage en environnement mobile peuvent être, mais ne sont pas limités à&nbsp;:</p><ul> <li>le toucher&nbsp;;</li> <li>la souris&nbsp;;</li> <li>les dispositifs d’<em>eye tracking</em>{lang=en}&nbsp;;</li> <li>les dispositifs d’<a href=\"https://support.apple.com/fr-fr/HT201370\">analyse par point</a> sur iOS (ou <a href=\"https://support.google.com/accessibility/android/answer/6395627?hl=fr\">recherche par point</a> sur Android)&nbsp;;</li> <li>la commande vocale.</li> </ul><p>Un composant d’interface (lien, bouton, champ de formulaire, etc.) est accessible par tout dispositif de pointage lorsque l’utilisateur &nbsp;:</p><ul> <li>peut prendre le focus sur le composant, indifféremment du dispositif&nbsp;;</li> <li>peut enclencher l’action prévue par le composant d’interface par une manipulation propre au dispositif (une certaine touche du clavier, un geste sur l’écran par exemple);</li> </ul><p><strong>Attention&nbsp;:</strong> pour certains composants d’interface comme les potentiomètres (<em>slider</em>{lang=en}, bouton rotatif), plusieurs interactions sont possibles et donc plusieurs manipulations propres au dispositif peuvent être requises pour interagir avec le composant.  Au clavier, par exemple pour les potentiomètres, les flèches de direction (droite, gauche, haut et bas) permettent d’interagir et de modifier le composant.</p><p>Dans ce référentiel, l’expression «&nbsp;contrôlable par le clavier et tout dispositif de pointage&nbsp;» se rapporte également à la présente définition.</p><p><strong>Note importante&nbsp;:</strong> le recours à certaines technologies peut rendre la gestion du focus trop complexe ou trop instable pour ne reposer que sur la tabulation, les touches de direction et la touche entrée. Dans ce cas, la mise à disposition de raccourcis clavier peut être la seule solution pour rendre le composant utilisable. Le critère ne peut être considéré comme conforme qu’à la condition que les raccourcis clavier utilisés soient correctement documentés, qu’ils soient fonctionnels et qu’ils respectent le <a href=\"referentiel-technique.md#crit-10-4\">critère 10.4</a>.</p>"
+    },
+    {
+      "title": "Accolés (étiquette et champ accolés)",
+      "body": "<p>Il faut que l’étiquette et son champ soient visuellement proches, de manière à ce que la relation entre les deux ne puisse pas prêter à confusion.</p>"
+    },
+    {
+      "title": "Action complexe",
+      "body": "<p>Une action complexe est une action pour laquelle l’action descendante et remontante du pointeur constituent des événements indissociables de l’action, si bien qu’il n’est pas possible pour l’utilisateur d’annuler l’action descendante simplement en déplaçant son pointeur en dehors de la zone interactive. Il s’agit par exemple des mécanismes de glisser/déposer (<em>drag’n’drop</em>{lang=en}) au cours duquel l’action descendante du pointeur permet de sélectionner un item et l’action remontante du pointeur permet de positionner l’item.</p>"
+    },
+    {
+      "title": "Adjacente clairement identifiable",
+      "body": "<p>L’élément est mis à disposition de manière adjacente à l’objet identifié par le critère dans la représentation graphique et dans l’ordre de navigation au clavier. Si besoin, l’élément peut être disponible ailleurs dans le logiciel et être accessible avec une fonctionnalité (un bouton par exemple) adjacente à l’objet identifié dans le critère, explicite et clairement identifiable (l’intitulé de la fonctionnalité est explicite).</p>"
+    },
+    {
+      "title": "Application de communication orale bidirectionnelle",
+      "body": "<p>Les applications de communication orale bidirectionnelles sont des applications qui permettent à 2 interlocuteurs ou plus de parler simultanément. Les applications de visioconférence qui permettent de parler en même temps en sont un exemple.</p>"
+    },
+    {
+      "title": "Audiodescription synchronisée (média temporel)",
+      "body": "<p>Narration ajoutée (via un fichier son) à une piste sonore pour décrire les détails visuels importants qui ne peuvent être compris à partir de la piste sonore principale seulement. L’audiodescription doit être synchronisée avec le média temporel par un dispositif applicatif lié au lecteur multimédia.</p><p><strong>Note 1&nbsp;:</strong> l’audiodescription d’une vidéo fournit de l’information à propos des actions, des personnages, des changements de scènes, du texte apparaissant à l’écran et d’autres contenus visuels.</p><p><strong>Note 2&nbsp;:</strong> dans une audiodescription standard, la narration est ajoutée durant les pauses qui existent dans le dialogue. (Voir aussi audiodescription étendue.)</p><p><strong>Note 3&nbsp;:</strong> lorsque toute l’information de la vidéo est déjà donnée dans la piste audio, aucune audiodescription supplémentaire n’est requise.</p>"
+    },
+    {
+      "title": "CAPTCHA",
+      "body": "<p>Un CAPTCHA est un test utilisé pour distinguer un utilisateur humain d’un ordinateur. Le test utilise souvent des éléments graphiques contenant du texte déformé, mélangé avec d’autres formes ou utilisant des jeux de couleurs altérées, que l’utilisateur est invité à retaper. D’autres formes de CAPTCHA peuvent être basées sur des questions logiques ou des extraits sonores.</p><p>Le W3C fournit une documentation complète sur l’accessibilité de ce type de test&nbsp;: <a href=\"https://www.w3.org/TR/turingtest/\">Inaccessibility of CAPTCHA</a>{lang=en}.</p>"
+    },
+    {
+      "title": "Caractéristique biologique",
+      "body": "<p>Les méthodes d’identification des utilisateurs ou de contrôle reposant sur des caractéristiques biologiques utilisables peuvent être&nbsp;:</p><ul> <li>la reconnaissance d’empreintes digitales&nbsp;;</li> <li>la reconnaissance faciale&nbsp;;</li> <li>la reconnaissance vocale.</li> </ul>"
+    },
+    {
+      "title": "Caractéristiques essentielles des sous-titres",
+      "body": "<p>Il est possible d’appliquer des effets de présentation aux sous-titres (couleur des textes, style, police) afin de véhiculer une information aux utilisateurs (par exemple identifier la personne qui parle). Ces caractéristiques sont essentielles pour la compréhension des sous-titres par les utilisateurs et devraient être conservées au cours des processus de transformation (envoi ou enregistrement de la vidéo par exemple) si elles sont présentes.</p>"
+    },
+    {
+      "title": "Champs de même nature",
+      "body": "<p>Dans un formulaire, ensemble des champs pouvant être regroupés par la nature des informations attendues. Le regroupement vise à identifier les champs devant être traités comme un ensemble.</p><p>Quelques exemples&nbsp;:</p><ul> <li>Trois champs successifs pour saisir une date (jour/mois/année)&nbsp;;</li> <li>Champs successifs pour un numéro de téléphone&nbsp;;</li> <li>Un bloc destiné à saisir l’identité et l’adresse de l’utilisateur, lorsque le formulaire contient plusieurs blocs de contact&nbsp;;</li> <li>Un ensemble de boutons radio ou de cases à cocher qui se rapportent à une question.</li> </ul><p>Ces champs doivent être regroupés lorsque les étiquettes des champs ne sont pas suffisantes pour informer l’utilisateur que les champs font partie d’un regroupement.</p><p>Lorsque le formulaire est constitué d’un seul bloc d’informations de même nature (l’identité et l’adresse de l’utilisateur, par exemple) ou d’un champ unique (un moteur de recherche, par exemple), le regroupement des champs n’est pas obligatoire.</p>"
+    },
+    {
+      "title": "Changement brusque de luminosité ou effet de flash",
+      "body": "<p>Alternance de luminosité relative qui peut causer des crises chez certaines personnes, si leur taille est suffisamment importante dans une gamme de fréquences spécifique.</p>"
+    },
+    {
+      "title": "Changement de contexte",
+      "body": "<p>Changements majeurs dans le contenu d’un écran qui, s’ils sont faits sans que l’utilisateur en soit conscient, peuvent désorienter l’utilisateur qui ne peut voir l’ensemble de l’écran en même temps. Les changements de contexte comprennent les changements&nbsp;:</p><ul> <li>d’application&nbsp;;</li> <li>d’agent utilisateur&nbsp;;</li> <li>d’espace de restitution&nbsp;;</li> <li>de focus&nbsp;;</li> <li>de contenu qui modifie la signification de l’écran.</li> </ul><p><strong>Note&nbsp;:</strong> un changement de contenu n’est pas toujours un changement de contexte. Un changement dans le contenu comme le déploiement d’une arborescence, un menu dynamique ou un déplacement de tabulation ne change pas nécessairement le contexte, à moins qu’il ne change aussi l’un des éléments énumérés ci-dessus (le focus, par exemple).</p><p><strong>Exemple&nbsp;:</strong> l’ouverture dans un autre agent utilisateur, le déplacement du focus sur un composant différent ou la réorganisation significative du contenu de l’écran sont autant d’exemples d’un changement de contexte.</p>"
+    },
+    {
+      "title": "Communication écrite en temps réel",
+      "body": "<p>La communication écrite en temps réel (<em>Real-time text</em>{lang=en}, RTT) est un mode de communication écrite qui permet aux interlocuteurs de lire le texte en train d’être écrit par l’expéditeur, sans attendre que l’expéditeur valide (par exemple avec la touche entrée).</p><p>Exemple de communication écrite en temps réel intégrée à une plateforme&nbsp;: <a href=\"https://support.apple.com/en-us/HT207033\">Answer or make RTT or TTY calls from iPhone</a>{lang=en}</p>"
+    },
+    {
+      "title": "Compatible avec les technologies d’assistance",
+      "body": "<p>Un contenu ou une fonctionnalité doit être compatible avec les technologies d’assistance des utilisateurs ainsi qu’avec les fonctions d’accessibilité des logiciels via une API d’accessibilité.</p><p>Cela concerne, à la fois, la technologie, ses fonctionnalités et ses usages&nbsp;:</p><ul> <li>La façon dont la technologie est utilisée doit être compatible avec les technologies d’assistance des utilisateurs. Cela signifie que la façon dont la technologie est utilisée a été testée dans une perspective d’interopérabilité avec des utilisateurs des technologies d’assistance dans les contenus du logiciel.</li> <li>La technologie fonctionne de façon native sur la plateforme et utilise l’API d’accessibilité de la plateforme.</li> </ul>"
+    },
+    {
+      "title": "Composant d’interface",
+      "body": "<p>Un composant d’interface est un élément avec lequel l’utilisateur peut interagir, par exemple un bouton, un lien, une zone de saisie. Certains composants peuvent être plus complexes comme un menu, une fenêtre de dialogue, un système d’onglets. Enfin un composant d’interface peut être basé sur des éléments natifs du langage de la plateforme ou développés de toutes pièces.</p>"
+    },
+    {
+      "title": "Composant dont la nature n’est pas évidente",
+      "body": "<p>Composant interactif mêlé à des éléments non interactifs (du texte par exemple) et qui n’est pas différenciable visuellement des éléments non interactifs.</p>"
+    },
+    {
+      "title": "Cohérent (ordre de lecture)",
+      "body": "<p>Un contenu compréhensible est lisible (l’ordre des éléments est logique) et cohérent (l’enchaînement de la lecture est cohérent).</p>"
+    },
+    {
+      "title": "Contraste",
+      "body": "<p>Opposition marquée entre la luminosité d’une couleur de premier plan et d’une couleur d’arrière-plan. Le rapport de contraste est basé sur la différence de luminance relative entre l’arrière-plan et le premier plan selon la règle&nbsp;: (L1 + 0,05) / (L2 + 0,05) où L1 est la luminance relative la plus claire et L2 la luminance relative la plus sombre. La luminosité est calculée selon la formule suivante&nbsp;: L = 0,2126 * R + 0,7152 * G + 0,0722 * B. Où R, G et B sont définis par&nbsp;:</p><ul> <li>Si RsRGB &lt;= 0,03928 alors R = RsRGB/12,92 sinon R = ((RsRGB+0,055)/1,055) ^ 2,4&nbsp;;</li> <li>Si GsRGB &lt;= 0,03928 alors G = GsRGB/12,92 sinon G = ((GsRGB+0,055)/1,055) ^ 2,4&nbsp;;</li> <li>Si BsRGB &lt;= 0,03928 alors B = BsRGB/12.92 sinon B = ((BsRGB+0,055)/1,055) ^ 2,4.</li> </ul><p>et RsRGB, GsRGB et BsRGB sont définis par&nbsp;:</p><ul> <li>RsRGB = R8bit/255&nbsp;;</li> <li>GsRGB = G8bit/255&nbsp;;</li> <li>BsRGB = B8bit/255.</li> </ul><p>Le caractère «&nbsp;^&nbsp;» est l’opérateur de puissance.</p><p><strong>Note&nbsp;:</strong> la mesure de contraste concerne le texte, le contenu dans les éléments graphiques, le texte et le texte en image dans les animations, le texte de sous-titrage et le texte incrusté dans les vidéos. Les textes présents dans les éléments d’un élément graphique ou d’une vidéo (par exemple un écriteau, une affiche etc.) ne sont pas concernés.</p><p><strong>Source&nbsp;:</strong> <a href=\"https://www.w3.org/WAI/WCAG21/Techniques/general/G18#procedure\">Procédure de calcul de contraste des WCAG (en anglais)</a>.</p>"
+    },
+    {
+      "title": "Contraste (taille des textes)",
+      "body": "<p>La norme distingue plusieurs tailles de textes à évaluer, chaque taille relevant d’un seuil de contraste. Ces tailles sont évaluées en pixel ou en point. Plus un texte est grand (supérieur à 18,5px avec effet de graisse ou 24px sans effet de graisse) moins le rapport requis est élevé (3:1).</p><p>Compte tenu de la difficulté à évaluer les tailles de polices sur mobile, tous les textes devraient être considérés en taille normale sauf pour des textes significativement très grands.</p><p>Par exemple, on pourrait considérer un texte «&nbsp;significativement très grand&nbsp;» si les lettres qui le composent ont une hauteur et/ou largeur au moins égales à 1,5&nbsp;cm.</p>"
+    },
+    {
+      "title": "Contrôle (contenu en mouvement ou clignotant)",
+      "body": "<p>Possibilité pour l’utilisateur de contrôler l’affichage ou la lecture d’un contenu en mouvement ou clignotant au moyen de tous les dispositifs de pointage (toucher, clavier, souris, etc.).</p><p>Tous les contenus en mouvement, à l’exception des médias temporels pris en charge par la thématique <a href=\"referentiel-technique.html#topic-3\">Multimédia</a>, sont concernés&nbsp;: les éléments graphiques animés, les contenus en mouvement par exemple.</p><p><strong>Note 1&nbsp;:</strong> lorsque c’est approprié, la méthode de contrôle devrait être disponible comme premier élément de l’interface.</p><p><strong>Note 2&nbsp;:</strong> la méthode de contrôle du contenu en mouvement ou clignotant doit permettre à l’utilisateur d’interagir avec le reste de l’application. En conséquence, l’arrêt ou la mise en pause via un événement déclenché uniquement sur la prise de focus ne permet pas de valider le critère.</p><p><strong>Note 3&nbsp;:</strong> dans certains cas, le mouvement fait partie intégrante du composant et il n’est pas possible d’en donner le contrôle à l’utilisateur, par exemple une barre de progression dont la fonction est d’indiquer par un mouvement la progression d’un événement comme un téléchargement. Dans ce cas, le critère est non applicable.</p>"
+    },
+    {
+      "title": "Contrôle (son déclenché automatiquement)",
+      "body": "<p>Possibilité pour l’utilisateur d’arrêter ou de relancer un son déclenché automatiquement.</p><p><strong>Note&nbsp;:</strong> la méthode de contrôle du son devrait être disponible comme premier élément de l’écran.</p>"
+    },
+    {
+      "title": "Contrôle à bascule",
+      "body": "<p>Un contrôle à bascule est un contrôle qui peut avoir 2 ou 3 états, et donc l’état défini par l’utilisateur est persistant jusqu’au prochain d’état. Cela peut être un contrôle de verrouillage de l’écran (l’écran est soit allumé soit éteint), un contrôle permettant d’activer ou désactiver les notifications d’une application.</p><p>Exemples de contrôles à bascule&nbsp;:</p><ul> <li>une case à cocher,</li> <li>un bouton radio,</li> <li>un bouton qui peut avoir un état activé ou désactivé.</li> </ul>"
+    },
+    {
+      "title": "Contrôle de la consultation (d’un média temporel)",
+      "body": "<p>Possibilité pour l’utilisateur de contrôler la consultation d’un média temporel par le clavier et tout dispositif de pointage, au moins. Les points suivants doivent être respectés&nbsp;:</p><p>Liste des fonctionnalités obligatoires de contrôle de la consultation&nbsp;:</p><ul> <li>L’objet multimédia doit toujours avoir les fonctionnalités suivantes, au minimum&nbsp;: lecture, pause ou stop&nbsp;;</li> <li>Si l’objet multimédia a du son, il doit avoir une fonctionnalité d’activation / désactivation du son&nbsp;;</li> <li>Si l’objet multimédia a une audiodescription, il doit avoir une fonctionnalité de contrôle de l’activation et désactivation de l’audiodescription.</li> <li>Si l’objet multimédia a des sous-titres, il doit avoir une fonctionnalité de contrôle de l’activation et désactivation des sous-titres.</li> </ul><p>Chaque fonctionnalité doit être accessible par le clavier et tout dispositif de pointage (toucher, lecteur d’écran, clavier, souris, etc.).</p><p>Si le lecteur ne permet pas d’inclure une seconde piste audio pour l’audiodescription, un lien (ou un bouton) vers une vidéo alternative avec audiodescription est une fonctionnalité alternative satisfaisante. De même pour les sous-titres&nbsp;: si la vidéo ne dispose pas de sous-titres activables et désactivables, la présence d’une vidéo alternative avec les sous-titres (disponible depuis un lien ou un bouton) est une alternative satisfaisante.</p><p><strong>Note&nbsp;:</strong> s’il n’y a pas de son à un média temporel, il n’est pas utile de mettre une fonctionnalité d’activation / désactivation du son. Si cette fonctionnalité est cependant présente et qu’elle nécessite une alternative textuelle pour être comprise par certains utilisateurs, il faut alors lui en donner une puisque l’utilisateur est susceptible d’y accéder et de vouloir l’activer.</p>"
+    },
+    {
+      "title": "Contrôle de saisie (formulaire)",
+      "body": "<p>Ensemble des processus qui permettent de prévenir l’utilisateur&nbsp;:</p><ul> <li>des champs obligatoires,</li> <li>des indications de type ou de format attendus,</li> <li>des erreurs de saisie dans un formulaire.</li> </ul>"
+    },
+    {
+      "title": "Contrôles natifs de la plateforme",
+      "body": "<p>Les plateformes disposent de contrôles natifs, par exemple un <em>color picker</em>{lang=en} natif pour la sélection de couleur, un calendrier ou un champ spécifique contenant le contrôle du format pour la sélection de dates, etc. Les champs de formulaires qui attendent des formats particuliers (comme une date par exemple) devraient utiliser les contrôles natifs de la plateforme pour assurer un maximum de compatibilité avec les technologies d’assistance.</p>"
+    },
+    {
+      "title": "Contrôle primaire (d’un média temporel)",
+      "body": "<p>Les fonctionnalités de contrôle primaires sont les fonctionnalités de base d’un lecteur multimédia&nbsp;: lecture, pause, stop, contrôle du son.</p>"
+    },
+    {
+      "title": "Couleur adjacente",
+      "body": "<p>Couleur directement en contact avec les couleurs du composant ou de l’élément graphique, cela peut être la couleur d’arrière-plan ou toute autre couleur en jonction directe.</p><p><strong>Exemple&nbsp;:</strong> dans un panneau de «&nbsp;sens interdit&nbsp;» le rouge du panneau est la couleur adjacente au trait blanc au centre du panneau.</p><p>Il est important de comprendre que le <a href=\"referentiel-technique.md#crit-2-3\">critère 2.3</a> sur les contrastes des composants d’interfaces et des éléments graphiques évalue uniquement les éléments <strong>non textuels</strong>. Dès qu’il s’agira d’évaluer le contraste d’un texte, même s’il est présent dans un composant d’interface, c’est le <a href=\"referentiel-technique.md#crit-2-2\">critère 2.2</a> qui s’applique.</p><p>Toutes les couleurs d’un élément graphique ou d’un composant d’interface ne sont pas à évaluer. Il est essentiel d’évaluer&nbsp;:</p><ul> <li><strong>Les mises en couleur porteuses d’information</strong> (toutes les mises en couleur ne sont pas porteuses d’information)&nbsp;: <ul> <li>Par exemple, dans le panneau de navigation d’une application, les boutons de navigation ont une couleur de fond grise, mais le bouton de l’écran actif a une couleur de fond verte. Il est nécessaire de vérifier que la couleur verte en jonction directe avec la couleur de fond grise, a un rapport de contraste de 3:1 au moins.</li> </ul> </li> <li><strong>Les mises en couleur permettant d’identifier la localisation d’un élément ou les zones interactives</strong>, par exemple&nbsp;: <ul> <li>La bordure d’un champ de formulaire, si celle-ci est le seul moyen d’identifier la localisation de l’interaction, doit avoir une couleur qui présente un rapport de contraste de 3:1 au moins avec la couleur adjacente, généralement la couleur de fond&nbsp;;</li> <li>Les bordures des cases à cocher et boutons radio, ainsi que leur état (sélectionné ou non). Il est essentiel ici d’évaluer le rapport de contraste de la bordure de ces composants avec les couleurs adjacentes (généralement la couleur de fond) mais également d’évaluer le rapport de contraste de ces composants lorsqu’ils sont sélectionnés. Il faut évaluer si l’élément visuel utilisé pour signifier la sélection a un rapport de contraste suffisant.</li> </ul> </li> <li><strong>Les couleurs des éléments non textuels porteurs d’information</strong> (éléments graphiques)&nbsp;: <ul> <li>Un chevron est positionné à droite de l’item sélectionné dans une liste d’items, le rapport de contraste entre la couleur du chevron et les couleurs adjacentes (généralement la couleur de fond) doit être de 3:1 au moins.</li> </ul> </li> </ul><p>La couleur de fond d’un bouton d’envoi de formulaire par exemple («&nbsp;Envoyer&nbsp;») n’a pas à être contrastée avec le fond de l’écran. En effet, la localisation du bouton se fait par le texte, qui doit déjà respecter les contraintes de contrastes des textes (<a href=\"referentiel-technique.md#crit-2-2\">critère 2.2</a>). La taille du bouton et ses rebords ne sont pas considérés comme des informations qui répondent de ce critère.</p><p><strong>Note 1&nbsp;:</strong> dans le cas de la présence d’un dégradé, c’est la couleur adjacente la moins contrastée du dégradé qui sera à considérer comme la couleur adjacente.</p><p><strong>Note 2&nbsp;:</strong> dans le cas de la présence de plusieurs couleurs, c’est l’ensemble des couleurs qui seront à considérer comme couleurs adjacentes.</p>"
+    },
+    {
+      "title": "Description détaillée",
+      "body": "<p>Contenu associé à un <a href=\"#element-graphique\">élément graphique</a> en complément de son alternative textuelle afin de décrire en totalité l’information véhiculée par l’élément.</p>"
+    },
+    {
+      "title": "Donnée personnelle de l’utilisateur",
+      "body": "<p>Les données personnelles concernant l’utilisateur dans un formulaire peuvent être&nbsp;:</p><ul> <li>le nom&nbsp;;</li> <li>le prénom&nbsp;;</li> <li>le mot de passe&nbsp;;</li> <li>l’adresse <em>e-mail</em>{lang=en}&nbsp;;</li> <li>l’adresse postale&nbsp;;</li> <li>le code postal&nbsp;;</li> <li>le numéro de téléphone&nbsp;;</li> <li>les codes de carte bleue&nbsp;;</li> <li>la date d’anniversaire&nbsp;;</li> <li>l’URL d’une page web présentant l’utilisateur ou l’organisation que représente la personne.</li> </ul>"
+    },
+    {
+      "title": "Élément graphique",
+      "body": "<p>Élément faisant appel à une représentation visuelle telle que des images, des pictogrammes ou des graphiques.</p><p>Cet élément peut être composé d’une ou plusieurs parties dont la visibilité est nécessaire à sa compréhension (par exemple chaque point sur chaque ligne d’un graphique de statistiques).</p><p>Le rôle «&nbsp;Image&nbsp;» n’est pas restitué de manière uniforme sur tous les environnements.</p><ul> <li>TalkBack (Android)&nbsp;: la nature des éléments graphiques n’est pas restituée lorsqu’ils sont intégrés dans une application native, le lecteur d’écran restituera la description si elle est définie mais n’annoncera pas «&nbsp;image&nbsp;». Par contre, pour les images intégrées dans des <a href=\"glossaire.md#vues-web\">vues web</a>, le lecteur d’écran restitue «&nbsp;Éléments graphiques&nbsp;».</li> <li>VoiceOver (iOS)&nbsp;: que ce soit dans une application native ou dans une vue web, VoiceOver restitue  «&nbsp;Image&nbsp;» pour les images auxquelles il peut accéder.</li> </ul><p>De manière générale, selon la méthode de développement, il est également possible que le rôle ne soit restitué ni sur TalkBack ni sur VoiceOver. Dès lors, c’est l’observation seule qui permettra de déterminer la nature de l’élément.</p><p>Il n’est pas essentiel que le rôle «&nbsp;Image&nbsp;» soit restitué dans la majeure partie des cas. Sauf cas particuliers où l’identification du rôle est essentiel, l’absence de rôle restitué ne peut pas constituer une non-conformité.</p>"
+    },
+    {
+      "title": "Élément graphique légendé",
+      "body": "<p>Lorsqu’un texte, adjacent à un élément graphique, contient des informations sur l’élément graphique (par exemple un copyright, une date, un auteur…) ou est destiné à compléter les informations apportées par l’élément graphique (par exemple un texte associé à une image dans une galerie d’images), on parle d’élément graphique légendé.</p><p>Lorsqu’un élément graphique est légendé, il est nécessaire d’associer la légende à l’élément graphique, de telle sorte que les technologies d’assistance puissent traiter l’élément graphique et sa légende comme un ensemble unique.</p>"
+    },
+    {
+      "title": "Élément graphique texte",
+      "body": "<p><a href=\"#element-graphique\">Élément graphique</a> affichant du texte.</p><p>Il n’est pas recommandé d’utiliser des éléments graphiques contenant du texte. Lorsqu’il est possible de reproduire les mêmes effets avec la technologie dans laquelle est développée l’interface, le <a href=\"referentiel-technique.html#crit-1-8\">critère 1.8</a> impose que le texte soit reproduit dans ce format ou qu’un mécanisme de remplacement permette à l’utilisateur de remplacer ces éléments graphiques par du texte stylé.</p>"
+    },
+    {
+      "title": "Élément graphique de décoration",
+      "body": "<p><a href=\"#element-graphique\">Élément graphique</a> n’ayant aucune fonction et ne véhiculant aucune information particulière par rapport au contenu auquel il est associé. Exemples&nbsp;:</p><ul> <li>Un élément graphique servant à caler la mise en page.</li> <li>Un élément graphique présent à côté d’un intitulé de bouton servant juste d’agrément graphique (une icône, une mise en forme).</li> <li>Un élément graphique n’apportant aucune information nécessaire à la compréhension du texte auquel il est associé (une image décorative).</li> </ul>"
+    },
+    {
+      "title": "Élément graphique porteur d’information",
+      "body": "<p><a href=\"#element-graphique\">Élément graphique</a> qui véhicule une information nécessaire à la compréhension du contenu auquel il est associé.</p>"
+    },
+    {
+      "title": "Élément graphique de test",
+      "body": "<p><a href=\"#element-graphique\">Élément graphique</a> servant dans un test, un CAPTCHA ou un élément graphique servant de test dans un quiz ou un jeu. Exemple&nbsp;: une série d’éléments graphiques présente un détail issu de tableaux célèbres, il faut reconnaître le titre et le peintre de chaque tableau. Dans cette situation, il n’est pas possible de donner une alternative pertinente (par exemple le nom du tableau et/ou du peintre) sans rendre le test inutilisable. L’alternative doit alors se contenter de donner la possibilité d’identifier l’élément graphique, par exemple «&nbsp;image 1 du test&nbsp;».</p>"
+    },
+    {
+      "title": "Fonctionnalité d’accessibilité",
+      "body": "<p>Exemple de fonctionnalité d’accessibilité&nbsp;:</p><ul> <li>un dispositif permettant de charger une palette de couleurs plus contrastées pour les utilisateurs&nbsp;;</li> <li>un dispositif d’agrandissement de taille des caractères&nbsp;;</li> <li>un composant permettant d’accéder à une version en langage simplifié.</li> </ul>"
+    },
+    {
+      "title": "Fonctionnalités vocales",
+      "body": "<p>Dans un système de communication orale (téléphonie par exemple), des fonctionnalités peuvent être mises à disposition, par exemple&nbsp;:</p><ul> <li>une messagerie vocale (répondeur)&nbsp;;</li> <li>un standard téléphonique automatique qui demande d’énoncer un chiffre entre 1 et 4 pour être redirigé vers un service,</li> <li>ou tout autre serveur vocal interactif.</li> </ul>"
+    },
+    {
+      "title": "Gabarit",
+      "body": "<p>Un gabarit est un format de document qui possède des paramètres prédéfinis. Il est utilisé pour insérer les contenus édités par l’auteur. Un gabarit possède des paramètres de présentation, d’utilisation ou encore des paramètres techniques non perceptibles.</p><p>Un gabarit peut concerner une page entière ou un écran entier (gabarit de page d’accueil, etc.) ou des types de contenus particuliers (formulaires, vidéos…)</p><p>Un ensemble de gabarits est un groupe de gabarits qui permettent des mises en forme différentes d’un même élément. Par exemple&nbsp;:</p><ul> <li>gabarits pour l’écran d’accueil de l’application&nbsp;;</li> <li>gabarits pour les écrans contenant des éléments interactifs&nbsp;;</li> <li>gabarits pour la création d’un PDF.</li> </ul>"
+    },
+    {
+      "title": "Horodatage (<em>time stamp</em>{lang=en})",
+      "body": "<p>L’horodatage d’une vidéo (<em>time stamp</em>{lang=en}) est la valeur temporelle déclarée dans le fichier de sous-titres.</p><pre><code>1 00:00:03,000 --&gt; 00:00:06,999 Le sous-titre doit apparaître lorsque la vidéo atteint 3 secondes. </code></pre>"
+    },
+    {
+      "title": "Ignoré par les technologies d’assistance",
+      "body": "<p>La restitution d’éléments comme des éléments graphiques de décoration qui n’apportent pas d’information pertinente peut créer des conditions de consultation complexes en surchargeant d’informations inutiles la restitution par les technologies d’assistance.</p><p>Il est donc important de pouvoir empêcher la restitution de ces éléments. La plupart des API d’accessibilité possèdent des propriétés ou des méthodes permettant d’empêcher la restitution de ce type d’élément.</p>"
+    },
+    {
+      "title": "Information donnée par la couleur",
+      "body": "<p>Information transmise visuellement par l’intermédiaire d’une couleur. L’indication que les champs en rouge sont obligatoires dans un formulaire, le bouton actif dans une liste de boutons, le changement de couleur d’un nom d’article pour indiquer son indisponibilité dans une liste d’articles sont autant d’exemples d’indication donnée par la couleur.</p><p>L’indication donnée uniquement par la couleur doit être accompagnée d’une autre méthode à destination des utilisateurs qui ne voient pas et perçoivent mal les couleurs ou leurs associations.</p><p>L’indication donnée par la couleur doit être fournie&nbsp;:</p><ul> <li>par une mise en forme pour les utilisateurs qui perçoivent mal les couleurs&nbsp;;</li> <li>et par une information descriptive (non visible) présente sur l’élément afin que les lecteurs d’écran restituent l’information aux utilisateurs qui ne voient pas.</li> </ul>"
+    },
+    {
+      "title": "Information d’accessibilité",
+      "body": "<p>Les informations d’accessibilité sont toutes les informations (attributs, relations programmatiques, alternatives, etc.) nécessaires pour rendre un contenu accessible. Par exemple&nbsp;: l’alternative d’un élément graphique, la sémantique d’un passage de texte, le titre d’un cadre en ligne ...</p><p>Par exemple, en HTML, l’attribut <code>alt</code> d’une image est une information d’accessibilité.</p><p>Un outil d’édition devrait disposer de fonctionnalités qui permettent de définir toutes les informations nécessaires à la création d’un contenu accessible&nbsp;:</p><ul> <li>pouvoir définir l’alternative d’une image ou au contraire pouvoir la déclarer décorative&nbsp;;</li> <li>pouvoir définir des titres de section&nbsp;;</li> <li>pouvoir définir des étiquettes aux champs de formulaires.</li> </ul><p>Tous les critères d’accessibilité relatifs à la technologie de contenu visée sont concernés. Par exemple, pour une page en HTML, ce sont tous les critères du RAWeb de niveau A et AA qui doivent pouvoir être respectés. Pour une application, ce sont tous les critères du présent référentiel qui doivent pouvoir être respectés.</p>"
+    },
+    {
+      "title": "Indication donnée par la forme, la taille ou la position",
+      "body": "<p>Il peut s’agir, par exemple&nbsp;:</p><ul> <li>de la présence d’un marqueur visuel, pour indiquer l’écran actif dans un menu de navigation (indication donnée par la position)&nbsp;;</li> <li>d’une mise en avant-plan pour indiquer un onglet actif (indication donnée par la forme)&nbsp;;</li> <li>d’une modification de la taille de police dans un nuage de tags (indication donnée par la taille).</li> <li>Ou tout autre effet graphique similaire.</li> </ul>"
+    },
+    {
+      "title": "Gestes complexes et gestes simples",
+      "body": "<p>Un geste simple avec un écran implique un contact en un point unique de l’écran. Il peut s’agir d’une pression ou d’un clic simple, d’une double pression ou d’un double-clic, d’une pression prolongée.</p><p>Un geste complexe peut être&nbsp;:</p><ul> <li>un geste impliquant plusieurs points de contact sur l’écran (exemple&nbsp;: un geste avec deux doigts sur l’écran pour zoomer ou dézoomer une carte)&nbsp;;</li> <li>un geste basé sur le suivi d’une trajectoire sur l’écran (exemple&nbsp;: fonction permettant de détecter le déplacement d’un doigt vers la gauche ou droite sur une surface tactile pour déclencher le passage à l’item précédent / suivant d’un carrousel).</li> </ul>"
+    },
+    {
+      "title": "Mécanisme de remplacement",
+      "body": "<p>Un mécanisme de remplacement est un dispositif permettant à l’utilisateur d’accéder à une version de l’application avec certains paramètres (généralement d’affichage) modifiés (par exemple, les couleurs de police et de fond).</p><p>Ce mécanisme peut être fourni par la plateforme elle-même ou par l’application. Lorsque la plateforme possède un mécanisme de remplacement robuste, les auteurs doivent privilégier son utilisation à un mécanisme de remplacement propre à l’application.</p><p>Les plateformes proposent aux utilisateurs plusieurs mécanismes de remplacement. L’activation de ces mécanismes de remplacement est détectable par les applications qui peuvent en retour servir des informations et présentations particulières.</p><h5>Mécanismes de remplacement disponibles dans iOS</h5><ul> <li><strong>Augmenter le contraste</strong>&nbsp;: L’option est disponible depuis le chemin&nbsp;: <em>Réglages &gt; Accessibilité &gt; Affichage et taille du texte &gt; Augmenter le contraste</em>. Lorsqu’elle est activée, cette option permet de charger des styles différents qui auraient été définis par l’auteur pour cette option précise afin d’offrir une version plus contrastée aux utilisateurs qui en auraient besoin. De plus, cette option permet d’augmenter le contraste des composants natifs d’iOS comme les boutons <em>switch</em>{lang=en}.</li> <li><strong>Différencier sans couleur</strong>&nbsp;: L’option est disponible depuis le chemin&nbsp;: <em>Réglages &gt; Accessibilité &gt; Affichage et taille du texte &gt; Différencier sans couleur</em>. Lorsqu’elle est activée, cette option permet de charger des informations visuelles supplémentaires autres que la couleur (par exemple, forme ou taille) qui auraient été définies par l’auteur pour cette option précise afin de mettre en évidence un élément graphique dont la mise en couleur est porteuse d’information (un bouton actif par exemple).</li> </ul><h5>Mécanismes de remplacement disponibles sur Android</h5><p>Il n’existe pas de mécanisme de remplacement dans Android équivalent à ceux d’iOS, ou qui soient suffisamment robuste.</p><p>Le mécanisme de remplacement disponible sur Android («&nbsp;<strong>Texte avec contraste élevé</strong>&nbsp;») est encore expérimental. Son utilisation n’est pour l’instant pas recommandée.</p><h5>Autres mécanismes de remplacement non délivrés par les plateformes</h5><p>Lorsque la plateforme ne propose pas de mécanisme de remplacement pour certains paramètres, l’application peut en proposer depuis son interface.</p>"
+    },
+    {
+      "title": "Mécanisme de l’application qui permet d’afficher un rapport de contraste conforme",
+      "body": "<p>Composant d’interface mis à disposition par l’auteur de l’application dont l’activation permet de modifier l’apparence de l’écran.</p><p>Cela peut être par exemple un mécanisme de remplacement permettant d’afficher les contenus avec un rapport de contraste suffisant. L’apparence de ce composant d’interface devra être conforme au <a href=\"referentiel-technique.md#crit-2-2\">critère 2.2</a> et au <a href=\"referentiel-technique.md#crit-2-3\">critère 2.3</a> sans avoir recours lui-même à un mécanisme permettant d’afficher un rapport de contraste conforme.</p><p>Un mécanisme de remplacement permettant de remplacer les éléments graphiques textes par du texte stylé en est un autre exemple.</p><p>Ce mécanisme doit conserver à l’identique les contenus et les fonctionnalités de l’application ou de l’écran qu’il modifie.</p>"
+    },
+    {
+      "title": "Média temporel (type son, vidéo et synchronisé)",
+      "body": "<ul> <li>Média temporel seulement audio&nbsp;: contenu sonore (<em>wave</em>{lang=en}, MP3…).</li> <li>Média temporel seulement vidéo&nbsp;: images ou photos en mouvement ou en séquence.</li> <li>Média temporel synchronisé&nbsp;: flux audio ou vidéo synchronisé avec un autre format pour présenter de l’information et/ou comportant des composants temporels interactifs. Un média temporel peut être consulté de 2 manières différentes&nbsp;: <ul> <li>fichier à télécharger consultable avec un logiciel externe&nbsp;;</li> <li>contenu embarqué dans le logiciel et consultable depuis l’interface.</li> </ul> </li> </ul><p>Un média temporel peut être diffusé en temps réel ou être proposé en lecture de manière asynchrone (média préenregistré).</p>"
+    },
+    {
+      "title": "Message de statut",
+      "body": "<p>Un message de statut informe l’utilisateur d’un changement de contenu dans l’écran sans interrompre son activité principale (il n’y a pas de changement de contexte comme par exemple un repositionnement du focus sur le message).</p><p>Un message de statut peut informer sur&nbsp;:</p><ul> <li>Le succès ou le résultat d’une action&nbsp;;</li> <li>L’état occupé d’une application&nbsp;;</li> <li>L’état de progression d’un processus&nbsp;;</li> <li>L’existence d’erreur.</li> </ul><p>Un message de statut n’est pas nécessairement visible à l’écran, mais il doit toujours être accessible aux technologies d’assistance.</p>"
+    },
+    {
+      "title": "Nom, rôle, valeur, paramétrage et changements d’état",
+      "body": "<p>Un composant doit avoir un rôle et un nom appropriés, ses valeurs, états et paramètres éventuels doivent également être accessibles et correctement transmis aux API d’accessibilité.</p><p>Le nom peut être l’intitulé du composant comme l’intitulé d’un bouton par exemple.</p><p>La valeur est, par exemple, l’élément sélectionné d’une liste déroulante ou la valeur actuelle d’un curseur.</p><p>Le rôle correspond au type d’élément défini dans la spécification de la technologie employée. Le rôle (bouton, lien, champ de saisie par exemple) est généralement restitué par les technologies d’assistance.</p><p>Le paramétrage correspond aux informations particulières d’un composant. Par exemple un paramètre qui transmet aux API l’information que le composant contrôle tel ou tel contenu.</p><p>Les changements d’état doivent également être mis à disposition. Par exemple, l’utilisation d’une propriété permettant de signaler aux API que le composant est «&nbsp;ouvert&nbsp;» ou «&nbsp;fermé&nbsp;». Note&nbsp;: un état peut également être transmis via le nom, lorsque l’intitulé est changé dynamiquement pour correspondre à l’état de la zone contrôlée notamment.</p><p>Ces paramètres ne sont pas obligatoires, mais peuvent être requis s’ils sont indispensables pour rendre le composant accessible. C’est à l’auditeur de considérer les cas où ces paramètres sont indispensables en fonction du contexte lié à l’utilisation du composant.</p><p>L’auditeur doit également vérifier que, lorsqu’ils sont présents, ces paramètres sont correctement utilisés.</p>"
+    },
+    {
+      "title": "Outil d’édition",
+      "body": "<p>Application permettant de créer ou modifier du contenu destiné à être diffusé pour d’autres utilisateurs. Un outil d’édition peut être utilisé par un ou plusieurs utilisateurs travaillant en collaboration.</p><p>Un outil d’édition peut être&nbsp;:</p><ul> <li>l’outil tel qu’il est délivré par l’éditeur&nbsp;;</li> <li>l’outil augmenté d’extensions non développées par l’éditeur&nbsp;;</li> <li>un ensemble d’outils.</li> </ul><p>Exemples d’outils d’édition&nbsp;:</p><ul> <li>application permettant d’éditer et de contrôler le contenu de sites web ou application, par exemple, les CMS (<em>Content Management System</em>{lang=en}), LMS (<em>Learning Management System</em>{lang=en}), LCMS (<em>Learning Content Management System</em>{lang=\"en\"}), agrégateur de contenus&nbsp;;</li> <li>outils d’édition multimédia&nbsp;;</li> <li>application permettant la création d’applications web&nbsp;;</li> <li>application permettant l’édition de code&nbsp;;</li> <li>application permettant d’exporter au format d’une technologie web (par exemple, un logiciel qui permet de sauvegarder en HTML)&nbsp;;</li> <li>application qui génère du contenu sur la base de gabarits, scripts, ligne de commande etc.&nbsp;;</li> <li>application permettant d’éditer des portions de pages web ou d’applications (typiquement, les systèmes de blog, wiki et forums)&nbsp;;</li> <li>application mail permettant d’envoyer des <em>e-mails</em>{lang=en}.</li> </ul><p>Exemples d’outils d’édition qui ne sont pas inclus dans le champ d’application&nbsp;:</p><ul> <li>Une application dont le contenu créé n’est pas mis à disposition d’autres utilisateurs (application de prise de note sans fonctionnalité de partage par exemple). Dans ce cas, le contenu édité n’est disponible que pour le propriétaire et n’est pas mis à destination d’autres utilisateurs.</li> <li>Les formulaires à destination des utilisateurs. Par exemple, un formulaire de commande d’une application e-commerce. Bien que les formulaires permettent d’éditer des contenus, ces contenus ne sont pas mis à disposition d’autres utilisateurs.</li> <li>Les outils de contrôles d’accessibilité indépendants&nbsp;: ces outils ne modifient pas le contenu qu’ils contrôlent.</li> </ul>"
+    },
+    {
+      "title": "Ordre de tabulation",
+      "body": "<p>Ordre dans lequel le focus du clavier se déplace (vers un élément suivant ou vers un élément précédent).</p><p><strong>Attention&nbsp;:</strong> lorsqu’un élément initie un changement dans l’écran (changement de contexte, gestion de zones cachées, ajout de contenu, gestion de champs de formulaire…) il est nécessaire d’activer l’élément qui initie le changement pour tester la cohérence de l’ordre de tabulation.</p>"
+    },
+    {
+      "title": "Piège au clavier",
+      "body": "<p>On parle de piège au clavier lorsqu’un utilisateur qui navigue au clavier, depuis une position dans l’écran (par exemple un champ de formulaire, un bouton, un composant complexe), ne peut pas atteindre le composant suivant ou précédent.</p><p>Il existe des cas particuliers pour lesquels il est nécessaire de capturer le focus du clavier et d’empêcher l’utilisateur d’atteindre les éléments suivants ou précédents l’élément en cours de consultation. Par exemple, dans une fenêtre modale il est impératif que l’utilisateur qui navigue au clavier ne puisse pas atteindre les composants en dehors de la fenêtre modale tant que cette dernière est active.</p>"
+    },
+    {
+      "title": "Procédé de rafraîchissement",
+      "body": "<p>Technique visant à modifier le contenu d’un ou de plusieurs éléments de l’écran. L’utilisateur doit pouvoir contrôler chaque procédé de rafraîchissement de manière indépendante.</p>"
+    },
+    {
+      "title": "Prise de focus",
+      "body": "<p>La prise de focus est l’état renvoyé par un élément qui reçoit l’attention suite à une action de l’utilisateur. Il y a plusieurs moyens de donner le focus à un élément&nbsp;:</p><ul> <li>en activant l’élément par un dispositif de pointage (au toucher sur l’écran)&nbsp;;</li> <li>en atteignant l’élément par une touche d’un clavier externe (tabulation, flèche de direction)&nbsp;;</li> <li>en atteignant l’élément en utilisant un commutateur externe (<em>switch</em>{lang=en}, <em>joystick</em>{lang=en}).</li> </ul><p>La prise de focus sur environnement mobile doit s’évaluer avec les technologies d’assistance et les paramètres adéquats activés. En effet, le simple fait de connecter un contacteur externe (clavier, <em>switch</em>{lang=en} par exemple) n’est pas suffisant pour que la gestion au clavier soit pleinement fonctionnelle. Ainsi, la visibilité de la prise de focus ne devrait être évaluée que lorsque ces éléments sont activés et paramétrés. La page <a href=\"methodologie.md\"><strong>Méthodologie</strong></a> décrit les procédures nécessaires à la <a href=\"methodologie.md#clavier-externe\">configuration d’un clavier externe</a>.</p>"
+    },
+    {
+      "title": "QVGA",
+      "body": "<p>La résolution QVGA (<em>Quarter Video Graphics Array</em>{lang=en}) est une norme d’affichage qui correspond à une taille de 320 pixels X 240 pixels (soit 76 800 pixels).</p>"
+    },
+    {
+      "title": "Raccourci clavier",
+      "body": "<p>Un moyen de déclencher une action associée à un composant de l’interface utilisateur en appuyant sur une ou plusieurs touches d’un clavier.</p>"
+    },
+    {
+      "title": "Répétition des touches",
+      "body": "<p>Fonctionnalité qui consiste à imprimer (à l’écran, dans une zone de saisie par exemple) un caractère plusieurs fois tant que la touche correspondante sur le clavier (visuel ou physique) est activée.</p>"
+    },
+    {
+      "title": "Résumé (de tableau)",
+      "body": "<p>Un résumé est un passage de texte associé à un tableau de données complexe. Il permet de donner des informations sur la nature et la structure du tableau afin d’en faciliter l’utilisation par les utilisateurs de technologies d’assistance par exemple.</p><p><strong>Note&nbsp;:</strong> si les utilisateurs principalement impactés sont les personnes qui utilisent des lecteurs d’écran, d’autres utilisateurs peuvent bénéficier également de ces indications, comme par exemple certaines personnes déficientes visuelles ou intellectuelles. Dans ce cas le résumé, s’il est masqué par défaut, aurait vocation à être rendu visible par l’intermédiaire d’un bouton par exemple.</p>"
+    },
+    {
+      "title": "Service de relais",
+      "body": "<p>Les services de relais permettent aux utilisateurs, quel que soit leur mode de communication (le texte, les signes, la parole) d’interagir à distance au cours d’une communication en temps réel avec d’autres participants, en fournissant une conversion entre les modes de communication.</p><p>Par exemple, il existe des relais permettant à un utilisateur qui communique avec la langue des signes de communiquer avec un interlocuteur ne la pratiquant pas, par le biais d’un service qui fournit un service d’interprétariat en direct.</p>"
+    },
+    {
+      "title": "Service d’assistance",
+      "body": "<p>Un service d’assistance peut être un&nbsp;:</p><ul> <li><em>help desk</em>{lang=en},</li> <li>un centre d’appel,</li> <li>un support technique,</li> <li>un <a href=\"#service-de-relais\">service de relais</a>,</li> <li>un service de formation.</li> </ul>"
+    },
+    {
+      "title": "Sous-titres synchronisés (objet multimédia)",
+      "body": "<p>Texte des informations audio (paroles d’un personnage, bruit important pour comprendre l’action…) présentes dans un média temporel et affiché de manière synchrone avec le flux de l’objet multimédia.</p><p><strong>Note 1&nbsp;:</strong> pour différencier les sources sonores (différents personnages, voix off…), il est recommandé d’utiliser un mécanisme approprié (mise entre crochets, mise en italique, annonce explicite du type «&nbsp;voix off&nbsp;: …&nbsp;»).</p><p><strong>Note 2&nbsp;:</strong> il ne faut pas confondre le sous-titrage pour la traduction et le sous-titrage pour sourds et malentendants. Ces deux types de sous-titrage poursuivent des buts différents. Seule la présence et la pertinence d’un sous-titrage pour sourds et malentendants permet d’être conforme.</p>"
+    },
+    {
+      "title": "Tableau de données",
+      "body": "<p>Élément permettant de structurer des informations en lignes et en colonnes via des cellules de données et des cellules d’en-têtes.</p>"
+    },
+    {
+      "title": "Tableau de données complexe",
+      "body": "<p>Lorsqu’un tableau de données contient des en-têtes qui ne sont pas répartis uniquement sur la première ligne et/ou la première colonne de la grille ou dont la portée n’est pas valable pour l’ensemble de la colonne ou de la ligne, on parle de tableau de données complexe. Il est alors nécessaire de fournir un «&nbsp;résumé&nbsp;» permettant d’en expliquer sa nature et sa structure afin d’en faciliter la consultation pour des utilisateurs de technologies d’assistance par exemple.</p>"
+    },
+    {
+      "title": "Texte stylé",
+      "body": "<p>Texte dont l’apparence est contrôlée par la technologie de mise en forme de la plateforme (comme CSS pour les pages HTML).</p>"
+    },
+    {
+      "title": "Titre d’un tableau (de données)",
+      "body": "<p>Texte relié au tableau qui permet d’identifier le contenu d’un tableau de données de manière claire et concise.</p>"
+    },
+    {
+      "title": "Transcription textuelle (média temporel)",
+      "body": "<p>Contenu textuel associé à un média temporel par la technique appropriée (texte présent dans l’interface ou dans un fichier texte qui se trouve dans le même écran ou consultable grâce à un bouton). Ce contenu donne accès à l’utilisateur (de manière indépendante de la consultation de l’objet multimédia) à&nbsp;:</p><ul> <li>La totalité de ce qui y est exprimé oralement.</li> <li>Toutes les informations descriptives nécessaires à une compréhension équivalente de l’action.</li> </ul><p>Ces informations textuelles doivent être présentées dans l’ordre chronologique de leur apparition dans le média temporel.</p>"
+    },
+    {
+      "title": "Transformation",
+      "body": "<p>Procédé géré automatiquement par l’outil. On distingue deux types de transformation&nbsp;:</p><ul> <li>des restructurations de contenus&nbsp;: transformation pendant laquelle la technologie d’entrée (ex. HTML, XML…) n’est pas modifiée en sortie, la restructuration modifie seulement des éléments du balisage. Par exemple&nbsp;: la linéarisation de tableau, le découpage d’un document en plusieurs pages.</li> <li>des recodages de contenu&nbsp;: transformation pendant laquelle la technologie d’entrée est modifiée en sortie (ex. HTML vers XHTML, HTML vers PDF). Ceci concerne notamment les zones d’édition qui utilisent une syntaxe différente de celle qui sera utilisée pour l’affichage public.</li> </ul>"
+    },
+    {
+      "title": "Uniquement à des fins de présentation",
+      "body": "<p>Utilisation des éléments d’interface pour une finalité différente de celle prévue dans les spécifications. Par exemple, une utilisation détournée dans une application pourrait être l’utilisation d’un élément interactif (bouton par exemple) comme texte simple.</p>"
+    },
+    {
+      "title": "Unité de saisie",
+      "body": "<p>Pour la saisie caractère par caractère, la plus petite unité de saisie de texte est le caractère.</p><p>Pour un système qui dispose d’une fonctionnalité de prédiction de mots, la plus petite unité de saisie est le mot.</p><p>Pour certains systèmes de reconnaissance vocale, le texte n’est pas retranscrit tant qu’un mot entier ou une phrase entière n’ont pas été prononcés. Dans ce cas, la plus petite unité de saisie est le mot ou la phrase.</p>"
+    },
+    {
+      "title": "Version accessible",
+      "body": "<p>Les documents en téléchargement dont les types de formats sont reconnus compatibles avec l’accessibilité doivent être rendus accessibles soit directement, soit par l’intermédiaire d’une version accessible. Les formats de document dont la compatibilité est reconnue sont&nbsp;:</p><ul> <li>Microsoft Office (Word 2003, OOXML)&nbsp;;</li> <li>Open Office Org (ODF)&nbsp;;</li> <li>Adobe PDF&nbsp;;</li> <li>ePub/Daisy.</li> </ul><p>Les documents PDF doivent être conformes au <a href=\"../rapdf1/index.html\">référentiel d'évaluation de l'accessibilité des documents au format PDF (RAPDF 1)</a>. Les autres types de contenus doivent être conformes aux critères de la <a href=\"https://www.etsi.org/deliver/etsi_en/301500_301599/301549/03.02.01_60/en_301549v030201p.pdf#page=52\">section 10 <span lang=\"en\">Non-web documents</span></a> de la norme européenne EN 301 549 v3.2.1.</p><p><strong>Note&nbsp;:</strong> le format TXT ne peut pas être utilisé pour produire une version accessible pour un document en téléchargement.</p>"
+    },
+    {
+      "title": "Version alternative «&nbsp;audio seulement&nbsp;»",
+      "body": "<p>Une version «&nbsp;audio seulement&nbsp;» est une version sonore, sous la forme d’un simple fichier au format MP3 par exemple, utilisée comme alternative à une vidéo seulement (vidéo sans information sonore). Les seuls utilisateurs impactés par l’accessibilité étant les personnes aveugles, qui ne peuvent pas voir la vidéo.</p><p>La version «&nbsp;audio seulement&nbsp;» doit contenir toutes les informations visuelles importantes de la vidéo.</p><p>Généralement, il est plus simple de produire une version sonore qu’une version textuelle lorsque la vidéo est très descriptive (la transcription textuelle nécessitant souvent un travail rédactionnel important). Il est rappelé, néanmoins, que seule la transcription textuelle assure un accès universel aux informations diffusées par la vidéo, dans le cas où un utilisateur ne serait pas en capacité de lancer la vidéo par exemple.</p>"
+    }
+  ]
+}

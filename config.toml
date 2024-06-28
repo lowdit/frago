@@ -54,6 +54,28 @@ disableKinds = ["RSS", "sitemap", "taxonomy", "taxonomyTerm"]
   mediaType = "application/json"
   isPlainText = true
   notAlternative = false
+[outputFormats.rawebpage]
+  baseName = "raweb"
+  mediaType = "text/html"
+  notAlternative = false
+  permalinkable = true
+  isHTML = true
+[outputFormats.raweb]
+  baseName = "raweb"
+  mediaType = "application/json"
+  isPlainText = true
+  notAlternative = false
+[outputFormats.raampage]
+  baseName = "raam"
+  mediaType = "text/html"
+  notAlternative = false
+  permalinkable = true
+  isHTML = true
+[outputFormats.raam]
+  baseName = "raam"
+  mediaType = "application/json"
+  isPlainText = true
+  notAlternative = false
 [outputFormats.ecoindex]
   baseName = "ecoindex"
   mediaType = "application/json"
@@ -153,17 +175,6 @@ disableKinds = ["RSS", "sitemap", "taxonomy", "taxonomyTerm"]
   notAlternative = false
 [outputFormats.recommendation]
   baseName = "recommendation"
-  mediaType = "application/json"
-  isPlainText = true
-  notAlternative = false
-[outputFormats.qualitypage]
-  baseName = "quality"
-  mediaType = "text/html"
-  notAlternative = false
-  permalinkable = true
-  isHTML = true
-[outputFormats.quality]
-  baseName = "quality"
   mediaType = "application/json"
   isPlainText = true
   notAlternative = false

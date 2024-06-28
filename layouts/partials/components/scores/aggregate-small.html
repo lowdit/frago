@@ -1,15 +1,15 @@
 {{ $value := .value }}
-{{- if $value.all -}}
+{{- if $value.occurence -}}
   <b class="font-bold d-block m-auto w-full text-center">
-    {{ len $value.invalid }}<br>
+    {{ $value.invalid }}<br>
     <small class="smaller">Non</small>
   </b>
   <b class="font-bold d-block m-auto w-full text-center">
-    {{ sub (sub (len $value.all) (len $value.valid)) (len $value.invalid) }}<br>
+    {{ sub (sub ($value.occurence) ($value.valid)) ($value.invalid) }}<br>
     <small class="smaller">Partielle</small>
   </b>
   <b class="font-bold d-block m-auto w-full text-center">
-    {{ len $value.valid }}<br>
+    {{ $value.valid }}<br>
     <small class="smaller">Oui</small>
   </b>
   {{- if gt $value.average 0 -}}

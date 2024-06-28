@@ -21,9 +21,11 @@
     {{ if ne (len $alternate) 0 }}
       {{- with $alternate -}}{{- range $key, $value := . -}}
       {{ $format := .Format.BaseName }}
-      {{ range (slice "accessibility" "ecoindex" "ecoconception" "opquast" "publishing" "recommendation" "performance") }}
+      {{ range (slice "accessibility" "raweb" "raam" "ecoindex" "ecoconception" "opquast" "publishing" "recommendation" "performance") }}
         {{- if eq $format . -}}
-          {{- $partial := (partialCached (printf "templates/%s.html" . ) (dict "context" $context) $context) -}}
+          {{- $Type := cond (eq . "raweb") "accessibility" . -}}
+          {{- $Type := cond (eq $Type "raam") "accessibility" $Type -}}
+          {{- $partial := (partialCached (printf "templates/%s.html" $Type) (dict "context" $context "type" .) $context) -}}
           {{- partialCached "elements/content.html" $partial $partial -}}
         {{- end -}}
       {{- end -}}
