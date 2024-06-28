@@ -289,12 +289,13 @@
                 {{- $criteriafile := index (index (index $.context.Site.Data $referential.name) (string $referential.version)).criteria.topics -}}
                 {{- $thematiques  := index (split . ".") 0 -}}
                 {{- $criteria     := index (split . ".") 1 -}}
-                {{- $glossaire    := (printf "=\"%s%s/%s/glossaire/#" ($.context.Site.BaseURL | default "/") ($referential.name) (index (findRE `(\d+.\d)` $referential.version 1) 0)) -}}
+                {{- $glossaire    := (printf "=\"%s%s/%s/glossaire/$1\"" ($.context.Site.BaseURL | default "/") ($referential.name) (index (findRE `(\d+.\d)` $referential.version 1) 0)) -}}
                 {{ if $thematiques }}
                 {{- $s := where $criteriafile "number" "eq" (int ($thematiques)) -}}
                 <dd class="details mt-1 mb-1">
                   <p class="summary">
-                    {{ (replaceRE "=\"#" $glossaire ((((index (index $s 0).criteria (sub (int ($criteria)) 1)).criterium).title) | markdownify) 100) | safeHTML  }}<br>
+                    {{ partialCached "utils/replace/glossaire" (dict "link" $glossaire "value" (((index (index $s 0).criteria (sub (int ($criteria)) 1)).criterium).title)) (((index (index $s 0).criteria (sub (int ($criteria)) 1)).criterium).title) }}
+                    <br>
                     Critère : <a href="{{ $.context.Site.BaseURL | default "/" }}{{- $referential.name }}/{{- index (findRE `(\d+.\d)` $referential.version 1) 0 }}/criteres/#{{ replace . "." "-" }}">{{ . | safeHTML }}</a> du {{ upper $referential.name }} {{ $referential.version }}.
                     {{/* Pourcentage potentiel de correction du RGAA : {{ index ($data.Get "criteriavalue") (string .criterion) */}}
                   </p>

@@ -117,7 +117,7 @@
       {{- with ($data.Get "scores").criteria -}}
         {{- $score := . -}}
         <h2>Critères non conformes</h2>
-        {{ partialCached "templates/validity.html" (dict "context" $context "audit" $audit "score" $score) $score }}
+        {{ partialCached "templates/validity.html" (dict "context" $context "audit" $audit "score" ($data.Get "scores")) ($data.Get "scores") }}
         <h2>Établissement de cette déclaration d’accessibilité</h2>
         {{/* START If "context" */}}
         {{ with ($data.Get "context") }}

@@ -26,7 +26,7 @@
       {{- $versionlongs  := cond (eq $cond 0) (index (last 1 (index (last 1 (sort $referential.versionall)) 0)) 0) $versionlongs -}}
 
       {{- $criterialfile := (index (index $context.Site.Data $referential.name) (string $versionlongs)).criteria -}}
-      {{- $glossaire     :=  (printf "=\"%s%s%s/glossaire/#" (site.BaseURL | default "/") $referential.name $versionlongs) -}}
+      {{- $glossaire     :=  (printf "=\"%s%s%s/glossaire/$1\"" (site.BaseURL | default "/") $referential.name $versionlongs) -}}
       <div class="grid grid-4 align-items-center text-center lh-1 font-bigger">
         {{- partialCached "components/scores/aggregate-small.html" (dict "value" . "type" (index $ref $name).name ) . $name -}}
       </div>
@@ -137,7 +137,7 @@
     {{ $glossaire := .glossaire }}
     {{ if eq $types "accessibility" }}
       {{ $s := where .file.topics "number" "eq" (int (delimit (first 1 (split $value ".")) ""))}}
-      {{ (replaceRE "=\"#" $glossaire ((index (index $s 0).criteria (sub (int (delimit (last 1 (split .value ".")) "")) 1)).criterium.title | markdownify) 100) | safeHTML }}
+      {{ partialCached "utils/replace/glossaire" (dict "link" $glossaire "value" (index (index $s 0).criteria (sub (int (delimit (last 1 (split .value ".")) "")) 1)).criterium.title) (index (index $s 0).criteria (sub (int (delimit (last 1 (split .value ".")) "")) 1)).criterium.title }}
     {{ else if (eq $types "ecoconception")}}
       {{ (index (where .file.criteres "id" $value) 0).critere }}
     {{ else if (eq $types "opquast") }}

@@ -8,7 +8,7 @@
 {{/* LOOK AT FILEPATH file if a new referentiel is added */}}
 {{ $path               := partialCached "render/filepath" (dict "context" $context "project" $project "type" $type) $context $project $type }}
 
-{{ $condrecommendationcsv  := eq (len (intersect (slice .type) (slice "greenit" "ecoconception" "actions" "accessibility" "raweb" "publishing" "cigref" "opquast"))) 1 }}
+{{ $condrecommendationcsv  := eq (len (intersect (slice .type) (slice "greenit" "ecoconception" "actions" "accessibility" "raweb" "raam" "publishing" "cigref" "opquast"))) 1 }}
 {{ $condrecommendationjson := eq (len (intersect (slice .type) (slice "recommendation" "quality"))) 1 }}
 {{ $ext                    := cond  ($condrecommendationcsv) "csv" (cond ($condrecommendationjson) "yml" "json") }}
 

@@ -54,7 +54,7 @@
       {{- $data.Set "criteriafile" (index (index $.context.Site.Data $referential.name) (string $referential.version)).criteria.topics -}}
 
       {{/* Load the glossary file for the good audit version */}}
-      {{- $data.Set "glossaire" (printf "=\"%s%s/%s/glossaire/#" (site.BaseURL | default "/") $referential.name $referential.version) -}}
+      {{- $data.Set "glossaire" (printf "=\"%s%s%s/glossaire/$1\"" (site.BaseURL | default "/") $referential.name $referential.version) -}}
 
       {{- if $project -}}<p>← <a href="{{ site.BaseURL | default "/" }}{{- with $project -}}{{ printf "audits/%s/" (urlize .) }}{{- end -}}" class="link-more link-back" aria-label="Retour à la page {{ ($context.GetPage $project).Title }}">Retour à la page projet</a></p>{{- end -}}
       <h1>Audit Accessibilité{{ with $projectTitle }}<small> pour {{ partialCached "utils/isURL.html" (dict "context" $context "projectTitle" $projectTitle) $projectTitle }}</small>{{ end }}</h1>
@@ -160,7 +160,7 @@
           {{- end -}}
         {{- end -}}
         {{/* END Display audit context */}}
-        {{ if not ($data.Get "criteriafile") }}<p class="center">La version de référentiel déclaré dans le contexte d’audit n’est pas correcte</p>{{ end }}
+        {{ if not ($data.Get "criteriafile") }}<p class="center">La version de référentiel déclaré dans le contexte d’audit n’est pas correcte : vérifiez le nom ou la version de référentiel.</p>{{ end }}
 
       <hr>
 
@@ -195,9 +195,8 @@
       {{- end -}}
       {{/* END Display page content if exists */}}
 
-
-      {{- if eq ($data.Get "scores").scores.criteria.nonconforme 0 }}
-        <h2>Par ordre des critères du référentiel RGAA</h2>
+      {{- if ne ($data.Get "scores").scores.criteria.nonconforme 0 }}
+        <h2>Par ordre des critères du référentiel {{ upper ($data.Get "scores").scores.auditname }}</h2>
 
         {{/* Range map errors sort by RGAA order - on all pages */}}
         {{- if and (gt (len ($data.Get "pageslist")) 1) -}}
@@ -262,7 +261,7 @@
         {{/* Range map errors sort by RGAA order - on all pages */}}
         {{ if ne (len ($data.Get "scores").criteria.nonconforme) 0 }}
         <h3 id="criteria-nonconforme">Tous les critères non conformes du site</h3>
-        {{ partialCached "templates/validity.html" (dict "context" $context "audit" ($data.Get "audits") "score" ($data.Get "scores").criteria) "accessibility" ($data.Get "scores").criteria }}
+        {{ partialCached "templates/validity.html" (dict "context" $context "audit" ($data.Get "audits") "score" ($data.Get "scores")) "accessibility" ($data.Get "scores").criteria }}
         {{ end }}
         {{- end -}}
         {{/* END If several page tested */}}
@@ -326,15 +325,22 @@
     {{- if ge (len $comment) 1 }}<p class="m-0 smaller"><b>{{- $txt -}}</b>&nbsp;: {{ replace (replaceRE "!(.*)!" "" $comment 1) "\n" "<br>" | markdownify }}</p>{{- end -}}
       {{- $s := where ($data.Get "criteriafile") "number" "eq" (int ($thematiques)) -}}
       {{- if eq ($data.Get "auditmethodology") 2 -}}
-        <p><em>{{ (replaceRE "=\"#" ($data.Get "glossaire") ((((index (index $s 0).criteria (sub (int ($criteria)) 1)).criterium).title) | markdownify) 100) | safeHTML }}</em></p>
-      {{ else if eq ($data.Get "auditmethodology") 3 }}
+        {{- $criterium := (index (index $s 0).criteria (sub (int ($criteria)) 1)) -}}
+        {{- $criterium := $criterium.title -}}
+        <p><em>
+          {{- partialCached "utils/replace/glossaire" (dict "link" ($data.Get "glossaire") "value" $criterium) $criterium }}
+          {{ if not $criterium }}Le numéro du critère ne correspond pas au référentiel.{{ end }}
+        </em></p>
+      {{- else if eq ($data.Get "auditmethodology") 3 }}
         {{- range $idx, $value := ((index (index $s 0).criteria (sub (int ($criteria)) 1)).criterium).tests -}}
           {{- if eq $idx (string ($tests)) -}}
             {{- if reflect.IsSlice . -}}
-              <p><em>{{ (replaceRE "=\"#" ($data.Get "glossaire") ((index . 0) | markdownify) 100) | safeHTML }}</em><br></p>
+              <p><em>{{- partialCached "utils/replace/glossaire" (dict "link" ($data.Get "glossaire") "value" (index . 0)) (index . 0)}}</em><br></p>
             {{- if (after 1 .) -}}
               <ol>
-                {{ range after 1 . }}<li>{{ (replaceRE "=\"#" ($data.Get "glossaire") (. | markdownify) 100) | safeHTML }}</li>{{ end }}
+                {{- range after 1 . }}
+                <li>{{- partialCached "utils/replace/glossaire" (dict "link" ($data.Get "glossaire") "value" .) . }}</li>
+                {{ end -}}
               </ol>
             {{- end -}}
           {{- else -}}

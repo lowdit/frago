@@ -16,6 +16,7 @@
 {{- $data.Set "criteriafile" (index (index $context.Site.Data (string $referential.name)) (string $referential.version)).criteria.criteres -}}
 {{/* END Determine the version of the audit form the context declaration */}}
 
+
 {{/* START Load the criteria file for the good audit version */}}
 {{- $data.Set "organisation"  (cond (ne $.context.Site.Params.organisation "") $.context.Site.Params.organisation "") -}}
 {{- $data.Set "company"       (cond (ne $.Params.ecoconception.strategy "") $.Params.accessibility.strategy (cond (ne $context.Site.Params.strategy "") $context.Site.Params.strategy "")) -}}
@@ -35,14 +36,26 @@
     {{/* END Load the criteria file for the good audit version */}}
 
     {{/* START Load Scores, context and pageslist */}}
-    {{- $data.Set "scores" (partialCached "render/ecoconception.html" (dict "context" $context "auditfile" ($data.Get "auditpath-csv") "referential" $referential) ($data.Get "auditpath-csv")) -}}
+    {{- $data.Set "scores" ($data.Get "auditscores").auditscores -}}
     {{- $thematiques    := (partialCached "render/score-thematiques.html" (dict "scores" ($data.Get "scores").criteria "topics" $topics) ($data.Get "scores")) -}}
     {{- $date           := (string (index $audit "auditfile-name")) -}}
 
+
+
+    {{-  $auditbefore := index ((index ($data.Get "audits") "auditfile-all-path")) (string (sub (len (index ($data.Get "audits") "auditfile-all-path")) 2)) -}}
+    {{-  $datebefore  := string (index ((index ($data.Get "audits") "auditfile-all-name")) (string (sub (len (index ($data.Get "audits") "auditfile-all-name")) 2))) -}}
+    {{-  (partialCached "render/ecoconception.html" (dict "context" $context "auditfile" $auditbefore "referential" $referential) $auditbefore).scores -}}
+
     {{ with (partialCached "render/context.html" (dict "context" $context "project" $project "type" "ecoconception") $project "ecoconception") }}
-      {{- $contextlast := cond (not (index . $date)) (index (last 1 (sort .)) 0) (index . $date) -}}
-      {{- $data.Set "context" $contextlast -}}
+      {{- $contextlast     := cond (not (index . $date))       (index (last 1 (last 1 (sort .))) 0) (index . $date) -}}
+      {{- $contextbefore   := cond (not (index . $datebefore)) (index (last 1 (last 2 (sort .))) 0) (index . $datebefore) -}}
+      {{- $data.Set "context"       $contextlast -}}
+      {{- $data.Set "contextbefore" $contextbefore -}}
     {{- end -}}
+
+    {{ $auditbefore }}<hr>
+    {{ $data.Get "contextbefore" }}
+
 
     {{/* START If "context" */}}
 
@@ -90,6 +103,7 @@
         </p>
 
       {{- else if ge $referential.versionmajor 2 -}}
+
         <p>{{ with ($data.Get "organisation") }}{{ . }}{{ end }} s’inscrit dans une démarche d’écoconception visant à réduire les impacts environnementaux. À cette fin, cette déclaration a été rédigée dans le cadre de la mise en œuvre du référentiel général de l’écoconception des services numériques (version 2024).
         Le référentiel général de l’écoconception des services numériques, document réalisé par l’Arcep et l’Arcom, en collaboration avec l’ADEME, la DINUM, la CNIL et l’Inria, est disponible sur le site web de l’Arcep : <a href="https://www.arcep.fr/demarches-et-services/professionnels/referentiel-general-ecoconception-services-numeriques.html">https://www.arcep.fr/demarches-et-services/professionnels/referentiel-general-ecoconception-services-numeriques.html</a></p>
 

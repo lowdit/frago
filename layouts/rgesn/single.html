@@ -38,7 +38,7 @@
           {{ end }}
         {{- end -}}
         {{- if eq (getenv "HUGO_ENV") "dev" -}}
-          <div class="hidden"> 
+          <div class="hidden">
           {{- if eq $referential.version "2.0" }}
           {{ range (where (where $criteriafile "difficulte" "Fort") "priorite" "Prioritaire") }}
             {{ .id }} - {{ .critere }}<br>
