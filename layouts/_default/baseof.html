@@ -44,7 +44,7 @@
   {{- $.Scratch.Add "css" (slice $styles $main $layout) -}}
   {{- $style := ($.Scratch.Get "css") | resources.Concat "styles.css" -}}
   {{/* Optimise (purge, concat) if production */}}
-  {{- if not (and (.Site.IsServer) (eq (getenv "HUGO_ENV") "production" | or (eq .Site.Params.env "production"))) -}}
+  {{- if not (and (hugo.IsServer) (eq (getenv "HUGO_ENV") "production" | or (eq .Site.Params.env "production"))) -}}
   {{- $style := $style | postCSS (dict "config" "postcss.config.js") -}}
   {{- end -}}
   <!-- CSS styles -->

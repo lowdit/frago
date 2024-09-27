@@ -359,7 +359,7 @@
 
 {{- define "pathallimage" -}}
   <small class="no-print">
-  {{- if and .context.Site.IsServer (not (eq (getenv "HUGO_ENV") "production" | or (eq .context.Site.Params.env "production"))) -}}
+  {{- if and .hugo.IsServer (not (eq (getenv "HUGO_ENV") "production" | or (eq .context.Site.Params.env "production"))) -}}
     {{- if .fileexist }}
       &nbsp;-&nbsp;<a href="#{{ .filename }}">{{ .filename }}</a>
     {{- end -}}
@@ -373,7 +373,7 @@
 
 {{ define "pathallimagenoexist" }}
   <div class="no-print">
-  {{- if and .context.Site.IsServer (not (eq (getenv "HUGO_ENV") "production" | or (eq .context.Site.Params.env "production"))) }}
+  {{- if and hugo.IsServer (not (eq (getenv "HUGO_ENV") "production" | or (eq .context.Site.Params.env "production"))) }}
     {{- if .fileexist }}
     {{- else -}}
       <div class="note">
