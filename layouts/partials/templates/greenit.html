@@ -58,8 +58,8 @@
         {{- $data.Add "potentiel" (float $value) -}}
       {{ end -}}
       {{ $divider := ((index ($data.Get "scores").criteria.all (string $value.id))) }}
-      {{- $effort := div 100 (add (div $value.priority $value.difficulty) (div ($data.Get "potentiel") 10)) | lang.NumFmt 2 -}}
-      {{- with $divider }}{{- $effort  = sub (float $effort) (mul (div (float $effort) 5) (int .)) | lang.NumFmt 0 -}}{{ end }}
+      {{- $effort := div 100 (add (div $value.priority $value.difficulty) (div ($data.Get "potentiel") 10)) | lang.FormatNumberCustom 2 -}}
+      {{- with $divider }}{{- $effort  = sub (float $effort) (mul (div (float $effort) 5) (int .)) | lang.FormatNumberCustom 0 -}}{{ end }}
       {{- $data.Add "key" (string $effort) }}
       {{- $data.SetInMap (printf "slice%s" $effort) (string $key) .id -}}
       {{- $data.SetInMap "criteriascores" (string $effort) (sort ($data.Get (printf "slice%s" $effort))) -}}

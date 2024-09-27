@@ -39,11 +39,11 @@
             datasets: [
               {
                 name: "Non Conforme",
-                values: [{{ range $id, $value := $scores.pageaverage }}{{ if ne $id "0" }},{{ end }}{{ sub 100 . | lang.NumFmt 1 | safeJS }}{{ end }}]
+                values: [{{ range $id, $value := $scores.pageaverage }}{{ if ne $id "0" }},{{ end }}{{ sub 100 . | lang.FormatNumberCustom 1 | safeJS }}{{ end }}]
               },
               {
                 name: "Conforme",
-                values: [{{ range $id, $value := $scores.pageaverage }}{{ if ne $id "0" }},{{ end }}{{ . | lang.NumFmt 1 | safeJS }}{{ end }}]
+                values: [{{ range $id, $value := $scores.pageaverage }}{{ if ne $id "0" }},{{ end }}{{ . | lang.FormatNumberCustom 1 | safeJS }}{{ end }}]
               }
             ]
         }
@@ -64,7 +64,7 @@
           datasets: [
             {
               name: "Non Conforme",
-              values: [{{ range $id, $value := $topics }}{{ if (index $thematiques.thematiques.nonconformes $value) }}{{- if ne ($data.Get "graphcounter2") 0 -}},{{- end -}}{{ (div (mul (float (index ($thematiques.thematiques.nonconformes) $value)) 100) $thematiques.total ) | lang.NumFmt 1 -}}{{- $data.Add "graphcounter2" 1 | safeJS  -}}{{- end -}}{{ end }}]
+              values: [{{ range $id, $value := $topics }}{{ if (index $thematiques.thematiques.nonconformes $value) }}{{- if ne ($data.Get "graphcounter2") 0 -}},{{- end -}}{{ (div (mul (float (index ($thematiques.thematiques.nonconformes) $value)) 100) $thematiques.total ) | lang.FormatNumberCustom 1 -}}{{- $data.Add "graphcounter2" 1 | safeJS  -}}{{- end -}}{{ end }}]
             }
           ]
       }

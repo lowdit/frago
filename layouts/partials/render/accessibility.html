@@ -147,7 +147,7 @@
 +       {{ with (index ($data.Get (printf "%s%s" $scorekey "pageNC")) $key) }}
 +         {{ $lengthNC = (len .) }}
 +       {{ end }}
-        {{ $value    := cond (ne (add $lengthC $lengthNC) 0) (float (sub 100 (div (mul (float $lengthNC) 100) (add $lengthC $lengthNC)) | lang.NumFmt 1)) 0 }}
+        {{ $value    := cond (ne (add $lengthC $lengthNC) 0) (float (sub 100 (div (mul (float $lengthNC) 100) (add $lengthC $lengthNC)) | lang.FormatNumberCustom 1)) 0 }}
         {{ $data.SetInMap (printf "%s%s" $scorekey "pageAverage") (string $key) $value }}
         {{ $data.Add (printf "%s%s" $scorekey "Average") (div $value $lengthPageC) }}
     {{ end }}

@@ -113,7 +113,7 @@
     {{- $ncScores := ($data.Get "scores").scores.criteria.nonconforme -}}
     {{- $percent := 0 }}
     {{- if $cScores -}}
-      {{- $percent = (div 100 (add (float $cScores) (float $ncScores))) | lang.NumFmt 10 -}}
+      {{- $percent = (div 100 (add (float $cScores) (float $ncScores))) | lang.FormatNumberCustom 10 -}}
     {{- end -}}
     {{- range ($data.Get "auditfile") -}}
       {{- range $idpage, $s := .pages -}}

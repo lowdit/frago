@@ -4,7 +4,7 @@
 <div class="scores mb-1">
   <ul class="flex flex-gap flex-wrap">
     <li class="counter text-center {{ $ecostyle.ecoindexclass }}"><span>Score<br><b>{{ $score.grade }}</b></span></li>
-    <li class="counter text-center"><span>Eau (cl)<br><b>{{ $score.water | lang.NumFmt 2 }}</b></span></li>
-    <li class="counter text-center"><span>GES (gCO2e)<br><b>{{ $score.ghg | lang.NumFmt 2 }}</b></span></li>
+    <li class="counter text-center"><span>Eau (cl)<br><b>{{ $score.water | lang.FormatNumberCustom 2 }}</b></span></li>
+    <li class="counter text-center"><span>GES (gCO2e)<br><b>{{ $score.ghg | lang.FormatNumberCustom 2 }}</b></span></li>
   </ul>
 </div>
