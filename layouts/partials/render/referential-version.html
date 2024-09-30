@@ -6,15 +6,15 @@
 {{ $patharray      := (symdiff (split ($context.RelPermalink) "/") (slice ""))}}
 
 {{ if (and (eq $referential "any") (or (eq $Type "accessibility") (eq $Type "ecoconception"))) }}
-  {{ warnf "Guideline value in audit context in empty %s --%s-- %s" $Type .project $context }}
+  {{ warnf "Guideline value in audit context file is empty : %s %s %s" $Type .project $context.Title }}
 {{ end }}
 
 {{/* Only for accessibility because of differents guidelines version are existing :: RGAA, RAWeb, WCAG */}}
-{{ $referential := cond (and (eq $referential "any") (eq $Type "accessibility")) "rgaa"  $referential }}
-{{ $referential := cond (and (eq $referential "any") (eq $Type "raweb"))         "raweb" $referential }}
-{{ $referential := cond (and (eq $referential "any") (eq $Type "raam"))          "raam" $referential }}
-{{ $referential := cond (and (eq $referential "any") (eq $Type "opquast"))       "opquast" $referential }}
-{{ $referential := cond (and (eq $referential "any") (eq $Type "ecoconception")) "rgesn" $referential }}
+{{ $referential := cond (and (eq $referential "any") (eq $Type "accessibility")) "rgaa"       $referential }}
+{{ $referential := cond (and (eq $referential "any") (eq $Type "raweb"))         "raweb"      $referential }}
+{{ $referential := cond (and (eq $referential "any") (eq $Type "raam"))          "raam"       $referential }}
+{{ $referential := cond (and (eq $referential "any") (eq $Type "opquast"))       "opquast"    $referential }}
+{{ $referential := cond (and (eq $referential "any") (eq $Type "ecoconception")) "rgesn"      $referential }}
 {{ $referential := cond (and (eq $referential "any") (eq $Type "publishing"))    "publishing" $referential }}
 
 {{ $versionallarray := "" }}
