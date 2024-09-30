@@ -1,4 +1,5 @@
 website: "amendes.gouv.fr"
+organisation: Mon organisation dans le fichier de context.yml
 contacts:
     email: stap-amendes@dgfip.finances.gouv.fr
     address : 139 rue de Bercy, 75572 Paris, Cedex 12

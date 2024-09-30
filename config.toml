@@ -12,3 +12,6 @@ enableGitInfo = true
 pygmentsCodeFences = true
 pygmentsCodefencesGuessSyntax = true
 pygmentsUseClasses = true
+
+[params]
+  organisation = "Mon organisation dans le fichier principal"
