@@ -8,8 +8,8 @@
 
 {{- $referential              := (partialCached "render/referential-version.html" (dict "context" $context "referential" (index $ref "accessibility").referential) $context (index $ref "accessibility").referential).guideline -}}
 {{- $data.Set "criteriafile"  (index (index $context.Site.Data $referential.name) (string $referential.version)).criteria.topics -}}
-{{- $data.Set "organisation"  (cond (ne $.context.Site.Params.organisation "") $.context.Site.Params.organisation "") -}}
-{{- $data.Set "strategy"      (cond (ne $.Params.accessibility.strategy "") $.Params.accessibility.strategy (cond (ne $context.Site.Params.strategy "") $context.Site.Params.strategy "")) -}}
+{{- $data.Set "organisation"  (cond (ne $context.Params.organisation "") $context.Params.organisation (cond (ne $context.Site.Params.organisation "") $context.Site.Params.organisation "")) -}}
+{{- $data.Set "strategy"      (cond (ne $context.Params.accessibility.strategy "") $context.Params.accessibility.strategy (cond (ne $context.Site.Params.strategy "") $context.Site.Params.strategy "")) -}}
 {{- $data.Set "auditpath-csv" (index $audit "auditfile-path") -}}
 
 {{- if and ($data.Get "auditpath-csv") (not (in ($data.Get "auditpath-csv") "false")) -}}
@@ -52,9 +52,9 @@
         {{- with $data.Get "strategy" -}}
         <p>À cette fin, elle met en œuvre la stratégie et les actions suivantes :</p>
         <ul>
-          {{- with .schema -}}<li>Schéma pluriannuel de mise en accessibilité 2020-2022 : <a href="{{ . }}">Schéma pluriannuel</a></li>{{ end }}
-          {{- with .actions -}}<li>Actions réalisées en 2019-2020 : <a href="{{ . }}">Actions réalisées</a></li>{{ end }}
-          {{- with .plan -}}<li>Plan d’actions 2020-2021 : <a href="{{ . }}">Plan d’actions</a></li>{{ end }}
+          {{- with .schema -}}<li>Schéma pluriannuel de mise en accessibilité : <a href="{{ . }}">Schéma pluriannuel</a></li>{{ end }}
+          {{- with .actions -}}<li>Actions réalisées : <a href="{{ . }}">Actions réalisées</a></li>{{ end }}
+          {{- with .plan -}}<li>Plan d’actions : <a href="{{ . }}">Plan d’actions</a></li>{{ end }}
         </ul>
         {{- end -}}
         {{- with .website -}}<p>Cette déclaration d’accessibilité s’applique à {{ partialCached "utils/isURL.html" (dict "context" $context "projectTitle" .) . }}.</p>{{ end }}
