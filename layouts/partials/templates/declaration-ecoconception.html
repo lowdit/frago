@@ -12,10 +12,9 @@
 {{/* START Determine the version of the audit from the context declaration */}}
 {{- $data.Set "audits"        (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "ecoconception" "datafilename" .context.Params.datafilename) $project "ecoconception" .context.Params.datafilename) -}}
 {{- $data.Set "auditscores"   (partialCached "render/meta-scores.html" (dict "context" $context "project" $project "type" "ecoconception") $context $project "ecoconception") -}}
-{{- $referential              := (index ($data.Get "auditscores").context ((index ($data.Get "audits") "auditfile-name"))).guidelines -}}
-{{- $data.Set "criteriafile" (index (index $context.Site.Data (string $referential.name)) (string $referential.version)).criteria.criteres -}}
+{{- $referential           := (index ($data.Get "auditscores").context ((index ($data.Get "audits") "auditfile-name"))).guidelines -}}
+{{- $data.Set "criteriafile"  (index (index $context.Site.Data (string $referential.name)) (string $referential.version)).criteria.criteres -}}
 {{/* END Determine the version of the audit form the context declaration */}}
-
 
 {{/* START Load the criteria file for the good audit version */}}
 {{- $data.Set "organisation"  (cond (ne $.context.Site.Params.organisation "") $.context.Site.Params.organisation "") -}}
@@ -40,22 +39,19 @@
     {{- $thematiques    := (partialCached "render/score-thematiques.html" (dict "scores" ($data.Get "scores").criteria "topics" $topics) ($data.Get "scores")) -}}
     {{- $date           := (string (index $audit "auditfile-name")) -}}
 
-
-
+    {{/* START Find the audit before the current audit */}}
     {{-  $auditbefore := index ((index ($data.Get "audits") "auditfile-all-path")) (string (sub (len (index ($data.Get "audits") "auditfile-all-path")) 2)) -}}
     {{-  $datebefore  := string (index ((index ($data.Get "audits") "auditfile-all-name")) (string (sub (len (index ($data.Get "audits") "auditfile-all-name")) 2))) -}}
-    {{-  (partialCached "render/ecoconception.html" (dict "context" $context "auditfile" $auditbefore "referential" $referential) $auditbefore).scores -}}
 
-    {{ with (partialCached "render/context.html" (dict "context" $context "project" $project "type" "ecoconception") $project "ecoconception") }}
-      {{- $contextlast     := cond (not (index . $date))       (index (last 1 (last 1 (sort .))) 0) (index . $date) -}}
-      {{- $contextbefore   := cond (not (index . $datebefore)) (index (last 1 (last 2 (sort .))) 0) (index . $datebefore) -}}
+    {{- with (partialCached "render/context.html" (dict "context" $context "project" $project "type" "ecoconception") $project "ecoconception") }}
+      {{- $contextlast           := cond (not (index . $date))       (index (last 1 (last 1 (sort .))) 0) (index . $date) -}}
       {{- $data.Set "context"       $contextlast -}}
-      {{- $data.Set "contextbefore" $contextbefore -}}
+      {{- if $auditbefore }}
+        {{- $contextbefore         := cond (not (index . $datebefore)) (index (last 1 (last 2 (sort .))) 0) (index . $datebefore) -}}
+        {{- $data.Set "contextbefore" (cond (not $datebefore) "" $contextbefore) -}}
+        {{- $data.Set "scorebefore"   (partialCached "render/ecoconception.html" (dict "context" "ecospage" "auditfile" $auditbefore "referential" $referential) $auditbefore ) -}}
+      {{- end -}}
     {{- end -}}
-
-    {{ $auditbefore }}<hr>
-    {{ $data.Get "contextbefore" }}
-
 
     {{/* START If "context" */}}
 
