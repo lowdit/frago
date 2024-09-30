@@ -29,7 +29,8 @@
 
   {{ with ($data.Get "contextmain") }}
     {{- $contextlast := cond (not (index . $date)) (index (last 1 (sort .)) 0) (index . $date) -}}
-    {{- $data.Set "organisation"  (cond (ne $contextlast.organisation "") $contextlast.organisation (cond (ne $context.Params.organisation "") $context.Params.organisation (cond (ne $context.Site.Params.organisation "") "" $context.Site.Params.organisation))) -}}
+    {{- $data.Set "organisation"  (cond (not $contextlast.organisation) (cond (not $context.Params.organisation) (cond (not $context.Site.Params.organisation) "" $context.Site.Params.organisation) $context.Params.organisation) $contextlast.organisation) -}}
+    <hr>{{ $data.Get "organisation" }}
     {{- $data.Set "strategy"      (cond (ne $context.Params.accessibility.strategy "") $context.Params.accessibility.strategy (cond (ne $context.Site.Params.strategy "") $context.Site.Params.strategy "")) -}}
     {{- $data.Set "context" $contextlast -}}
     {{- if (not (index . $date)) -}}
