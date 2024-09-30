@@ -13,7 +13,7 @@
 {{ end }}
 
 {{ if (not (in .auditfile "false")) }}
-  {{ $auditfilecsv        := (getCSV "," .auditfile) }}
+  {{ $auditfilecsv        := (readFile .auditfile | transform.Unmarshal (dict "delimiter" ",")) }}
   {{ $data.Set "date" (replace (path.Base .auditfile) (path.Ext .auditfile) "") }}
 
   {{ range $key1, $value1 := after 1 $auditfilecsv }}

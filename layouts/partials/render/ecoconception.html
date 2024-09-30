@@ -14,9 +14,9 @@
   {{ warnf "Ecoconception render : %s" .auditfile }}
 {{ end }}
 
-{{ if (not (in .auditfile "false")) }}
+{{ if and (not (in .auditfile "false")) $auditfile }}
 
-  {{ $auditfilecsv        := (getCSV "," .auditfile) }}
+  {{ $auditfilecsv        := (readFile .auditfile | transform.Unmarshal (dict "delimiter" ",")) }}
   {{ $auditmethodology := (index (partialCached "render/methodology.html" (dict "auditfile" $auditfilecsv) $auditfilecsv) "methodology") }}
   {{ $pageslist        := (index (partialCached "render/methodology.html" (dict "auditfile" $auditfilecsv) $auditfilecsv) "pageslist") -}}
 
@@ -89,7 +89,7 @@
     {{ $data.Add "compliance-version-2-count" $cond }}
     {{ $data.SetInMap "compliance-version-2" (string $key) $cond }}
   {{ end }}
-
+  {{ warnf "%s - %s -%s " ($data.Get "compliance-version-2-conforme") ($data.Get "compliance-version-2-count") $context }}
   {{ $data.Set "compliance" (float (lang.FormatNumberCustom 0 (div (mul 100 ($data.Get "compliance-version-2-conforme")) ($data.Get "compliance-version-2-count")))) }}
 {{ end }}
 {{/* END calculate compliance for the 2.0 version */}}

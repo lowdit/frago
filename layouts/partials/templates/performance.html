@@ -43,7 +43,7 @@
           {{/* Vars with the last file of the lighthouse directory */}}
           <h2>Règles</h2>
           {{- partialCached "utils/css.html" (dict "context" $.context "filefolder" "object" "filename" "summary") "summary" -}}
-          {{ $lastfile := getJSON ($data.Get "lastfile") }}
+          {{ $lastfile := readFile ($data.Get "lastfile") | transform.Unmarshal}}
           {{/* START Range the file */}}
           {{- range $key, $value := sort (index $lastfile "audits") ".score" "asc" -}}
             {{/* Display only errors - with score different of null */}}

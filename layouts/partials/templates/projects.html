@@ -215,7 +215,7 @@
         {{/* START - Build map with the count of each total performance errors */}}
         {{- range $id, $value := $lastfiles -}}
           {{- $.Store.Set "performancecounter" 0 -}}
-            {{- $performancefile := getJSON . -}}
+            {{- $performancefile := readFile . | transform.Unmarshal -}}
             {{ range (index $performancefile "audits") }}
               {{- if and (not (eq (string .score) "1")) (not (eq (string .score) "null")) (.score) (.details) -}}
                 {{ $.Store.Add "performancecounter" 1 }}{{ $.Store.SetInMap "performancecountermap" (string $id) ($.Store.Get "performancecounter") }}
@@ -235,7 +235,7 @@
                     },
                     {
                       name: "Chargement",
-                      values: [{{ range $id, $value := $lastfiles }}{{ $performancefile := partialCached "render/performance.html" (dict "context" "project" "auditfile" .) . }}{{ if ne $id "0" }},{{ end }}{{ if $performancefile.LCP }}"{{ div $performancefile.LCP 1000 | lang.NumFmt 1 }}"{{- end -}}{{- end -}}],
+                      values: [{{ range $id, $value := $lastfiles }}{{ $performancefile := partialCached "render/performance.html" (dict "context" "project" "auditfile" .) . }}{{ if ne $id "0" }},{{ end }}{{ if $performancefile.LCP }}"{{ div $performancefile.LCP 1000 | lang.FormatNumberCustom 1 }}"{{- end -}}{{- end -}}],
                       chartType: 'bar'
                     }
                   ],

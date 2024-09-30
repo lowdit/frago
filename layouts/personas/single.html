@@ -6,7 +6,7 @@
 {{- $project   :=  (partialCached "render/projectpath" . .) -}}
 {{/* Condition about structure level */}}
 {{- $filepath      := (partialCached "render/filepath" (dict "context" . "project" $project "type" "personas.json") $project "personas.json") -}}
-{{- $.Store.Set "auditfile" (getJSON $filepath) -}}
+{{- $.Store.Set "auditfile" (readFile $filepath | transform.Unmarshal) -}}
 <div class="fg-wrapper">
 <p class="no-print" hidden>← <a href="{{ $.Site.BaseURL | default "/" }}projects/{{ $project }}/" class="link-more link-back">Retour à la page {{ $project }}</a></p>
 <h1 class="text-center">{{ .Title }} <small>{{ if .Params.tags }}{{ range .Params.tags }}pour <a href="{{ $.Site.BaseURL | default "/" }}tags/{{ . }}">{{ . }}</a>{{ end }}{{ end }}</small></h1>

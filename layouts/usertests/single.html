@@ -6,7 +6,7 @@
 {{- $context   := . -}}
 {{- $project   :=  (partialCached "render/projectpath" $context $context) -}}
 {{- $path      := (partialCached "render/filepath" (dict "context" . "project" $project "type" "usertests") $project "usertests") -}}
-{{- $.Scratch.Set "auditfile" (getJSON $path) -}}
+{{- $.Scratch.Set "auditfile" (readFile $path | transform.Unmarshal) -}}
 {{- $.Scratch.Set "userid" slice -}}
 {{- $.Scratch.Set "tasknumber" slice -}}
 {{- $.Scratch.Set "answer" slice -}}

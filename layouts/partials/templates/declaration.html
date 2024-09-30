@@ -18,7 +18,7 @@
     {{ warnf "Déclaration : %s" ($data.Get "auditpath-csv") }}
   {{ end }}
 
-  {{- $data.Set "auditfile-csv" (getCSV "," ($data.Get "auditpath-csv")) -}}
+  {{- $data.Set "auditfile-csv" (readFile ($data.Get "auditpath-csv") | transform.Unmarshal (dict "delimiter" ",")) -}}
   {{- if and ($data.Get "auditpath-csv") (not (in ($data.Get "auditpath-csv") "false")) -}}
   {{/* END Load the criteria file for the good audit version */}}
 

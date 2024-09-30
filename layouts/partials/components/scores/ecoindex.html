@@ -1,4 +1,4 @@
-{{- $json        := getJSON . -}}
+{{- $json        := readFile . | transform.Unmarshal -}}
 {{- $score       := (index $json 0).index }}
 {{- $ecostyle    := (partialCached "utils/ecoindex-class" (dict "ecograde" $score.grade) $score.grade) -}}
 <div class="scores mb-1">

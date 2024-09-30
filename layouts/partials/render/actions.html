@@ -28,7 +28,7 @@
     {{ if ($data.Get (printf "actions-%s" .)) }}
       {{ range $id, $value := ($data.Get (printf "actions-%s" .)) }}
         {{ if (not (in . "false")) }}
-          {{ $data.Set (printf "slice-%s" $date) (merge ($data.Get (printf "slice-%s" $date)) (dict (string $id) (index (after 1 (getCSV "," .)) 0))) }}
+          {{ $data.Set (printf "slice-%s" $date) (merge ($data.Get (printf "slice-%s" $date)) (dict (string $id) (index (after 1 (readFile . | transform.Unmarshal (dict "delimiter" ",") )) 0))) }}
           {{ $data.Add (printf "listDates-%s" $date) (slice (((os.Stat .).ModTime).Format "02/01/2006")) }}
         {{ end }}
       {{ end }}
@@ -57,7 +57,7 @@
           {{ $cond := cond (eq $kind "page") (eq $date $pagedate) true }}
           {{/*- if $cond -*/}}
             {{/* Feed an array with all actions in a file */}}
-            {{ range $index, $line := (after 1 (getCSV "," .)) }}
+            {{ range $index, $line := (after 1 (readFile . | transform.Unmarshal (dict "delimiter" ","))) }}
               {{ $data.Set (printf "%s%s%s" $title $id $date) (merge ($data.Get (printf "%s%s%s" $title $id $date)) (dict (string $index) .)) }}
             {{ end }}
             {{/* Feed a map where key is the project title */}}

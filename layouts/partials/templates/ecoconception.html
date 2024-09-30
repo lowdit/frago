@@ -18,7 +18,7 @@
   {{- $data.Set "auditscore"    (partialCached "render/meta-scores.html" (dict "context" $context "project" $project "type" "ecoconception") $project "ecoconception") -}}
   {{- $referential    := (index ($data.Get "auditscore").context ((index ($data.Get "audits") "auditfile-name"))).guidelines -}}
   {{- $criteriafile   := (index (index $context.Site.Data $referential.name) (string $referential.version)).criteria.criteres -}}
-  {{- $data.Set "auditfile-csv" (getCSV "," ($data.Get "auditpath-csv")) -}}
+  {{- $data.Set "auditfile-csv" (readFile ($data.Get "auditpath-csv") | transform.Unmarshal (dict "delimiter" ",")) -}}
   {{- $data.Set "scores" (partialCached "render/ecoconception.html" (dict "context" "ecospage" "auditfile" ($data.Get "auditpath-csv") "referential" $referential) ($data.Get "auditpath-csv") ) -}}
 
   {{/* START Test if the csv file has a good name : YYYY-MM-DD.csv */}}
@@ -129,7 +129,7 @@
               {{- end -}}
             {{- end -}}
           {{- end -}}
-          {{ end -}} 
+          {{ end -}}
         {{- else -}}
           <p>L’audit de conformité est en cours.</p>
         {{ end -}}

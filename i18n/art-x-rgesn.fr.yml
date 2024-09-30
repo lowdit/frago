@@ -49,7 +49,8 @@
         {{ with .tools }}Le service numérique collecte des données afin de répondre aux besoins de **{{ . }}**.{{ end }}
         {{ if .functionalities }}
         Il ne comporte pas de collecte de métadonnées à des fins publicitaires / Il collecte des métadonnées à des fins publicitaires, sous réserve du consentement explicite et éclairé de l’utilisateur, puisqu’il s’agit d’une démarche essentielle pour les fonctionnalités suivantes {{ .functionalities }}
-        {{ with .mention }}Mentions légales : <a href="{{ . }}">Mentions Légales</a>.{{ end }}
+
+        {{ with .mention }}Accès à la page de Mentions légales : [Mentions Légales]({{ . }}).{{ end }}
         {{ end }}
     "1.7":
       other: |-
@@ -58,7 +59,7 @@
         Le choix s’est orienté vers les technologies {{ with . }}**{{ . }}**{{ else }}##Manquant##{{ end }}
         {{ end }}
         {{ with .description }}
-        après une analyse des risques de sécurité informatique du service et de l’empreinte environnementale associée, dont voici les contours publics :
+        Après une analyse des risques de sécurité informatique du service et de l’empreinte environnementale associée, dont voici les contours publics :
         {{ . }}
         {{ else }}
         .
@@ -316,7 +317,7 @@
       other: |-
         {{ with .puissance }}
         L’hébergeur du service numérique a mis en place un système de récupération et de réutilisation de la chaleur fatale.
-        Ce système permet de récupérer {{ . }} Wh en pleine capacité
+        Ce système permet de récupérer {{ . }} Wh en pleine capacité.
         {{ end }}
     "8.10":
       other: |-
@@ -334,7 +335,7 @@
         L’inclusion d’une phase d’entraînement pour le service numérique {{ with .servicemain }}{{ . }}{{ else }}##Manquant##{{ end }} est justifiée par le besoin des cibles utilisatrices {{ .target }}.
         {{ end }}
         {{ with .functionalities }}
-        Ainsi, les fonctionnalités **{{ . }}** pour y répondre ne pouvaient être développées de façon optimale avec la recherche classique sans phase d’entraînement
+        Ainsi, les fonctionnalités **{{ . }}** pour y répondre ne pouvaient être développées de façon optimale avec la recherche classique sans phase d’entraînement.
         {{ end }}
         {{ with .gains }}
         Les principaux gains pour les utilisateurs sont : **{{ . }}**.

@@ -4,14 +4,14 @@
 {{- $path      := (partialCached "render/filepath" (dict "context" . "project" $project "type" "similary.json") $project "similary.json") -}}
 {{- $.Scratch.Set "auditpath" $path -}}
 {{- end -}}
-{{- range sort (index (getJSON ($.Scratch.Get "auditpath"))) "country" "asc" -}}
+{{- range sort (index (readFile ($.Scratch.Get "auditpath") | transform.Unmarshal)) "country" "asc" -}}
     {{- $.Scratch.Add "countries" (slice .country) -}}
 {{- end -}}
 {{- $field := $.Scratch.Get "countries" | uniq -}}
 {{- range $field -}}
   <h3>{{ . }}</h3>
   <ul>
-  {{- range where (index (getJSON ($.Scratch.Get "auditpath"))) "country" . -}}
+  {{- range where (index (readFile ($.Scratch.Get "auditpath") | transform.Unmarshal)) "country" . -}}
     <li>{{ .name }} - <a href="{{ .url }}">{{ .url | truncate 80 }}</a></li>
   {{- end -}}
   </ul>

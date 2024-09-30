@@ -14,7 +14,7 @@
 {{ if (not (in .auditfile "false")) }}
   {{/* START Test if audit file exists */}}
   {{ with $auditfile }}
-    {{ $file := getJSON . }}
+    {{ $file := readFile . | transform.Unmarshal }}
     {{/* START if file */}}
     {{ with $file }}
       {{/* https://blog.octo.com/sous-le-capot-de-la-mesure-ecoindex/ */}}

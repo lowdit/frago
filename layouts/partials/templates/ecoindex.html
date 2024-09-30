@@ -17,7 +17,7 @@
   <h1 class="lh-0">Synthèse Écoindex{{ with $projectTitle }}<small> pour {{ partialCached "utils/isURL.html" (dict "context" $context "projectTitle" $projectTitle) $projectTitle }}</small>{{ end }}</h1>
 
   {{- if and ($data.Get "auditpath") (not (in ($data.Get "auditpath") "false")) -}}
-    {{- $json        := getJSON ($data.Get "auditpath") -}}
+    {{- $json        := readFile ($data.Get "auditpath") | transform.Unmarshal -}}
     {{- $score       := (index $json 0).index }}
     {{- $ecostyle    := (partialCached "utils/ecoindex-class" (dict "ecograde" $score.grade) $score.grade) -}}
     <div class="scores mb-1">

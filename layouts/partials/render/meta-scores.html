@@ -10,7 +10,7 @@
 
 {{ if (not (in $auditlastpath "false")) }}
   {{ $referential    := (partialCached "render/referential-version.html" (dict "context" .context "project" "meta-score" "referential" $types) $types).guideline }}
-  {{ $auditcontent = (getCSV "," $auditlastpath) }}
+  {{ $auditcontent = (readFile $auditlastpath | transform.Unmarshal (dict "delimiter" ",")) }}
   {{ $auditscores  = cond (ne $auditlastpath "") (partialCached (printf "render/%s.html" (cond (eq $types "raam") "accessibility" (cond (eq $types "raweb") "accessibility" $types))) (dict "context" "accessibilityscores" "auditfile" $auditlastpath "auditname" (index $contextaudit (index $auditsfiles "auditfile-name")).guidelines.name "$guidelines" $referential ) $auditlastpath) "" }}
 {{ end }}
 

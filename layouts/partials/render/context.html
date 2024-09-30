@@ -47,7 +47,7 @@
     {{ $value = cond (not (index ($context.GetPage $contextpath).Params $Type)) $value (index ($context.GetPage $contextpath).Params $Type) }}
   {{ end }}
   {{ $guideline   := (partial "render/guideline.html" (dict "project" $project "guidelines" $value.audit.guidelines)) }}
-  {{ $guidelines  := (partialCached "render/referential-version.html" (dict "context" $context "Type" $Type "project" "contextfile" "referential" $guideline.name "version" $guideline.version) $contextpath $guideline.name $Type).guideline }}
+  {{ $guidelines  := (partialCached "render/referential-version.html" (dict "context" $context "Type" $Type "project" "fichier de contexte d'audit" "referential" $guideline.name "version" $guideline.version) $contextpath $guideline.name $Type).guideline }}
   {{ $data.SetInMap "context" ($data.Get "datecontext") (dict "declared" $value "guidelines" $guidelines "path" $contextpath "type" $Type) }}
 
   {{ if $value }}

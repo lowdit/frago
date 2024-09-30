@@ -7,7 +7,7 @@
 
 {{ if (not (in .auditfile "false")) }}
 
-  {{ $auditfile        := (getCSV "," .auditfile) }}
+  {{ $auditfile        := (readFile .auditfile | transform.Unmarshal (dict "delimiter" ",")) }}
   {{ $data.Set "auditfile" $auditfile }}
   {{ $data.Set "date" (replace (path.Base .auditfile) (path.Ext .auditfile) "") }}
 
