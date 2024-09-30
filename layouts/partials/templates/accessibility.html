@@ -296,7 +296,7 @@
   {{- $data := .data -}}
   {{- $indication := .indication -}}
   {{- $content := (index (split $indication "|") 0) -}}
-  {{- $comment := delimit (uniq ((split $indication "|") | symdiff (slice $content))) ", " -}}
+  {{- $comment := (uniq ((split $indication "|") | symdiff (slice $content))) -}}
   {{- $condcontentlen := gt (len (split $indication "|")) 1 -}}
   {{- $condcontentnc := (eq $content "nc") -}}
   {{- $condcontentc := (eq $content "c") -}}
@@ -308,9 +308,9 @@
     {{- $data.Set "counterallpages" 1 -}}
     <p class="mb-0"><strong>
       {{- if $condcontentc -}}{{ end }}{{ if or $condcontentnc $condcontentlen }}{{ end }} {{ if eq ($data.Get "auditmethodology") 3 }}Test{{ else }}Critère{{ end }} {{ $thematiques }}.{{ $criteria }}{{ if eq ($data.Get "auditmethodology") 3 }}.{{ $tests }}{{ end }} <small hidden>- {{ if $condcontentc }}Conforme{{ end }}{{ if or $condcontentnc $condcontentlen }}Non conforme{{ end }}</small>
-      {{ if eq (upper (delimit (findRE "!(.*)!" $comment) "")) "!F!" -}}<span class="badge good">Facile</span>{{- end -}}
-      {{ if eq (upper (delimit (findRE "!(.*)!" $comment) "")) "!M!" -}}<span class="badge medium">Modéré</span>{{- end -}}
-      {{ if eq (upper (delimit (findRE "!(.*)!" $comment) "")) "!D!" -}}<span class="badge bad">Difficile</span>{{- end -}}
+      {{ if eq (upper (delimit (findRE "!(.*)!" (delimit $comment "")) "")) "!F!" -}}<span class="badge good">Facile</span>{{- end -}}
+      {{ if eq (upper (delimit (findRE "!(.*)!" (delimit $comment "")) "")) "!M!" -}}<span class="badge medium">Modéré</span>{{- end -}}
+      {{ if eq (upper (delimit (findRE "!(.*)!" (delimit $comment "")) "")) "!D!" -}}<span class="badge bad">Difficile</span>{{- end -}}
     </strong></p>
     {{- $txt := "" -}}
     {{- if not $condcontentnc -}}
@@ -322,7 +322,20 @@
     {{- else -}}
       {{- $txt = "Commentaire(s)" -}}
     {{- end -}}
-    {{- if ge (len $comment) 1 }}<p class="m-0 smaller"><b>{{- $txt -}}</b>&nbsp;: {{ replace (replaceRE "!(.*)!" "" $comment 1) "\n" "<br>" | markdownify }}</p>{{- end -}}
+    {{- if ge (len $comment) 1 }}
+      {{- if ge (len $comment) 2  }}
+        <p class="mb-0"><strong>{{ $txt }}</strong></p>
+        <ul>
+        {{- range $comment }}
+          <li>{{ . }}</li>
+        {{ end -}}
+        </ul>
+      {{- else -}}
+        <p class="smaller">
+          <b>{{- $txt -}}</b>&nbsp;: {{ replace (replaceRE "!(.*)!" "" (delimit $comment ", ") 1) "\n" "<br>" | markdownify }}
+        </p>
+      {{- end -}}
+    {{- end -}}
       {{- $s := where ($data.Get "criteriafile") "number" "eq" (int ($thematiques)) -}}
       {{- if eq ($data.Get "auditmethodology") 2 -}}
         {{- $criterium := (index (index $s 0).criteria (sub (int ($criteria)) 1)) -}}
