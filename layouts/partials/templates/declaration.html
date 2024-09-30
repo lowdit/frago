@@ -7,12 +7,13 @@
 {{- $ref          := $context.Site.Data.referential -}}
 
 {{- $referential              := (partialCached "render/referential-version.html" (dict "context" $context "referential" (index $ref "accessibility").referential) $context (index $ref "accessibility").referential).guideline -}}
+{{- $data.Set "contextmain"   (partialCached "render/context.html" (dict "context" $context "project" $project "type" "accessibility") $project "accessibility") -}}
 {{- $data.Set "criteriafile"  (index (index $context.Site.Data $referential.name) (string $referential.version)).criteria.topics -}}
-{{- $data.Set "organisation"  (cond (ne $context.Params.organisation "") $context.Params.organisation (cond (ne $context.Site.Params.organisation "") $context.Site.Params.organisation "")) -}}
-{{- $data.Set "strategy"      (cond (ne $context.Params.accessibility.strategy "") $context.Params.accessibility.strategy (cond (ne $context.Site.Params.strategy "") $context.Site.Params.strategy "")) -}}
 {{- $data.Set "auditpath-csv" (index $audit "auditfile-path") -}}
 
 {{- if and ($data.Get "auditpath-csv") (not (in ($data.Get "auditpath-csv") "false")) -}}
+
+
 
   {{ if (eq (getenv "HUGO_ENV") "debugfiles") }}
     {{ warnf "Déclaration : %s" ($data.Get "auditpath-csv") }}
@@ -26,8 +27,10 @@
   {{- $data.Set "scores" (partialCached "render/accessibility.html" (dict "context" $context "auditfile" ($data.Get "auditpath-csv")) ($data.Get "auditpath-csv")) -}}
   {{- $date := (string (index $audit "auditfile-name")) -}}
 
-  {{ with (partialCached "render/context.html" (dict "context" $context "project" $project "type" "accessibility") $project "accessibility") }}
+  {{ with ($data.Get "contextmain") }}
     {{- $contextlast := cond (not (index . $date)) (index (last 1 (sort .)) 0) (index . $date) -}}
+    {{- $data.Set "organisation"  (cond (ne $contextlast.organisation "") $contextlast.organisation (cond (ne $context.Params.organisation "") $context.Params.organisation (cond (ne $context.Site.Params.organisation "") "" $context.Site.Params.organisation))) -}}
+    {{- $data.Set "strategy"      (cond (ne $context.Params.accessibility.strategy "") $context.Params.accessibility.strategy (cond (ne $context.Site.Params.strategy "") $context.Site.Params.strategy "")) -}}
     {{- $data.Set "context" $contextlast -}}
     {{- if (not (index . $date)) -}}
       {{ warnf "%s/accessibility/context.yml is not well filed, maybe the last value for date last audit is missing" $project }}
@@ -46,9 +49,7 @@
     <section>
       {{/* START If "organisation" */}}
       {{ if ($data.Get "organisation") }}
-        <p>{{ with ($data.Get "organisation") }}{{ . }}{{ end }} s’engage à rendre ses sites internet, intranet, extranet et ses
-        progiciels accessibles (et ses applications mobiles et mobilier urbain numérique) conformément à l’article 47 de la
-        loi n°2005-102 du 11 février 2005.</p>
+        <p>{{ with ($data.Get "organisation") }}{{ . }}{{ end }} s’engage à rendre ses sites internet, intranet, extranet et ses progiciels accessibles (et ses applications mobiles et mobilier urbain numérique) conformément à l’article 47 de la loi n°2005-102 du 11 février 2005.</p>
         {{- with $data.Get "strategy" -}}
         <p>À cette fin, elle met en œuvre la stratégie et les actions suivantes :</p>
         <ul>

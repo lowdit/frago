@@ -25,7 +25,7 @@
         {{ range $date, $value := $filecontent.audits }}
           {{ $guidelines := (partial "render/guideline.html" (dict "project" $project "guidelines" .guidelines)) }}
           {{ $guidelines := (partial "render/referential-version.html" (dict "context" $context "Type" $Type "referential" $guidelines.name "version" $guidelines.version) $guidelines.name $context).guideline }}
-          {{ $data.SetInMap "context" $date (dict "declared" true "contacts" (cond (not $filecontent.contacts) ($context.Site.Params.contacts) ($filecontent.contacts)) "website" $filecontent.website "audit" (index $filecontent.audits $date) "guidelines" $guidelines "path" $path "type" $Type) }}
+          {{ $data.SetInMap "context" $date (dict "declared" true "contacts" (cond (not $filecontent.contacts) ($context.Site.Params.contacts) ($filecontent.contacts)) "website" $filecontent.website "organisation" $filecontent.organisation "audit" (index $filecontent.audits $date) "guidelines" $guidelines "path" $path "type" $Type) }}
         {{ end }}
       {{ else }}
         {{/* If file exists but it is empty */}}
@@ -51,12 +51,12 @@
   {{ $data.SetInMap "context" ($data.Get "datecontext") (dict "declared" $value "guidelines" $guidelines "path" $contextpath "type" $Type) }}
 
   {{ if $value }}
-    {{ $data.SetInMap "context" ($data.Get "datecontext") (dict "declared" $value "contacts" (cond (not $value.contacts) ($context.Site.Params.contacts) ($value.contacts)) "website" $value.website "audit" ($value.audit) "guidelines" $guidelines "path" $contextpath "type" $Type) }}
+    {{ $data.SetInMap "context" ($data.Get "datecontext") (dict "declared" $value "contacts" (cond (not $value.contacts) ($context.Site.Params.contacts) ($value.contacts)) "website" $value.website "organisation" $value.organisation "audit" ($value.audit) "guidelines" $guidelines "path" $contextpath "type" $Type) }}
   {{ end }}
   {{/* If content has only one project */}}
   {{ if (partialCached "render/issimpleproject.html" "arg" "arg") }}
     {{ $contextpath := cond (fileExists (printf "/audits/%s.md" $Type)) ((printf "/audits/%s.md" $Type)) (cond (fileExists "/audits/_index.md") ("/audits/_index.md") ("/audits/index.md")) }}
-    {{ with $context.GetPage $contextpath }}{{ $data.SetInMap "context" ($data.Get "datecontext") (dict "declared" $value "contacts" (cond (not $value.contacts) ($context.Site.Params.contacts) ($value.contacts)) "website" $value.website "audit" ($value.audit) "guidelines" $guidelines "path" $contextpath "type" $Type) }}{{ end }}
+    {{ with $context.GetPage $contextpath }}{{ $data.SetInMap "context" ($data.Get "datecontext") (dict "declared" $value "contacts" (cond (not $value.contacts) ($context.Site.Params.contacts) ($value.contacts)) "website" $value.website "organisation" $value.organisation "audit" ($value.audit) "guidelines" $guidelines "path" $contextpath "type" $Type) }}{{ end }}
   {{ end }}
 
 {{ end }}
