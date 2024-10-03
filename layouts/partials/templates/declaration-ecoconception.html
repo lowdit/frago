@@ -1,3 +1,4 @@
+{{/* Based on : https://www.arcep.fr/fileadmin/user_upload/nos-sujets/environnement/rgesn_2024_exemple_declaration_ecoconception.html */}}
 {{- $audit    := .audits -}}
 {{- $context  := .context -}}
 {{- $data     := newScratch -}}
@@ -81,7 +82,7 @@
         <h3>État de conformité</h3>
 
         <p>
-          Le site{{- with ($data.Get "context").website }} du site {{ partialCached "utils/isURL.html" (dict "context" $context "projectTitle" .) . }}{{ end }} est en conformité partielle avec le Référentiel Général d’Écoconception des Services Numériques version bêta du 19 octobre 2021.
+          Le site{{- with ($data.Get "context").website }} {{ partialCached "utils/isURL.html" (dict "context" $context "projectTitle" .) . }}{{ end }} est en conformité partielle avec le Référentiel Général d’Écoconception des Services Numériques version bêta du 19 octobre 2021.
           L’audit de conformité{{ with $context.Params.ecoconception.audit.company }}, réalisé par la société {{ . }}, {{ end }}{{ with (time $date) }} le {{ .Day }} {{ index $context.Site.Data.month (printf "%d" .Month) }} {{ .Year }}{{ end }}, révèle que {{ .compliance }} % des critères du référentiel sont respectés.
         </p>
 
@@ -100,10 +101,15 @@
 
       {{- else if ge $referential.versionmajor 2 -}}
 
-        <p>{{ with ($data.Get "organisation") }}{{ . }}{{ end }} s’inscrit dans une démarche d’écoconception visant à réduire les impacts environnementaux. À cette fin, cette déclaration a été rédigée dans le cadre de la mise en œuvre du référentiel général de l’écoconception des services numériques (version 2024).
-        Le référentiel général de l’écoconception des services numériques, document réalisé par l’Arcep et l’Arcom, en collaboration avec l’ADEME, la DINUM, la CNIL et l’Inria, est disponible sur le site web de l’Arcep : <a href="https://www.arcep.fr/demarches-et-services/professionnels/referentiel-general-ecoconception-services-numeriques.html">https://www.arcep.fr/demarches-et-services/professionnels/referentiel-general-ecoconception-services-numeriques.html</a></p>
+        <p>
+          Le service {{ with ($data.Get "organisation") }}{{ . }}{{ end }} s’inscrit dans une démarche d’écoconception visant à réduire les impacts environnementaux. À cette fin, cette déclaration a été rédigée dans le cadre de la mise en œuvre du référentiel général de l’écoconception des services numériques (version 2024).
+        </p>
+        <p>
+          Le Référentiel Général de l’Écoconception des Services Numériques (RGESN), document réalisé par l’Arcep et l’Arcom, en collaboration avec l’ADEME, la DINUM, la CNIL et l’Inria, est disponible sur le site web de l’Arcep : <a href="https://www.arcep.fr/demarches-et-services/professionnels/referentiel-general-ecoconception-services-numeriques.html">https://www.arcep.fr/demarches-et-services/professionnels/referentiel-general-ecoconception-services-numeriques.html</a>
+        </p>
 
         <p>Sa mise en œuvre poursuit quatre objectifs principaux :<p/>
+
         <ol>
           <li>Concevoir des services numériques plus durables permettant d’allonger la durée de vie des terminaux ;</li>
           <li>Promouvoir une démarche de sobriété environnementale face aux stratégies de captation de l’attention de l’utilisateur pour des usages en ligne avec les objectifs environnementaux internationaux ;</li>
@@ -114,6 +120,8 @@
         {{ with ($data.Get "scores").scores }}
         <p>
           L’audit de conformité{{ with $context.Params.ecoconception.audit.company }}, réalisé par la société {{ . }}, {{ end }}{{ with (time $date) }} le {{ .Day }} {{ index $context.Site.Data.month (printf "%d" .Month) }} {{ .Year }}{{ end }}, révèle que <strong>{{ .compliance }}%</strong> des critères du référentiel sont respectés{{- with ($data.Get "context").website }} pour le site {{ partialCached "utils/isURL.html" (dict "context" $context "projectTitle" .) . }}{{ end }}.
+        </p>
+        <p>
           {{- if $auditbefore }} Le dernier audit{{ with time ($data.Get "scorebefore").date }} du {{ .Day }} {{ index $context.Site.Data.month (printf "%d" .Month) }} {{ .Year }}{{ end }} présentait un score de <strong>{{ ($data.Get "scorebefore").scores.compliance }}%</strong>.{{ end -}}
         </p>
         {{- end -}}
