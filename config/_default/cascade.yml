@@ -1,0 +1,60 @@
+cascade:
+  _merge: deep
+cascade:
+- _target:
+    path: /rgesn/*
+  build:
+    list: never
+- _target:
+    type: organism
+    path: /organism
+  outputs:
+    - html
+    - accessibilitypage
+    - rawebpage
+    - raampage
+    - ecoindexpage
+    - ecoconceptionpage
+    - opquastpage
+    - publishingpage
+    - greenit
+    - greenitpage
+    - cigref
+    - cigrefpage
+- _target:
+    path: /audits/**/*
+    type: audits
+  outputs:
+    - html
+    - json
+    - declaration
+    - declarationpage
+    - declarationeco
+    - declarationecopage
+- _target:
+    path: /audits/**/**
+    type: audits
+  outputs:
+    - html
+    - json
+    - declaration
+    - declarationpage
+    - declarationeco
+    - declarationecopage
+    - accessibility
+    - raweb
+    - raam
+    - ecoconception
+    - opquast
+    - publishing
+    - recommendation
+    - performance
+    - accessibilitypage
+    - rawebpage
+    - raampage
+    - ecoindexpage
+    - ecoconceptionpage
+    - opquastpage
+    - publishingpage
+    - recommendationpage
+    - performancepage

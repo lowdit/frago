@@ -345,11 +345,11 @@
 {{/*- partial "list.html" (dict "context" . "section" "meetings") -*/}}
 {{/*- partial "list.html" (dict "context" . "section" "actions" "type" "dark") -*/}}
 {{- else -}}
-{{- if  eq (path.Dir $path) "organism" -}}
+{{- if eq (path.Dir $path) "organism" -}}
   {{- $partial := (partialCached "templates/organism-list.html" . "organism") -}}
   {{- partialCached "elements/content.html" $partial "organismlist" -}}
 {{ end }}
-{{- if  eq (path.Dir $path) "audits" -}}
+{{- if eq (path.Dir $path) "audits" -}}
   {{- $partial := (partialCached "templates/projects-list.html" . "projects-list") -}}
   {{- partialCached "elements/content.html" $partial "projectslist" -}}
 {{ end }}

@@ -4,7 +4,7 @@
 
 form {
   margin: auto;
-  padding: var(--baseline,1.5em) calc(var(--baseline,1.5em) * 2);
+  padding: 0;
   max-width: 40em;
   background: var(--color-primary-verylight);
 }

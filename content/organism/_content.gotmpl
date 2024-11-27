@@ -1,0 +1,14 @@
+{{- if (fileExists "content/organism/_index.md") -}}
+
+{{- $reflist      := (slice "accessibility" "raweb" "raam" "ecoconception" "opquast" "publishing") }}
+{{ range $reflist }}
+    {{ $page := dict
+    "kind" "section"
+    "path" .
+    "title" .
+    }}
+
+    {{ $.AddPage $page }}
+{{ end }}
+{{ end }}
+
