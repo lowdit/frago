@@ -41,4 +41,5 @@ jobs:
         with:
           githubToken: ${{ secrets.GITHUB_TOKEN }}
           branch: gh-pages
+          hugoVersion: extended_0.131.0
           args: --gc --minify --cleanDestinationDir
