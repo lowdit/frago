@@ -53,6 +53,6 @@ jobs:
           # When post to a different repo, the old githubToken no 
           # longer works. Use deploy_key or personal_token instead.
           # https://github.com/peaceiris/actions-gh-pages?tab=readme-ov-file#%EF%B8%8F-deploy-to-external-repository-external_repository
-          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          deploy_key: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
       
