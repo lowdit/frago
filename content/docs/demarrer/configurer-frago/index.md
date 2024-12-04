@@ -92,6 +92,7 @@ Le thème est présent dans le répertoire `themes/frago`. Vous pouvez le synchr
 baseURL = "/"
 title = "Mon administration" # Ce qui s'affiche sur le site.
 theme = "frago"
+defaultContentLanguage = "fr"
 
 # Utilisés dans les documents légaux
 [params]
@@ -109,6 +110,7 @@ theme = "frago"
 
 ```toml
 title = "Mon administration"
+defaultContentLanguage = "fr"
 
 [module]
   [[module.imports]]
