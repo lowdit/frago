@@ -73,6 +73,7 @@ jobs:
           hugo \
             --gc \
             --minify \
+            --cleanDestinationDir \
             --baseURL "${{ steps.pages.outputs.base_url }}/frago/"   
       
       - name: Upload artifact
