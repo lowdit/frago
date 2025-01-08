@@ -44,7 +44,7 @@
   {{- if and ($data.Get "auditfile-csv") (ne ($data.Get "scores").isempty 0) -}}
     <h2 class="text-center">Scores{{- with ($data.Get "scores").scores.criteria -}}&nbsp;-&nbsp;{{- .total -}}&nbsp;critères{{ end }} - {{ upper $referential.name }} {{ $referential.version }}</h2>
     <time class="text-center" datetime="{{ ($data.Get "date").Format "2006-01-02T15:04:05Z07:00" | safeHTML }}">Le {{ ($data.Get "date").Day }} {{ index $.context.Site.Data.month (printf "%d" ($data.Get "date").Month) }} {{ ($data.Get "date").Year }}</time>
-    {{- with (cond (not ($.context.OutputFormats.Get "declarationecopage")) $.context.Parent.OutputFormats $.context.OutputFormats).Get "declarationecopage" -}}<p class="text-center"><a href="{{ .RelPermalink }}" aria-label="Accéder à la déclaration de {{ ($context.GetPage $project).Title }}">Accéder à la déclaration</a></p>{{- end -}}
+    <p class="text-center"><a href="{{ $context.Path }}/declaration-ecoconception/" aria-label="Accéder à la déclaration de {{ ($context.GetPage $project).Title }}">Accéder à la déclaration</a></p>
       {{- if not ($data.Get "scores").isempty }}
         <h3 class="mb-0">Conformité globale selon les critères</h3>
         {{- if or ($data.Get "scores").scores.compliance (eq ($data.Get "scores").scores.compliance 0) -}}
