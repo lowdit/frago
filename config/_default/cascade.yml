@@ -2,26 +2,6 @@ cascade:
   _merge: deep
 cascade:
 - _target:
-    path: /rgesn/*
-  build:
-    list: never
-- _target:
-    type: organism
-    path: /organism
-  outputs:
-    - html
-    - accessibilitypage
-    - rawebpage
-    - raampage
-    - ecoindexpage
-    - ecoconceptionpage
-    - opquastpage
-    - publishingpage
-    - greenit
-    - greenitpage
-    - cigref
-    - cigrefpage
-- _target:
     path: /audits/**/*
     type: audits
   outputs:

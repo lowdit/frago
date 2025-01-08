@@ -6,42 +6,56 @@
   {{- $projectTitle := (.GetPage $projectPath).Title -}}
   {{- $ref          := $context.Site.Data.referential -}}
   {{- $reflist      := (slice "accessibility" "raweb" "raam" "ecoconception" "opquast" "publishing") }}
+  {{- $patharray    := split .Path "/" -}}
 
-  {{- $alternate  := where (where .OutputFormats "Permalink" "eq" .Permalink) "Rel" "eq" "alternate" -}}
-  {{- if ne (len $alternate) 0 -}}
-    {{- with $alternate -}}
-      {{- range $key, $value := . -}}
-        {{- if eq (len (intersect (slice .Format.BaseName) $reflist)) 1 -}}
-          Synthèse {{ (index $ref .Format.BaseName).name }}
-        {{- else if eq .Format.BaseName "greenit" -}}
-          GreenIT - 74 bonnes pratiques
-        {{- else if eq .Format.BaseName "cigref" -}}
-          Cigref - Outil d’évaluation des critères RSE
+  {{ if eq (len $patharray) 3 }}
+    {{- if eq (len (intersect (slice .Title) $reflist)) 1 -}}
+      Synthèse {{ (index $ref .Title).name }}
+    {{- else if eq .Title "greenit" -}}
+      GreenIT - 74 bonnes pratiques
+    {{- else if eq .Title "cigref" -}}
+      Cigref - Outil d’évaluation des critères RSE
+    {{- end -}}
+  {{ else }}
+    {{- $alternate  := where (where .OutputFormats "Permalink" "eq" .Permalink) "Rel" "eq" "alternate" -}}
+    {{- if ne (len $alternate) 0 -}}
+      {{- with $alternate -}}
+        {{- range $key, $value := . -}}
+          {{- if eq (len (intersect (slice .Format.BaseName) $reflist)) 1 -}}
+            Synthèse {{ (index $ref .Format.BaseName).name }}
+          {{- else if eq .Format.BaseName "greenit" -}}
+            GreenIT - 74 bonnes pratiques
+          {{- else if eq .Format.BaseName "cigref" -}}
+            Cigref - Outil d’évaluation des critères RSE
+          {{- end -}}
         {{- end -}}
       {{- end -}}
+    {{- else -}}
+          Synthèse
     {{- end -}}
-  {{- else -}}
-        Synthèse
+    {{ with $projectTitle }} pour {{ $projectTitle }}{{ else }}{{ (index (split (path.Dir $path) "/") 1) }}{{ end }}
   {{- end -}}
-  {{ with $projectTitle }} pour {{ $projectTitle }}{{ else }}{{ (index (split (path.Dir $path) "/") 1) }}{{ end }}
 {{- end -}}
 
 {{- define "main" -}}
 {{- $reflist      := (slice "accessibility" "raweb" "raam" "ecoconception" "opquast" "publishing") }}
-{{- $context         := . -}}
-{{ .Title }}
-{{ .Path }}
-{{- $patharray       := split .Path "/" -}}
-{{ $patharray  }}
+{{- $context      := . -}}
+{{- $patharray    := split .Path "/" -}}
 
-{{ if eq (len $patharray) 3 }}
+{{- if eq (len $patharray) 3 -}}
   {{- if eq (len (intersect (slice .Title) $reflist)) 1 -}}
     {{- $.Store.Set "rangepages" (where $.Site.Pages "Section" "audits") -}}
     {{- $render  := (partialCached "render/aggregate-scores.html" (dict "pages" ($.Store.Get "rangepages")) ($.Store.Get "rangepages")) }}
     {{- $partial := (partialCached "templates/accessibility-statistic.html" (dict "context" $context "render" $render "name" .Title) .Title) -}}
     {{- partialCached "elements/content.html" $partial $partial -}}
+  {{- else if eq .Title "greenit" -}}
+    {{- $partial := (partialCached "templates/greenit.html" (dict "context" $context) $context) -}}
+    {{- partialCached "elements/content.html" $partial $partial -}}
+  {{- else if eq .Title "cigref" -}}
+    {{- $partial := (partialCached "templates/cigref.html" (dict "context" $context) $context) -}}
+    {{- partialCached "elements/content.html" $partial $partial -}}
   {{- end -}}
-{{ else }}
+{{- else -}}
   {{- $path := "" -}}
   {{- with .File }}{{ $path = .Path }}{{ else }}{{ $path = .Path }}{{ end }}
   {{- $patharray       := split (path.Dir $path) "/" -}}

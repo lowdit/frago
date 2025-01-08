@@ -5,7 +5,6 @@
 {{/* Default rootpath is static folder */}}
 {{ $path          := printf "./static/images/%s/%s/" $project .type }}
 {{ $data.Set  "rootpath" $path }}
-{{ $loop          := (partialCached "utils/keyaudits" "keyaudits") }}
 
 {{- $data.Set "fileexist" false -}}
 {{- if (fileExists .pathimage) -}}
