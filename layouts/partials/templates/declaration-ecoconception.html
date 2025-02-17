@@ -193,12 +193,26 @@
           {{- if $b }}{{ $result = merge $result (merge $a $c) }}{{ end -}}
           {{- with (i18n (printf "rgesn.2.%s" .id) $result) }}
           <h3>Critère : {{ $value.id }}</h3>
+            {{- with $result.intro }}
+            {{- if not (findRE "<[h|p][^>]*>" . ) }}
+                  <p>{{ . }}</p>
+              {{- else }}
+                  {{ . }}
+              {{- end }}
+            {{- end -}}
             {{- $markdown := . | markdownify }}
             {{ if not (findRE "<[h|p][^>]*>" $markdown ) }}
                 <p>{{ $markdown }}</p>
             {{ else }}
                 {{ $markdown }}
             {{ end }}
+            {{- with $result.outro }}
+              {{- if not (findRE "<[h|p][^>]*>" . ) }}
+                  <p>{{ . }}</p>
+              {{- else }}
+                  {{ . }}
+              {{- end }}
+            {{- end }}
           <hr>
           {{ end }}
         {{ end }}
