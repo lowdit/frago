@@ -50,7 +50,7 @@
         {{ if .functionalities }}
         Il ne comporte pas de collecte de métadonnées à des fins publicitaires / Il collecte des métadonnées à des fins publicitaires, sous réserve du consentement explicite et éclairé de l’utilisateur, puisqu’il s’agit d’une démarche essentielle pour les fonctionnalités suivantes {{ .functionalities }}
 
-        {{ with .mention }}Accès à la page de Mentions légales : [Mentions Légales]({{ . }}).{{ end }}
+        {{ with .mention }}Accès à la page de mentions légales : [Mentions Légales]({{ . }}).{{ end }}
         {{ end }}
     "1.7":
       other: |-
@@ -81,7 +81,7 @@
         {{ end }}
 
         {{ with .evolution }}
-        **Évolution à venir sur la configuration matérielle minimum à partir de [date + 2 ans] {{ .date }} :**
+        **Évolution à venir sur la configuration matérielle minimum à partir du {{ .date }} :**
         {{ .description }}
         {{ end }}
     "2.2":
@@ -202,7 +202,7 @@
     "4.12":
       other: |-
         {{ with .functionalities }}
-        L’évaluation environnementale du service met en lumière ces fonctionnalités comme ayant un impact environnemental le plus significatif : **{{ . }}. **
+        L’évaluation environnementale du service met en lumière ces fonctionnalités comme ayant un impact environnemental le plus significatif : **{{ . }}**.
         {{ end }}
         {{ if and .ways .indicators }}
         Ainsi, lorsque l’utilisateur demande l’accès à ces fonctionnalités par son interface, il est informé de l’impact environnemental de cette fonctionnalité aux moyens de {{ with .ways }}**{{ . }}**{{ end }}, qui met les indicateurs environnementaux suivants : {{ with .indicators }}**{{ . }}**{{ end }}
