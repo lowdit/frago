@@ -265,7 +265,7 @@
     {{/* END - If Lighthouse */}}
 
     {{ if $ecoindex }}
-      <h3 class="m-0">Ecoindex 
+      <h3 class="m-0">Ecoindex
         {{- $pageauditpath := (printf "/content/audits/%s/ecoindex.md" ($project | anchorize)) -}}
         {{- if (fileExists $pageauditpath) -}}
           <small>- <a href="{{ $context.Site.BaseURL | default "/" }}{{ replace (replace (replace $pageauditpath ".md" "/") "/content/" "") "//" "/" }}" aria-label="Accéder au rapport ecoindex">Accéder au rapport</a></small>
@@ -305,7 +305,7 @@
         {{- range $id, $value := .names -}}
         {{- $project := (index $map.project $id) -}}
           <h3 class="m-0">Accessibilité
-            {{- if ($.Store.Get "audit").scores.compliance -}}
+            {{- if $map.scores.compliance -}}
               {{ $pageauditpath := (printf "/content/audits/%s/accessibility.md" ($project | urlize)) }}
               {{- if (fileExists $pageauditpath) -}}
                 <small>- <a href="{{ $context.Site.BaseURL | default "/" }}{{ replace (replace (replace $pageauditpath ".md" "/") "/content/" "") "//" "/" }}" aria-label="Accéder au rapport d’accessibilité">Accéder au rapport</a></small>
