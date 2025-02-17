@@ -16,12 +16,12 @@
     <h1>Synthèse générale - {{ (index $ref $name).name }}</h1>
     {{- $referential   := (partialCached "render/referential-version.html" (dict "context" $context "project" "statistics" "referential" (index $ref $name).referential) (index $ref $name).referential).guideline -}}
     {{- range $key, $value := (index (index $render $name) "listestats") }}
-      <h2>Conformité du parc de services pour la version {{ $key }}.x</h2>
       {{- $versionlong   := (index (index (index $render $name).liste $key) 0).versionlong -}}
       {{- $versionlong   := (delimit (first 2 (split $versionlong ".")) ".") -}}
       {{- $cond          := ($versionlong | strings.Count ".") -}}
 
       {{- if (index ($referential.versionall) $versionlong) }}
+      <h2>Conformité du parc de services pour la version {{ $key }}.x</h2>
         {{- $versionlongs  := (index (index (index $render $name).liste $key) 0).version -}}
 
         {{- $versionlongs  := cond (eq $cond 1) (index (last 1 (index ($referential.versionall) $versionlong)) 0) $versionlong -}}

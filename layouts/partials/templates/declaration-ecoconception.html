@@ -189,7 +189,7 @@
               {{- end -}}
             {{ end -}}
           {{ end -}}
-          {{- $result := merge $a (dict "organisation" ($data.Get "organisation") "servicemain" $projectTitle "dateaudit" $date) }}
+          {{- $result := merge $a (dict "organisation" "dzed" "servicemain" $projectTitle "dateaudit" $date) }}
           {{- if $b }}{{ $result = merge $result (merge $a $c) }}{{ end -}}
           {{- with (i18n (printf "rgesn.2.%s" .id) $result) }}
           <h3>Critère : {{ $value.id }}</h3>
