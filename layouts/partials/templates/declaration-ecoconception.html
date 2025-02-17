@@ -6,15 +6,15 @@
 {{- $projectPath  := cond (fileExists (printf "audits/%s/index.md" ($project))) (printf "audits/%s/index.md" ($project)) (printf "audits/%s/_index.md" ($project)) -}}
 {{- $projectTitle := ($context.GetPage $projectPath).Title -}}
 
-{{- $envTitle := (dict "desktop" "Ordinateur" "mobile" "Mobile") -}}
-{{- $ref           := $context.Site.Data.referential -}}
-{{- $topics        := $ref.ecoconception.topics -}}
+{{- $envTitle     := (dict "desktop" "Ordinateur" "mobile" "Mobile") -}}
+{{- $ref          := $context.Site.Data.referential -}}
+{{- $topics       := $ref.ecoconception.topics -}}
 
 {{/* START Determine the version of the audit from the context declaration */}}
 {{- $data.Set "audits"        (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "ecoconception" "datafilename" .context.Params.datafilename) $project "ecoconception" .context.Params.datafilename) -}}
 {{- $data.Set "auditscores"   (partialCached "render/meta-scores.html" (dict "context" $context "project" $project "type" "ecoconception") $context $project "ecoconception") -}}
 {{- $referential           := (index ($data.Get "auditscores").context ((index ($data.Get "audits") "auditfile-name"))).guidelines -}}
-{{- $data.Set "criteriafile"  (index (index $context.Site.Data (string $referential.name)) (string $referential.version)).criteria.criteres -}}
+{{- $criteriafile          := (index (index $context.Site.Data (string $referential.name)) (string $referential.version)).criteria.criteres -}}
 {{/* END Determine the version of the audit form the context declaration */}}
 
 {{/* START Load the criteria file for the good audit version */}}
@@ -55,7 +55,6 @@
     {{- end -}}
 
     {{/* START If "context" */}}
-
     {{- with ($data.Get "context") -}}
       <h1 id="declaration">Déclaration d’Écoconception{{ with $projectTitle }} pour {{ . }}{{ end }}</h1>
       <section>
@@ -159,7 +158,7 @@
       {{- with ($data.Get "scores").criteria.all -}}
         <h2>Déclaration pour chaque critère</h2>
 
-        {{ range $key, $value := ($data.Get "criteriafile") }}
+        {{ range $key, $value := $criteriafile }}
           {{- $b := dict -}}
           {{- $c := dict -}}
           {{- $a := (index (where (index (index $context.Site.Data $referential.name) (string $referential.version)).declaration "id" .id) 0) }}
@@ -189,10 +188,10 @@
               {{- end -}}
             {{ end -}}
           {{ end -}}
-          {{- $result := merge $a (dict "organisation" "dzed" "servicemain" $projectTitle "dateaudit" $date) }}
+          {{- $result := merge $a (dict "organisation" ($data.Get "organisation") "servicemain" $projectTitle "dateaudit" $date) }}
           {{- if $b }}{{ $result = merge $result (merge $a $c) }}{{ end -}}
           {{- with (i18n (printf "rgesn.2.%s" .id) $result) }}
-          <h3>Critère : {{ $value.id }}</h3>
+          <h3>Critère : {{ $value.id }} - {{ (index (where $criteriafile "id" $value.id) 0).critere }}</h3>
             {{- with $result.intro }}
             {{- if not (findRE "<[h|p][^>]*>" . ) }}
                   <p>{{ . }}</p>
