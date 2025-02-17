@@ -23,7 +23,6 @@ cascade:
     - ecoconception
     - opquast
     - publishing
-    - quality
     - recommendation
     - performance
     - accessibilitypage
@@ -31,7 +30,6 @@ cascade:
     - ecoconceptionpage
     - opquastpage
     - publishingpage
-    - qualitypage
     - recommendationpage
     - performancepage
 - _target:
@@ -57,7 +55,6 @@ cascade:
     - ecoconception
     - opquast
     - publishing
-    - quality
     - recommendation
     - performance
     - accessibilitypage
@@ -65,7 +62,6 @@ cascade:
     - ecoconceptionpage
     - opquastpage
     - publishingpage
-    - qualitypage
     - recommendationpage
     - performancepage
 - _target:
