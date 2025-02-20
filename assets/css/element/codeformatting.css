@@ -1,14 +1,22 @@
 /*
 /// Code formatting
 */
+pre {
+  display: block;
+  padding: 10px;
+}
 
 pre,
 code {
-  font-size: 0.9em;
+  font-family: Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace;
   color: var(--color-grey-light,#fefefe);
   border: 1px solid var(--color-grey-light);
   border-radius: 3px;
   background-color: #272822;
+  background: linear-gradient(to right, hsla(25deg,75%,25%,0.1), 67%, hsla(25deg,75%,25%,0.075));
+  overflow-x: auto;
+  tab-size: 2.5;
+  border-radius: 0.25em;
 }
 
 code {
@@ -16,8 +24,10 @@ code {
 }
 
 pre > code {
-  padding-right: 0;
-  padding-left: 0;
+  padding-right: 2px;
+  padding-left: 2px;
+  margin: 1em 0;
+  line-height: 1.2;
   border: 0;
   background: none;
 }
