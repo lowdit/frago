@@ -76,7 +76,7 @@
     {{- $data.Set "auditfile-name" (index $lastfile "auditfile-name") -}}
 
     {{/* Find the folder where images are stored */}}
-    {{- $data.Set "pathimage" (partialCached "render/rootpath-assets" (dict "context" . "project" $project "type" "recommendation" "auditfilename" ($data.Get "auditfile-name")) "rootpath") }}
+    {{- $pathimage := (partialCached "render/rootpath-assets" (dict "context" . "project" $project "type" "recommendation" "auditfilename" ($data.Get "auditfile-name")) "rootpath") }}
 
     {{- with index (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "recommendation") $project "recommendation") "auditfile-path" -}}
       {{- partial "components/scores/quality" (dict "context" $context "counter" (partialCached "render/recommendation" (dict "context" $context "project" $project "auditfile" .) .)) -}}
@@ -103,7 +103,7 @@
     {{- $partial := (partialCached "components/recommendation/lot.html" (dict "context" $context "project" $project "datafilename" .Params.datafilename) $project "lot") -}}
     {{ with $partial }}
       <h2 class="page-break">Erreurs à corriger</h2>
-      {{- partialCached "elements/content.html" . $project -}}
+      {{- .  -}}
     {{ end }}
 
     {{/*- partial "components/recommendation/critical.html" (dict "context" $context "project" $project "datafilename" .Params.datafilename) -*/}}
@@ -225,18 +225,18 @@
         {{- $name := .name -}}
         {{- $data.Set "fileexist" false -}}
         {{/* START ::Range second level */}}
-        {{- $filename := printf "%s.png" (.name | anchorize) -}}
-        {{- $fileexist := (partialCached "render/filepath-assets" (dict "context" . "project" $project "pathimage" ($data.Get "pathimage") "filename" $filename) $filename) -}}
+        {{- $filename  := partial "filename" (dict "name" .name "rootname" "" "image" .image) }}
+        {{- $fileexist := (partialCached "render/filepath-assets" (dict "context" . "project" $project "pathimage" $pathimage "filename" $filename) $filename) -}}
         <h3 id="{{ .name | urlize }}">
           <span class="small-caps">{{ $name }}</span> <small>- <span class="counter">{{ index ($data.Get "countererrorspagelist") (string $idpage) }}</span> erreurs recensées sur cette page</small>
-          {{- template "pathallimage" (dict "context" $context "filename" $filename "pathimage" ($data.Get "pathimage") "fileexist" $fileexist) -}}
+          {{- template "pathallimage" (dict "context" $context "filename" $filename "pathimage" $pathimage "fileexist" $fileexist) -}}
         </h3>
         {{/* START :: Display capture second level */}}
-        {{- if (fileExists ($data.Get "pathimage")) -}}
-          {{- range (readDir ($data.Get "pathimage")) }}{{- if eq (replace (.Name) ".png" "") ($name  | urlize) -}}{{- $data.Set "fileexist" true -}}{{ end }}{{ end }}
+        {{- if (fileExists $pathimage) -}}
+          {{- range (readDir $pathimage) }}{{- if eq (replace (.Name) ".png" "") ($name  | urlize) -}}{{- $data.Set "fileexist" true -}}{{ end }}{{ end }}
         {{- end -}}
-        {{- template "pathallimagenoexist" (dict "context" $context "filename" $filename "pathimage" ($data.Get "pathimage") "fileexist" $fileexist) -}}
-        {{- template "gallery" (dict "context" $context "name" .name "filename" $filename "id" $idpage "pathimage" ($data.Get "pathimage") "fileexist" $fileexist) -}}
+
+        {{- template "gallery" (dict "context" $context "name" .name "filename" $filename "id" $idpage "pathimage" $pathimage "fileexist" $fileexist) -}}
 
         {{/* END :: Display capture first level */}}
         {{- range $idblock, $b := .blocks -}}
@@ -252,30 +252,26 @@
 
           {{- $data.Set "paths" slice -}}
           {{- $data.Set "index" slice -}}
-
-          {{- $filename  := printf "%s-%s.png" ($name | anchorize) ($b.name | anchorize) -}}
-          {{- $fileexist := (partialCached "render/filepath-assets" (dict "context" . "project" $project "pathimage" ($data.Get "pathimage") "filename" $filename) $filename) -}}
-
-          <h4>{{ $b.name }}
+          {{- $filename  := partial "filename" (dict "name" $b.name "rootname" $name "image" .image) -}}
+          {{- $fileexist := (partialCached "render/filepath-assets" (dict "context" . "project" $project "pathimage" $pathimage "filename" $filename) $filename) -}}
+          <h4>
             <small>- <span class="counter">{{ index ($data.Get "countererrorsblocklist") (string $idblock) }}</span> erreurs recensées sur ce bloc</small>
-            {{- template "pathallimage" (dict "context" $context "filename" $filename "pathimage" ($data.Get "pathimage") "fileexist" $fileexist) -}}
+            {{- template "pathallimage" (dict "context" $context "filename" $filename "pathimage" $pathimage "fileexist" $fileexist) -}}
           </h4>
 
-          {{- template "pathallimagenoexist" (dict "context" $context "filename" $filename "pathimage" ($data.Get "pathimage") "fileexist" $fileexist) -}}
-          {{- template "gallery" (dict "context" $context "name" (printf "%s %s" $name $b.name) "filename" $filename "id" (printf "%v-%v" $idpage $idblock) "pathimage" ($data.Get "pathimage") "fileexist" $fileexist) -}}
+          {{- template "gallery" (dict "context" $context "name" (printf "%s %s" $name $b.name) "filename" $filename "id" (printf "%v-%v" $idpage $idblock) "pathimage" $pathimage "fileexist" $fileexist) -}}
 
-          {{/* START :: Range third level */}}
+          {{/* START :: Range third level :: each error */}}
           {{- range $iderror, $s:= .errors -}}
             {{- $path := .name -}}
-            {{- $filename := printf "%s-%s-%s.png" ($name | anchorize) ($b.name | anchorize) (.name | anchorize) -}}
+            {{- $filename := partial "filename" (dict "name" .name "rootname" $name "foldername" $b.name "image" .image) -}}
             {{/* Create an array for the images slider with screen capture */}}
             {{- $data.Add "index" (slice $path) -}}
             <dl>
               {{- if not (or (in .criterion "Pi") (in .criterion "OP") (in .criterion "ER")) -}}
               <dt id="{{ .name | urlize }}">{{ if .checked }}☒ {{ else }}☐ {{ end }}{{ .name }}
                 {{ with .status }}&nbsp;<span class="badge{{ if eq . "critique" }} bad{{ end }}{{ if eq . "important" }} medium{{ end }}{{ if eq . "moindre" }} normal{{ end }}">{{ . }}</span>{{ end }}
-                {{- $fileexist := (partialCached "render/filepath-assets" (dict "context" . "project" $project "pathimage" ($data.Get "pathimage") "filename" $filename) $filename) -}}
-                {{- template "pathallimagenoexist" (dict "context" $context "filename" $filename "pathimage" ($data.Get "pathimage") "fileexist" $fileexist) -}}
+                {{- $fileexist := (partialCached "render/filepath-assets" (dict "context" . "project" $project "pathimage" $pathimage "filename" $filename) $filename) -}}
               </dt>
               {{- if .description }}
                 <dd>{{ .description | markdownify | safeHTML }}</dd>
@@ -334,7 +330,7 @@
               </div>
             {{ end -}}
             {{/* START :: Range third level */}}
-            {{- template "gallery" (dict "context" $context "name" (printf "%s %s %s" $name $b.name .name) "filename" $filename "id" (printf "%v-%v-%v" $idpage $idblock $iderror) "pathimage" ($data.Get "pathimage") "fileexist" $fileexist) -}}
+            {{- template "gallery" (dict "context" $context "name" (printf "%s %s %s" $name $b.name .name) "filename" $filename "id" (printf "%v-%v-%v" $idpage $idblock $iderror) "pathimage" $pathimage "fileexist" $fileexist) -}}
             {{/* END :: Range third level */}}
           {{- end -}}
           {{/* END ::Range third level */}}
@@ -356,6 +352,10 @@
   {{- end -}}
 {{- end -}}
 
+{{- define "partials/filename" -}}
+  {{ $name := cond (not .foldername) (cond (not .rootname) (printf "%s.png" (.name | anchorize)) (printf "%s-%s.png" (.rootname | anchorize) (.name | anchorize))) (printf "%s-%s-%s.png" (.rootname | anchorize) (.foldername | anchorize) (.name | anchorize)) }}
+  {{ return (cond (not .image) (cond (not .name) "Le nom est manquant" $name) .image) }}
+{{- end -}}
 
 {{- define "pathallimage" -}}
   <small class="no-print">
@@ -374,16 +374,13 @@
 {{ define "pathallimagenoexist" }}
   <div class="no-print">
   {{- if and hugo.IsServer (not (eq (getenv "HUGO_ENV") "production" | or (eq .context.Site.Params.env "production"))) }}
-    {{- if .fileexist }}
-    {{- else -}}
-      <div class="note">
-        <p><strong>Mode Auditeur</strong> | Chemin des captures d’écran à insérer :</p>
-        <ul>
-          <li>{{ .pathimage }}/{{ .filename }}</li>
-          <li>{{ .pathimage }}/{{ replace .filename ".png" "-after.png" }}</li>
-        </ul>
-      </div>
-    {{ end -}}
+    <div class="note">
+      <p><strong>Mode Auditeur</strong> | Chemin des captures d’écran à insérer :</p>
+      <ul>
+        <li>{{ .pathimage }}{{ .filename }}</li>
+        <li>{{ .pathimage }}{{ replace .filename ".png" "-after.png" }}</li>
+      </ul>
+    </div>
   {{ end -}}
   </div>
 {{ end }}
@@ -396,38 +393,44 @@
   {{- $pathimage  := .pathimage -}}
   {{- $data       := newScratch -}}
   {{- if .fileexist }}
-  {{ $data.Set "isAfter" 0 }}
-  {{- range (readDir $pathimage) -}}{{- if eq .Name ((replace $filename ".png" "-after.png")  | urlize) -}}{{ $data.Set "isAfter" 1 }}{{- end -}}{{- end -}}
-  <div class="benchmark grid grid-center {{ if eq ($data.Get "isAfter") 1 }}lightbox-{{ $id }}{{ end }}">
-    {{- range (readDir $pathimage) }}
-      {{- if eq .Name $filename }}
-      <div class="flex flex-column">
-        <figure class="flex flex-max" id="{{ .Name }}">
-          {{ if eq ($data.Get "isAfter") 1 }}<a href="{{ $context.Site.BaseURL | default "/" }}{{ replace $pathimage "./static/" "" }}/{{ .Name }}" cfmodified="modified">{{- end -}}
-            <img src="{{ $context.Site.BaseURL | default "/" }}{{ replace $pathimage "./static/" "" }}/{{ .Name }}" alt="" class="align-items-center">
-          {{ if eq ($data.Get "isAfter") 1 }}</a>{{- end -}}
-        </figure>
-        <div class="benchmark-name">{{ if eq ($data.Get "isAfter") 1 }}Actuel -{{ end }} {{ $name }}</div>
-      </div>
+    {{ $data.Set "isAfter" 0 }}
+    {{- range (readDir $pathimage) -}}
+      {{- if eq .Name ((replace $filename ".png" "-after.png") | urlize) -}}
+        {{ $data.Set "isAfter" 1 }}
       {{- end -}}
     {{- end -}}
-    {{- range (readDir $pathimage) }}
-      {{- if eq .Name (replace $filename ".png" "-after.png") }}
-      <div class="flex flex-column">
-        <figure class="flex flex-max" id="{{ .Name }}">
-          <a href="{{ $context.Site.BaseURL | default "/" }}{{ replace $pathimage "./static/" "" }}/{{ .Name }}" cfmodified="modified">
-            <img src="{{ $context.Site.BaseURL | default "/" }}{{ replace $pathimage "./static/" "" }}/{{ .Name }}" alt="" class="align-items-center">
-          </a>
-        </figure>
-        <div class="benchmark-name">Après - {{ $name }}</div>
-      </div>
+    <div class="benchmark grid grid-center {{ if eq ($data.Get "isAfter") 1 }}lightbox-{{ $id }}{{ end }}">
+      {{- range (readDir $pathimage) }}
+        {{- if eq .Name $filename }}
+        <div class="flex flex-column">
+          <figure class="flex flex-max" id="{{ .Name }}">
+            {{ if eq ($data.Get "isAfter") 1 }}<a href="{{ $context.Site.BaseURL | default "/" }}{{ replace $pathimage "./static/" "" }}/{{ .Name }}" cfmodified="modified">{{- end -}}
+              <img src="{{ $context.Site.BaseURL | default "/" }}{{ replace $pathimage "./static/" "" }}/{{ .Name }}" alt="" class="align-items-center">
+            {{ if eq ($data.Get "isAfter") 1 }}</a>{{- end -}}
+          </figure>
+          <div class="benchmark-name">{{ if eq ($data.Get "isAfter") 1 }}Actuel -{{ end }} {{ $name }}</div>
+        </div>
+        {{- end -}}
+      {{- end -}}
+      {{- range (readDir $pathimage) }}
+        {{- if eq .Name (replace $filename ".png" "-after.png") }}
+        <div class="flex flex-column">
+          <figure class="flex flex-max" id="{{ .Name }}">
+            <a href="{{ $context.Site.BaseURL | default "/" }}{{ replace $pathimage "./static/" "" }}/{{ .Name }}" cfmodified="modified">
+              <img src="{{ $context.Site.BaseURL | default "/" }}{{ replace $pathimage "./static/" "" }}/{{ .Name }}" alt="" class="align-items-center">
+            </a>
+          </figure>
+          <div class="benchmark-name">Après - {{ $name }}</div>
+        </div>
+        {{ end -}}
       {{ end -}}
+    </div>
+    {{- if eq ($data.Get "isAfter") 1 }}
+    <script>
+      var {{ replace (printf "$%s%s" ( $name | anchorize) ((string $id) | anchorize)) "-" "" | safeJS }} = new SimpleLightbox('.lightbox-{{ (string $id) }} figure a', {captionPosition:'bottom',loop: false,animationSlide: false,fadeSpeed: '0'});
+    </script>
     {{ end -}}
-  </div>
-  {{- if eq ($data.Get "isAfter") 1 }}
-  <script>
-    var {{ replace (printf "$%s%s" ( $name | anchorize) ((string $id) | anchorize)) "-" "" | safeJS }} = new SimpleLightbox('.lightbox-{{ (string $id) }} figure a', {captionPosition:'bottom',loop: false,animationSlide: false,fadeSpeed: '0'});
-  </script>
-  {{ end -}}
+  {{- else }}
+    {{- template "pathallimagenoexist" (dict "context" $context "filename" $filename "pathimage" $pathimage) -}}
   {{ end -}}
 {{- end -}}
