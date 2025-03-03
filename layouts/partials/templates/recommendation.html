@@ -254,7 +254,7 @@
           {{- $data.Set "index" slice -}}
           {{- $filename  := partial "filename" (dict "name" $b.name "rootname" $name "image" .image) -}}
           {{- $fileexist := (partialCached "render/filepath-assets" (dict "context" . "project" $project "pathimage" $pathimage "filename" $filename) $filename) -}}
-          <h4>{{ $b.name }}
+          <h4>
             <small>- <span class="counter">{{ index ($data.Get "countererrorsblocklist") (string $idblock) }}</span> erreurs recensées sur ce bloc</small>
             {{- template "pathallimage" (dict "context" $context "filename" $filename "pathimage" $pathimage "fileexist" $fileexist) -}}
           </h4>
