@@ -245,11 +245,13 @@
                 {{/* END :: if all criteria are different */}}
               {{- end -}}
               {{/* END :: Loop csv files for each page */}}
-              {{- if eq ($data.Get "is-page-error") 0 -}}<p>Aucune erreur spécifique sur cette page.</p>{{- end -}}
-            {{- if eq (len $condPageConformeExists) ($data.Get "scores").scores.criteria.conforme }}
-              <p>Aucune erreur sur cette page.</p>
-            {{- end -}}
-            {{- if ne (add (int $id) 1) (len ($data.Get "pageslist")) -}}<hr class="divider-strong">{{- end -}}
+              {{- if eq ($data.Get "is-page-error") 0 -}}
+              <p>Aucune erreur spécifique sur cette page.</p>
+              {{- end -}}
+              {{- if eq (len $condPageConformeExists) ($data.Get "scores").scores.criteria.conforme }}
+                <p>Aucune erreur sur cette page.</p>
+              {{- end -}}
+              {{- if ne (add (int $id) 1) (len ($data.Get "pageslist")) -}}<hr class="divider-strong">{{- end -}}
           {{- end -}}
         {{/* END :: Display errors presents on specific pages */}}
         <hr class="divider">
@@ -277,7 +279,7 @@
       {{- end -}}
       {{/* END If several page tested */}}
     {{- else -}}
-      <p>Le nom du référentiel n'est pas défini.</p>
+      <p>Le nom du référentiel n’est pas défini.</p>
     {{- end -}}
     {{/* END Test if audit name is named */}}
 {{- end -}}
@@ -329,10 +331,11 @@
         </p>
       {{- end -}}
     {{- end -}}
+      {{/* Find all criteria in a specific thematic */}}
       {{- $s := where ($data.Get "criteriafile") "number" "eq" (int ($thematiques)) -}}
       {{- if eq ($data.Get "auditmethodology") 2 -}}
         {{- $criterium := (index (index $s 0).criteria (sub (int ($criteria)) 1)) -}}
-        {{- $criterium := $criterium.title -}}
+        {{- $criterium := $criterium.criterium.title -}}
         <p><em>
           {{- partialCached "utils/replace/glossaire" (dict "link" ($data.Get "glossaire") "value" $criterium) $criterium }}
           {{ if not $criterium }}Le numéro du critère ne correspond pas au référentiel.{{ end }}
