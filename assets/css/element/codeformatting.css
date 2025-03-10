@@ -13,7 +13,7 @@ code {
   border: 1px solid var(--background-color-grey-verylight);
   border-radius: 3px;
   background-color: #272822;
-  background: linear-gradient(to right, hsla(25deg,75%,25%,0.1), 67%, hsla(25deg,75%,25%,0.075));
+  background: linear-gradient(to right, hsla(25deg,75%,25%,0.1), 67%, hsla(25deg,75%,25%,0.075)) !important;
   overflow-x: auto;
   tab-size: 2.5;
   border-radius: 0.25em;

@@ -8,7 +8,6 @@
 {{- $projectPath  := cond (fileExists (printf "audits/%s/index.md" ($project))) (printf "audits/%s/index.md" ($project)) (printf "audits/%s/_index.md" ($project)) -}}
 {{- $projectTitle := ($context.GetPage $projectPath).Title -}}
 {{- $data.Set "context"  . -}}
-{{- $data.Set "pathimage" "" -}}
 {{- $context.Store.Set "criteriafilepidila" $context.Site.Data.pidila -}}
 
 {{ partialCached "utils/css.html" (dict "context" $.context "filefolder" "object" "filename" "summary") "summary" }}
@@ -76,7 +75,7 @@
     {{- $data.Set "auditfile-name" (index $lastfile "auditfile-name") -}}
 
     {{/* Find the folder where images are stored */}}
-    {{- $pathimage := (partialCached "render/rootpath-assets" (dict "context" . "project" $project "type" "recommendation" "auditfilename" ($data.Get "auditfile-name")) "rootpath") }}
+    {{- $pathimage := (partialCached "render/rootpath-assets" (dict "context" . "project" $project "type" "recommendation" "auditfilename" ($data.Get "auditfile-name")) $project) }}
 
     {{- with index (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "recommendation") $project "recommendation") "auditfile-path" -}}
       {{- partial "components/scores/quality" (dict "context" $context "counter" (partialCached "render/recommendation" (dict "context" $context "project" $project "auditfile" .) .)) -}}
