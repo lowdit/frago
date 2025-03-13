@@ -5,7 +5,7 @@
 {{- partialCached "utils/css.html" (dict "context" . "filefolder" "object" "filename" "card") "card" -}}
 
 {{/* Use the audit last version */}}
-{{- $referential := (partialCached "render/referential-version.html" (dict "context" . "referential" "publishing") . "publishing").guideline -}}
+{{- $referential := (partialCached "render/referential-version.html" (dict "context" . "referential" "publishing") "publishing").guideline -}}
 {{- $.Store.Set "file" (index (index $.Site.Data $referential.name) (string $referential.version)) -}}
 {{- $criteriafile   := ($.Store.Get "file").criteria.criteres -}}
 
@@ -85,12 +85,12 @@
             <span class="rank border-50">{{ .priority | urlize }}</span><br>
             {{- range (seq (int .priority)) }}
               <svg width="40px" role="img" class="svggreen" aria-label="priorité" viewBox="0 0 50 50">
-                <use xlink:href="{{ $.Site.BaseURL }}assets/images/greenit/picto.svg#priorite" />
+                <use xlink:href="{{ $.Site.BaseURL | default "/" }}assets/images/greenit/picto.svg#priorite" />
               </svg>
             {{ end -}}
             {{- range (seq (sub 5 (int .priority))) }}
               <svg width="40px" role="img" class="svggreen empty" aria-label="priorité" viewBox="0 0 50 50">
-                <use xlink:href="{{ $.Site.BaseURL }}assets/images/greenit/picto.svg#priorite" />
+                <use xlink:href="{{ $.Site.BaseURL | default "/" }}assets/images/greenit/picto.svg#priorite" />
               </svg>
             {{ end -}}
             <br><strong class="invert">Priorité</strong>
@@ -99,12 +99,12 @@
             <span class="rank border-50">{{ .mentality | urlize }}</span><br>
             {{- range (seq (int .mentality)) }}
               <svg width="40px" role="img" class="svggreen" aria-label="priorité" viewBox="0 0 50 50">
-                <use xlink:href="{{ $.Site.BaseURL }}assets/images/greenit/picto.svg#social" />
+                <use xlink:href="{{ $.Site.BaseURL | default "/" }}assets/images/greenit/picto.svg#social" />
               </svg>
             {{ end -}}
             {{- range (seq (sub 3 (int .mentality))) }}
               <svg width="40px" role="img" class="svggreen empty" aria-label="priorité" viewBox="0 0 50 50">
-                <use xlink:href="{{ $.Site.BaseURL }}assets/images/greenit/picto.svg#social" />
+                <use xlink:href="{{ $.Site.BaseURL | default "/" }}assets/images/greenit/picto.svg#social" />
               </svg>
             {{ end -}}
             <br><strong class="invert">Réduction surchage mentale</strong>
@@ -113,12 +113,12 @@
             <span class="rank border-50">{{ .difficulty | urlize }}</span><br>
             {{- range (seq (int .difficulty)) }}
               <svg width="40px" role="img" class="svggreen" aria-label="priorité" viewBox="0 0 50 50">
-                <use xlink:href="{{ $.Site.BaseURL }}assets/images/greenit/picto.svg#difficulte" />
+                <use xlink:href="{{ $.Site.BaseURL | default "/" }}assets/images/greenit/picto.svg#difficulte" />
               </svg>
             {{ end -}}
             {{- range (seq (sub 3 (int .difficulty))) }}
               <svg width="40px" role="img" class="svggreen empty" aria-label="priorité" viewBox="0 0 50 50">
-                <use xlink:href="{{ $.Site.BaseURL }}assets/images/greenit/picto.svg#difficulte" />
+                <use xlink:href="{{ $.Site.BaseURL | default "/" }}assets/images/greenit/picto.svg#difficulte" />
               </svg>
             {{ end -}}
             <br><strong class="invert">Difficulté mise en œuvre</strong>

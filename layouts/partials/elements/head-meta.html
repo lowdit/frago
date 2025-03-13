@@ -16,15 +16,21 @@
       {{- if eq .Format.BaseName "accessibility" -}}
         {{- $.Scratch.Set "pretitle" "Audit Accessibilité" -}}
         {{- $.Scratch.Set "audit" ((index ((partialCached "render/meta-scores.html" (dict "context" $context "project" $project "type" "accessibility") $project "accessibility")) "auditscores").scores.compliance) -}}
+      {{- else if eq .Format.BaseName "raweb" -}}
+        {{- $.Scratch.Set "pretitle" "Audit Accessibilité RAWeb" -}}
+        {{- $.Scratch.Set "audit" ((index ((partialCached "render/meta-scores.html" (dict "context" $context "project" $project "type" "accessibility") $project "raweb")) "auditscores").scores.compliance) -}}
+      {{- else if eq .Format.BaseName "raam" -}}
+        {{- $.Scratch.Set "pretitle" "Audit Accessibilité RAAM" -}}
+        {{- $.Scratch.Set "audit" ((index ((partialCached "render/meta-scores.html" (dict "context" $context "project" $project "type" "accessibility") $project "raam")) "auditscores").scores.compliance) -}}
       {{- else if eq .Format.BaseName "ecoconception" -}}
         {{- $.Scratch.Set "pretitle" "Écoconception" -}}
         {{- $.Scratch.Set "audit" (index (partialCached "render/meta-scores.html" (dict "context" $context "project" $project "type" "ecoconception") $project "ecoconception") "auditscores").scores.compliance -}}
       {{- else if eq .Format.BaseName "opquast" -}}
         {{- $.Scratch.Set "pretitle" "Opquast" -}}
-        {{- $.Scratch.Set "audit" (index (partialCached "render/meta-scores.html" (dict "context" $context "project" $project "type" "opquast") $project "ecoconception") "auditscores").scores.compliance -}}
+        {{- $.Scratch.Set "audit" (index (partialCached "render/meta-scores.html" (dict "context" $context "project" $project "type" "opquast") $project "opquast") "auditscores").scores.compliance -}}
       {{- else if eq .Format.BaseName "publishing" -}}
         {{- $.Scratch.Set "pretitle" "Édito" -}}
-        {{- $.Scratch.Set "audit" (index (partialCached "render/meta-scores.html" (dict "context" $context "project" $project "type" "publishing") $project "ecoconception") "auditscores").scores.compliance -}}
+        {{- $.Scratch.Set "audit" (index (partialCached "render/meta-scores.html" (dict "context" $context "project" $project "type" "publishing") $project "publishing") "auditscores").scores.compliance -}}
       {{- else if eq .Format.BaseName "greenit" -}}
         {{- $.Scratch.Set "pretitle" "GreenIT - 74 bonnes pratiques" -}}
         {{- $.Scratch.Set "audit" "" -}}

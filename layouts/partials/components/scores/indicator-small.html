@@ -7,10 +7,10 @@
   <small class="text-center d-block">
     {{- if (ne .isempty 0) -}}
     <b class="font-bigger font-bold d-block p-relative m-auto w-max-content">
-      {{- .scores.compliance -}}%
+      {{- if and (ne .scores.complianceRGAA 0) (eq $name "RGAA") -}}{{ .scores.complianceRGAA }}{{ else }}{{- .scores.compliance -}}{{ end }}%
       {{ if lt (.scores.criteria.total) 110 }}<span aria-hidden="true" class="p-absolute p-top-line p-right-line badge bad d-inline-block">{{ (.scores.criteria.total) }}</span>{{ end }}
     </b>
-    <span class="smaller">conformité&nbsp;{{ $name }}</span>
+    <span class="smaller">conformités&nbsp;{{ cond (eq .scores.auditname "raam") "RAAM" $name }}</span>
     {{- else -}}
     <b class="h3 d-block">Conformité</b>
     <span class="smaller">En&nbsp;cours</span>

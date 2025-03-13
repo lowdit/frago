@@ -10,44 +10,77 @@
 
 {{- define "main" -}}
   {{- $context    := . -}}
-  {{- $path := "" }}{{ with .File }}{{ $path = .Path }}{{ end }}
-  {{- $project    := cond (eq (len (split (path.Dir $path) "/")) 1) "" (replace (path.Dir $path) "audits/" "") -}}
-  {{- $alternate  := where (where .OutputFormats "Permalink" "eq" .Permalink) "Rel" "eq" "alternate" -}}
-  {{- if ne (len $alternate) 0 -}}
-    {{- with $alternate -}}
-      {{- range $key, $value := . -}}
-        {{ $format := .Format.BaseName }}
-        {{ range (slice "accessibility" "ecoindex" "ecoconception" "opquast" "publishing" "recommendation" "performance") }}
-          {{- if eq $format . -}}
-            {{- $partial := (partialCached (printf "templates/%s.html" . ) (dict "context" $context) $context) -}}
-            {{- partialCached "elements/content.html" $partial $partial -}}
+  {{- $reflist    := (slice "accessibility" "raweb" "raam" "ecoindex" "ecoconception" "opquast" "publishing" "recommendation" "performance" "ecoindex") }}
+  {{- $patharray  := split .Path "/" -}}
+  {{- $project :=  (index (split .Path "/") 2) -}}
+  {{- if ge (len $patharray) 4 -}}
+    {{- if eq (len (intersect (slice .Title) $reflist)) 1 -}}
+      {{- $Type := cond (eq .Title "raweb") "accessibility" .Title -}}
+      {{- $Type := cond (eq $Type "raam") "accessibility" $Type -}}
+      {{- $partial := (partialCached (printf "templates/%s.html" $Type) (dict "context" $context "type" .Title) $context .Title) -}}
+      {{- partialCached "elements/content.html" $partial $partial -}}
+    {{- else if eq .Title "greenit" -}}
+      {{- $partial := (partialCached "templates/greenit.html" (dict "context" $context) $context) -}}
+      {{- partialCached "elements/content.html" $partial $partial -}}
+    {{- else if eq .Title "cigref" -}}
+      {{- $partial := (partialCached "templates/cigref.html" (dict "context" $context) $context) -}}
+      {{- partialCached "elements/content.html" $partial $partial -}}
+    {{- end -}}
+    {{- if eq .Title "declaration" -}}
+      <article class="fg-wrapper narrow">
+        {{- $context.Scratch.Set "audits" (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "accessibility" "datafilename" $context.Params.datafilename) $project "accessibility" $context.Params.datafilename) -}}
+        {{- $partial := (partialCached "templates/declaration.html" (dict "context" $context "audits" ($context.Scratch.Get "audits")) ($context.Scratch.Get "audits")) -}}
+        {{- partialCached "elements/content.html" $partial $partial -}}
+      </article>
+    {{- else if eq .Title "declaration-ecoconception" -}}
+      <article class="fg-wrapper narrow">
+        {{- $context.Scratch.Set "audits" (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "ecoconception" "datafilename" $context.Params.datafilename) $project "ecoconception" $context.Params.datafilename) -}}
+        {{- $partial := (partialCached "templates/declaration-ecoconception.html" (dict "context" $context "audits" ($context.Scratch.Get "audits")) ($context.Scratch.Get "audits")) -}}
+        {{- partialCached "elements/content.html" $partial $partial -}}
+      </article>
+    {{- end -}}
+  {{- else -}}  
+    {{- $path := "" }}{{ with .File }}{{ $path = .Path }}{{ end }}
+    {{- $project    := cond (eq (len (split (path.Dir $path) "/")) 1) "" (replace (path.Dir $path) "audits/" "") -}}
+    {{- $alternate  := where (where .OutputFormats "Permalink" "eq" .Permalink) "Rel" "eq" "alternate" -}}
+    {{- if ne (len $alternate) 0 -}}
+      {{- with $alternate -}}
+        {{- range $key, $value := . -}}
+          {{ $format := .Format.BaseName }}
+          {{ range (slice "accessibility" "raweb" "raam" "ecoindex" "ecoconception" "opquast" "publishing" "recommendation" "performance" "ecoindex") }}
+            {{- if eq $format . -}}
+              {{- $Type := cond (eq . "raweb") "accessibility" . -}}
+              {{- $Type := cond (eq $Type "raam") "accessibility" $Type -}}
+              {{- $partial := (partialCached (printf "templates/%s.html" $Type) (dict "context" $context "type" .) $context .) -}}
+              {{- partialCached "elements/content.html" $partial $partial -}}
+            {{- end -}}
+          {{- end -}}
+          {{- if eq .Format.BaseName "declaration" -}}
+            <article class="fg-wrapper narrow">
+              {{- $context.Scratch.Set "audits" (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "accessibility" "datafilename" $context.Params.datafilename) $project "accessibility" $context.Params.datafilename) -}}
+              {{- $partial := (partialCached "templates/declaration.html" (dict "context" $context "audits" ($context.Scratch.Get "audits")) ($context.Scratch.Get "audits")) -}}
+              {{- partialCached "elements/content.html" $partial $partial -}}
+            </article>
+          {{- else if eq .Format.BaseName "declaration-ecoconception" -}}
+            <article class="fg-wrapper narrow">
+              {{- $context.Scratch.Set "audits" (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "ecoconception" "datafilename" $context.Params.datafilename) $project "ecoconception" $context.Params.datafilename) -}}
+              {{- $partial := (partialCached "templates/declaration-ecoconception.html" (dict "context" $context "audits" ($context.Scratch.Get "audits")) ($context.Scratch.Get "audits")) -}}
+              {{- partialCached "elements/content.html" $partial $partial -}}
+            </article>
           {{- end -}}
         {{- end -}}
-        {{- if eq .Format.BaseName "declaration" -}}
-          <article class="fg-wrapper narrow">
-            {{- $context.Scratch.Set "audits" (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "accessibility" "datafilename" $context.Params.datafilename) $project "accessibility" $context.Params.datafilename) -}}
-            {{- $partial := (partialCached "templates/declaration.html" (dict "context" $context "audits" ($context.Scratch.Get "audits")) ($context.Scratch.Get "audits")) -}}
-            {{- partialCached "elements/content.html" $partial $partial -}}
-          </article>
-        {{- else if eq .Format.BaseName "declaration-ecoconception" -}}
-          <article class="fg-wrapper narrow">
-            {{- $context.Scratch.Set "audits" (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "ecoconception" "datafilename" $context.Params.datafilename) $project "ecoconception" $context.Params.datafilename) -}}
-            {{- $partial := (partialCached "templates/declaration-ecoconception.html" (dict "context" $context "audits" ($context.Scratch.Get "audits")) ($context.Scratch.Get "audits")) -}}
-            {{- partialCached "elements/content.html" $partial $partial -}}
-          </article>
-        {{- end -}}
       {{- end -}}
-    {{- end -}}
-  {{- else -}}
-    <div class="fg-wrapper narrow"><p class="no-print">← <a href="{{ if eq (.Site.GetPage "/").Title "Accueil Audits" }}/{{ else }}{{ $.Site.BaseURL | default "/"}}audits{{ end }}" class="link-more link-back">Retour à la liste des services</a></p></div>
-    {{ with .Title }}<h1 class="text-center fg-wrapper narrow">{{ . }}</h1>{{ end }}
-    {{- if and (not (in (path.Base $path) "index.md")) -}}
-      <article class="fg-wrapper narrow">
-        {{ partialCached "elements/content.html" .Content .Content }}
-      </article>
     {{- else -}}
-      {{- $partial := (partialCached "templates/projects.html" $context $context) -}}
-      {{- partialCached "elements/content.html" $partial $partial -}}
+      <div class="fg-wrapper narrow"><p class="no-print">← <a href="{{ if eq (.Site.GetPage "/").Title "Accueil Audits" }}/{{ else }}{{ $.Site.BaseURL | default "/"}}audits{{ end }}" class="link-more link-back">Retour à la liste des services</a></p></div>
+      {{ with .Title }}<h1 class="text-center fg-wrapper narrow ">{{ . }}</h1>{{ end }}
+      {{- if and (not (in (path.Base $path) "index.md")) -}}
+        <article class="fg-wrapper narrow">
+          {{ partialCached "elements/content.html" .Content .Content }}
+        </article>
+      {{- else -}}
+        {{- $partial := (partialCached "templates/projects.html" $context $context) -}}
+        {{- partialCached "elements/content.html" $partial $partial -}}
+      {{- end -}}
     {{- end -}}
   {{- end -}}
 {{- end -}}

@@ -4,7 +4,7 @@
 
 form {
   margin: auto;
-  padding: var(--baseline,1.5em) calc(var(--baseline,1.5em) * 2);
+  padding: 0;
   max-width: 40em;
   background: var(--color-primary-verylight);
 }
@@ -63,7 +63,7 @@ textarea {
   vertical-align: middle;
   border: 1px solid var(--color-grey-dark);
   outline: none;
-  background-color: #fff;
+  background-color: #f5f5f5;
 }
 
 input[type=text]:optional,

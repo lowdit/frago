@@ -87,6 +87,10 @@
   border-radius: 50%;
 }
 
+.b-bottom {
+  border-bottom: 1px solid;
+}
+
 /* Font */
 
 .font-smaller {

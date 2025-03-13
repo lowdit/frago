@@ -1,5 +1,14 @@
-{{ $path := "" }}{{ with .File }}{{ $path = .Path }}{{ end }}
-{{ $projectpath := cond (not (partialCached "render/issimpleproject.html" "arg" "arg")) (cond (eq (len (split (path.Dir $path) "/")) 1) "" (replace (path.Dir $path) (printf "%s/" .Section) "")) "" }}
+{{ $path            := ""    }}{{ with .File }}{{ $path = .Path }}{{ end }}
+{{ $pathadaptater   := .Path }}
+
+{{ $projectpath := 
+    cond (not (partialCached "render/issimpleproject.html" "arg" "arg")) 
+         (cond (eq (len (split (path.Dir $path) "/")) 1)
+          (cond (not $pathadaptater) "" (delimit (first 1 (after 2 (split (path.Dir $pathadaptater) "/"))) ""))
+          (replace (path.Dir $path) (printf "%s/" .Section) "")
+         ) 
+         "" 
+  }}
 {{/* $projectpath := replace $projectpath "/" "" % */}}
 {{/* if eq (getenv "HUGO_ENV") "dev" -}}
 {{ warnf "ProjectPath for project %s is: %s" (path.Dir $path) $projectpath }}

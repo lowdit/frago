@@ -14,7 +14,7 @@
 
 {{- if and ($data.Get "auditpath-csv") (not (in ($data.Get "auditpath-csv") "false")) -}}
 
-  {{- $data.Set "auditfile-csv" (getCSV "," ($data.Get "auditpath-csv")) -}}
+  {{- $data.Set "auditfile-csv" (readFile ($data.Get "auditpath-csv") | transform.Unmarshal (dict "delimiter" ",")) -}}
   {{- $data.Set "scores" (partialCached "render/cigref.html" (dict "auditfile" ($data.Get "auditpath-csv")) ($data.Get "auditpath-csv") ) -}}
 
   {{- $axes := ($data.Get "scores").scores.axes }}
@@ -29,7 +29,7 @@
     {{- end -}}
   {{/* END Test if the csv file has a good name : YYYY-MM-DD.csv */}}
 
-  <p>← <a href="{{ $context.Site.BaseURL }}/organism" class="link-more link-back">Retour à la page organisme</a></p>
+  <p>← <a href="{{ $context.Site.BaseURL | default "/" }}organism" class="link-more link-back">Retour à la page organisme</a></p>
   <h1>Synthèse Cigref - Outil d’évaluation des critères RSE</h1>
 
   {{/* START Display page note if exists */}}

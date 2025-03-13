@@ -1,4 +1,4 @@
-{{- if not (and (.Site.IsServer) (eq (getenv "HUGO_ENV") "production" | or (eq .Site.Params.env "production"))) -}}
+{{- if not (and (hugo.IsServer) (eq (getenv "HUGO_ENV") "production" | or (eq .Site.Params.env "production"))) -}}
 {{ $path := "" }}
 {{ with .File }}{{ $path = .Path }}{{ end }}
 {{- $patharray := split (path.Dir $path) "/" -}}

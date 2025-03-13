@@ -26,3 +26,7 @@
   overflow: visible;
   clip: auto;
 }
+
+main:focus {
+  outline: none;
+}

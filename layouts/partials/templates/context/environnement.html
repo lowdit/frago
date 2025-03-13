@@ -1,0 +1,31 @@
+{{- $envTitle   := (dict "desktop" "Ordinateur" "mobile" "Mobile") -}}
+{{- $environment := . -}}
+{{ if reflect.IsMap (index . 0) }}
+  {{- range $key, $value := $envTitle -}}
+  {{- with where $environment "type" $key -}}
+    <table>
+      <caption>Environnement de test {{ $value }}</caption>
+      <thead>
+        <th>Système d’exploitation</th>
+        <th>Technologie d’assistance</th>
+        <th>Navigateur</th>
+      </thead>
+      <tbody>
+      {{- range . }}
+        <tr>
+          <td>{{ .OS }}</td>
+          <td>{{ .screenreader }}</td>
+          <td>{{ .browser }}</td>
+        </tr>
+      {{ end -}}
+      </tbody>
+    </table>
+  {{- end -}}
+  {{- end -}}
+{{- else -}}
+  {{ with . }}
+  <strong>Environnement de test&nbsp;: </strong> {{ delimit . ", "}}
+  {{ end }}
+{{ end }}
+
+

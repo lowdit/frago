@@ -1,9 +1,9 @@
 {{- $project     := .project -}}
 {{- $lastfile    := (index (partialCached "render/lastfile.html" (dict "context" . "project" $project "type" "ecoindex") $project "ecoindex") "auditfile-path") -}}
 
-{{- $grade := (index (first 1 (sort (getJSON $lastfile))) 0).index.grade -}}
-{{ if not (reflect.IsSlice (getJSON $lastfile)) }}
-  {{- $grade = (getJSON $lastfile).index.grade -}}
+{{- $grade := (index (first 1 (sort (readFile $lastfile | transform.Unmarshal))) 0).index.grade -}}
+{{ if not (reflect.IsSlice (readFile $lastfile | transform.Unmarshal)) }}
+  {{- $grade = (readFile $lastfile | transform.Unmarshal).index.grade -}}
 {{ end }}
 
 {{- $ecostyle    := (partialCached "utils/ecoindex-class" (dict "ecograde" $grade) $grade) -}}

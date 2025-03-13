@@ -1,13 +1,14 @@
 ---
 title: Accueil Audits
 outputs:
+  _merge: deep
+outputs:
   - html
   - json
 disableKinds:
   - RSS
   - taxonomy
   - taxonomyTerm
-  - accessibility
 cascade:
 - _target:
     path: /audits/**/
@@ -22,7 +23,6 @@ cascade:
     - ecoconception
     - opquast
     - publishing
-    - quality
     - recommendation
     - performance
     - accessibilitypage
@@ -30,7 +30,6 @@ cascade:
     - ecoconceptionpage
     - opquastpage
     - publishingpage
-    - qualitypage
     - recommendationpage
     - performancepage
 - _target:
@@ -56,7 +55,6 @@ cascade:
     - ecoconception
     - opquast
     - publishing
-    - quality
     - recommendation
     - performance
     - accessibilitypage
@@ -64,14 +62,13 @@ cascade:
     - ecoconceptionpage
     - opquastpage
     - publishingpage
-    - qualitypage
     - recommendationpage
     - performancepage
 - _target:
     path: /audits/
   type: "audits"
 - _target:
-    path: /organism/**
+    path: /organism/
     kind: section
   outputs:
     - html

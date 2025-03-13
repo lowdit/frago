@@ -4,30 +4,32 @@
 {{- $data     := newScratch -}}
 {{- $project  := (partialCached "render/projectpath" $context $context) -}}
 {{- $envTitle := (dict "desktop" "Ordinateur" "mobile" "Mobile") -}}
-{{- $ref          := $context.Site.Data.referential -}}
+{{- $ref      := $context.Site.Data.referential -}}
 
 {{- $referential              := (partialCached "render/referential-version.html" (dict "context" $context "referential" (index $ref "accessibility").referential) $context (index $ref "accessibility").referential).guideline -}}
+{{- $data.Set "contextmain"   (partialCached "render/context.html" (dict "context" $context "project" $project "type" "accessibility") $project "accessibility") -}}
 {{- $data.Set "criteriafile"  (index (index $context.Site.Data $referential.name) (string $referential.version)).criteria.topics -}}
-{{- $data.Set "organisation"  (cond (ne $.context.Site.Params.organisation "") $.context.Site.Params.organisation "") -}}
-{{- $data.Set "strategy"      (cond (ne $.Params.accessibility.strategy "") $.Params.accessibility.strategy (cond (ne $context.Site.Params.strategy "") $context.Site.Params.strategy "")) -}}
 {{- $data.Set "auditpath-csv" (index $audit "auditfile-path") -}}
 
 {{- if and ($data.Get "auditpath-csv") (not (in ($data.Get "auditpath-csv") "false")) -}}
-
+  
   {{ if (eq (getenv "HUGO_ENV") "debugfiles") }}
     {{ warnf "Déclaration : %s" ($data.Get "auditpath-csv") }}
   {{ end }}
 
-  {{- $data.Set "auditfile-csv" (getCSV "," ($data.Get "auditpath-csv")) -}}
+  {{- $data.Set "auditfile-csv" (readFile ($data.Get "auditpath-csv") | transform.Unmarshal (dict "delimiter" ",")) -}}
   {{- if and ($data.Get "auditpath-csv") (not (in ($data.Get "auditpath-csv") "false")) -}}
   {{/* END Load the criteria file for the good audit version */}}
-
+  
   {{/* START Load Scores, context and pageslist */}}
   {{- $data.Set "scores" (partialCached "render/accessibility.html" (dict "context" $context "auditfile" ($data.Get "auditpath-csv")) ($data.Get "auditpath-csv")) -}}
   {{- $date := (string (index $audit "auditfile-name")) -}}
 
-  {{ with (partialCached "render/context.html" (dict "context" $context "project" $project) $project) }}
+  {{ with ($data.Get "contextmain") }}
     {{- $contextlast := cond (not (index . $date)) (index (last 1 (sort .)) 0) (index . $date) -}}
+    {{- $data.Set "organisation"  (cond (not $contextlast.organisation) (cond (not $context.Params.organisation) (cond (not $context.Site.Params.organisation) "" $context.Site.Params.organisation) $context.Params.organisation) $contextlast.organisation) -}}
+    
+    {{- $data.Set "strategy"      (cond (ne $context.Params.accessibility.strategy "") $context.Params.accessibility.strategy (cond (ne $context.Site.Params.strategy "") $context.Site.Params.strategy "")) -}}
     {{- $data.Set "context" $contextlast -}}
     {{- if (not (index . $date)) -}}
       {{ warnf "%s/accessibility/context.yml is not well filed, maybe the last value for date last audit is missing" $project }}
@@ -46,15 +48,13 @@
     <section>
       {{/* START If "organisation" */}}
       {{ if ($data.Get "organisation") }}
-        <p>{{ with ($data.Get "organisation") }}{{ . }}{{ end }} s’engage à rendre ses sites internet, intranet, extranet et ses
-        progiciels accessibles (et ses applications mobiles et mobilier urbain numérique) conformément à l’article 47 de la
-        loi n°2005-102 du 11 février 2005.</p>
+        <p>{{ with ($data.Get "organisation") }}{{ . }}{{ end }} s’engage à rendre ses sites internet, intranet, extranet et ses progiciels accessibles (et ses applications mobiles et mobilier urbain numérique) conformément à l’article 47 de la loi n°2005-102 du 11 février 2005.</p>
         {{- with $data.Get "strategy" -}}
         <p>À cette fin, elle met en œuvre la stratégie et les actions suivantes :</p>
         <ul>
-          {{- with .schema -}}<li>Schéma pluriannuel de mise en accessibilité 2020-2022 : <a href="{{ . }}">Schéma pluriannuel</a></li>{{ end }}
-          {{- with .actions -}}<li>Actions réalisées en 2019-2020 : <a href="{{ . }}">Actions réalisées</a></li>{{ end }}
-          {{- with .plan -}}<li>Plan d’actions 2020-2021 : <a href="{{ . }}">Plan d’actions</a></li>{{ end }}
+          {{- with .schema -}}<li>Schéma pluriannuel de mise en accessibilité : <a href="{{ . }}">Schéma pluriannuel</a></li>{{ end }}
+          {{- with .actions -}}<li>Actions réalisées : <a href="{{ . }}">Actions réalisées</a></li>{{ end }}
+          {{- with .plan -}}<li>Plan d’actions : <a href="{{ . }}">Plan d’actions</a></li>{{ end }}
         </ul>
         {{- end -}}
         {{- with .website -}}<p>Cette déclaration d’accessibilité s’applique à {{ partialCached "utils/isURL.html" (dict "context" $context "projectTitle" .) . }}.</p>{{ end }}
@@ -91,9 +91,9 @@
           {{- $map := . -}}
           {{- if ne (len .compliance) 1 -}}
             {{/* Cumulated scores */}}
-            <li>{{ .percentage }}% {{ with ($data.Get "scores").scores.criteria.total }}des {{ . }} critères {{ end }}{{ with ($data.Get "context").audit.guidelines }}du {{ . }}{{ end }} sont respectés sur l’ensemble des parcours.</li>
+            <li>{{ .percentage }}% {{ with ($data.Get "scores").scores.criteria.total }}des {{ . }} critères {{ end }}{{ with ($data.Get "context").audit }}du {{ .guidelines }}{{ end }} sont respectés sur l’ensemble des parcours.</li>
             {{- if ($data.Get "scores").criteria -}}
-              <li>{{ ($data.Get "scores").scores.compliance }}% {{ with ($data.Get "scores").scores.criteria.total }}des {{ . }} critères{{ end }} {{ with (index ($data.Get "scores") "criteretotal") }}testés {{ end }}{{ with ($data.Get "context").audit.guidelines }}du {{ . }}{{ end }} sont respectés {{ with ($data.Get "context").website }}pour {{ . }}{{ end }} (le taux moyen est de {{ ($data.Get "scores").scores.complianceaverage }}%).</li>
+              <li>{{ ($data.Get "scores").scores.compliance }}% {{ with ($data.Get "scores").scores.criteria.total }}des {{ . }} critères{{ end }} {{ with (index ($data.Get "scores") "criteretotal") }}testés {{ end }}{{ with ($data.Get "context").audit }}du {{ .guidelines }}{{ end }} sont respectés {{ with ($data.Get "context").website }}pour {{ . }}{{ end }} (le taux moyen est de {{ ($data.Get "scores").scores.complianceaverage }}%).</li>
             {{- end -}}
               {{/* Specific score for sub services */}}
             {{- range $id, $value := .names }}
@@ -103,7 +103,7 @@
             {{- end }}
             {{- else -}}
               {{/* If any sub services */}}
-              {{ if ($data.Get "scores").criteria }}<li>{{ ($data.Get "scores").scores.compliance }}% {{ with ($data.Get "scores").scores.criteria.total }}des {{ . }} critères testés{{ end }} {{ with (index ($data.Get "scores") "criteretotal") }}testés {{ end }}{{/* with ($data.Get "context").audit.guidelines }}du {{ . }}{{ end */}} sont respectés (le taux moyen est de {{ ($data.Get "scores").scores.complianceaverage }}%).</li>{{ end }}
+              {{ if ($data.Get "scores").criteria }}<li>{{ ($data.Get "scores").scores.complianceBase }}% {{ with ($data.Get "scores").scores.criteria.total }}des {{ . }} critères testés{{ end }} {{ with (index ($data.Get "scores") "criteretotal") }}testés {{ end }}{{/* with ($data.Get "context").audit.guidelines }}du {{ . }}{{ end */}} sont respectés (le taux moyen est de {{ ($data.Get "scores").scores.complianceaverage }}%).</li>{{ end }}
             {{- end -}}
           {{- end -}}
           {{/*- if ($data.Get "auditpath-csv") -}}<li>Accès à la grille d’audit RGAA : <a href="{{ $context.Site.BaseURL | default "/" }}{{ replace ($data.Get "auditpath-csv") "/content/" "" }}">Télécharger la grille d’audit RGAA{{ with .website }} pour {{ . }}{{ end }}</a>{{- end -*/}}
@@ -117,7 +117,7 @@
       {{- with ($data.Get "scores").criteria -}}
         {{- $score := . -}}
         <h2>Critères non conformes</h2>
-        {{ partialCached "templates/validity.html" (dict "context" $context "audit" $audit "score" $score) $score }}
+        {{ partialCached "templates/validity.html" (dict "context" $context "audit" $audit "score" ($data.Get "scores")) ($data.Get "scores") }}
         <h2>Établissement de cette déclaration d’accessibilité</h2>
         {{/* START If "context" */}}
         {{ with ($data.Get "context") }}
@@ -141,40 +141,9 @@
               <h3>Environnement de test</h3>
               <p>Les vérifications de restitution de contenus ont été réalisées sur la base de la combinaison fournie
                 par la base de référence du RGAA, avec les versions suivantes :</p>
-
-                {{ if reflect.IsMap (index . 0) }}
-                  {{- range $key, $value := $envTitle -}}
-                  {{- with where $environment "type" $key -}}
-                    <table>
-                      <caption>Environnement de test {{ $value }}</caption>
-                      <thead>
-                        <th>Système d’exploitation</th>
-                        <th>Technologie d’assistance</th>
-                        <th>Navigateur</th>
-                      </thead>
-                      <tbody>
-                      {{- range . }}
-                        <tr>
-                          <td>{{ .OS }}</td>
-                          <td>{{ .screenreader }}</td>
-                          <td>{{ .browser }}</td>
-                        </tr>
-                      {{ end -}}
-                      </tbody>
-                    </table>
-                  {{- end -}}
-                  {{- end -}}
-                {{- else -}}
-                  {{ with . }}
-                  <ul>
-                  {{- range $id, $value := . -}}
-                    <li>{{ . }}</li>
-                  {{ end }}
-                  </ul>
-                  {{ end }}
-                {{ end }}
+              {{ partial "templates/context/environnement" . }}
             {{ end }}
-            {{/* END tools */}}
+            {{/* END environment */}}
             {{/* START tools */}}
             {{ with .tools }}
               <h3>Outils pour évaluer l’accessibilité</h3>

@@ -17,14 +17,14 @@
   <h1 class="lh-0">Synthèse Écoindex{{ with $projectTitle }}<small> pour {{ partialCached "utils/isURL.html" (dict "context" $context "projectTitle" $projectTitle) $projectTitle }}</small>{{ end }}</h1>
 
   {{- if and ($data.Get "auditpath") (not (in ($data.Get "auditpath") "false")) -}}
-    {{- $json        := getJSON ($data.Get "auditpath") -}}
+    {{- $json        := readFile ($data.Get "auditpath") | transform.Unmarshal -}}
     {{- $score       := (index $json 0).index }}
     {{- $ecostyle    := (partialCached "utils/ecoindex-class" (dict "ecograde" $score.grade) $score.grade) -}}
     <div class="scores mb-1">
       <ul class="flex flex-gap flex-wrap">
         <li class="counter text-center {{ $ecostyle.ecoindexclass }}"><span>Score<br><b>{{ $score.grade }}</b></span></li>
-        <li class="counter text-center"><span>Eau (cl)<br><b>{{ $score.water | lang.NumFmt 2 }}</b></span></li>
-        <li class="counter text-center"><span>GES (gCO2e)<br><b>{{ $score.ghg | lang.NumFmt 2 }}</b></span></li>
+        <li class="counter text-center"><span>Eau (cl)<br><b>{{ $score.water | lang.FormatNumberCustom 2 }}</b></span></li>
+        <li class="counter text-center"><span>GES (gCO2e)<br><b>{{ $score.ghg | lang.FormatNumberCustom 2 }}</b></span></li>
       </ul>
     </div>
     <hr>

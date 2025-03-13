@@ -6,9 +6,9 @@
 {{ $rootpath           := partialCached "render/rootpath" (dict "context" . "project" $project "type" "accessibility") $project "accessibility" }}{{/* Accessibility give the location :: maybe has to be change */}}
 {{ $rootpath           := "content" }}
 {{/* LOOK AT FILEPATH file if a new referentiel is added */}}
-{{ $path               := partialCached "render/filepath" (dict "context" $context "project" $project "type" .type) $context $project .type }}
+{{ $path               := partialCached "render/filepath" (dict "context" $context "project" $project "type" $type) $context $project $type }}
 
-{{ $condrecommendationcsv  := eq (len (intersect (slice .type) (slice "greenit" "ecoconception" "actions" "accessibility" "publishing" "cigref" "opquast"))) 1 }}
+{{ $condrecommendationcsv  := eq (len (intersect (slice .type) (slice "greenit" "ecoconception" "actions" "accessibility" "raweb" "raam" "publishing" "cigref" "opquast"))) 1 }}
 {{ $condrecommendationjson := eq (len (intersect (slice .type) (slice "recommendation" "quality"))) 1 }}
 {{ $ext                    := cond  ($condrecommendationcsv) "csv" (cond ($condrecommendationjson) "yml" "json") }}
 
@@ -17,21 +17,21 @@
 
 {{/* If a single data file is called in the front matter or not :: could be removed */}}
 {{ if .datafilename }}
-  {{ $datalastfile.Set "pathdata" ((replace ($path) (printf "%s" .type) (printf "%s/%s" .datafilename .type))) }}
+  {{ $datalastfile.Set "pathdata" ((replace ($path) (printf "%s" $type) (printf "%s/%s" .datafilename $type))) }}
 {{ else }}
-  {{ $datalastfile.Set "pathdata" ((replace ($path) (printf "%s/" .type) (printf "%s" .type))) }}
+  {{ $datalastfile.Set "pathdata" ((replace ($path) (printf "%s/" $type) (printf "%s" $type))) }}
 {{ end }}
 
 {{/* In case of accessibility type - the folder name can be named "RGAA" */}}
-{{ if (eq "accessibility" .type) }}
+{{ if (eq "accessibility" $type) }}
   {{ $pathrgaa := partialCached "render/filepath" (dict "context" $context "project" $project "type" "rgaa") $project "rgaa" }}
   {{ $datalastfile.Set "pathdata" (cond (eq "accessibility" .type) (cond (fileExists $pathrgaa) $pathrgaa ($datalastfile.Get "pathdata")) ($datalastfile.Get "pathdata")) }}
 {{ end }}
 
 {{/* In case of recommendations type - the folder name can be "recommendation" */}}
-{{ if (eq $condrecommendationjson .type) }}
+{{ if (eq $condrecommendationjson $type) }}
   {{ $pathtemp := partialCached "render/filepath" (dict "context" $context "project" $project "type" "recommendation") $project "recommendation" }}
-  {{ $context.Scratch.Set "pathdata" (cond (eq $condrecommendationjson .type) (cond (fileExists $pathtemp) $pathtemp ($context.Scratch.Get "pathdata")) ($context.Scratch.Get "pathdata")) }}
+  {{ $datalastfile.Set "pathdata" (cond (eq $condrecommendationjson .type) (cond (fileExists $pathtemp) $pathtemp ($datalastfile.Get "pathdata")) ($datalastfile.Get "pathdata")) }}
 {{ end }}
 
 {{/* If the file accessibility.csv exists at the root of the project */}}
