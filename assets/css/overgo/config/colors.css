@@ -50,6 +50,8 @@
   --color-grey-dark: #343a40;
   --color-grey-verydark: #212529;
 
+  --background-color-grey-verylight: hsl(0 0% var(--l-10));
+  --background-color-grey-light: hsl(0 0% var(--l-20));
   --background-color-grey: hsl(0 0% var(--l-95));
   --background-color-grey-dark: hsl(0 0% var(--l-90));
   --background-color-grey-verydark: hsl(0 0% var(--l-85));
