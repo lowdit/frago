@@ -5,6 +5,7 @@
 {{- $data         := newScratch -}}
 {{- $projectPath  := cond (fileExists (printf "audits/%s/index.md" ($project))) (printf "audits/%s/index.md" ($project)) (printf "audits/%s/_index.md" ($project)) -}}
 {{- $projectTitle := ($context.GetPage $projectPath).Title -}}
+{{- $projectContent := ($context.GetPage $projectPath).Content -}}
 
 {{- $data.Set "pageslist" "" -}}
 {{- $data.Set "scores"    "" -}}
@@ -187,10 +188,10 @@
       {{/* END If several page tested */}}
 
       {{/* START Display page content if exists */}}
-      {{- if gt (len .context.Content) 10 -}}
+      {{- if gt (len $projectContent) 10 -}}
       <h2>Notes correctives</h2>
       <div>
-      {{- partialCached "elements/content.html" .context.Content .context.Content -}}
+      {{- partialCached "elements/content.html" $projectContent $projectContent -}}
       </div>
       {{- end -}}
       {{/* END Display page content if exists */}}
