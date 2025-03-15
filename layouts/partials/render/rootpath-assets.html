@@ -16,7 +16,7 @@
 {{ range $key, $value := index $loop .type }}
   {{ $data.Set "rootpath"
       (cond (fileExists (printf "static/images/%s/%s/%s" $project $value $auditfilename))
-        (printf "./static/images/%s/%s/%s" $project $value $auditfilename)
+        (printf "./static/images/%s/%s/%s/" $project $value $auditfilename)
         ($data.Get "rootpath")
       )
     }}
