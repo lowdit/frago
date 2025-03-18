@@ -1,3 +1,10 @@
+{{/*
+  MARK: TEMPLATE diplaying score
+*/}}
+
+{{/*
+  MARK: Declare Variables
+*/}}
 {{- $project     := .project -}}
 {{- $lastfile    := (index (partialCached "render/lastfile.html" (dict "context" .context "project" $project "type" "lighthouse") $project "lighthouse") "auditfile-path") -}}
 {{- $performance := partialCached "render/performance.html" (dict "context" "small" "auditfile" $lastfile) $lastfile -}}

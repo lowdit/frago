@@ -1,3 +1,8 @@
+{{/*
+  MARK: TEMPLATE for SCHEMA
+  FIXME: as to be improved
+*/}}
+
 {{ if fileExists "content/schema.md" }}
   {{ with .GetPage "schema" }}{{ .Title }}{{ end }}
 {{ else }}

@@ -1,3 +1,11 @@
+{{/*
+  MARK: TEMPLATE ECOCONCEPTION
+*/}}
+
+
+{{/*
+  MARK: Declare Variables
+*/}}
 {{- $context      := .context -}}
 {{- $path := "" }}{{ with $context.File }}{{ $path = .Path }}{{ end }}
 {{- $project      := partialCached "render/projectpath" $context $context -}}

@@ -1,10 +1,19 @@
+{{/*
+  MARK: FIND where a note is wirtten in a a project folder
+*/}}
+
+{{/*
+  MARK: Declare Variables
+*/}}
 {{ $data := newScratch }}
 {{ $path := "" }}{{ with .File }}{{ $path = .Path }}{{ end }}
 {{ $pathprint := printf "content/%s" (path.Dir $path) }}
+
 {{- range $key, $value := readDir (printf "content/%s" (path.Dir $path)) -}}
   {{- $file := .Name -}}
   {{- if gt (len ((intersect (slice $file) (slice "quality.md" "recommendation.md" "recommendations.md" "notes.md" "note.md")))) 0 -}}
     {{- $data.SetInMap "notes" (string $key) ((readFile (printf "%s/%s" $pathprint $file)) | markdownify) -}}
   {{- end -}}
 {{- end -}}
+
 {{ return ($data.Get "notes") -}}

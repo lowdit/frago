@@ -1,6 +1,13 @@
+{{/*
+  MARK: TEMPLATE ORGANISM LIST
+*/}}
 
+{{/*
+  MARK: Declare Variables
+*/}}
 {{- $context := . -}}
 {{- $.Store.Set "rangepages" (where .Site.Pages "Section" "audits") -}}
+
 {{- if ($.Store.Get "rangepages") -}}
 
   {{- $.Store.Set "aggregates" (partialCached "render/aggregate-scores.html" (dict "pages" ($.Store.Get "rangepages")) ($.Store.Get "rangepages")) -}}

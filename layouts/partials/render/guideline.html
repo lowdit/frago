@@ -1,7 +1,14 @@
-{{/* Find the guideline name and version inside a plain text value */}}
+{{/*
+  MARK: Find the guideline name and version inside a plain text value :: declared in the context
+*/}}
+
+{{/*
+  MARK: Declare Variables
+*/}}
 {{ $guideline     := (replace (.guidelines | urlize) "-" " ") }}
 {{ $name          := "any" }}
 {{ $version       := "0"   }}
+
 {{ if $guideline }}
   {{ range (split $guideline " ") }}
     {{/* If value contain a number value in it */}}
@@ -10,6 +17,7 @@
     {{ $version  = cond (eq $Type "true")  . $version }}
   {{ end }}
 {{ end }}
+
 {{ return (dict
   "name"                $name
   "version"             $version

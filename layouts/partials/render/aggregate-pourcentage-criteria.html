@@ -1,10 +1,20 @@
-{{ $data          := newScratch }}
-{{ $value         := .value }}
-{{ $type          := "pourcentage" }}
-{{ $conforme      := .conforme}}
-{{ $nonconforme   := .nonconforme }}
-{{ $nonapplicable := .nonapplicable}}
+{{/*
+  MARK: CALCULATE pourcentage for criteria
+*/}}
 
+{{/*
+  MARK: Declare Variables
+*/}}
+{{ $data          := newScratch     }}
+{{ $value         := .value         }}
+{{ $type          := "pourcentage"  }}
+{{ $conforme      := .conforme      }}
+{{ $nonconforme   := .nonconforme   }}
+{{ $nonapplicable := .nonapplicable }}
+
+{{/*
+  MARK: LOOP all criteria with their pourcentage value
+*/}}
 {{ range $id, $value := $value }}
   {{/* WARNING "average-%s-nonconforme" can have a nil value */}}
   {{ with not $nonconforme }}

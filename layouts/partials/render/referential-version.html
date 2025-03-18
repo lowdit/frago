@@ -1,3 +1,10 @@
+{{/*
+  MARK: FIND all the value of version for a referential
+*/}}
+
+{{/*
+  MARK: Declare Variables
+*/}}
 {{ $context        := .context }}
 {{ $referential    := trim .referential " " }}
 {{ $Type           := trim (cond (not .Type) "" .Type) " " }}
@@ -20,7 +27,9 @@
 {{ $versionallarray := "" }}
 {{ $data.Set "versionallarray" slice }}
 
-{{/* Loop over all directories in a guidelines for finding all versions of this guideline */}}
+{{/*
+  MARK: Loop over all directories in a guidelines for finding all versions of this guideline
+*/}}
 {{ range $key, $value := (index $context.Site.Data (trim $referential " ") )}}
   {{ if in $key "." }}
     {{ if ne $versionallarray (slicestr $key 0 3) }}{{ $data.Set "versionallarray" slice }}{{ end }}

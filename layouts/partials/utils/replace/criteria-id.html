@@ -1,0 +1,18 @@
+{{/*
+  MARK: Declare Variables
+*/}}
+
+{{- $key       := .key -}}
+{{- $keynew    := "" -}}
+
+{{ if .rebuild }}
+  {{- $thematiques := float (index (split $key ".") 0) -}}
+  {{- $criteria    := float (index (split $key ".") 1) -}}
+  {{- $key          = cond (eq (len (split $key ".")) 1) $key (printf "%v.%v" $thematiques $criteria) }}
+{{ else }}
+  {{- $keynew = cond (lt (index (split $key ".") 0) 10)    (printf "0%s.%s" (index (split $key ".") 0) (index (split $key ".") 1)) $key -}}
+  {{- $keynew = cond (lt (index (split $keynew ".") 1) 10) (printf "%s.0%s" (index (split $keynew ".") 0) (index (split $keynew ".") 1)) $keynew -}}
+  {{- $key = cond (eq (len (split $key ".")) 1) $key  $keynew -}}
+{{ end }}
+
+{{ return $key }}

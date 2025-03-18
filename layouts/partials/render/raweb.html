@@ -1,2 +1,5 @@
-{{ return partialCached "render/accessibility.html" (dict "context" .context "auditfile" .auditfile) .auditfile }}
+{{/*
+  CALL the accessibility template
+*/}}
 
+{{ return partialCached "render/accessibility.html" (dict "context" .context "auditfile" .auditfile) .auditfile }}

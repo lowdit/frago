@@ -1,10 +1,19 @@
 
-{{/* Determine values from recommendation files */}}
+{{/*
+  MARK: Determine values from recommendation files
+*/}}
+
+{{/*
+  MARK: Declare Variables
+*/}}
 {{ $path := "" }}{{ with .File }}{{ $path = .Path }}{{ end }}
 {{ $pathlen   := len (split (path.Dir $path) "/") }}
 {{ $auditfile := .auditfile }}
 {{ $data      := newScratch }}
-{{/* START Test if audit file not false */}}
+
+{{/*
+  MARK: START Test if audit file not false
+*/}}
 {{ if (not (in .auditfile "false")) }}
   {{ $lastfile  := readFile $auditfile | transform.Unmarshal }}
   {{ $data.Delete "counterrecommendation" }}

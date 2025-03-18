@@ -1,4 +1,10 @@
-{{/* Determine value of the audits context depends of his location */}}
+{{/*
+  MARK: Determine the audits context :: depends of the location where the context is declared
+*/}}
+
+{{/*
+  MARK: Declare Variables
+*/}}
 {{ $context      := .context }}
 {{ $pathFile := "" }}{{ with .File }}{{ $path = .Path }}{{ end }}
 {{ $data         := newScratch }}
