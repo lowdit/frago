@@ -5,6 +5,7 @@
 {{/*
   MARK: Declare Variables
 */}}
+
 {{- $name          := .name    -}}
 {{- $score         := .score   -}}
 {{- $score         := int (cond (and (ne $score.complianceRGAA 0) (or (eq $name "RGAA") (eq $name "accessibility"))) $score.complianceRGAA $score.compliance) -}}
