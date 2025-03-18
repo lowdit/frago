@@ -225,18 +225,21 @@
         {{- $data.Set "fileexist" false -}}
         {{- $filename  := partial "filename" (dict "name" .name "rootname" "" "image" .image) }}
         {{- $fileexist := (partialCached "render/filepath-assets" (dict "context" . "project" $project "pathimage" $pathimage "filename" $filename) $filename) -}}
+
         <h3 id="{{ .name | urlize }}">
-          <span class="small-caps">{{ $name }}</span> <small>- <span class="counter">{{ index ($data.Get "countererrorspagelist") (string $idpage) }}</span> erreurs recensées sur cette page</small>
-          {{- template "pathallimage" (dict "context" $context "filename" $filename "pathimage" $pathimage "fileexist" $fileexist) -}}
+          <span class="small-caps">{{ $name }}</span>
+          <small>- <span class="counter">{{ index ($data.Get "countererrorspagelist") (string $idpage) }}</span> erreurs recensées sur cette page</small>
         </h3>
-        {{- if .url -}}<p>URL de la page : <a href="{{ .url }}">{{ .url }}</a></p>{{- end -}}
+        {{ with .url }}<p>URL de la page : <a href="{{ . }}">{{ . }}</a></p>{{ end }}
+
+        {{- template "pathallimage" (dict "context" $context "filename" $filename "pathimage" $pathimage "fileexist" $fileexist) -}}
         {{/* START :: Display capture second level */}}
         {{- if (fileExists $pathimage) -}}
           {{- range (readDir $pathimage) }}{{- if eq (replace (.Name) ".png" "") ($name  | urlize) -}}{{- $data.Set "fileexist" true -}}{{ end }}{{ end }}
         {{- end -}}
         {{- template "gallery" (dict "context" $context "name" .name "filename" $filename "id" $idpage "pathimage" $pathimage "fileexist" $fileexist) -}}
         {{/* END :: Display capture first level */}}
-        
+
         {{- range $idblock, $b := .blocks -}}
           {{- $data.Set "countererrorsblock" 0 -}}
           {{/* START :: Range second level and count errors */}}
@@ -245,8 +248,8 @@
               {{- $data.Add "countererrorsblock" 1 -}}
               {{- $data.SetInMap "countererrorsblocklist" (string $idblock) ($data.Get "countererrorsblock") -}}
             {{- end -}}
-          {{- end -}}
-          {{- if .url -}}<p>URL : <a href="{{ .url }}">{{ .url }}</a></p>{{- end -}}
+          {{- end -}} 
+          {{- with .url -}}<p>URL : <a href="{{ . }}">{{ . }}</a></p>{{- end -}}
 
           {{- $data.Set "paths" slice -}}
           {{- $data.Set "index" slice -}}
@@ -356,17 +359,15 @@
 {{- end -}}
 
 {{- define "pathallimage" -}}
-  <small class="no-print">
   {{- if and .hugo.IsServer (not (eq (getenv "HUGO_ENV") "production" | or (eq .context.Site.Params.env "production"))) -}}
     {{- if .fileexist }}
-      &nbsp;-&nbsp;<a href="#{{ .filename }}">{{ .filename }}</a>
+    <small class="no-print">&nbsp;-&nbsp;<a href="#{{ .filename }}">{{ .filename }}</a></small>
     {{- end -}}
   {{- else -}}
     {{- if .fileexist }}
-    &nbsp;-&nbsp;<a href="#{{ .filename }}">Accéder à la capture écran</a>
+    <small class="no-print">&nbsp;-&nbsp;<a href="#{{ .filename }}">Accéder à la capture écran</a></small>
     {{ end -}}
   {{ end -}}
-  </small>
 {{- end -}}
 
 {{ define "pathallimagenoexist" }}
