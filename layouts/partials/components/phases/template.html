@@ -1,3 +1,7 @@
+{{/*
+  MARK: TEMPLATE for a planning
+*/}}
+
 {{- if .context.Site.Taxonomies -}}
   {{- if .context.Site.Taxonomies.phases -}}
     {{- $path := "" }}{{ with .File }}{{ $path = .Path }}{{ end }}

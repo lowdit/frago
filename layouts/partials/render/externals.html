@@ -1,4 +1,7 @@
-{{/* Return value for loading externals projects */}}
+{{/*
+  MARK: Return value for loading externals projects
+*/}}
+
 {{ $context    := .context   }}
 {{ $path := "" }}{{ with .File }}{{ $path = .Path }}{{ end }}
 {{ $project    := .project   }}

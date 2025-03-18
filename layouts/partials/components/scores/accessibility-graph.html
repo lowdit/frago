@@ -1,3 +1,10 @@
+{{/*
+  MARK: GRAPH
+*/}}
+
+{{/*
+  MARK: Declare Variables
+*/}}
 {{- $data          := newScratch -}}
 {{- $context       := .context   -}}
 {{- $scores        := .scores    -}}
@@ -16,7 +23,7 @@
   {{- $auditfile        := . }}
   {{- $topics           := $ref.accessibility.topics -}}
   {{- $pageslist        := (index (partialCached "render/methodology.html" (dict "auditfile" $auditfile) $auditfile) "pageslist")  -}}
-  {{- $thematiques := partialCached "render/score-thematiques.html" (dict "scores" $scores "topics" $topics) $scores -}}
+  {{- $thematiques      := partialCached "render/score-thematiques.html" (dict "scores" $scores "topics" $topics) $scores -}}
 
   {{- if and (gt (len (index $scores.conformepage "0")) 3) (index $scores.nonconformepage "0") -}}
     <div id="chartpagecriteres-csv"></div>

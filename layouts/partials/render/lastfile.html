@@ -1,4 +1,10 @@
-{{/* List last files in the specific audit folder :: depends on .type variable */}}
+{{/*
+  MARK: List last files in the specific audit folder :: depends on .type variable
+*/}}
+
+{{/*
+  MARK: Declare Variables
+*/}}
 {{ $context            := .context }}
 {{ $project            := .project }}
 {{ $datalastfile       := newScratch }}

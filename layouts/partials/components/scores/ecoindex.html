@@ -1,6 +1,14 @@
+{{/*
+  MARK: TEMPLATE diplaying score
+*/}}
+
+{{/*
+  MARK: Declare Variables
+*/}}
 {{- $json        := readFile . | transform.Unmarshal -}}
 {{- $score       := (index $json 0).index }}
 {{- $ecostyle    := (partialCached "utils/ecoindex-class" (dict "ecograde" $score.grade) $score.grade) -}}
+
 <div class="scores mb-1">
   <ul class="flex flex-gap flex-wrap">
     <li class="counter text-center {{ $ecostyle.ecoindexclass }}"><span>Score<br><b>{{ $score.grade }}</b></span></li>

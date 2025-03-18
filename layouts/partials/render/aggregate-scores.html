@@ -1,12 +1,18 @@
-{{/* Build a map with all accessibility score for using it later in code :: maybe for catching progression or regression */}}
+{{/*
+  MARK: Build a map with all accessibility score for using it later in code :: maybe for catching progression or regression
+*/}}
+
+{{/*
+  MARK: Declare Variables
+*/}}
 {{ $scorekey      := sha1 (string now) }}
 {{ $path := "" }}{{ with .File }}{{ $path = .Path }}{{ end }}
 {{ $data          := newScratch }}
 {{ $time          := now.UnixMilli }}
-{{ $reflist       := (slice "accessibility" "raweb" "raam" "ecoconception" "opquast" "publishing") }}
+{{ $reflist       := (slice "accessibility" "raweb" "raam" "ecoconception" "opquast" "publishing") }}{{/* DECLARE Referentials */}}
 
-{{/* Declare Var */}}
 {{ $data.Delete "allscores" }}
+
 {{ range $reflist }}
   {{ $data.Set (printf "%s-list-t" .) slice }}
   {{ $data.Set (printf "aggregate-%s-version" .) slice }}
@@ -16,146 +22,194 @@
   {{ $data.Set (printf "aggregate-%s-c" .) slice }}
   {{ $data.Set (printf "aggregate-%s-sum" .) 0 }}
 {{ end }}
+
 {{ $data.Set "aggregate-performance-list" slice }}
 {{ $data.Set "aggregate-performance-sum" 0 }}
 
-{{/* START Loop all audits */}}
+{{/*
+  MARK: START Loop all audits
+*/}}
 {{ range $pageid, $value := sort .pages ".Title" "desc" }}
+
   {{ $timepartial   := now.UnixMilli }}
   {{ $project       := partialCached "render/projectpath" . . }}
+  {{ $Title         := $value.Title  }}
+
   {{ if ne $project "" }}
-  {{ $context := . }}
-  {{ $ref  := $context.Site.Data.referential }}
-  {{ $path := "" }}{{ with .File }}{{ $path = .Path }}{{ end }}
-  {{/* START Only page in audits folder */}}
-  {{ if and (in (path.Base $path) "index.md") (not (in "audits/_index.md" $path)) (ne (len (split $path "/")) 4) }}
-    {{/* START Loop over each referential :: calculate */}}
-    {{ range $reflist }}
-      {{ $type    := . }}
-      {{ $data.Set (printf "average-%s-pourcentage" $type) (dict
-        "pourcentage"              ""
-        "pourcentage100"           ""
-        "pourcentage80"            ""
-        "pourcentage50"            ""
-        "pourcentage30"            ""
-        "pourcentage00"            ""
-      )}}
-      {{ $auditsfiles := (partial "render/lastfile.html" (dict "context" . "project" $project "type" $type) . $project $type) }}
-      {{ with (index $auditsfiles "auditfile-all-path") }}
-      {{ if (not (in . "false")) }}
-        {{ range $id, $file := last 1 (sort .) }}
-          {{/* Calculate the score for a referential */}}
-          {{/* Call context  */}}
-          {{ $data.Set (printf "aggregate-%s-contextaudit" $type) (partialCached "render/context.html" (dict "context" $context "project" $project "type" $type) $project $type) }}
 
-          {{/* Variables  */}}
-          {{ $guidelines   := ((index ($data.Get (printf "aggregate-%s-contextaudit" $type)) (index $auditsfiles "auditfile-name")).guidelines) }}
-          {{/* Determine the audit version :: switch to RGAA 4 if RAweb 1 */}}
-          {{ $versionlong := (cond (and (eq $guidelines.name "raweb") (eq $type "accessibility")) "4.1" $guidelines.version) }}
-          {{ $version     := (cond (and (eq $guidelines.name "raweb") (eq $type "accessibility")) "4" $guidelines.versionmajor) }}
-          {{ $data.Add (printf "aggregate-%s-version" $type) $version }}
+    {{/* Declare Variables */}}
+    {{ $context := . }}
+    {{ $ref     := $context.Site.Data.referential }}
+    {{ $path    := "" }}{{ with .File }}{{ $path = .Path }}{{ end }}
 
-          {{/* Store each result in a map */}}
-          {{ $render       := (partialCached (printf "render/%s.html" (cond (eq $type "raam") "accessibility" (cond (eq $type "raweb") "accessibility" $type))) (dict "context" "aggregate" "auditfile" . "referential" $guidelines "auditname" (index ($data.Get (printf "aggregate-%s-contextaudit" $type) ) (index $auditsfiles "auditfile-name")).guidelines.name) . (index ($data.Get (printf "aggregate-%s-contextaudit" $type)) (index $auditsfiles "auditfile-name")).guidelines.name $type) }}
-          {{ $data.SetInMap $project $type $render }}
+    {{/* START Only page in audits folder */}}
+    {{ if and (in (path.Base $path) "index.md") (not (in "audits/_index.md" $path)) (ne (len (split $path "/")) 4) }}
 
-          {{/* START Count the sum for each criteria */}}
-          {{ if $render.criteria }}
-          {{ range $ids, $valuekey := (slice "conforme" "nonconforme" "nonapplicable") }}
+      {{/* START Loop over each referential :: calculate */}}
+      {{ range $reflist }}
 
-              {{/* START Loop conforme criteria */}}
-              {{ range $id, $value := index $render.criteria $valuekey }}
-                {{ $data.Add (printf "%s%s-%s" $id $type $valuekey) 1 }}
-                {{ $data.Add (printf "%s%s-%s-%s" $id $type $version $valuekey) 1 }}
-                {{ $data.SetInMap (printf "average-%s-%s" $type $valuekey) (string $id) ($data.Get (printf "%s%s-%s" $id $type $valuekey)) }}
-                {{ $data.SetInMap (printf "average-%s-%s-%s" $type $valuekey $version) (string $id) ($data.Get (printf "%s%s-%s-%s" $id $type $version $valuekey)) }}
-                {{ $thematique := "" }}
-                {{ with (in $id ".") }}
-                  {{ $thematique = (index (index $ref $type).topics (sub (int (delimit (first 1 (split $id ".")) "")) 1)) }}
-                {{ else }}
-                  {{ $referential    := (partialCached "render/referential-version.html" (dict "context" $context "referential" "opquast") $context "opquast").guideline }}
-                  {{ $criteriafile   := (index (index $context.Site.Data $referential.name) (string $referential.version)).criteria.criteres }}
-                  {{ $thematique      = (index (index (where $criteriafile "number" (float $id)) 0).thema 0).fr }}
+        {{/* Declare Variables */}}
+        {{ $type    := . }}
+        {{ $data.Set (printf "average-%s-pourcentage" $type) (dict
+          "pourcentage"              ""
+          "pourcentage100"           ""
+          "pourcentage80"            ""
+          "pourcentage50"            ""
+          "pourcentage30"            ""
+          "pourcentage00"            ""
+        )}}
+        {{ $auditsfiles := (partial "render/lastfile.html" (dict "context" . "project" $project "type" $type) . $project $type) }}
+
+        {{ with (index $auditsfiles "auditfile-all-path") }}
+        {{ if (not (in . "false")) }}
+          {{/* Loop all last files for each project */}}
+          {{/*
+            MARK: LOOP all last files for each project
+          */}}
+          {{ range $id, $file := last 1 (sort .) }}
+            {{/* Calculate the score for a referential */}}
+
+            {{/* Call context  */}}
+            {{ $data.Set (printf "aggregate-%s-contextaudit" $type) (partialCached "render/context.html" (dict "context" $context "project" $project "type" $type) $project $type) }}
+
+            {{/* Variables  */}}
+            {{ $guidelines   := ((index ($data.Get (printf "aggregate-%s-contextaudit" $type)) (index $auditsfiles "auditfile-name")).guidelines) }}
+
+            {{/* Determine the audit version :: switch to RGAA 4 if RAweb 1 */}}
+            {{ $versionlong := (cond (and (eq $guidelines.name "raweb") (eq $type "accessibility")) "4.1" $guidelines.version) }}
+            {{ $version     := (cond (and (eq $guidelines.name "raweb") (eq $type "accessibility")) "4" $guidelines.versionmajor) }}
+            {{ $data.Add (printf "aggregate-%s-version" $type) $version }}
+
+            {{/* Store each result in a map */}}
+            {{ $render      := (partialCached (printf "render/%s.html" (cond (eq $type "raam") "accessibility" (cond (eq $type "raweb") "accessibility" $type))) (dict "context" "aggregate" "auditfile" . "referential" $guidelines "auditname" (index ($data.Get (printf "aggregate-%s-contextaudit" $type) ) (index $auditsfiles "auditfile-name")).guidelines.name) . (index ($data.Get (printf "aggregate-%s-contextaudit" $type)) (index $auditsfiles "auditfile-name")).guidelines.name $type) }}
+            {{ $data.SetInMap $project $type $render }}
+
+            {{/* START Count the sum for each criteria */}}
+            {{ if $render.criteria }}
+            {{ range $ids, $valuekey := (slice "conforme" "nonconforme" "nonapplicable") }}
+
+                {{/* START Loop conforme criteria */}}
+                {{ range $id, $value := index $render.criteria $valuekey }}
+
+                  {{/* FIXME: Maybe to remove - FILL a map with conforme criteria for ALL version : increment an integer */}}
+                  {{ $data.Add (printf "%s%s-%s" $id $type $valuekey) 1 }}
+                  {{ $data.SetInMap (printf "average-%s-%s" $type $valuekey) (string $id) ($data.Get (printf "%s%s-%s" $id $type $valuekey)) }}
+
+                  {{/* FILL a map with conforme criteria for EACH version : fill an array with each project name */}}
+                  {{ $data.Add (printf "%s-%s-%s-%s-withname" $id $type $version $valuekey) (printf "%s£" $Title) }}
+                  {{ $data.SetInMap (printf "average-%s-%s-%s-withname" $type $valuekey $version) (string $id) (uniq (split ($data.Get (printf "%s-%s-%s-%s-withname" $id $type $version $valuekey)) "£") | symdiff (slice "")) }}
+
+                  {{/* FILL a map with conforme criteria for EACH version : increment an integer */}}
+                  {{ $data.Add (printf "%s-%s-%s-%s" $id $type $version $valuekey) 1 }}
+                  {{ $data.SetInMap (printf "average-%s-%s-%s" $type $valuekey $version) (string $id) ($data.Get (printf "%s-%s-%s-%s" $id $type $version $valuekey)) }}
+
+                  {{/* FILL a map with thematic from the referential fill in data folder*/}}
+                  {{ $thematique := "" }}
+                  {{ with (in $id ".") }}
+                    {{ $thematique      = (index (index $ref $type).topics (sub (int (delimit (first 1 (split $id ".")) "")) 1)) }}
+                  {{ else }}
+                    {{ $referential    := (partialCached "render/referential-version.html" (dict "context" $context "referential" "opquast") $context "opquast").guideline }}
+                    {{ $criteriafile   := (index (index $context.Site.Data $referential.name) (string $referential.version)).criteria.criteres }}
+                    {{ $thematique      = (index (index (where $criteriafile "number" (float $id)) 0).thema 0).fr }}
+                  {{ end }}
+
+                  {{/* FIXME: FILL a map with conforme thematic for ALL version :: code cpould be refectored */}}
+
+                  {{/* FILL a map with conforme thematic for EACH version  */}}
+                  {{ $data.Add (printf "%s-%s-%s-%s-t" $thematique $type $valuekey $version) 1 }}
+                  {{ $data.Add (printf "%s-%s-%s-%s-t-withname" $thematique $type $valuekey $version) (printf "%s£" $Title) }}
+                  {{ $data.Add (printf "%s-list-t" $type) $thematique }}
+                  {{ $data.Add (printf "%s-%s-list-t" $type $version) (printf ",%s" $thematique) }}
+
+                  {{/* Store conforme criteria */}}
+                  {{ $data.SetInMap (printf "average-%s-%s-t" $type $valuekey) (string $thematique) ($data.Get (printf "%s%s-%s-t" $thematique $type $valuekey)) }}
+                  {{ $data.SetInMap (printf "average-%s-%s-%s-t" $type $valuekey $version) (string $thematique) ($data.Get (printf "%s-%s-%s-%s-t" $thematique $type $valuekey $version)) }}
+                  {{ $data.SetInMap (printf "average-%s-%s-%s-t-withname" $type $valuekey $version) (string $thematique) (uniq (split ($data.Get (printf "%s-%s-%s-%s-t-withname" $thematique $type $valuekey $version)) "£") | symdiff (slice ""))  }}
+
                 {{ end }}
-                {{ $data.Add (printf "%s%s-%s-t" $thematique $type $valuekey) 1 }}
-                {{ $data.Add (printf "%s%s-%s-%-t" $thematique $type $valuekey $version) 1 }}
-                {{ $data.Add (printf "%s-list-t" $type) $thematique }}
-                {{ $data.Add (printf "%s-%s-list-t" $type $version) (printf ",%s" $thematique) }}
-                {{/* Store conforme criteria */}}
-                {{ $data.SetInMap (printf "average-%s-%s-t" $type $valuekey) (string $thematique) ($data.Get (printf "%s%s-%s-t" $thematique $type $valuekey)) }}
-                {{ $data.SetInMap (printf "average-%s-%s-%s-t" $type $valuekey $version) (string $thematique) ($data.Get (printf "%s%s-%s-%-t" $thematique $type $valuekey $version)) }}
+                {{/* END Loop conforme criteria */}}
               {{ end }}
-              {{/* END Loop conforme criteria */}}
+              {{ $data.Set (printf "average-%s-pourcentage"   $type)          (partialCached "render/aggregate-pourcentage-criteria" (dict "value" $render.criteria.all "conforme" ($data.Get (printf "average-%s-conforme" $type)) "nonconforme" ($data.Get (printf "average-%s-nonconforme" $type)) "nonapplicable" ($data.Get (printf "average-%s-nonapplicable" $type))) $render.criteria.all "1") }}
+            {{ end }}
+            {{/* END Count the sum for each criteria */}}
+
+            {{ $score       := $render.scores.compliance }}
+
+            {{/* FILL maps with values for each ref */}}
+            {{ $data.Add (printf "aggregate-%s-context" $type) $guidelines }}
+
+
+
+            {{/* Fill an Array with all average score */}}
+            {{ $data.Add (printf "aggregate-%s-list" $type) $score }}
+
+            {{/* Fill a Map with all project with his score */}}
+            {{ $data.SetInMap (printf "aggregate-%s-lists" $type) (string $project) (dict "version" $guidelines.version "score" $score) }}
+
+            {{/*
+              MARK: CALCULATE if an audit is conforme or not :: making statistics of numbers of conformes audits
+            */}}
+
+            {{/* Declare Variables */}}
+            {{ $nonconforme := false }}
+            {{ $conforme    := false }}
+
+            {{/* Fill an Array with all audit  */}}
+            {{ $data.Add (printf "aggregate-%s-sum" $type) $score }}
+
+            {{/* Fill an Array with all audit with than 50% */}}
+            {{ if lt $score 50 }}
+              {{ $nonconforme = true }}
+              {{ $data.Add (printf "aggregate-%s-nc" $type) $score }}
             {{ end }}
 
-            {{/* START Loop all criteria :: one more time for filling map for percentage */}}
-            {{ range $id, $value := $render.criteria.all }}
-              {{/* WARNING "average-%s-nonconforme" can have a nil value */}}
-              {{ with not ($data.Get (printf "average-%s-nonconforme" $type)) }}
-                {{ $data.SetInMap (printf "average-%s-nonconforme" $type) (string $id) 0 }}
-              {{ end }}
+            {{/* Fill an Array with all audit with 100% */}}
+            {{ if eq $score 100 }}
+              {{ $nonconforme = true }}
+              {{ $data.Add (printf "aggregate-%s-c" $type) $score  }}
             {{ end }}
-            {{/* END Loop all criteria */}}
 
-            {{ $data.Set (printf "average-%s-pourcentage"   $type)          (partialCached "render/aggregate-pourcentage-criteria" (dict "value" $render.criteria.all "conforme" ($data.Get (printf "average-%s-conforme" $type)) "nonconforme" ($data.Get (printf "average-%s-nonconforme" $type)) "nonapplicable" ($data.Get (printf "average-%s-nonapplicable" $type))) $render.criteria.all "1") }}
+            {{/* Fill a Map with all the previous values */}}
+            {{ $data.SetInMap (printf "aggregate-%s-list-byaudit" $type) (string $pageid) (dict "score" $score "version" $version "versionlong" $versionlong "conforme" $conforme "nonconforme" $nonconforme) }}
+
           {{ end }}
-          {{/* END Count the sum for each criteria */}}
-
-          {{ $score       := $render.scores.compliance }}
-
-          {{/* Fill maps with values for each ref */}}
-          {{ $data.Add (printf "aggregate-%s-context" $type) $guidelines }}
-
-          {{ $data.Add (printf "aggregate-%s-list" $type) $score }}
-          {{ $data.SetInMap (printf "aggregate-%s-lists" $type) (string $project) (dict "version" $guidelines.version "score" $score) }}
-
-          {{ $nonconforme := false }}
-          {{ $conforme    := false }}
-          {{ $data.Add (printf "aggregate-%s-sum" $type) $score }}
-          {{ if lt $score 50 }}
-            {{ $nonconforme = true }}
-            {{ $data.Add (printf "aggregate-%s-nc" $type) $score }}
-          {{ end }}
-          {{ if eq $score 100 }}
-            {{ $nonconforme = true }}
-            {{ $data.Add (printf "aggregate-%s-c" $type) $score  }}
-          {{ end }}
-
-          {{ $data.SetInMap (printf "aggregate-%s-list-byaudit" $type) (string $pageid) (dict "score" $score "version" $version "versionlong" $versionlong "conforme" $conforme "nonconforme" $nonconforme) }}
-
+        {{ end }}
         {{ end }}
       {{ end }}
-      {{ end }}
-    {{ end }}
-    {{/* END Loop over referential :: calculate */}}
+      {{/* END Loop over each referential :: calculate */}}
 
-    {{/* START Loop Performance */}}
-    {{ with (index (partialCached "render/lastfile.html" (dict "context" . "project" $project "type" "performance") $project "performance") "auditfile-all-path") }}
-      {{ if (not (in . "false")) }}
-        {{ range $id, $value := last 1 (sort .) }}
-          {{ $render := (partialCached "render/performance.html" (dict "context" "aggregate" "auditfile" . ) .) }}
-          {{ $data.SetInMap $project "performance" $render }}
-          {{ $score := $render.ecoscore }}
-          {{ $data.Add "aggregate-performance-list" $score }}
-          {{ $data.Add "aggregate-performance-sum" $score }}
+      {{/* START Loop Performance */}}
+      {{ with (index (partialCached "render/lastfile.html" (dict "context" . "project" $project "type" "performance") $project "performance") "auditfile-all-path") }}
+        {{ if (not (in . "false")) }}
+          {{ range $id, $value := last 1 (sort .) }}
+            {{ $render := (partialCached "render/performance.html" (dict "context" "aggregate" "auditfile" . ) .) }}
+            {{ $data.SetInMap $project "performance" $render }}
+            {{ $score := $render.ecoscore }}
+            {{ $data.Add "aggregate-performance-list" $score }}
+            {{ $data.Add "aggregate-performance-sum" $score }}
+          {{ end }}
         {{ end }}
       {{ end }}
-    {{ end }}
-    {{/* END Loop Performance */}}
+      {{/* END Loop Performance */}}
 
-    {{ if (eq (getenv "HUGO_ENV") "debugperf") }}
-      {{ $data.SetInMap "debugperf" $path (string (sub now.UnixMilli $timepartial)) }}
-      {{ $timepartial   = now.UnixMilli }}
-    {{ end }}
+      {{ if (eq (getenv "HUGO_ENV") "debugperf") }}
+        {{ $data.SetInMap "debugperf" $path (string (sub now.UnixMilli $timepartial)) }}
+        {{ $timepartial   = now.UnixMilli }}
+      {{ end }}
 
-  {{ end }}
-  {{ $data.SetInMap "allscores" $project           ($data.Get $project) }}
+    {{ end }}
+    {{/* END Only page in audits folder */}}
+    {{ $data.SetInMap "allscores" $project           ($data.Get $project) }}
   {{ end }}
 {{ end }}
 
+{{/*
+  MARK: FILL a value with all average :: DONT KNOW WHY IT IS EXISTING
+*/}}
 {{/* START Loop over referential :: adding value in a Map */}}
 {{ range $id, $value := $reflist }}
 
+  {{/* Declare Variables */}}
   {{ $type    := . }}
   {{ $dictall := dict }}
   {{ $dict1   := dict }}
@@ -197,12 +251,19 @@
 
   {{ $data.SetInMap "average" $type   (merge $dict1 $dict2) }}
 
-  {{/* START Score by audit ref version */}}
+  {{/*
+    MARK: FILL a Map with all aggregate statistics by referential version
+  */}}
+  {{/* START Score by audit referential version */}}
   {{ range (uniq ($data.Get (printf "aggregate-%s-version" $type))) }}
+
+    {{/* Declare Variables */}}
     {{ $dictall := dict }}
     {{ $data.Set "all" 0 }}
     {{ $data.Set "sum" 0 }}
     {{ $data.Set "version" slice }}
+
+    {{/* START Loop list by Audit */}}
     {{ range (where (sort ($data.Get (printf "aggregate-%s-list-byaudit" $type))) "version" (string .)) }}
       {{ $data.Add "all" 1 }}
       {{ $data.Add "sum" .score }}
@@ -222,7 +283,10 @@
       {{ if and ($data.Get (printf "average-%s-nonconforme-%s" $type (string .version))) (not (and ($data.Get (printf "average-%s-conforme-%s" $type (string .version))) ($data.Get (printf "average-%s-nonapplicable-%s" $type (string .version))))) }}
         {{ $dictall = ($data.Get (printf "average-%s-nonconforme-%s" $type (string .version))) }}
       {{ end }}
+
       {{ $data.Set (printf "average-%s-pourcentage-%" $type (string .version)) (partialCached "render/aggregate-pourcentage-criteria" (dict "value" $dictall "conforme" ($data.Get (printf "average-%s-conforme-%s" $type (string .version))) "nonconforme" ($data.Get (printf "average-%s-nonconforme-%s" $type (string .version))) "nonapplicable" ($data.Get (printf "average-%s-nonapplicable-%s" $type (string .version)))) $dictall "2") }}
+
+      {{/* FIXME: conformewithname could be remove for only one "conforme" */}}
       {{ $data.SetInMap (printf "aggregate-%s-byauditall" $type) (string .version)
         (dict
             "average"     (div ($data.Get "sum") (len $map))
@@ -231,19 +295,27 @@
             "valid"    (len (where $map "conforme" true))
             "invalid" (len (where $map "nonconforme" true))
             "criteria" (merge (dict
-              "conforme"                 ($data.Get (printf "average-%s-conforme-%s"        $type (string .version)))
-              "nonconforme"              ($data.Get (printf "average-%s-nonconforme-%s"     $type (string .version)))
-              "nonapplicable"            ($data.Get (printf "average-%s-nonapplicable-%s"   $type (string .version)))
-              "thematiquelist"           (uniq (split (strings.TrimLeft "," ($data.Get (printf "%s-%s-list-t" $type (.version)))) ","))
-              "thematiqueconforme"       ($data.Get (printf "average-%s-conforme-%s-t"      $type (string .version)))
-              "thematiquenonconforme"    ($data.Get (printf "average-%s-nonconforme-%s-t"   $type (string .version)))
-              "thematiquenonapplicable"  ($data.Get (printf "average-%s-nonapplicable-%s-t" $type (string .version)))
+              "conforme"                         ($data.Get (printf "average-%s-conforme-%s"                 $type (string .version)))
+              "nonconforme"                      ($data.Get (printf "average-%s-nonconforme-%s"              $type (string .version)))
+              "nonapplicable"                    ($data.Get (printf "average-%s-nonapplicable-%s"            $type (string .version)))
+              "conformewithname"                 ($data.Get (printf "average-%s-conforme-%s-withname"        $type (string .version)))
+              "nonconformewithname"              ($data.Get (printf "average-%s-nonconforme-%s-withname"     $type (string .version)))
+              "nonapplicablewithname"            ($data.Get (printf "average-%s-nonapplicable-%s-withname"   $type (string .version)))
+              "thematiquelist"                   (uniq (split (strings.TrimLeft "," ($data.Get (printf "%s-%s-list-t" $type (.version)))) ","))
+              "thematiqueconforme"               ($data.Get (printf "average-%s-conforme-%s-t"               $type (string .version)))
+              "thematiquenonconforme"            ($data.Get (printf "average-%s-nonconforme-%s-t"            $type (string .version)))
+              "thematiquenonapplicable"          ($data.Get (printf "average-%s-nonapplicable-%s-t"          $type (string .version)))
+              "thematiqueconformewithname"       ($data.Get (printf "average-%s-conforme-%s-t-withname"      $type (string .version)))
+              "thematiquenonconformewithname"    ($data.Get (printf "average-%s-nonconforme-%s-t-withname"   $type (string .version)))
+              "thematiquenonapplicablewithname"  ($data.Get (printf "average-%s-nonapplicable-%s-t-withname" $type (string .version)))
               "thematiquepourcentage"    (partial "render/aggregate-pourcentage-thematique" (dict "conforme" ($data.Get (printf "average-%s-conforme-%s-t" $type (string .version))) "nonconforme" ($data.Get (printf "average-%s-nonconforme-%s-t" $type (string .version))) "nonapplicable" ($data.Get (printf "average-%s-nonapplicable-%s-t" $type (string .version)))))
               "all"                      $dictall
             ) ($data.Get (printf "average-%s-pourcentage-%" $type (string .version))) ))
         }}
     {{ end }}
+    {{/* END Loop list by Audit */}}
   {{ end }}
+  {{/* END Score by audit referential version */}}
 
   {{/* $data.SetInMap (printf "aggregate%s" .) "context"            ($data.Get (printf "aggregate-%s-context" .)) */}}
   {{ $data.SetInMap (printf "aggregate%s" .) "all"                ($data.Get (printf "aggregate-%s-list" .)) }}
@@ -260,10 +332,13 @@
     {{ $data.SetInMap (printf "aggregate%s" $type) "average"          (div ($data.Get (printf "aggregate-%s-sum" $type)) (len .)) }}
   {{ end }}
 
-
 {{ end }}
 {{/* END Loop over referential :: adding value in a Map */}}
 
+{{/*
+  MARK: FILL Variables
+*/}}
+{{/* START FILL Variables */}}
 {{ $data.SetInMap "aggregateperformance" "all"                  ($data.Get "aggregate-performance-list") }}
 {{ $data.SetInMap "aggregateperformance" "sum"                  ($data.Get "aggregate-performance-sum")  }}
 {{ $data.SetInMap "aggregateperformance" "average"              slice }}
@@ -279,7 +354,11 @@
 {{ $data.SetInMap "aggregates" "performance"                    ($data.Get "aggregateperformance")   }}
 {{ $data.SetInMap "aggregates" "allscores"                      ($data.Get "allscores")              }}
 {{ $data.SetInMap "aggregates" "allaverage"                     ($data.Get "average")                }}
+{{/* END FILL Variables */}}
 
+{{/*
+  MARK: RETURN Value
+*/}}
 {{ return ($data.Get "aggregates") }}
 
 {{ if (eq (getenv "HUGO_ENV") "debugperf") }}

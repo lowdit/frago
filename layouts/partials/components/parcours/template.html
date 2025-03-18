@@ -1,3 +1,7 @@
+{{/*
+  MARK: TEMPLATE for a user journey
+*/}}
+
 {{- partialCached "utils/css.html" (dict "context" . "filefolder" "object" "filename" "parcours") "parcours" -}}
 {{- if .context.parcours -}}
 {{- $.pages.Scratch.Set "counter" 0 -}}

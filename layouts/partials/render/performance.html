@@ -1,4 +1,10 @@
-{{/* Determinate the performance value from lighthouse files */}}
+{{/*
+  MARK: Determinate the performance value from lighthouse files
+*/}}
+
+{{/*
+  MARK: Declare Variables
+*/}}
 {{ $scorekey      := sha1 (string now) }}
 {{ $data          := newScratch }}
 {{ $auditfile     := .auditfile }}

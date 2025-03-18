@@ -1,6 +1,13 @@
-{{ $data          := newScratch }}
-{{ $scores         := .scores }}
-{{ $topics         := .topics }}
+{{/*
+  MARK: CALCULATE compliance score for each thematic
+*/}}
+
+{{/*
+  MARK: Declare Variables
+*/}}
+{{ $data           := newScratch }}
+{{ $scores         := .scores    }}
+{{ $topics         := .topics    }}
 
 {{ range $id, $value := $scores.all }}
   {{- $key := index $topics (sub (int (delimit (first 1 (split $id ".")) "" )) 1) }}

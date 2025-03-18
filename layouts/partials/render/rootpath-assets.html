@@ -1,11 +1,18 @@
-{{/* Return the rootpath of the audits files :: rootpath is where are stored files */}}
-{{ $project       := .project }}
+{{/*
+  MARK: Return the rootpath of the audits files :: rootpath is where are stored files
+*/}}
+
+{{/*
+  MARK: Declare Variables
+*/}}
+{{ $project       := .project       }}
 {{ $auditfilename := .auditfilename }}
-{{ $data          := newScratch }}
+{{ $data          := newScratch     }}
 {{/* Default rootpath is static folder */}}
 {{ $path          := printf "./static/images/%s/%s/" $project .type }}
-{{ $data.Set  "rootpath" $path }}
+{{ $data.Set "rootpath" $path }}
 {{ $loop          := (partialCached "utils/keyaudits" "keyaudits" ) }}
+
 {{ range $key, $value := index $loop .type }}
   {{ $data.Set "rootpath"
       (cond (fileExists (printf "static/images/%s/%s/%s" $project $value $auditfilename))

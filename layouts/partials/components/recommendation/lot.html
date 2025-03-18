@@ -1,3 +1,7 @@
+{{/*
+  MARK: TEMPLATE displaying issues by lot
+*/}}
+
 {{- $project := .project -}}
 {{- $.context.Scratch.Set "lastfile-quality" (readFile (index (partialCached "render/lastfile.html" (dict "context" .context "project" $project "type" "recommendation" "datafilename" .datafilename) $project "recommendation") "auditfile-path") | transform.Unmarshal) -}}
 {{/* Create an array with all pages */}}
