@@ -8,9 +8,7 @@ cascade:
     - html
     - json
     - declaration
-    - declarationpage
     - declarationeco
-    - declarationecopage
 - _target:
     path: /audits/**/**
     type: audits
@@ -18,9 +16,7 @@ cascade:
     - html
     - json
     - declaration
-    - declarationpage
     - declarationeco
-    - declarationecopage
     - accessibility
     - raweb
     - raam
@@ -29,12 +25,3 @@ cascade:
     - publishing
     - recommendation
     - performance
-    - accessibilitypage
-    - rawebpage
-    - raampage
-    - ecoindexpage
-    - ecoconceptionpage
-    - opquastpage
-    - publishingpage
-    - recommendationpage
-    - performancepage

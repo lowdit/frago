@@ -16,40 +16,14 @@ cascade:
     - html
     - json
     - declaration
-    - declarationpage
     - declarationeco
-    - declarationecopage
-    - accessibility
-    - ecoconception
-    - opquast
-    - publishing
-    - recommendation
-    - performance
-    - accessibilitypage
-    - ecoindexpage
-    - ecoconceptionpage
-    - opquastpage
-    - publishingpage
-    - recommendationpage
-    - performancepage
-- _target:
-    path: /audits/**/
-  outputs:
-    - html
-    - json
-    - declaration
-    - declarationpage
-    - declarationeco
-    - declarationecopage
 - _target:
     path: /audits/**
   outputs:
     - html
     - json
     - declaration
-    - declarationpage
     - declarationeco
-    - declarationecopage
     - accessibility
     - ecoindex
     - ecoconception
@@ -57,13 +31,6 @@ cascade:
     - publishing
     - recommendation
     - performance
-    - accessibilitypage
-    - ecoindexpage
-    - ecoconceptionpage
-    - opquastpage
-    - publishingpage
-    - recommendationpage
-    - performancepage
 - _target:
     path: /audits/
   type: "audits"
@@ -73,13 +40,6 @@ cascade:
   outputs:
     - html
     - json
-    - accessibilitypage
-    - ecoindexpage
-    - ecoconceptionpage
-    - opquastpage
-    - publishingpage
     - greenit
-    - greenitpage
     - cigref
-    - cigrefpage
 ---
