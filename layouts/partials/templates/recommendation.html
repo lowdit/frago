@@ -267,7 +267,7 @@
           {{/* START :: Range third level :: each error */}}
           {{- range $iderror, $s:= .errors -}}
             {{- $path := .name -}}
-            {{- $filename := partial "filename" (dict "name" .name "rootname" $name "foldername" $b.name "image" .image) -}}{{- $fileexist := (partialCached "render/filepath-assets" (dict "context" . "project" $project "pathimage" $pathimage "filename" $filename) $filename) -}}
+            {{- $filename := partial "filename" (dict "name" .name "rootname" $name "foldername" $b.name "image" .image) -}}
             {{- $fileexist := (partialCached "render/filepath-assets" (dict "context" . "project" $project "pathimage" $pathimage "filename" $filename) $filename) -}}  
             {{/* Create an array for the images slider with screen capture */}}
             {{- $data.Add "index" (slice $path) -}}
