@@ -339,7 +339,6 @@
     {{ $data.Set "critCountBase" ($data.Get (printf "%s%s" $scorekey "critCRGAA")) }}
     {{ with ($data.Get (printf "%s%s" $scorekey "critNCRGAA")) }}
       {{ $data.Set "critCountBase" (merge ($data.Get (printf "%s%s" $scorekey "critCRGAA")) .) }}
-      {{ warnf "%s" (len ($data.Get "critCountBase")) }}{{/* TODO: remove this code */}}
     {{ end }}
 
     {{/* START count number of criterion */}}
