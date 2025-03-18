@@ -28,6 +28,9 @@ audits:
             - Ma fonction 2
             - Ma fonction 3
         - id: "1.3"
+          texte: "texte 1"
+          intro:  |-
+            My intro text
           referent:
             - name: Jeanne Dupond
               title: Big chief
@@ -35,6 +38,9 @@ audits:
             - name: Jean Cochin
               title: Stagiaire
               service: Photocopieuse
+          outro:  |-
+            My outro text
+          texte: "texte 2"
         - id: "1.4"
           date: 1er de chaque mois
         - id: "1.5"
@@ -87,19 +93,19 @@ audits:
         - id: "2.4"
           configuration:
             actual:
-              - Item 1
-              - Item 2
+              - Élément 1
+              - Élément 2
             evolution:
-              - Item 1
-              - Item 2
+              - Élément 1
+              - Élément 2
         - id: "2.5"
           display:
             dynamique:
               - Eléments 1
               - Eléments 2
-            type: Item
-            size: Item
-            test: Item
+            type: Élément
+            size: Élément
+            test: Élément
         - id: "2.8"
           description: |-
             Voluptate cupidatat adipisicing veniam commodo tempor et nulla ea magna non.
@@ -107,8 +113,8 @@ audits:
               * Voluptate dolor elit tempor ullamco duis.
         - id: "2.9"
           functionalities:
-            - Item 1
-            - Item 2
+            - Élément 1
+            - Élément 2
           description: |-
             Voluptate cupidatat adipisicing veniam commodo tempor et nulla ea magna non.
               * Ullamco nostrud nostrud qui.
@@ -133,11 +139,11 @@ audits:
                 * Un critère
                 * Un autre critère
               internal:
-                - Item1
-                - Item 2
+                - Élément1
+                - Élément 2
               external:
-                - Item1
-                - Item 2
+                - Élément1
+                - Élément 2
             - name: Framework 2
               url: https://example.fr
               criteria: |-
@@ -215,7 +221,7 @@ audits:
             - Codec 1
             - Codec 2
         - id: "5.7"
-          strategy: "Je m'en remet au référent accessibilité, car il est super sympa. Et on rigole bien"
+          strategy: "Je m'en remets au référent accessibilité, car il est super sympa. Et on rigole bien"
         - id: "6.1"
           sizemax: 100kb
           requestmax: 2
@@ -314,9 +320,9 @@ audits:
             - Indicateurs 2
         - id: "9.4"
           actions:
-            bdd: Item
-            limitation: Item
-            cache: Item
+            bdd: Élément
+            limitation: Élément
+            cache: Élément
         - id: "9.5"
           parameters: Lorem
           indicator: Lorem
@@ -332,5 +338,26 @@ audits:
           action: Lorem
 
     2020-07-07:
-      guidelines: "RGESN 1.0"
+      guidelines: "RGESN 2.0"
       condition: "Auto-évaluation"
+      criteria:
+        - id: "1.1"
+          norms:
+            - Norme 1
+            - Norme 2
+          description: |-
+            Voluptate cupidatat adipisicing veniam commodo tempor et nulla ea magna non.
+              * Ullamco nostrud nostrud qui.
+              * Voluptate dolor elit tempor ullamco duis.
+        - id: "1.2"
+          studies:
+            - Mon étude 1
+            - Mon étude 2
+            - Mon étude 3
+          target:
+            - les Agents
+            - les gens sympas
+          functionalities:
+            - Ma fonction 1
+            - Ma fonction 2
+            - Ma fonction 3

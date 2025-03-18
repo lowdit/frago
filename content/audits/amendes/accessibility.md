@@ -1,6 +1,6 @@
 ---
 type: accessibility
-organisation: Mon organisation dans le fichier de contenu
+organisation: Mon autre organisation dans le contenu
 tags:
   - amendes
 accessibility:

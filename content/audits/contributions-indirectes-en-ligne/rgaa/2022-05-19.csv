@@ -13,7 +13,7 @@
 "1","2","4",na,na,na
 "1","2","5",na,na,na
 "1","2","6",na,na,na
-"1","3","1",nc|L'image ”pour une relation de confiance” présente un alt et un title non pertinent,nc|L'image ”pour une relation de confiance” présente un alt et un title non pertinent,nc|L'image ”pour une relation de confiance” présente un alt et un title non pertinent
+"1","3","1",nc|L'image ”pour une relation de confiance” présente un alt et un title non pertinent|Commentaire 2,nc|L'image ”pour une relation de confiance” présente un alt et un title non pertinent,nc|L'image ”pour une relation de confiance” présente un alt et un title non pertinent
 "1","3","2",na,na,na
 "1","3","3",na,na,na
 "1","3","4",na,na,na
@@ -163,7 +163,7 @@
 "10","5","2",c,c,c
 "10","5","3",c,c,c
 "10","6","1",c,c,c
-"10","7","1",nc|Menu mobile|Tabulations,nc|Menu mobile|Tabulations,nc|Menu mobile|Tabulations
+"10","7","1",nc|menu mobile,nc|menu mobile,nc|menu mobile
 "10","8","1",c,c,c
 "10","9","1",c,c,c
 "10","9","2",c,c,c

@@ -1,6 +1,6 @@
 ---
 title: Contributions Indirectes En Ligne (CIEL)
-organisation: Mon autre nom d'organisation
+organisation: Mon organisation dans le contenu
 accessibility:
   website: "https://douanes.gouv.fr"
   audit:

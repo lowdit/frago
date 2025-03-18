@@ -1,8 +1,10 @@
 ---
 - pages:
   - name: Global au site
+    url: http://urldepage.fr
     blocks:
     - name: Page
+      url: http://urldeblock.fr
       errors:
       - name: Titres de pages
         description: Le titre des pages devrait être composée du titre de son contenu, suivi du nom du site

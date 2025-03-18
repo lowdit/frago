@@ -9,8 +9,8 @@ gantt:
     time:
       - septembre middle
       - octobre middle
-  - name: Collecte  
-    time: 
+  - name: Collecte
+    time:
       - octobre middle
       - octobre end
   - name: Étude

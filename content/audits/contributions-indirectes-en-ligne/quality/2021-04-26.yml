@@ -1,6 +1,7 @@
 ---
 - pages:
   - name: Global au site
+    image: mon-image-pages.png
     blocks:
     - name: Gabarit
       errors:
@@ -12,6 +13,7 @@
         type: structure
         status: moindre
         delivery: lot 1
+        image: mon-image-block.png
       - name: Titre invalide
         element: title
         description: Les titres (`<title>`) de page ne changent pas en fonction des pages et ne sont pas pertinents.

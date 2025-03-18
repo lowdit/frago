@@ -1,16 +1,20 @@
 ---
 - pages:
   - name: Global au site
+    image: https://res.cloudinary.com/dou0m7u5s/image/fetch/c_limit,f_auto,q_auto,w_1280/https://bertrandkeller.info/assets/conference-conforme-greenit-referentiel.png
     blocks:
     - name: Gabarit
+      image: mon-image-block.png
       errors:
       - name: Adresse de navigation
         description: L’adresse de navigation ne change pas en fonction des pages.
+        image: https://res.cloudinary.com/dou0m7u5s/image/fetch/c_limit,f_auto,q_auto,w_1280/https://bertrandkeller.info/assets/conference-conforme-greenit-referentiel.png
       - name: Code invalide
         description: "Le code comporte des erreurs quand on passe le validateur : https://validator.w3.org/."
         criterion: 8.2
         status: moindre
         delivery: lot 3
+        image: mon-image-errors.png
       - name: Langue de la page
         description: "La page n’a pas d’attribut `lang`, elle est vocalisée en anglais"
         criterion: 8.3

@@ -1,0 +1,7 @@
+website: "example.gouv.fr"
+contacts:
+    email: referent@ecoresponsable.gouv.fr
+    address : 139 rue de la sobriété, 75572 Paris, Cedex 23
+audits:
+    2020-07-07:
+      guidelines: "RGESN 1.0"
