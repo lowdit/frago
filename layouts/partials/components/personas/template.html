@@ -1,3 +1,7 @@
+{{/*
+  MARK: TEMPLATE for displying personnas
+*/}}
+
 <div class="card smaller{{ if .context.selected }} card-border{{ end }}">
   <div>
   {{- $name := .context.name | urlize -}}

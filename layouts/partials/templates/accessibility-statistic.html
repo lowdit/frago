@@ -1,7 +1,16 @@
+{{/*
+  MARK: TEMPLATE: Displaying aggregate statistics for each referentials
+*/}}
+
+{{/*
+  MARK: Declare Variables
+*/}}
 {{ $context   := .context }}
 {{ $render    := .render }}
 {{ $name      := .name }}
 {{ $ref       := $context.Site.Data.referential }}
+
+{{- partialCached "utils/css.html" (dict "context" . "filefolder" "object" "filename" "tooltip") "tooltip" -}}
 
 {{- with (where .context.Site.Pages "Section" "audits") -}}
   <style>
@@ -15,6 +24,10 @@
 
     <h1>Synthèse générale - {{ (index $ref $name).name }}</h1>
     {{- $referential   := (partialCached "render/referential-version.html" (dict "context" $context "project" "statistics" "referential" (index $ref $name).referential) (index $ref $name).referential).guideline -}}
+
+    {{/*
+      MARK: Displaying statistics table for each main referential version
+    */}}
     {{- range $key, $value := (index (index $render $name) "listestats") }}
       {{- $versionlong   := (index (index (index $render $name).liste $key) 0).versionlong -}}
       {{- $versionlong   := (delimit (first 2 (split $versionlong ".")) ".") -}}
@@ -30,11 +43,14 @@
         {{- $criterialfile := (index (index $context.Site.Data $referential.name) (string $versionlongs)).criteria -}}
         {{- $glossaire     :=  (printf "=\"%s%s%s/glossaire/$1\"" (site.BaseURL | default "/") $referential.name $versionlongs) -}}
         <div class="grid grid-4 align-items-center text-center lh-1 font-bigger">
+          {{/* CALL Partial */}}
           {{- partialCached "components/scores/aggregate-small.html" (dict "value" . "type" (index $ref $name).name ) . $name -}}
         </div>
         {{- if .criteria.thematiquepourcentage }}
-          {{ template "tablethematique" (dict "value" . "range" .criteria) }}
+          {{/* CALL template */}}
+          {{ template "tablethematique" (dict "value" . "range" .criteria "ref" $ref "name" $name) }}
         {{ end -}}
+        {{/* CALL template */}}
         {{ template "tablecriteria" (dict "all" .criteria.all "range" .criteria "name" $name "file" $criterialfile "glossaire" $glossaire) }}
         <hr>
       {{ end -}}
@@ -42,12 +58,15 @@
   </article>
 {{- end -}}
 
+{{/*
+  MARK: HTML TABLE for statistics repartition
+*/}}
 {{- define "tablecriteria" -}}
-  {{ $all   := .all }}
-  {{ $range := .range }}
-  {{ $name  := .name }}
-  {{ $criterialfile  := .file }}
-  {{ $glossaire  := .glossaire }}
+  {{ $all            := .all       }}
+  {{ $range          := .range     }}
+  {{ $name           := .name      }}
+  {{ $criterialfile  := .file      }}
+  {{ $glossaire      := .glossaire }}
   {{- if and $range.pourcentage80 $range.pourcentage50 $range.pourcentage30 $range.pourcentage00 -}}
   <h2>Tableau des statistiques de répartition de critères par taux</h2>
   <table>
@@ -71,6 +90,7 @@
   {{- end -}}
   {{- if $all }}
   <h2>Tableau des statistiques par critère</h2>
+
   <table>
     <thead>
       <tr>
@@ -85,28 +105,85 @@
     <tbody class="font-bigger">
       {{ $keylist := slice }}
       {{- range $key, $value := $all -}}
-        {{ $keylist = $keylist | append $key }}
+        {{- $key := partialCached "utils/replace/criteria-id.html" (dict "key" $key) $key -}}
+        {{- $keylist = $keylist | append $key -}}
       {{- end -}}
+
       {{- range $id, $value := sort $keylist -}}
-        {{- $id := $value }}
+        {{- $id :=partialCached "utils/replace/criteria-id.html" (dict "key" $value "rebuild" "true") $value "rebuild" -}}
+
+        {{/* FIXME: Should not working with this type of hack */}}
+        {{- $cond        := cond (eq $name "accessibility") (le (int (index (split $id ".") 0)) 13) "TRUE" }}
+        {{- if $cond -}}
         <tr style="--base-light: 105%;">
           <th>{{ $id }}</th>
           <td class="text-left">{{- template "criterion" (dict "value" $id "type" $name "file" $criterialfile "glossaire" $glossaire) -}}</td>
-          <td class="text-center" style="background:hsl(var(--base-green), 25%, calc(var(--base-light) - 10%))">{{ if gt (int (index ($range.conforme) $id)) 0 }}{{ index $range.conforme $id }}{{ else }}0{{ end }}</td>
-          <td class="text-center" style="background:hsl(var(--base-orange), 25%, calc(var(--base-light) - 10%))">{{ if gt (int (index ($range.nonapplicable) $id)) 0 }}{{ index ($range.nonapplicable) $id }}{{ else }}0{{ end }}</td>
-          <td class="text-center" style="background:hsl(var(--base-red), 25%, calc(var(--base-light) - 10%))">{{ if gt (int (index ($range.nonconforme) $id)) 0 }}{{ index ($range.nonconforme) $id }}{{ else }}0{{ end }}</td>
+          <td class="text-center" style="background:hsl(var(--base-green), 25%, calc(var(--base-light) - 10%))">
+            {{- if gt (int (index ($range.conforme) $id)) 0 }}
+            <div class="tooltip">
+              {{ index $range.conforme $id }}
+              <div class="tooltip-text">
+                <ul class="list-unstyled m-0 p-0">
+                {{ range (index ($range.conformewithname) $id) }}
+                  <li>{{ replace (. | truncate 30) " " "&nbsp;" | safeHTML }}</li>
+                {{ end }}
+                </ul>
+              </div>
+            </div>
+            {{- else }}
+              0
+            {{ end -}}
+          </td>
+          <td class="text-center" style="background:hsl(var(--base-orange), 25%, calc(var(--base-light) - 10%))">
+            {{- if gt (int (index ($range.nonapplicable) $id)) 0 }}
+            <div class="tooltip">
+              {{ index $range.nonapplicable $id }}
+              <div class="tooltip-text">
+                <ul class="list-unstyled m-0 p-0">
+                {{ range (index ($range.nonapplicablewithname) $id) }}
+                  <li>{{ replace (. | truncate 30) " " "&nbsp;" | safeHTML  }}</li>
+                {{ end }}
+                </ul>
+              </div>
+            </div>
+            {{- else }}
+              0
+            {{ end -}}
+          </td>
+          <td class="text-center" style="background:hsl(var(--base-red), 25%, calc(var(--base-light) - 10%))">
+            {{- if gt (int (index ($range.nonconforme) $id)) 0 }}
+            <div class="tooltip">
+              {{ index $range.nonconforme $id }}
+              <div class="tooltip-text">
+                <ul class="list-unstyled m-0 p-0">
+                {{ range (index ($range.nonconformewithname) $id) }}
+                  <li>{{ replace (. | truncate 30) " " "&nbsp;" | safeHTML  }}</li>
+                {{ end }}
+                </ul>
+              </div>
+            </div>
+            {{- else }}
+              0
+            {{ end -}}
+          </td>
           <td class="text-center" style="color:#fff;background: #222">{{ index ($range.pourcentage) $id }}{{ if ne (index ($range.pourcentage) $id) "NA"}}%{{ end }}</td>
         </tr>
+        {{- end -}}
       {{- end -}}
     </tbody>
   </table>
   {{- end -}}
 {{- end -}}
 
+{{/*
+  MARK: HTML TABLE for thematic statistics
+*/}}
 {{- define "tablethematique" -}}
   {{ $range     := .range }}
   {{ $value     := .value }}
-  <h2>Tableau des statistiques par des critères par thématique</h2>
+  {{ $ref       := .ref   }}
+  {{ $name      := cond (eq .name "accessibility") "raweb" .name  }}
+  <h2>Tableau des statistiques par critère par thématique</h2>
   <table>
     <thead>
       <tr>
@@ -118,14 +195,59 @@
       </tr>
     </thead>
     <tbody class="font-bigger">
-      {{- range $range.thematiquelist -}}
+      {{- range (index $ref $name).topics -}}
         {{ $id := .|string }}
         {{ if (index ($range.thematiquepourcentage) $id) }}
         <tr style="--base-light: 105%;">
           <th class="text-left">{{ if ge (len $id) 3 }}{{ $id }}{{ else }}{{ end }}</th>
-          <td class="text-center" style="max-width:10%;background:hsl(var(--base-green), 25%, calc(var(--base-light) - 10%))">{{ if gt (int (index ($range.thematiqueconforme) $id)) 0 }}{{ index $range.thematiqueconforme $id }}{{ else }}0{{ end }}</td>
-          <td class="text-center" style="max-width:10%;background:hsl(var(--base-orange), 25%, calc(var(--base-light) - 10%))">{{ if gt (int (index ($range.thematiquenonapplicable) $id)) 0 }}{{ index ($range.thematiquenonapplicable) $id }}{{ else }}0{{ end }}</td>
-          <td class="text-center" style="max-width:10%;background:hsl(var(--base-red), 25%, calc(var(--base-light) - 10%))">{{ if gt (int (index ($range.thematiquenonconforme) $id)) 0 }}{{ index ($range.thematiquenonconforme) $id }}{{ else }}0{{ end }}</td>
+          <td class="text-center" style="max-width:10%;background:hsl(var(--base-green), 25%, calc(var(--base-light) - 10%))">
+            {{- if gt (int (index ($range.thematiqueconforme) $id)) 0 }}
+            <div class="tooltip">
+              {{ index $range.thematiqueconforme $id }}
+              <div class="tooltip-text">
+                <ul class="list-unstyled m-0 p-0">
+                {{ range (index ($range.thematiqueconformewithname) $id) }}
+                  <li>{{ replace (. | truncate 30) " " "&nbsp;" | safeHTML }}</li>
+                {{ end }}
+                </ul>
+              </div>
+            </div>
+            {{- else }}
+              0
+            {{ end -}}
+          </td>
+          <td class="text-center" style="max-width:10%;background:hsl(var(--base-orange), 25%, calc(var(--base-light) - 10%))">
+            {{- if gt (int (index ($range.thematiquenonapplicable) $id)) 0 }}
+            <div class="tooltip">
+              {{ index $range.thematiquenonapplicable $id }}
+              <div class="tooltip-text">
+                <ul class="list-unstyled m-0 p-0">
+                {{ range (index ($range.thematiquenonapplicablewithname) $id) }}
+                  <li>{{ replace (. | truncate 30) " " "&nbsp;" | safeHTML }}</li>
+                {{ end }}
+                </ul>
+              </div>
+            </div>
+            {{- else }}
+              0
+            {{ end -}}
+          </td>
+          <td class="text-center" style="max-width:10%;background:hsl(var(--base-red), 25%, calc(var(--base-light) - 10%))">
+            {{- if gt (int (index ($range.thematiquenonconforme) $id)) 0 }}
+            <div class="tooltip">
+              {{ index $range.thematiquenonconforme $id }}
+              <div class="tooltip-text">
+                <ul class="list-unstyled m-0 p-0">
+                {{ range (index ($range.thematiquenonconformewithname) $id) }}
+                  <li>{{ replace (. | truncate 30) " " "&nbsp;" | safeHTML }}</li>
+                {{ end }}
+                </ul>
+              </div>
+            </div>
+            {{- else }}
+              0
+            {{ end -}}
+          </td>
           <td class="text-center" style="color:#fff;background: #222">{{ with (index ($range.thematiquepourcentage) $id) }}{{ . }}{{ if ne (index ($range.thematiquepourcentage) $id) "NA"}}%{{ end }}{{ else }}NA{{ end }}</td>
         </tr>
         {{ end }}
@@ -134,6 +256,9 @@
   </table>
 {{- end -}}
 
+{{/*
+  MARK: HTML TABLE for criterion statistics
+*/}}
 {{- define "criterion" -}}
     {{ $types     := .type }}
     {{ $value     := .value }}
@@ -142,7 +267,11 @@
       {{ $s := where .file.topics "number" "eq" (int (delimit (first 1 (split $value ".")) ""))}}
       {{ partialCached "utils/replace/glossaire" (dict "link" $glossaire "value" (index (index $s 0).criteria (sub (int (delimit (last 1 (split .value ".")) "")) 1)).criterium.title) (index (index $s 0).criteria (sub (int (delimit (last 1 (split .value ".")) "")) 1)).criterium.title }}
     {{ else if (eq $types "ecoconception")}}
-      {{ (index (where .file.criteres "id" $value) 0).critere }}
+      {{ with (index (where .file.criteres "id" $value) 0).critere }}
+        {{ . }}
+      {{ else}}
+        <b>There is a problem with a context declaration for an audit or a bad sheet</b>
+      {{ end }}
     {{ else if (eq $types "opquast") }}
       {{ (index (where .file.criteres "number" (int $value)) 0).description.fr }}
     {{ else if (eq $types "publishing")}}

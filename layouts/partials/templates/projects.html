@@ -1,4 +1,10 @@
+{{/*
+  MARK: TEMPLATE for a project
+*/}}
 
+{{/*
+  MARK: Declare Variables
+*/}}
 {{- $context       := .             -}}
 {{- $time          := now.UnixMilli -}}
 {{- $path          := "" }}{{ with .File }}{{ $path = .Path }}{{ end }}

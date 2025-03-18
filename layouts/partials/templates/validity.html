@@ -1,3 +1,10 @@
+{{/*
+  MARK: TEMPLATE for displaying Recommendation in declaration
+*/}}
+
+{{/*
+  MARK: Declare Variables
+*/}}
 {{- $context     := .context -}}
 {{- $score       := .score.criteria -}}
 {{- $auditname   := cond (not .score.scores.auditname) "rgaa" .score.scores.auditname -}}
@@ -31,8 +38,7 @@
 
 {{/* Range map errors sort by RGAA order - on all pages */}}
 {{- range $key, $value := (index $score "nonconforme") -}}
-  {{- $key := cond (lt (index (split $key ".") 0) 10) (printf "0%s.%s" (index (split $key ".") 0) (index (split $key ".") 1)) $key -}}
-  {{- $key := cond (lt (index (split $key ".") 1) 10) (printf "%s.0%s" (index (split $key ".") 0) (index (split $key ".") 1)) $key -}}
+  {{- $key := partialCached "utils/replace/criteria-id.html" (dict "key" $key) $key -}}
   {{- $data.SetInMap "crit" $key $value -}}
 {{- end -}}
 {{ with ($data.Get "crit") }}

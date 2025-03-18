@@ -1,4 +1,10 @@
-{{/* Vars */}}
+{{/*
+  MARK: TEMPLATE performance
+*/}}
+
+{{/*
+  MARK: Declare Variables
+*/}}
 {{- $context      := .context -}}
 {{- $path := "" }}{{ with .File }}{{ $path = .Path }}{{ end }}
 {{- $data         := newScratch -}}

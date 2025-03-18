@@ -1,4 +1,6 @@
-{{/* Var */}}
+{{/*
+  MARK: Declare Variables
+*/}}
 {{- $context      := .context -}}
 {{- $path         := "" -}}
 {{- with $context.File }}{{ $path = .Path }}{{ else }}{{ $path = .Path }}{{ end }}

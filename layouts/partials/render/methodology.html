@@ -1,6 +1,13 @@
-{{/* Return the type of audit file :: if with "Thématiques" "Critères" or "Thématiques" "Critères" "Tests" */}}
+{{/*
+  MARK: Return the type of audit file :: if with "Thématiques" "Critères" or "Thématiques" "Critères" "Tests"
+*/}}
+
+{{/*
+  MARK: Declare Variables
+*/}}
 {{ $auditfile := .auditfile }}
 {{ $data      := newScratch }}
+
 {{ with $auditfile }}
   {{/* Compare the first line of the csv audit file */}}
   {{ $data.Set "methodology"          (len (intersect (index . 0) (slice "Thématiques" "Critères" "Tests"))) }}

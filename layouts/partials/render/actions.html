@@ -1,3 +1,7 @@
+{{/*
+  MARK: LIST for listing actions from a csv files
+*/}}
+
 {{/* Variables */}}
 {{ $path := "" }}{{ with .File }}{{ $path = .Path }}{{ end }}
 {{ $pagedate    := replace (path.Base $path) (path.Ext $path) "" }}

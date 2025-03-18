@@ -1,4 +1,11 @@
-{{/* Build an object with all the scores :: context, path... */}}
+{{/*
+  MARK: Build an object with all the scores :: context, path...
+  FIXME: MAYBE this the same score than in aggegate
+*/}}
+
+{{/*
+  MARK: Declare Variables
+*/}}
 {{ $types          := .type }}
 {{ $auditsfiles    := (partialCached "render/lastfile.html" (dict "context" .context "project" .project "type" $types "datafilename" .datafilename) .project $types .datafilename) }}
 {{ $contextaudit   := (partialCached "render/context.html"  (dict "context" .context "project" .project "type" $types) .context .project $types) }}

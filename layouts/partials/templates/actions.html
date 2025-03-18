@@ -1,4 +1,10 @@
-{{/* Variables */}}
+{{/*
+  MARK: TEMPLATE for actions plan
+*/}}
+
+{{/*
+  MARK: Declare Variables
+*/}}
 {{- $path := "" }}{{ with .File }}{{ $path = .Path }}{{ end }}
 {{- $pagedate := replace (path.Base $path) (path.Ext $path) "" -}}
 {{- $kind := .Kind -}}

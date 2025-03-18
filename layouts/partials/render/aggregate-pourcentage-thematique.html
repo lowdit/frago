@@ -1,8 +1,19 @@
+{{/*
+  MARK:  CALCULATE pourcentage for thematics
+*/}}
+
+{{/*
+  MARK: Declare Variables
+*/}}
 {{ $data          := newScratch }}
 {{ $type          := "pourcentage" }}
-{{ $conforme      := cond (not .conforme) dict .conforme}}
-{{ $nonconforme   := cond (not .nonconforme) dict .nonconforme}}
+{{ $conforme      := cond (not .conforme) dict .conforme }}
+{{ $nonconforme   := cond (not .nonconforme) dict .nonconforme }}
 {{ $nonapplicable := .nonapplicable }}
+
+{{/*
+  MARK: LOOP all thematics with their pourcentage value
+*/}}
 {{ range $id, $value := (merge $conforme $nonconforme) }}
   {{ if and (gt (int (index $nonconforme $id)) 0) (gt (int (index $conforme $id)) 0) }}
     {{ $result := (div (mul (index $conforme $id) 100) (add (index $conforme $id) (index $nonconforme $id))) }}

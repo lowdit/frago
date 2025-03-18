@@ -1,9 +1,16 @@
+{{/*
+  MARK: CALCULATE score for OPQUAST
+*/}}
+
+{{/*
+  MARK: Declare Variables
+*/}}
 {{ $scorekey      := sha1 (string now) }}
-{{ $data          := newScratch    }}
-{{ $auditfile     := .auditfile    }}
-{{ $context       := .             }}
-{{ $time          := now.UnixMilli }}
-{{ $timepartial   := now.UnixMilli }}
+{{ $data          := newScratch        }}
+{{ $auditfile     := .auditfile        }}
+{{ $context       := .                 }}
+{{ $time          := now.UnixMilli     }}
+{{ $timepartial   := now.UnixMilli     }}
 
 {{ if (eq (getenv "HUGO_ENV") "debugperf") }}
   {{ $data.Set "debugperf" (slice $auditfile) }}
