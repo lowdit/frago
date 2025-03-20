@@ -102,3 +102,9 @@
   translation: Envoyer
 - id: contact-us
   translation: Nous contacter
+- id: indicators
+  translation: Liste des indicateurs
+- id: compliance
+  translation:
+    one: Conformité
+    other: Conformités

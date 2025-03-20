@@ -61,7 +61,7 @@
     {{/* START Test if audit name is named */}}
 
     {{ if and (ne $referential.name "any") $referential }}
-      {{- $data.Set "criteriafile" (index (index $.context.Site.Data $referential.name) (string $referential.version)).criteria.topics -}}
+      {{- $data.Set "criteriafile" (index (index (index $.context.Site.Data $referential.name) $referential.lang) (string $referential.version)).criteria.topics -}}
 
       {{/* Load the glossary file for the good audit version */}}
       {{- $data.Set "glossaire" (printf "=\"%s%s%s/glossaire/$1\"" (site.BaseURL | default "/") $referential.name $referential.version) -}}

@@ -24,7 +24,7 @@
 
     <h1>Synthèse générale - {{ (index $ref $name).name }}</h1>
     {{- $referential   := (partialCached "render/referential-version.html" (dict "context" $context "project" "statistics" "referential" (index $ref $name).referential) (index $ref $name).referential).guideline -}}
-
+    
     {{/*
       MARK: Displaying statistics table for each main referential version
     */}}
@@ -40,7 +40,7 @@
         {{- $versionlongs  := cond (eq $cond 1) (index (last 1 (index ($referential.versionall) $versionlong)) 0) $versionlong -}}
         {{- $versionlongs  := cond (eq $cond 0) (index (last 1 (index (last 1 (sort $referential.versionall)) 0)) 0) $versionlongs -}}
 
-        {{- $criterialfile := (index (index $context.Site.Data $referential.name) (string $versionlongs)).criteria -}}
+        {{- $criterialfile := (index (index (index $context.Site.Data $referential.name) $context.Lang)  (string $versionlongs)).criteria -}}
         {{- $glossaire     :=  (printf "=\"%s%s%s/glossaire/$1\"" (site.BaseURL | default "/") $referential.name $versionlongs) -}}
         <div class="grid grid-4 align-items-center text-center lh-1 font-bigger">
           {{/* CALL Partial */}}
@@ -99,7 +99,7 @@
         <th width="100px">Conforme</th>
         <th width="100px">Non applicable</th>
         <th width="100px">Non conforme</th>
-        <th width="100px">Conformité</th>
+        <th width="100px">{{ i18n "compliance" }}</th>
       </tr>
     </thead>
     <tbody class="font-bigger">
@@ -191,7 +191,7 @@
         <th width="100px">Conforme</th>
         <th width="100px">Non applicable</th>
         <th width="100px">Non conforme</th>
-        <th width="100px">Conformité</th>
+        <th width="100px">{{ i18n "compliance" }}</th>
       </tr>
     </thead>
     <tbody class="font-bigger">

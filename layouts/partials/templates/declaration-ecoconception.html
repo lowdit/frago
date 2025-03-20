@@ -21,7 +21,7 @@
 {{- $data.Set "audits"        (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "ecoconception" "datafilename" .context.Params.datafilename) $project "ecoconception" .context.Params.datafilename) -}}
 {{- $data.Set "auditscores"   (partialCached "render/meta-scores.html" (dict "context" $context "project" $project "type" "ecoconception") $context $project "ecoconception") -}}
 {{- $referential           := (index ($data.Get "auditscores").context ((index ($data.Get "audits") "auditfile-name"))).guidelines -}}
-{{- $criteriafile          := (index (index $context.Site.Data (string $referential.name)) (string $referential.version)).criteria.criteres -}}
+{{- $criteriafile          := (index (index (index $context.Site.Data (string $referential.name)) $context.Lang) (string $referential.version)).criteria.criteres -}}
 {{/* END Determine the version of the audit form the context declaration */}}
 
 {{/* START Load the criteria file for the good audit version */}}
@@ -168,7 +168,7 @@
         {{ range $key, $value := $criteriafile }}
           {{- $b := dict -}}
           {{- $c := dict -}}
-          {{- $a := (index (where (index (index $context.Site.Data $referential.name) (string $referential.version)).declaration "id" .id) 0) }}
+          {{- $a := (index (where (index (index (index $context.Site.Data $referential.name) $context.Lang)  (string $referential.version)).declaration "id" .id) 0) }}
           {{- if and ($data.Get "context").audit ($data.Get "context").audit.criteria -}}
             {{- $b = (index (where ($data.Get "context").audit.criteria "id" ($value.id)) 0)  }}
           {{- end -}}

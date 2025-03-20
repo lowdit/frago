@@ -109,7 +109,7 @@
                     {{ $thematique      = (index (index $ref $type).topics (sub (int (delimit (first 1 (split $id ".")) "")) 1)) }}
                   {{ else }}
                     {{ $referential    := (partialCached "render/referential-version.html" (dict "context" $context "referential" "opquast") $context "opquast").guideline }}
-                    {{ $criteriafile   := (index (index $context.Site.Data $referential.name) (string $referential.version)).criteria.criteres }}
+                    {{ $criteriafile   := (index (index (index $context.Site.Data $referential.name) $context.Lang)  (string $referential.version)).criteria.criteres }}
                     {{ $thematique      = (index (index (where $criteriafile "number" (float $id)) 0).thema 0).fr }}
                   {{ end }}
 

@@ -10,7 +10,7 @@
 {{- $projectPath  := cond (fileExists (printf "audits/%s/index.md" ($project))) (printf "audits/%s/index.md" ($project)) (printf "audits/%s/_index.md" ($project)) -}}
 {{- $projectTitle := ($context.GetPage $projectPath).Title -}}
 {{- $data.Set "context"  . -}}
-{{- $context.Store.Set "criteriafilepidila" $context.Site.Data.pidila -}}
+{{- $context.Store.Set "criteriafilepidila" (index $context.Site.Data.pidila $context.Lang) -}}
 
 {{ partialCached "utils/css.html" (dict "context" $.context "filefolder" "object" "filename" "summary") "summary" }}
 
@@ -283,7 +283,7 @@
               {{ end -}}
               {{- if .criterion }}
               {{- range (split (replace .criterion " " "") ",") }}
-                {{- $criteriafile := index (index (index $.context.Site.Data $referential.name) (string $referential.version)).criteria.topics -}}
+                {{- $criteriafile := index (index (index (index $.context.Site.Data $referential.name) $.context.Lang) (string $referential.version)).criteria.topics -}}
                 {{- $thematiques  := index (split . ".") 0 -}}
                 {{- $criteria     := index (split . ".") 1 -}}
                 {{- $glossaire    := (printf "=\"%s%s/%s/glossaire/$1\"" ($.context.Site.BaseURL | default "/") ($referential.name) (index (findRE `(\d+.\d)` $referential.version 1) 0)) -}}

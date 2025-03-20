@@ -30,7 +30,7 @@
 {{/*
   MARK: Loop over all directories in a guidelines for finding all versions of this guideline
 */}}
-{{ range $key, $value := (index $context.Site.Data (trim $referential " ") )}}
+{{ range $key, $value := index (index $context.Site.Data (trim $referential " ")) $context.Lang }}
   {{ if in $key "." }}
     {{ if ne $versionallarray (slicestr $key 0 3) }}{{ $data.Set "versionallarray" slice }}{{ end }}
     {{ $data.Add "versionallarray" $key }}
@@ -50,6 +50,7 @@
 {{ return (dict
   "guideline" (dict
       "name"                ($data.Get "name")
+      "lang"                ($context.Lang)
       "version"             ($data.Get "version")
       "versionmajor"        (index (split ($data.Get "version") ".") 0)
       "versionall"          ($data.Get "versionall")

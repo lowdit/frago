@@ -48,7 +48,7 @@
   {{/* END Display page note if exists */}}
 
   {{- $referential := (partialCached "render/referential-version.html" (dict "context" $context "referential" "publishing") $context "publishing").guideline -}}
-  {{- $context.Store.Set "file" (index (index $context.Site.Data $referential.name) (string $referential.version)) -}}
+  {{- $context.Store.Set "file" (index (index (index $context.Site.Data $referential.name) $context.Lang)  (string $referential.version)) -}}
   {{- $criteriafile   := ($context.Store.Get "file").criteria.criteres -}}
 
   {{- if and ($data.Get "auditfile-csv") (ne ($data.Get "scores").isempty 0) -}}

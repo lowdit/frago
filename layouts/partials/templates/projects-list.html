@@ -9,9 +9,9 @@
 {{- $.Scratch.Delete "allscores" -}}
 {{- $.Scratch.Delete "projectfolders" -}}
 {{- $.Store.Set      "rangepages" (where .Site.Pages "Section" "audits") -}}
-{{- $.Store.Set      "aggregates" (partialCached "render/aggregate-scores.html" (dict "pages" ($.Store.Get "rangepages")) ($.Store.Get "rangepages")) -}}
 
-{{- if ($.Store.Get "rangepages") -}}
+{{- if and ($.Store.Get "rangepages") (gt (len ($.Store.Get "rangepages")) 0) -}}
+  {{- $.Store.Set  "aggregates" (partialCached "render/aggregate-scores.html" (dict "pages" ($.Store.Get "rangepages")) ($.Store.Get "rangepages")) -}}
   <section class="section text-center m-0">
     <div class="fg-wrapper">
 
@@ -126,6 +126,12 @@
       {{- end -}}
     </div>
   </section>
+{{- else -}}
+<section class="section text-center m-0">
+    <div class="fg-wrapper">
+      <p>Audits manquants ou page de traduction manquante dans cette langue</p>{{/* TODO: Translate */}}
+    </div>
+</section>
 {{- end -}}
 
 {{ if (eq (getenv "HUGO_ENV") "debugperf") }}

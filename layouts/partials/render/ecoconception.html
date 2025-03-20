@@ -88,7 +88,7 @@
 {{/* START calculate compliance for the 2.0 version */}}
 {{ if and $referential (in $referential.version "2") }}
   {{ range $key, $value := ($data.Get "CritCount") }}
-    {{ $priorite := (index (where (readFile (printf "/data/%s/%s/criteria.json" $referential.name $referential.version) | transform.Unmarshal).criteres "id" "eq" (string $key)) 0).priorite }}
+    {{ $priorite := (index (where (readFile (printf "/data/%s/%s/%s/criteria.json" $referential.name $referential.lang $referential.version) | transform.Unmarshal).criteres "id" "eq" (string $key)) 0).priorite }}
     {{ $cond     := (cond (eq $priorite "Prioritaire") 1.5 (cond (eq $priorite "Modéré") 1.25 1)) }}
     {{ if (index ($data.Get "CritC") $key) }}
       {{ $data.Add "compliance-version-2-conforme" $cond }}

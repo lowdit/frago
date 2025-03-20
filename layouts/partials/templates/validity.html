@@ -46,7 +46,7 @@
     {{- $thematiques := float (index (split $key ".") 0) -}}
     {{- $criteria    := float (index (split $key ".") 1) -}}
     <p><strong>Critère {{ $thematiques }}.{{ $criteria }}</strong><br/>
-    {{- $s := where ((index $context.Site.Data $auditname).criteria.topics) "number" "eq" (float (index (split $key ".") 0)) -}}
+    {{- $s := where ((index (index $context.Site.Data $auditname) $context.Lang).criteria.topics) "number" "eq" (float (index (split $key ".") 0)) -}}
     {{- if ge (len $s) 1 -}}
       {{- $content := (index (index $s 0).criteria (sub (int ($criteria)) 1)).criterium.title -}}
       <em>{{ replaceRE "\\[(.*?)\\]\\(.*?\\)" "$1" $content | markdownify }}</em>
