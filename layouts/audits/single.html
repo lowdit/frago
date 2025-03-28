@@ -1,18 +1,37 @@
 {{- define "meta" -}}
+  {{/*
+    MARK: META
+  */}}
   {{- $meta := partialCached "elements/head-meta.html" . .Permalink -}}
   {{ $meta.pretitle }} de {{ $meta.title }}
 {{- end -}}
 
 {{- define "title" -}}
+  {{/*
+    MARK: Title in the page
+  */}}
   {{- $meta := partialCached "elements/head-meta.html" . .Permalink -}}
   {{ $meta.pretitle }} de {{ $meta.title }}
 {{- end -}}
 
 {{- define "main" -}}
+  {{/*
+    MARK: Declare Variables
+  */}}
   {{- $context    := . -}}
   {{- $reflist    := (slice "accessibility" "raweb" "raam" "ecoindex" "ecoconception" "opquast" "publishing" "recommendation" "performance" "ecoindex") }}
-  {{- $patharray  := split .Path "/" -}}
-  {{- $project :=  (index (split .Path "/") 2) -}}
+  {{- $meta          := (partialCached "utils/variables-init.html" $context $context) -}}
+  {{- $lang          := $meta.lang -}}
+  {{- $langurl       := $meta.langurl -}}
+  {{- $patharray     := $meta.patharray -}}
+  {{- $project       := $meta.project -}}
+  {{- $projectPath   := $meta.projectPath -}}
+  {{- $projectTitle  := $meta.projectTitle -}}
+  {{- $Permalinklen  := $meta.permalinkLen -}}
+  {{/*
+    MARK: Called from _content.gotmpl
+  */}}
+
   {{- if ge (len $patharray) 4 -}}
     {{- if eq (len (intersect (slice .Title) $reflist)) 1 -}}
       {{- $Type := cond (eq .Title "raweb") "accessibility" .Title -}}
@@ -39,7 +58,10 @@
         {{- partialCached "elements/content.html" $partial $partial -}}
       </article>
     {{- end -}}
-  {{- else -}}  
+  {{- else -}}
+    {{/*
+      MARK: FIXME: Code with output Format
+    */}}
     {{- $path := "" }}{{ with .File }}{{ $path = .Path }}{{ end }}
     {{- $project    := cond (eq (len (split (path.Dir $path) "/")) 1) "" (replace (path.Dir $path) "audits/" "") -}}
     {{- $alternate  := where (where .OutputFormats "Permalink" "eq" .Permalink) "Rel" "eq" "alternate" -}}
@@ -70,6 +92,7 @@
           {{- end -}}
         {{- end -}}
       {{- end -}}
+    {{/* IF not a inside page AND not an alternate Output format */}}
     {{- else -}}
       <div class="fg-wrapper narrow"><p class="no-print">← <a href="{{ if eq (.Site.GetPage "/").Title "Accueil Audits" }}/{{ else }}{{ $.Site.BaseURL | default "/"}}audits{{ end }}" class="link-more link-back">Retour à la liste des services</a></p></div>
       {{ with .Title }}<h1 class="text-center fg-wrapper narrow ">{{ . }}</h1>{{ end }}
@@ -77,6 +100,7 @@
         <article class="fg-wrapper narrow">
           {{ partialCached "elements/content.html" .Content .Content }}
         </article>
+      {{/* IF not a inside page AND not an alternate Output format AND not the section page (first level) */}}
       {{- else -}}
         {{- $partial := (partialCached "templates/projects.html" $context $context) -}}
         {{- partialCached "elements/content.html" $partial $partial -}}

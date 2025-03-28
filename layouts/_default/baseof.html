@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 {{/* General variables */}}
-<html lang="{{ .Site.LanguageCode | default "fr" }}" dir="ltr" class="no-js">
+<html lang="{{ cond (not .Params.lang) (.Site.LanguageCode | default "fr") .Params.lang }}" dir="ltr" class="no-js">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">

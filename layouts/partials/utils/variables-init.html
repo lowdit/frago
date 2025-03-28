@@ -1,0 +1,29 @@
+{{ $path         := "" }}{{ with .File }}{{ $path = .Path }}{{ end }}
+{{ $path         := cond (eq $path "_content.gotmpl") (string .Path) $path }}
+{{ $project      := partialCached "render/projectpath" . . }}
+{{ $lang         := cond (eq (string (index $.Site.Languages 0)) (string (cond .Params.lang .Params.lang .Lang))) "" (cond .Params.lang .Params.lang .Lang) }}
+{{ $langtrue     := (cond .Params.lang .Params.lang .Lang) -}}
+{{ $langurl      := cond (not $lang) "" (printf "%s/" $lang) -}}
+{{ $projectPath  := replace (cond (fileExists (printf "audits/%s/index.md" ($project))) (printf "audits/%s/index.md" ($project)) (printf "audits/%s/_index.md" ($project))) "//" "/" }}
+{{ $projectTitle := ($.GetPage $projectPath).Title }}
+{{ $Relpermalink := cond (ne .RelPermalink "/") (substr .RelPermalink 1 -1) "/" }}
+{{ $pageTitle    := cond (or (in .Permalink "audits/") (in .Permalink "services/")) "" .Title }}
+{{ $patharray    := split .Path "/" }}
+{{ $Permalinklen := cond (not $lang) (split (.RelPermalink) "/") ((split (.RelPermalink) "/") | symdiff (slice $lang)) -}}
+{{ $Permalinklen := cond (not $Relpermalink) slice (cond (not $lang) (split ($Relpermalink) "/") ((split ($Relpermalink) "/") | symdiff (slice $lang))) -}}
+
+{{ return (dict
+    "context"        .
+    "path"           $path
+    "patharray"      $patharray
+    "project"        $project
+    "pageTitle"      $pageTitle
+    "projectPath"    $projectPath
+    "projectTitle"   $projectTitle
+    "lang"           $lang
+    "langtrue"       $langtrue
+    "langurl"        $langurl
+    "permalinkLen"   $Permalinklen
+    "relPermalink"   (substr .RelPermalink 1 -1)
+  )
+}}

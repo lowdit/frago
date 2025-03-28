@@ -1,3 +1,3 @@
-{{ $result := (replaceRE "glossaire.md" "" .value 100) }}
+{{ $result := (replaceRE "glossary.md" "" .value 100) }}
 {{ $result := (replaceRE "=\"(#.*[^\\d])\"" .link (replace (replace ($result | markdownify) " ?" "&nbsp;?") "\n," ",") 100) | safeHTML }}
 {{ return $result }}

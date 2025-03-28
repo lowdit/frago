@@ -1,5 +1,17 @@
 - id: home
   translation: "Home"
+- id: criteria
+  translation:
+    one: Criterion
+    other: Criteria
+- id: glossary
+  translation:
+    one: Glossary
+    other: Glossaries
+- id: methodologies
+  translation:
+    one: Methodology
+    other: Methodologies
 - id: accessibility
   translation: "Accessibilité"
 - id: raweb

@@ -7,7 +7,7 @@
 */}}
 {{- $path := "" }}{{ with .File }}{{ $path = .Path }}{{ end }}
 {{- $pagedate := replace (path.Base $path) (path.Ext $path) "" -}}
-{{- $kind := .Kind -}}
+{{- $kind     := .Kind -}}
 
 {{/* START Write table with all actions */}}
 {{- with (partialCached "render/actions.html" .) -}}

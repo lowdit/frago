@@ -6,8 +6,10 @@
   MARK: Declare Variables
 */}}
 {{- $context      := .context -}}
-{{- $project      := partialCached "render/projectpath" $context $context -}}
 {{- $data         := newScratch -}}
+{{- $meta         := (partialCached "utils/variables-init.html" $context $context) -}}
+{{- $lang         := $meta.lang -}}
+{{- $project      := $meta.project -}}
 
 {{ if (eq (getenv "HUGO_ENV") "debugfiles") }}
   {{ warnf "GreenIT : %s" ($data.Get "auditpath-csv") }}
@@ -46,7 +48,8 @@
 
   {{/* Use the audit last version */}}
   {{- $referential    := (partialCached "render/referential-version.html" (dict "context" $context "referential" "greenit") $context "greenit").guideline -}}
-  {{- $criteriafile   := (index (index (index $context.Site.Data $referential.name) $context.Lang)  (string $referential.version)).criteria.criteres -}}
+  {{- $criteriafile   := (partialCached "utils/lang/referential.html" (dict "context" $context "referential" $referential) $referential) -}}
+  {{- $criteriafile   := $criteriafile.criteria.criteres -}}
 
   {{- if and ($data.Get "auditfile-csv") -}}
     <h2 class="text-center">Scores{{- with ($data.Get "scores").scores.criteria -}}&nbsp;-&nbsp;{{- .total -}}&nbsp;critères{{ end }}</h2>

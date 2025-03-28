@@ -7,10 +7,12 @@
 */}}
 {{- $context      := .context -}}
 {{- $path := "" }}{{ with $context.File }}{{ $path = .Path }}{{ end }}
-{{- $project      := partialCached "render/projectpath" $context $context -}}
 {{- $data         := newScratch -}}
-{{- $projectPath  := cond (fileExists (printf "audits/%s/index.md" ($project))) (printf "audits/%s/index.md" ($project)) (printf "audits/%s/_index.md" ($project)) -}}
-{{- $projectTitle := ($context.GetPage $projectPath).Title -}}
+{{- $meta         := (partialCached "utils/variables-init.html" $context $context) -}}
+{{- $lang         := $meta.lang -}}
+{{- $project      := $meta.project -}}
+{{- $projectPath  := $meta.projectPath -}}
+{{- $projectTitle := $meta.projectTitle -}}
 
 <article class="fg-wrapper narrow">
   {{- $data.Set "audits" (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "ecoindex") $project "ecoindex") -}}
@@ -20,7 +22,7 @@
     {{ warnf "Ecoindex   : %s" ($data.Get "auditpath") }}
   {{ end }}
 
-  {{- if $project -}}<p>← <a href="{{ site.BaseURL | default "/" }}{{- with $project -}}{{ printf "audits/%s/" (urlize .) }}{{- end -}}" class="link-more link-back" aria-label="Retour à la page {{ ($context.GetPage $project).Title }}">Retour à la page projet</a></p>{{- end -}}
+  {{- if $project -}}<p>← <a href="{{ site.BaseURL | default "/" }}{{ (cond $lang (printf "%s/" $lang) "") }}{{- with $project -}}{{ printf "audits/%s/" (urlize .) }}{{- end -}}" class="link-more link-back" aria-label="Retour à la page {{ ($context.GetPage $project).Title }}">Retour à la page projet</a></p>{{- end -}}
   <h1 class="lh-0">Synthèse Écoindex{{ with $projectTitle }}<small> pour {{ partialCached "utils/isURL.html" (dict "context" $context "projectTitle" $projectTitle) $projectTitle }}</small>{{ end }}</h1>
 
   {{- if and ($data.Get "auditpath") (not (in ($data.Get "auditpath") "false")) -}}

@@ -9,7 +9,14 @@
 {{ $referential    := trim .referential " " }}
 {{ $Type           := trim (cond (not .Type) "" .Type) " " }}
 {{ $data           := newScratch }}
-{{ $path           := "" }}
+{{- $meta         := (partialCached "utils/variables-init.html" $context $context) -}}
+{{- $lang         := $meta.lang -}}
+{{- $langurl      := $meta.langurl -}}
+{{- $patharray    := $meta.patharray -}}
+{{- $project      := $meta.project -}}
+{{- $projectPath  := $meta.projectPath -}}
+{{- $projectTitle := $meta.projectTitle -}}
+{{- $Permalinklen := $meta.permalinkLen -}}
 {{ $patharray      := (symdiff (split ($context.RelPermalink) "/") (slice ""))}}
 
 {{ if (and (eq $referential "any") (or (eq $Type "accessibility") (eq $Type "ecoconception"))) }}
@@ -30,7 +37,12 @@
 {{/*
   MARK: Loop over all directories in a guidelines for finding all versions of this guideline
 */}}
-{{ range $key, $value := index (index $context.Site.Data (trim $referential " ")) $context.Lang }}
+{{ $criteriafilecond := cond
+  (not (index (index $context.Site.Data (trim $referential " ")) $lang))
+  "fr"
+  $lang
+-}}
+{{ range $key, $value := (index (index $context.Site.Data (trim $referential " ")) $criteriafilecond) }}
   {{ if in $key "." }}
     {{ if ne $versionallarray (slicestr $key 0 3) }}{{ $data.Set "versionallarray" slice }}{{ end }}
     {{ $data.Add "versionallarray" $key }}
@@ -50,7 +62,7 @@
 {{ return (dict
   "guideline" (dict
       "name"                ($data.Get "name")
-      "lang"                ($context.Lang)
+      "lang"                ($criteriafilecond)
       "version"             ($data.Get "version")
       "versionmajor"        (index (split ($data.Get "version") ".") 0)
       "versionall"          ($data.Get "versionall")

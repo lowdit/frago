@@ -8,9 +8,12 @@
 {{- $context      := .context -}}
 {{- $path := "" }}{{ with .File }}{{ $path = .Path }}{{ end }}
 {{- $data         := newScratch -}}
-{{- $project      := partialCached "render/projectpath" $context $context -}}
-{{- $projectPath  := cond (fileExists (printf "audits/%s/index.md" ($project))) (printf "audits/%s/index.md" ($project)) (printf "audits/%s/_index.md" ($project)) -}}
-{{- $projectTitle := ($context.GetPage $projectPath).Title -}}
+{{- $meta         := (partialCached "utils/variables-init.html" $context $context) -}}
+{{- $lang         := $meta.lang -}}
+{{- $langurl      := $meta.langurl -}}
+{{- $project      := $meta.project -}}
+{{- $projectPath  := $meta.projectPath -}}
+{{- $projectTitle := $meta.projectTitle -}}
 
 {{/* Test if files are in static or in each projets */}}
 {{- $data.Set "audits" (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "lighthouse") $project "lighthouse") -}}
@@ -33,7 +36,7 @@
 
     <article class="fg-wrapper narrow">
       {{- if $project -}}
-      <p>← <a href="{{ site.BaseURL | default "/" }}{{- with $project -}}{{ printf "audits/%s/" (urlize .) }}{{- end -}}" class="link-more link-back" aria-label="Retour à la page {{ ($context.GetPage $project).Title }}">Retour à la page projet</a></p>{{- end -}}
+      <p>← <a href="{{ site.BaseURL | default "/" }}{{ (cond $lang (printf "%s/" $lang) "") }}{{- with $project -}}{{ printf "audits/%s/" (urlize .) }}{{- end -}}" class="link-more link-back" aria-label="Retour à la page {{ ($context.GetPage $project).Title }}">Retour à la page projet</a></p>{{- end -}}
       <h1>{{ with .Title }}{{ . }}{{ else }}Audit Performance{{ end }} {{ with $projectTitle }}<small> pour {{ partialCached "utils/isURL.html" (dict "context" $context "projectTitle" $projectTitle) $projectTitle }}</small>{{ end }}</h1>
 
       {{- partialCached "elements/content.html" .context.Content .context.Content -}}

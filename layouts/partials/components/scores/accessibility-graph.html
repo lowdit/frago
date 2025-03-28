@@ -9,7 +9,8 @@
 {{- $context       := .context   -}}
 {{- $scores        := .scores    -}}
 {{- $auditfile     := .auditfile -}}
-{{- $ref           := $context.Site.Data.referential -}}
+{{- $lang          := cond $context.Params.lang $context.Params.lang $context.Lang -}}
+{{- $ref           := index $context.Site.Data.referential (string $lang) -}}
 {{- $time          := now.UnixMilli -}}
 {{- $timepartial   := now.UnixMilli -}}
 

@@ -1,0 +1,235 @@
+
+{{/*
+  MARK: All Languages
+*/}}
+
+{{/* DECLARE - main key */}}
+{{ $reflist   := (slice "actions" "accessibility" "raweb" "raam" "ecoconception" "opquast" "publishing" "performance" "recommendation" "ecoindex") }}
+
+{{ $loop      := partialCached "utils/keyaudits" "keyaudits" }}
+{{/* DECLARE - Slice with all keys */}}
+{{ $keyaudit  := slice }}
+{{ range $key, $value := $loop }}
+  {{ range . }}
+    {{ $keyaudit = $keyaudit | append . }}
+  {{ end }}
+{{ end }}
+
+{{/*
+  MARK: All referential pages
+  As: en/rgaa/criteria
+*/}}
+{{ if gt (len .Site.Languages) 1 }}
+  {{ range $id, $lang := after 1 .Site.Languages }}
+    {{- $ref    := index $.Site.Data.referential (string $lang) -}}
+    {{- $params := dict "lang" (string $lang) }}
+    {{- range $key0, $value0 := $ref -}}
+      {{/*
+        Section page
+      */}}
+      {{- $page := dict
+        "kind" "section"
+        "path" (printf "%s/%s" $lang $value0.referential)
+        "title" $value0.name
+        "params" $params
+      -}}
+      {{/*
+        Pages
+      */}}
+      {{- range $key1, $value1 := (index (index $.Site.Data $value0.referential) (string $lang)) -}}
+        {{ range $key2, $value2 := . }}
+          {{- $Type   := cond (eq . "raweb") "rgaa" $value0.referential -}}
+          {{- $Type   := cond (eq $Type "raam") "rgaa" $Type -}}
+          {{- $Type   := cond (eq $key2 "criteria") $Type $key2 -}}
+          {{- $params := dict "lang" (string $lang) }}
+          {{- $page := dict
+            "kind" "page"
+            "path" (printf "%s/%s/%s/%s" $lang $value0.referential $key1 $key2)
+            "title" (index $ref $value0.referential).name
+            "type" $Type
+            "params" $params
+          -}}
+          {{ $.AddPage $page }}
+        {{ end }}
+      {{ end }}
+      {{ $.AddPage $page}}
+    {{- end -}}
+    {{/*
+      MARK: Translated section pages for audits
+    */}}
+    {{ $page := dict
+      "kind" "section"
+      "path" (printf "%s/audits/" $lang)
+      "title" ""
+      "type" "audits"
+      "params" $params
+    }}
+    {{ $.AddPage $page }}
+    {{ $page := dict
+      "kind" "section"
+      "path" (printf "%s/" $lang)
+      "title" ""
+      "type" "home"
+      "params" $params
+    }}
+    {{ $.AddPage $page }}
+  {{- end -}}
+{{- end -}}
+
+{{ if (fileExists "content/audits") -}}
+  {{/* START - Loop the folder where audits are */}}
+  {{ range (readDir "content/audits") }}
+    {{ $rep := . }}
+    {{ $name := .Name }}
+    {{ $l1 := slice }}
+    {{ if .IsDir }}
+      {{ if gt (len $.Site.Languages) 1 }}
+        {{ range $id, $lang := after 1 $.Site.Languages }}
+          {{- $params := dict "lang" (string $lang) }}
+          {{ $page := dict
+            "kind" "section"
+            "path" (printf "%s/audits/%s/" $lang $name)
+            "title" ""
+            "type" "audits"
+            "params" $params
+          }}
+          {{ $.AddPage $page }}
+        {{ end }}
+      {{ end }}
+    {{/* DECLARE - Slice with all folders  */}}
+    {{ range (readDir (printf "content/audits/%s" .Name)) }}
+      {{ if .IsDir }}
+        {{ $l1 = $l1 | append .Name }}
+      {{ end }}
+    {{ end }}
+    {{/* START - Loop keys */}}
+    {{ range $reflist }}
+      {{ $ref := . }}
+      {{ range (index $loop .) }}
+        {{ $audit := (printf "content/audits/%s/%s" $name . ) }}
+        {{ if (fileExists $audit) }}
+          {{ $page := dict
+            "kind" "page"
+            "path" (printf "audits/%s/%s" $name $ref)
+            "title" $ref
+          }}
+          {{ $.AddPage $page }}
+          {{ if (eq $ref "accessibility") }}
+            {{ $page := dict
+              "kind" "page"
+              "path" (printf "audits/%s/%s/%s" $name $ref "declaration")
+              "title" "declaration"
+            }}
+            {{ $.AddPage $page }}
+          {{ else if (eq $ref "ecoconception") }}
+            {{ $page := dict
+              "kind" "page"
+              "path" (printf "audits/%s/%s/%s" $name $ref "declaration-ecoconception")
+              "title" "declaration-ecoconception"
+            }}
+            {{ $.AddPage $page }}
+          {{ end }}
+          {{ if gt (len $.Site.Languages) 1 }}
+            {{ range $id, $lang := after 1 $.Site.Languages }}
+              {{- $params := dict "lang" (string $lang) }}
+                {{ $page := dict
+                  "kind" "page"
+                  "path" (printf "%s/audits/%s/%s" $lang $name $ref)
+                  "title" $ref
+                  "type" $ref
+                  "params" $params
+                }}
+                {{ $.AddPage $page }}
+                {{ if (eq $ref "accessibility") }}
+                  {{ $page := dict
+                    "kind" "page"
+                    "path" (printf "%s/audits/%s/%s/%s" $lang $name $ref "declaration")
+                    "title" "declaration"
+                    "type" "audits"
+                    "params" $params
+                  }}
+                  {{ $.AddPage $page }}
+                {{ else if (eq $ref "ecoconception") }}
+                  {{ $page := dict
+                    "kind" "page"
+                    "path" (printf "%s/audits/%s/%s/%s" $lang $name $ref "declaration-ecoconception")
+                    "title" "declaration-ecoconception"
+                    "type" "audits"
+                    "params" $params
+                  }}
+                  {{ $.AddPage $page }}
+              {{ end }}
+            {{ end }}
+          {{ end }}
+        {{ end }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+  {{/* END - Loop keys */}}
+  {{/* START - Projects Subfolder */}}
+  {{ range (symdiff $keyaudit (union $l1 $keyaudit)) }}
+    {{ $l2 := . }}
+    {{ range $reflist }}
+      {{ $ref := . }}
+      {{ range (index $loop .) }}
+        {{ $audit := (printf "content/audits/%s/%s" $name . ) }}
+        {{ $page := dict
+          "kind" "page"
+          "path" (printf "audits/%s/%s/%s" $name $l2 $ref)
+          "title" $ref
+        }}
+        {{ $.AddPage $page }}
+        {{ if gt (len $.Site.Languages) 1 }}
+          {{ range $id, $lang := $.Site.Languages }}
+            {{ if (fileExists $audit) }}
+                {{ $page := dict
+                  "kind" "page"
+                  "path" (printf "%s/audits/%s/%s/%s" $lang $name $l2 $ref)
+                  "title" $ref
+                }}
+                {{ $.AddPage $page }}
+            {{ end }}
+          {{ end }}
+        {{ end }}
+        {{ end }}
+      {{ end }}
+    {{ end }}
+    {{/* END - Projects Subfolder */}}
+  {{ end }}
+{{ end }}
+{{/* END - Loop the folder where audits are */}}
+
+
+{{/*
+  MARK: Organism
+*/}}
+{{ if (fileExists "content/organism/_index.md") -}}
+  {{ $reflist    := (slice "accessibility" "raweb" "raam" "ecoconception" "opquast" "publishing" "greenit" "cigref") }}
+
+  {{ range $reflist }}
+    {{- $page := dict
+      "kind" "section"
+      "path" (printf "organism/%s/" .)
+      "title" .
+    -}}
+
+    {{ $.AddPage $page }}
+  {{ end }}
+
+  {{ if gt (len .Site.Languages) 1 }}
+    {{ range $id, $lang := after 1 .Site.Languages }}
+    {{- $params := dict "lang" (string $lang) }}
+    {{ range $reflist }}
+      {{- $page := dict
+        "kind" "section"
+        "path" (printf "%s/organism/%s" $lang .)
+        "title" .
+        "type" "organism"
+        "params" $params
+      -}}
+
+      {{ $.AddPage $page }}
+    {{ end }}
+    {{ end }}
+  {{ end }}
+{{ end }}

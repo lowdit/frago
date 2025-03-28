@@ -405,17 +405,17 @@
       "es": "GIS, IVA, AVT, VAT, DTC, XML... las abreviaturas, siglas y acrónimos abundan en la Red, sobre todo en los ámbitos técnico y administrativo. Al explicarlos, hace un gran servicio a sus usuarios y mejora su referenciación."
     },
     "solution": {
-      "fr": "<p>Au moins lors de la première apparition d’un sigle, acronyme ou abréviation dans la page, il s’agira de veiller à recourir à au moins l’une des méthodes ci-dessous :</p><p></p><ul><li>Expliciter sa signification au sein même du texte, par exemple : « une DTD (déclaration de type de document) ».</li><li>Fournir un lien donnant accès à sa signification dans une page de glossaire ou via un affichage dynamique (bulle d’aide JavaScript).</li><li>Baliser avec l’élément HTML <code>abbr</code> et renseigner l’attribut <code>title</code> de celui-ci pour indiquer sa signification.</li></ul>\r\n<p>La bonne pratique ne fait cette exigence que pour la première occurrence dans la page : cela peut être fait ou non pour les suivantes.</p>",
+      "fr": "<p>Au moins lors de la première apparition d’un sigle, acronyme ou abréviation dans la page, il s’agira de veiller à recourir à au moins l’une des méthodes ci-dessous :</p><p></p><ul><li>Expliciter sa signification au sein même du texte, par exemple : « une DTD (déclaration de type de document) ».</li><li>Fournir un lien donnant accès à sa signification dans une page de glossary ou via un affichage dynamique (bulle d’aide JavaScript).</li><li>Baliser avec l’élément HTML <code>abbr</code> et renseigner l’attribut <code>title</code> de celui-ci pour indiquer sa signification.</li></ul>\r\n<p>La bonne pratique ne fait cette exigence que pour la première occurrence dans la page : cela peut être fait ou non pour les suivantes.</p>",
       "en": "<p>At least when an initialism, acronym or abbreviation appears on the page for the first time, make sure to use at least one of the methods below:</p><p></p><ul><li>Explain its meaning within the text, for example: “A DTD (document type declaration)”.</li><li>Provide a link giving access to its meaning in a glossary page or via a dynamic display (JavaScript tooltip).</li><li>Tag with the HTML element <code>abbr</code> and fill in the <code>title</code> attribute to indicate its meaning.</li></ul>\r\n<p>The best practice only requires this for the first occurrence in the page: it is optional for subsequent ones.</p>",
       "es": ""
     },
     "control": {
-      "fr": "<p>Dans chaque page examinée, identifier visuellement chaque sigle, abréviation ou acronyme présent dans la page, puis vérifier, pour sa première occurrence dans la page, la présence, au moins :</p>\r\n<ul>\r\n<li>de sa signification immédiatement indiquée dans le contexte, par exemple entre parenthèses,</li>\r\n<li>d’un lien sur le sigle donnant accès à sa signification, par exemple dans un glossaire, </li>\r\n<li>ou de l’élément <code>abbr</code> doté d’un attribut <code>title</code> explicitant sa signification.</li>\r\n</ul>",
+      "fr": "<p>Dans chaque page examinée, identifier visuellement chaque sigle, abréviation ou acronyme présent dans la page, puis vérifier, pour sa première occurrence dans la page, la présence, au moins :</p>\r\n<ul>\r\n<li>de sa signification immédiatement indiquée dans le contexte, par exemple entre parenthèses,</li>\r\n<li>d’un lien sur le sigle donnant accès à sa signification, par exemple dans un glossary, </li>\r\n<li>ou de l’élément <code>abbr</code> doté d’un attribut <code>title</code> explicitant sa signification.</li>\r\n</ul>",
       "en": "<p>On each page inspected, visually identify each initialism, abbreviation or acronym present on the page, then for its first occurrence on the page, check that there is at least:</p>\r\n<ul>\r\n<li>its meaning immediately given in context, for example in parentheses. '</li><li>a link on the acronym giving access to its meaning, for example in a glossary.</li>\r\n<li>or the <code>abbr</code> element with a <code>title </code> attribute explaining its meaning.</li>\r\n</ul>",
       "es": ""
     },
     "vulgarization": {
-      "fr": "Lorsqu’un sigle est employé de manière répétée dans un même contenu, il est souvent préférable d’en expliciter seulement la première occurrence. La présence d’un glossaire sur le site est une démarche qui peut être retenue indépendamment des autres techniques indiquées ici : le glossaire facilite la consultation et la maîtrise par l’utilisateur d’un éventuel vocabulaire spécialisé. Il servira aussi éventuellement de support à la fonctionnalité de bulle d’aide JavaScript. Enfin, cette dernière présente un avantage important par rapport au mécanisme de tooltip natif des éléments abbr et acronym : l’affichage du sens du sigle sera accessible au clavier.",
+      "fr": "Lorsqu’un sigle est employé de manière répétée dans un même contenu, il est souvent préférable d’en expliciter seulement la première occurrence. La présence d’un glossary sur le site est une démarche qui peut être retenue indépendamment des autres techniques indiquées ici : le glossary facilite la consultation et la maîtrise par l’utilisateur d’un éventuel vocabulaire spécialisé. Il servira aussi éventuellement de support à la fonctionnalité de bulle d’aide JavaScript. Enfin, cette dernière présente un avantage important par rapport au mécanisme de tooltip natif des éléments abbr et acronym : l’affichage du sens du sigle sera accessible au clavier.",
       "en": "",
       "es": ""
     }
@@ -500,7 +500,7 @@
       "es": "0"
     },
     "description": {
-      "fr": "Un lexique ou un glossaire adapté au public visé explique le vocabulaire sectoriel ou technique.",
+      "fr": "Un lexique ou un glossary adapté au public visé explique le vocabulaire sectoriel ou technique.",
       "en": "A lexicon or a glossary adapted to the target audience explains the industry-specific or technical vocabulary used.",
       "es": "Existe un índice de términos o glosario con el vocabulario técnico o específico del sector."
     },
@@ -528,7 +528,7 @@
       ]
     },
     "slug": {
-      "fr": "un-lexique-ou-un-glossaire-adapte-au-public-vise-explique-le-vocabulaire-sectoriel-ou-technique",
+      "fr": "un-lexique-ou-un-glossary-adapte-au-public-vise-explique-le-vocabulaire-sectoriel-ou-technique",
       "en": "a-lexicon-or-a-glossary-adapted-to-the-target-audience-explains-the-industry-specific-or-technical-vocabulary-used",
       "es": "existe-un-indice-de-terminos-o-glosario-con-el-vocabulario-tecnico-o-especifico-del-sector"
     },
@@ -559,22 +559,22 @@
       }
     ],
     "explanation": {
-      "fr": "Les auteurs de ce livre sont des exemples vivants de la capacité quasi instantanée de l’être humain à jargonner dès qu’il accumule quelques connaissances. Un petit lexique ou un glossaire, et hop, le visiteur du site peut appréhender les contenus.",
+      "fr": "Les auteurs de ce livre sont des exemples vivants de la capacité quasi instantanée de l’être humain à jargonner dès qu’il accumule quelques connaissances. Un petit lexique ou un glossary, et hop, le visiteur du site peut appréhender les contenus.",
       "en": "Its incredible how instantaneous the ability of human beings  to create jargon is.  Even the authors of this certification guide have occassionaly fallen foul to this urge. A little lexicon or glossary, and hey presto,  the visitor of the site has an increased chance of comprehending the contents.",
       "es": "Es increíble lo instantánea que es la capacidad de los seres humanos para crear jerga. Incluso los autores de esta guía de certificación han caído ocasionalmente en este impulso. Un poco de léxico o glosario, y listo, el usuario del sitio web tiene más posibilidades de comprender los contenidos."
     },
     "solution": {
-      "fr": "<p>Pour mettre en œuvre cette bonne pratique, il s'agira de fournir :</p><ul>\r\n<li>Une section, une page ou une série de pages de glossaire explicitant le vocabulaire technique ou sectoriel utilisé dans le contenu du site. Ce glossaire devra être disponible directement depuis chaque page du site.</li>\r\n\t\t\t\t\t<li>Ou bien un mécanisme permettant à l'utilisateur d'accéder à la définition des termes du vocabulaire technique ou sectoriel, depuis au moins leur première occurrence dans chaque page du site.</li>\r\n\t\t\t\t</ul>",
+      "fr": "<p>Pour mettre en œuvre cette bonne pratique, il s'agira de fournir :</p><ul>\r\n<li>Une section, une page ou une série de pages de glossary explicitant le vocabulaire technique ou sectoriel utilisé dans le contenu du site. Ce glossary devra être disponible directement depuis chaque page du site.</li>\r\n\t\t\t\t\t<li>Ou bien un mécanisme permettant à l'utilisateur d'accéder à la définition des termes du vocabulaire technique ou sectoriel, depuis au moins leur première occurrence dans chaque page du site.</li>\r\n\t\t\t\t</ul>",
       "en": "<p>To implement this best practice, it will be necessary to provide:</p><ul>\r\n<li>A glossary section, page or series of pages explaining the technical or sector-specific vocabulary used in the content of the website should be provided. This glossary must be available directly from each page of the website.</li>\r\n\t\t\t\t\t<li>Alternatively a mechanism could be provided allowing the user to access the definition of terms in the technical or sector-specific vocabulary, from at least their first occurrence in each page of the website.</li>\r\n\t\t\t\t</ul>",
       "es": ""
     },
     "control": {
-      "fr": "<p>Pour chaque page contenant du vocabulaire spécifique, contrôler qu'il est possible d'accéder&nbsp;: </p><ul>\r\n<li>À une section jouant le rôle de glossaire dans chaque page concernée.</li>\r\n\t\t\t\t\t<li>À une page ou une série de pages de glossaire disponible via les menus de navigation.</li>\r\n\t\t\t\t\t<li>Ou directement à la définition des termes depuis au moins leur première occurrence dans chaque page du site via un lien ou un tooltip.</li>\r\n\t\t\t\t</ul>",
+      "fr": "<p>Pour chaque page contenant du vocabulaire spécifique, contrôler qu'il est possible d'accéder&nbsp;: </p><ul>\r\n<li>À une section jouant le rôle de glossary dans chaque page concernée.</li>\r\n\t\t\t\t\t<li>À une page ou une série de pages de glossary disponible via les menus de navigation.</li>\r\n\t\t\t\t\t<li>Ou directement à la définition des termes depuis au moins leur première occurrence dans chaque page du site via un lien ou un tooltip.</li>\r\n\t\t\t\t</ul>",
       "en": "<p>For each page containing specific vocabulary, check that it is possible to access one of the following: </p><ul>\r\n<li>A section acting as a glossary in each relevant page.</li>\r\n\t\t\t\t\t<li>A glossary page or pages available through the navigation menus.</li>\r\n\t\t\t\t\t<li>Directly to the definition of terms from at least their first occurrence in each page of the website via a link or a tooltip.</li>\r\n\t\t\t\t</ul>",
       "es": ""
     },
     "vulgarization": {
-      "fr": "Le glossaire peut être exploité simultanément pour rassembler l’ensemble des définitions concernées et pour fournir la source d’affichage dynamique de la définition d’un terme dans les différentes pages où il est présent, via un script d’affichage de bulles d’aide Ajax. Il jouera également son rôle en matière de sigles ou de syntaxes cryptiques.",
+      "fr": "Le glossary peut être exploité simultanément pour rassembler l’ensemble des définitions concernées et pour fournir la source d’affichage dynamique de la définition d’un terme dans les différentes pages où il est présent, via un script d’affichage de bulles d’aide Ajax. Il jouera également son rôle en matière de sigles ou de syntaxes cryptiques.",
       "en": "",
       "es": ""
     }

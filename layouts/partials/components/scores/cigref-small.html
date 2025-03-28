@@ -8,13 +8,14 @@
 {{- $project     := .project -}}
 {{- $context     := .context -}}
 {{- $data        := newScratch -}}
+{{- $langurl     := .langurl }}
 {{- $lastfile    := (index (partialCached "render/lastfile.html" (dict "context" .context "project" $project "type" "cigref") $project "cigref") "auditfile-path") -}}
 {{- $greenit     := partialCached "render/greenit.html" (dict "context" .context "auditfile" $lastfile) .context $lastfile -}}
 
 {{- if $greenit.date -}}
 {{- with $greenit -}}
   <h2 class="h3">
-    <a class="link-text" href="{{ $context.Site.BaseURL | default "/" }}organism/cigref">
+    <a class="link-text" href="{{ $context.Site.BaseURL | default "/" }}{{ $langurl }}organism/cigref">
       Cigref <small>Outil d’évaluation des critères RSE</small>
     </a>
   </h2>

@@ -2,13 +2,16 @@
   {{- partialCached "utils/css.html" (dict "context" . "filefolder" "base" "filename" "layout" "inline" "true") "layout" -}}
   {{- partialCached "utils/css.html" (dict "context" . "filefolder" "base" "filename" "main" "inline" "true") "main" -}}
   {{- partialCached "utils/css.html" (dict "context" . "filefolder" "element" "filename" "table") "table" -}}
-  {{- $path := "" }}
-  {{- with .File }}{{ $path = .Path }}{{ end }}
-  {{- $patharray := split (path.Dir $path) "/" -}}
+  {{- $meta         := (partialCached "utils/variables-init.html" . .) -}}
+  {{- $lang         := $meta.lang -}}
+  {{- $langurl      := $meta.langurl -}}
+  {{- $patharray    := $meta.patharray -}}
+  {{- $project      := $meta.project -}}
+  {{- $Permalinklen := $meta.permalinkLen -}}
 
   {{/* Use the audit last version */}}
-  {{- $referential := (partialCached "render/referential-version.html" (dict "context" . "referential" "rgesn") . ).guideline -}}
-  {{- $.Store.Set "file" (index (index $.Site.Data $referential.name) (string $referential.version)) -}}
+  {{- $referential    := (partialCached "render/referential-version.html" (dict "context" . "referential" "rgesn") . ).guideline -}}
+  {{- $.Store.Set "file" (partialCached "utils/lang/referential.html" (dict "context" . "referential" $referential) $referential) -}}
   {{- $criteriafile   := ($.Store.Get "file").criteria.criteres -}}
 
   {{- if eq $referential.version "2.0" }}

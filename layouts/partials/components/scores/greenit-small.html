@@ -8,13 +8,14 @@
 {{- $project     := .project -}}
 {{- $context     := .context -}}
 {{- $data        := newScratch -}}
+{{- $langurl      := .langurl }}
 {{- $lastfile    := (index (partialCached "render/lastfile.html" (dict "context" .context "project" $project "type" "greenit") $project "greenit") "auditfile-path") -}}
 {{- $greenit     := partialCached "render/greenit.html" (dict "context" .context "auditfile" $lastfile) .context $lastfile -}}
 
 {{- if $greenit.date -}}
 {{- with $greenit -}}
   <h2 class="h3">
-    <a class="link-text" href="{{ $context.Site.BaseURL | default "/" }}organism/greenit">
+    <a class="link-text" href="{{ $context.Site.BaseURL | default "/" }}{{ $langurl }}organism/greenit">
       GreenIT <small>Les 74 bonnes pratiques</small>
     </a>
   </h2>

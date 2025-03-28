@@ -2,11 +2,11 @@
   "glossary": [
     {
       "title": "Accessibility feature",
-      "body": "<p>Example of an accessibility feature:</p><ul> <li>a component for loading a more contrasting colour palette for users;</li> <li>a font size enlargement component;</li> <li>a component providing access to a simplified language version.</li> </ul>"
+      "body": "<p>Example of an accessibility feature:</p><ul> <li>a component for loading a more contrasting colour palette for users;</li> <li>a font size enlargement component;</li> <li>a component providing access to a simplified language version;</li> <li>special keyboard shortcuts available for certain assistive technologies;</li> <li>gestures or device movements that trigger features;</li> <li>a customised rotor on some screens (the rotor is a screen reader feature that enables quick navigation between types of elements on a screen; some platforms allow you to define application-specific quick navigation elements in this rotor. <a href=\"https://developer.apple.com/videos/play/wwdc2020/10116/\">See a demo</a>).</li> </ul>"
     },
     {
       "title": "Accessibility information",
-      "body": "<p>Accessibility information is all the information (attributes, programmatic relationships, alternatives, etc.) required to make content accessible. For example: the alternative of a graphic element, the semantics of a passage of text, the title of an online frame, etc.</p><p>For example, in HTML, the <code>alt</code> attribute of an image is accessibility information.</p><p>An editing tool should have functions that enable all the information needed to create accessible content to be defined:</p><ul> <li>defining the alternative of an image or, on the contrary, declaring it decorative;</li> <li>be able to define section headings;</li> <li>the ability to define form field labels.</li> </ul><p>All accessibility criteria relating to the considered content technology are concerned. For example, for an HTML page, all the RAWeb level A and AA criteria must be met. For an application, all the criteria in this framework must be met.</p>"
+      "body": "<p>Accessibility information is all the information (attributes, programmatic relationships, alternatives, etc.) required to make content accessible. For example: the alternative of a graphic element, the semantics of a passage of text, the title of an online frame, etc.</p><p>For example, in HTML, the <code>alt</code> attribute of an image is accessibility information.</p><p>An editing tool should have functions that enable all the information needed to create accessible content to be defined, for example:</p><ul> <li>the ability to define the alternative of an image or, on the contrary, declaring it decorative;</li> <li>the ability to definee section headings;</li> <li>the ability to define the language of a passage of text;</li> <li>the ability to define form field labels.</li> </ul><p>All accessibility criteria relating to the considered content technology are concerned. For example, for an HTML page, all the <a href=\"../raweb1/criteres.html\">RAWeb</a> level A and AA criteria must be met. For the production of a PDF document, it must be possible to meet all the criteria of the PDF Accessibility Assessment Framework (<a href=\"../rapdf1/index.html\">RAPDF</a>) levels A and AA. For an application, all the criteria in this framework must be met.</p>"
     },
     {
       "title": "Accessible and operable by keyboard and any pointing device",
@@ -30,7 +30,7 @@
     },
     {
       "title": "Application mechanism for displaying a correct contrast ratio",
-      "body": "<p>A user interface component provided by the application author, the activation of which modifies the appearance of the screen.</p><p>This could be, for example, a replacement mechanism enabling content to be displayed with a sufficient contrast ratio. The appearance of this user interface component shall comply with <a href=\"referentiel-technique.md#crit-2-2\">criterion 2.2</a> and <a href=\"referentiel-technique.md#crit-2-3\">criterion 2.3</a> without itself having recourse to a mechanism enabling a compliant contrast ratio to be displayed.</p><p>Another example is a replacement mechanism to replace text graphic elements with styled text.</p><p>This mechanism must preserve the content and functionality of the application or screen it modifies.</p>"
+      "body": "<p>A user interface component whose activation allows the appearance of the site or page to be modified so that content is displayed with a sufficient contrast ratio. The design of this interface component must comply with <a href=\"referentiel-technique.md#crit-2-2\">criterion 2.2</a> and <a href=\"referentiel-technique.md#crit-2-3\">criterion 2.3</a> without itself using a mechanism enabling a compliant contrast ratio to be displayed. This mechanism must maintain the same content and functionality as the site or page it modifies.</p>"
     },
     {
       "title": "Audio description (time-based media)",
@@ -38,7 +38,7 @@
     },
     {
       "title": "Biological characteristics",
-      "body": "<p>User identification or control methods based on usable biological characteristics may include</p><ul> <li>fingerprint recognition;</li> <li>facial recognition;</li> <li>voice recognition.</li> </ul>"
+      "body": "<p>User identification or control methods based on usable biological characteristics may include, for example:</p><ul> <li>fingerprint recognition;</li> <li>facial recognition;</li> <li>voice recognition.</li> </ul>"
     },
     {
       "title": "CAPTCHA",
@@ -62,7 +62,7 @@
     },
     {
       "title": "Complex and simple gestures",
-      "body": "<p>A simple gesture with a screen involves touching a single point on the screen. This may be a single press or click, a double press or click, or a long press.</p><p>A complex gesture can be</p><ul> <li>a gesture involving several points of contact on the screen (example: a gesture with two fingers on the screen to zoom in or out on a map);</li> <li>a gesture based on following a trajectory on the screen (e.g. a function that detects the movement of a finger to the left or right on a tactile surface to trigger switching to the previous/next item in a carousel).</li> </ul>"
+      "body": "<p>A simple gesture with a screen involves touching a single point on the screen. This may be a single press or click, a double press or click, or a long press.</p><p>A complex gesture can be:</p><ul> <li>a gesture involving several points of contact on the screen (example: a gesture with two fingers on the screen to zoom in or out on a map);</li> <li>a gesture based on following a trajectory on the screen (e.g. a function that detects the movement of a finger to the left or right on a tactile surface to trigger switching to the previous/next item in a carousel).</li> </ul>"
     },
     {
       "title": "Complex data table",
@@ -82,7 +82,7 @@
     },
     {
       "title": "Contrast (text size)",
-      "body": "<p>The standard distinguishes between several sizes of text to be evaluated, each size having a contrast threshold. These sizes are evaluated in pixels or points. The larger the text (greater than 18.5px bold or 24px normal weight), the lower the required ratio (3:1).</p><p>Given the difficulty of assessing font sizes on mobile devices, all text should be considered at normal size except for text that is significantly very large.</p><p>For example, text could be considered \"significantly very large\" if its constituent letters are at least 1.5 cm high and/or wide.</p>"
+      "body": "<p>The standard distinguishes between several sizes of text to be evaluated, each size having a contrast threshold. These sizes are evaluated in pixels or points. The larger the text (greater than 18.5px bold or 24px normal weight), the lower the required ratio (3:1).</p><p>In the framework:</p><ul> <li>a normal text size is a text with a calculated size of less than 24px normal weight or less than 18.5px bold;</li> <li>a large text is a text with a calculated size of 24px or more normal weight or less than 18.5px or more bold.</li> </ul>"
     },
     {
       "title": "Control (moving or blinking content)",
@@ -101,6 +101,10 @@
       "body": "<p>Text linked to the table that identifies the content of a data table clearly and concisely.</p>"
     },
     {
+      "title": "Data type and format",
+      "body": "<p>Text indication enabling the user to know what type of data and/or input format is required by a field, before filling it in. For example:</p><ul> <li>Date (dd/mm/yyyy);</li> <li>Amount in euros;</li> <li>Postcode (4 digits: e.g. L-2450).</li> </ul><p><strong>Note:</strong> when the form field type provides an input mask, such as by displaying a native control (for example, the native date picker component), the format indication is not necessary.</p>"
+    },
+    {
       "title": "Decorative graphic element",
       "body": "<p><a href=\"#graphic-element\">Graphic element</a> having no function and conveying no specific information in relation to the content with which it is associated. Examples:</p><ul> <li>A graphic element part of the layout.</li> <li>A graphic element next to a button label used simply as a graphic embellishment (icon, layout).</li> <li>A graphic element that does not provide any information necessary for understanding the text to which it is associated (a decorative image).</li> </ul>"
     },
@@ -109,8 +113,16 @@
       "body": "<p>Content associated with a <a href=\"#graphic-element\">graphic element</a> in addition to its textual alternative in order to fully describe the information conveyed by the element.</p>"
     },
     {
+      "title": "Digital accessibility rules",
+      "body": "<p>The generic term \"digital accessibility rules\" refers to the <a href=\"https://accessibilite.public.lu/en/raweb1/index.html\">RAWeb</a>, the <a href=\"https://accessibilite.public.lu/en/raam1/index.html\">RAAM</a>, the RAPDF or the <a href=\"https://www.etsi.org/deliver/etsi_en/301500_301599/301549/03.02.01_60/en_301549v030201p.pdf\">EN 301 549 standard</a>, depending on the context of use.</p>"
+    },
+    {
+      "title": "Documentation",
+      "body": "<p>The documentation of an application or <a href=\"#support-services\">support service</a> can be:</p><ul> <li>a help screen;</li> <li>an <a href=\"../obligations.html#accessibility-statement\">accessibility statement</a>;</li> <li>any other content that serves as documentation (PDF document, external HTML page readable in a web browser).</li> </ul>"
+    },
+    {
       "title": "Editing tool",
-      "body": "<p>Application used to create or modify content for distribution to other users. An editing tool can be used by one or more users working together.</p><p>An editing tool can be</p><ul> <li>the tool as delivered by the editor;</li> <li>the tool enhanced with extensions not developed by the publisher;</li> <li>a set of tools.</li> </ul><p>Examples of editing tools</p><ul> <li>an application for editing and controlling the content of a website or application, e.g. CMS (Content Management System), LMS (Learning Management System), LCMS (Learning Content Management System), content aggregator;</li> <li>multimedia editing tools;</li> <li>applications for creating web applications;</li> <li>application for editing code;</li> <li>application for exporting in web technology format (for example, software for saving in HTML);</li> <li>applications that generate content using templates, scripts, command lines, etc.;</li> <li>an application for editing portions of web pages or applications (typically, blog systems, wikis and forums);</li> <li>mail application for sending e-mails.</li> </ul><p>Examples of editing tools that are not included in the scope</p><ul> <li>An application where the content created is not made available to other users (note-taking application with no sharing functionality, for example). In this case, the edited content is only available to the owner and is not made available to other users.</li> <li>Forms intended for users. For example, an order form for an e-commerce application. Although forms allow content to be edited, this content is not made available to other users.</li> <li>Independent accessibility control tools: these tools do not modify the content they control.</li> </ul>"
+      "body": "<p>Application or editing component in an application used to create or modify content for distribution to other users. An editing tool can be used by one or more users working together.</p><p>An editing tool can be</p><ul> <li>the tool as delivered by the editor;</li> <li>the tool enhanced with extensions not developed by the publisher;</li> <li>a set of tools.</li> </ul><p>Examples of editing tools</p><ul> <li>an application for editing and controlling the content of a website or application, e.g. CMS (Content Management System), LMS (Learning Management System), LCMS (Learning Content Management System), content aggregator;</li> <li>an application for creating office documents (e.g. for distribution in PDF format);</li> <li>multimedia editing tools;</li> <li>applications for creating web applications;</li> <li>application for editing code;</li> <li>application for exporting in web technology format (for example, software for saving in HTML);</li> <li>applications that generate content using templates, scripts, command lines, etc.;</li> <li>an application or feature of an application for editing portions of web pages or applications (typically, blog systems, comment features on websites, wikis and forums);</li> <li>mail application for sending e-mails.</li> </ul><p>Examples of editing tools that are not included in the scope</p><ul> <li>An application where the content created is not made available to other users (note-taking application with no sharing functionality, for example). In this case, the edited content is only available to the owner and is not made available to other users.</li> <li>Forms intended for users. For example, an order form for an e-commerce application. Although forms allow content to be edited, this content is not made available to other users.</li> <li>Independent accessibility control tools: these tools do not modify the content they control.</li> </ul><p>Editing tools are not systematically included in the sample. For example, when auditing a news application, RAAM does not require the editing tool (e.g. a CMS) used to create the content to be audited. If the purpose of the audit is to evaluate the public consultation interface, the sample should only contain representative public screens, but not the content management system.</p>"
     },
     {
       "title": "Error management (form)",
@@ -118,7 +130,7 @@
     },
     {
       "title": "Graphic element",
-      "body": "<p>Element using a visual representation such as images, pictograms or graphics.</p><p>This element may be made up of one or more parts which need to be visible in order to be understood (for example, each point on each line of a statistics chart).</p><p>The \"Image\" role is not rendered uniformly in all environments.</p><ul> <li>TalkBack (Android): the nature of graphic elements is not rendered when they are integrated into a native application; the screen reader will render the description if it is defined but will not announce \"image\". However, for images embedded in <a href=\"glossaire.md#web-views\">web views</a>, the screen reader will render \"Graphic elements\".</li> <li>VoiceOver (iOS): whether in a native application or in a web view, VoiceOver renders \"Image\" for images it can access.</li> </ul><p>Generally speaking, depending on the development method, it is also possible that the role is not rendered on either TalkBack or VoiceOver. In this case, observation alone will determine the nature of the element.</p><p>In most cases, it is not essential for the \"Image\" role to be rendered. Except in special cases where identification of the role is essential, the absence of a rendered role cannot constitute non-compliance.</p>"
+      "body": "<p>Element using a visual representation such as images, pictograms or graphics.</p><p>This element may be made up of one or more parts which need to be visible in order to be understood (for example, each point on each line of a statistics chart).</p><p>The \"Image\" role is not rendered uniformly in all environments.</p><ul> <li>TalkBack (Android): the nature of graphic elements is not rendered when they are integrated into a native application; the screen reader will render the description if it is defined but will not announce \"image\". However, for images embedded in <a href=\"glossary.md#web-views\">web views</a>, the screen reader will render \"Graphic elements\".</li> <li>VoiceOver (iOS): whether in a native application or in a web view, VoiceOver renders \"Image\" for images it can access.</li> </ul><p>Generally speaking, depending on the development method, it is also possible that the role is not rendered on either TalkBack or VoiceOver. In this case, observation alone will determine the nature of the element.</p><p>In most cases, it is not essential for the \"Image\" role to be rendered. Except in special cases where identification of the role is essential, the absence of a rendered role cannot constitute non-compliance.</p>"
     },
     {
       "title": "Graphic element conveying information",
@@ -129,12 +141,16 @@
       "body": "<p>When a text adjacent to a graphic element contains information about the graphic element (e.g. copyright, date, author, etc.) or is intended to supplement the information provided by the graphic element (e.g. a text associated with an image in an image gallery), it is referred to as a captioned graphic element.</p><p>When a graphic element is captioned, it is necessary to associate the legend with the graphic element, so that assistive technologies can treat the graphic element and its legend as a single whole.</p>"
     },
     {
+      "title": "Help with creating accessible content",
+      "body": "<p>Any feature available from a content editing interface, whatever the target format, which helps the author of the content to take account of digital accessibility rules.</p><p>An help in creating accessible content can be an automatic assistance tool or a documentation.</p><p>An help in creating content includes:</p><ul> <li>automatic or semi-automatic tests available from the editing features;</li> <li>other automatic tools (a chatbot, for example);</li> <li>documentation explaining how to define accessibility properties for each content item;</li> <li>manual tests available from the editing features to guide authors in detecting errors.</li> </ul>"
+    },
+    {
       "title": "Ignored by assistive technologies",
       "body": "<p>Rendering elements such as decorative graphic elements that do not provide relevant information can create complex consultation conditions by overloading the rendering by assistive technologies with useless information.</p><p>It is therefore important to be able to prevent these elements from being rendered. Most accessibility APIs have properties or methods for preventing this type of element from being rendered.</p>"
     },
     {
       "title": "Information (provided by colour)",
-      "body": "<p>Information transmitted visually by means of a colour. The indication that fields in red are mandatory in a form, the active button in a list of buttons, the change of colour of an item name to indicate its unavailability in a list of items are all examples of information given by colour.</p><p>Indication by colour alone must be accompanied by another method for users who do not see or perceive colours or their associations well.</p><p>The indication given by colour must be provided</p><ul> <li>by means of formatting for users with limited colour perception;</li> <li>and by descriptive (non-visible) information present on the element so that screen readers can render the information to users who cannot see.</li> </ul>"
+      "body": "<p>Information transmitted visually by means of a colour. The indication that fields in red are mandatory in a form, the active button in a list of buttons, the change of colour of an item name to indicate its unavailability in a list of items are all examples of information given by colour.</p><p>Indication by colour alone must be accompanied by another method for users who do not see or perceive colours or their associations well.</p><p>The indication given by colour must be provided:</p><ul> <li>by a means involving graphics (pictogram, background image, shape, different border style, etc.) or another typographic style (bold, italic, text size, other font, etc.) for users with limited colour perception.</li> <li>and by descriptive (non-visible) information present on the element so that screen readers can render the information to users who cannot see.</li> </ul>"
     },
     {
       "title": "Indication conveyed by shape, size or location",
@@ -150,7 +166,7 @@
     },
     {
       "title": "Key repeat",
-      "body": "<p>Feature which consists of printing (on the screen, in an input zone for example) a character several times as long as the corresponding key on the keyboard (visual or physical) is activated.</p>"
+      "body": "<p>Feature which consists of printing (on the screen, in an input zone for example) a character several times as long as the corresponding key on the keyboard (visual or physical) is activated.</p><p>When keys are associated with functions in an application, it is no longer the character that is printed several times, but the function that can then be repeated several times.</p><p>The trigger delay and the delay between two key repetitions is a parameter that can be defined at the platform level, but an application could allow this parameter to be configured as well. See <a href=\"https://support.apple.com/en-gb/guide/iphone/ipha7c3927eb/ios\">possible configuration parameters on iOS</a> for example.</p>"
     },
     {
       "title": "Keyboard shortcut",
@@ -165,12 +181,36 @@
       "body": "<p>The label and its field must be visually close, so that the relationship between the two cannot lead to confusion.</p>"
     },
     {
+      "title": "Lists",
+      "body": "<p>A sequence of elements that can be grouped together in the form of a structured list. For example, the sequence of links in a navigation menu is a list of links, and the various steps in a procedure are a list of elements.</p><p>The notion of \"visually grouped in the form of a list\" is characterised by:</p><ul> <li>The presence of a visual marker making it clear that it is an unordered list, for example -, -, *, etc.;</li> <li>The presence of a visual marker to indicate that it is an ordered list, e.g. a number, a Greek letter, etc.;</li> <li>The presence of a series of elements that visually follow one another, with an identical visual form, nature and function, but without having a direct visual list marker, for example a navigation menu.</li> </ul><p>However, not all lists require a list structure, for example a series of terms separated by a comma.</p>"
+    },
+    {
+      "title": "Mandatory field indication",
+      "body": "<p>Textual or graphic indication (icon) letting the user know that a field is mandatory before entering it.</p><p><strong>Note:</strong> If this indication is not made explicitly in text (icon, \"*\", \"!\", etc.), the explanation of the meaning of this indication must be located, visually and in reading order, before the indication is used for the first time.</p>"
+    },
+    {
+      "title": "Mechanism enabling to activate an accessibility feature",
+      "body": "<p>Interface component or set of interface components used to activate a feature that takes into account one or more adaptation needs of the interface. For example: a button enabling to display a screen with compliant contrasts or a button enabling to increase paragraph spacing.</p><p>We also talk about a <strong>set of components</strong> when, in some interfaces, the component that enables the feature to be activated is only made available once one or more other components have been activated. For example: a button can be used to display a modal window, which itself contains a button that can be used to display a screen with the correct contrast. In this case, the button that displays the modal window <strong>and</strong> the button that activates the display of compliant contrasts together constitute the mechanism.</p><p>This mechanism must keep the content and features of the application or screen it modifies unchanged.</p>"
+    },
+    {
+      "title": "Mechanism that enables a compliant contrast ratio to be displayed",
+      "body": "<p>Interface component whose activation enables the appearance of the site or page to be modified so as to display the contents with a sufficient contrast ratio. The design of this interface component must comply with <a href=\"referentiel-technique.md#crit-2-2\">criterion 2.2</a> and <a href=\"referentiel-technique.md#crit-2-3\">criterion 2.3</a> without using itself a mechanism for displaying a compliant contrast ratio. This mechanism must keep the content and features of the application or screen it modifies unchanged.</p>"
+    },
+    {
+      "title": "Modifying or cancelling data and actions taken",
+      "body": "<p>Processes by which a user can modify the data they have entered, have their entry cancelled or have actions resulting from their entry cancelled, for example cancelling an order or a bank transfer.</p><p><strong>Note:</strong> The screen containing a form which modifies or deletes data, or which transmits answers to a test or examination, or whose validation has financial or legal consequences, must explicitly indicate the period during which the user can request the cancellation of their input. It must also contain the procedure for cancelling the entry. This process does not have to be available online, although it is recommended.</p>"
+    },
+    {
       "title": "Name, role, value, properties and changes of state",
       "body": "<p>A component must have an appropriate role and name, and any values, states and properties must also be accessible and correctly passed on to the accessibility APIs.</p><p>The name can be the title of the component, such as the accessible name of a button, for example.</p><p>The value is, for example, the selected item in a drop-down list or the current value of a cursor.</p><p>The role corresponds to the type of element defined in the specification of the technology used. The role (button, link, input field, for example) is generally rendered by assistive technologies.</p><p>Parameters correspond to specific information about a component. For example, a parameter that transmits to the APIs the information that the component controls such and such content.</p><p>Changes of state must also be made available. For example, using a property to tell the APIs that the component is \"open\" or \"closed\". Note: a state can also be transmitted via the name, when it is dynamically changed to correspond to the state of the controlled zone in particular.</p><p>These parameters are not mandatory, but may be required if they are essential for making the component accessible. It is up to the auditor to consider the cases where these parameters are essential, depending on the context in which the component is used.</p><p>The auditor must also check that, where they are present, these parameters are used correctly.</p>"
     },
     {
       "title": "Native platform controls",
       "body": "<p>Platforms have native controls, for example a native color picker for colour selection, a calendar or a specific field containing the format control for date selection, etc. Form fields that expect particular formats (such as a date, for example) should use the platform's native controls to ensure maximum compatibility with assistive technologies.</p>"
+    },
+    {
+      "title": "Navigation sequence",
+      "body": "<p>The order in which the keyboard focus moves (to the next element or to the previous element).</p><p><strong>Warning:</strong> when an element initiates a change in the screen (change of context, management of hidden zones, addition of content, management of form fields, etc.) it is necessary to activate the element initiating the change in order to test the consistency of the navigation sequence.</p>"
     },
     {
       "title": "Only for layout purposes",
@@ -181,7 +221,11 @@
       "body": "<p>Personal data concerning the user in a form can be</p><ul> <li>surname;</li> <li>first name;</li> <li>password;</li> <li>e-mail address;</li> <li>postal address;</li> <li>postcode;</li> <li>telephone number;</li> <li>credit card codes;</li> <li>birthday;</li> <li>the URL of a web page presenting the user or the organisation that the person represents.</li> </ul>"
     },
     {
-      "title": "Primary control (of a time-based media)",
+      "title": "Pressed",
+      "body": "<p>Corresponds to event handlers considered as down events. For example ACTION_DOWN on Android or UITouch.Phase.began on iOS.</p>"
+    },
+    {
+      "title": "Primary features (of a time-based media)",
       "body": "<p>Primary control functions are the basic functions of a media player: play, pause, stop, audio control.</p>"
     },
     {
@@ -190,7 +234,7 @@
     },
     {
       "title": "Real-time text communication",
-      "body": "<p>Real-time text (RTT) is a mode of written communication which allows users to read the text being written by the sender, without waiting for the sender to validate (for example with the enter key).</p><p>Example of real-time text communication integrated into a platform: <a href=\"https://support.apple.com/en-us/HT207033\">Answer or make RTT or TTY calls from your iPhone</a></p>"
+      "body": "<p>Real-time text (RTT) is a mode of written communication which allows users to read the text being written by the sender, without waiting for the sender to validate (for example with the <kbd>enter</kbd> key).</p><p>Collaborative editing tools (e.g. online office suites) are an example of how RTT works: the various parties involved can see the texts written and modified by each of them at the same time as the changes are applied to the texts. This is very different from a common online conversation system (such as instant messaging), which only transmits a written message to interlocutors when a key or button is pressed (for example, the <kbd>enter</kbd> key).</p><p>Example of real-time text communication integrated into a platform: <a href=\"https://support.apple.com/en-us/HT207033\">Answer or make RTT or TTY calls from your iPhone</a></p>"
     },
     {
       "title": "Refresh process",
@@ -202,11 +246,15 @@
     },
     {
       "title": "Relay service",
-      "body": "<p>Relay services allow users, whatever their mode of communication (text, sign, speech) to interact remotely during real-time communication with other participants, by providing conversion between modes of communication.</p><p>For example, there are relays that enable a user who communicates using sign language to communicate with someone who does not, via a service that provides live interpreting.</p>"
+      "body": "<p>Relay services allow users, whatever their mode of communication (text, sign, speech) to interact remotely during real-time communication with other participants, by providing conversion between modes of communication.</p><p>For example: a user who communicates using sign language wants to talk to someone who does not. A relay service will provide live interpreting so that they can communicate.</p>"
+    },
+    {
+      "title": "Released",
+      "body": "<p>Corresponds to event handlers considered as up events (mouseup, touchend for example). For example ACTION_UP on Android or UITouch.Phase.ended on iOS.</p>"
     },
     {
       "title": "Replacement mechanism",
-      "body": "<p>A replacement mechanism is a feature that allows the user to access a version of the application with certain parameters (usually display parameters) modified (for example, font and background colours).</p><p>This mechanism may be provided by the platform itself or by the application. Where the platform has a robust replacement mechanism, authors should use it instead of an application-specific replacement mechanism.</p><p>Platforms offer users several replacement mechanisms. The activation of these replacement mechanisms is detectable by the applications, which can in turn serve specific information and presentations.</p><h5>Replacement mechanisms available in iOS</h5><ul> <li><strong>Increase contrast</strong>: The option is available from the path: <em>Settings &gt; Accessibility &gt; Display &amp; text size &gt; Increase contrast</em>. When enabled, this option allows different styles to be loaded that have been defined by the author for this specific option in order to offer a higher contrast version to users who need it. In addition, this option increases the contrast of native iOS components such as switch buttons.</li> <li><strong>Differentiate without colour</strong>: This option is available via the path: <em>Settings &gt; Accessibility &gt; Display &amp; text size &gt; Differentiate without colour</em>. When enabled, this option allows you to load additional visual information other than colour (for example, shape or size) that has been defined by the author for this specific option, in order to highlight a graphic element whose colouring carries information (an active button, for example).</li> </ul><h5>Replacement mechanisms available on Android</h5><p>There are no replacement mechanisms in Android that are equivalent to those in iOS, or that are sufficiently robust.</p><p>The replacement mechanism available on Android (\"<strong>High contrast text</strong>\") is still experimental. Its use is not currently recommended.</p><h5>Other replacement mechanisms not provided by the platforms</h5><p>If the platform does not provide a replacement mechanism for certain parameters, the application can provide one from its interface.</p>"
+      "body": "<p>A replacement mechanism is a feature that allows the user to access a version of the application with certain parameters (usually display parameters) modified (for example, font and background colours).</p><p>This mechanism may be provided by the platform itself or by the application. Where the platform has a robust replacement mechanism, authors should use it instead of an application-specific replacement mechanism.</p><p>Platforms offer users several replacement mechanisms. The activation of these replacement mechanisms is detectable by the applications, which can in turn serve specific information and presentations.</p><h5>Replacement mechanisms available in iOS</h5><ul> <li><strong>Increase contrast</strong>: The option is available from the path: <em>Settings &gt; Accessibility &gt; Display &amp; text size &gt; Increase contrast</em>. When enabled, this option allows different styles to be loaded that have been defined by the author for this specific option in order to offer a higher contrast version to users who need it. In addition, this option increases the contrast of native iOS components such as switch buttons.</li> <li><strong>Differentiate without colour</strong>: This option is available via the path: <em>Settings &gt; Accessibility &gt; Display &amp; text size &gt; Differentiate without colour</em>. When enabled, this option allows you to load additional visual information other than colour (for example, shape or size) that has been defined by the author for this specific option, in order to highlight a graphic element whose colouring carries information (an active button, for example).</li> </ul><h5>Replacement mechanisms available on Android</h5><p>There are no replacement mechanisms in Android that are equivalent to those in iOS, or that are sufficiently robust.</p><p>The replacement mechanism available on Android (\"<strong>High contrast text</strong>\") is still experimental. Its use is not currently recommended.</p><h5>Other replacement mechanisms not provided by the platforms</h5><p>n If the platform does not provide a replacement mechanism for certain parameters, the application can provide one from its interface.</p>"
     },
     {
       "title": "Status message",
@@ -215,6 +263,10 @@
     {
       "title": "Styled text",
       "body": "<p>Text whose appearance is controlled by the platform's formatting technology (such as CSS for HTML pages).</p>"
+    },
+    {
+      "title": "Subtitles",
+      "body": "<p>Subtitles are in a language other than the language of the video.</p><p>Subtitles are different from <a href=\"#synchronised-captions-media-object\">captions</a> for the deaf and hard of hearing.</p>"
     },
     {
       "title": "Sudden change in brightness or blinking effect",
@@ -226,19 +278,15 @@
     },
     {
       "title": "Support services",
-      "body": "<p>A support service can be</p><ul> <li>a help desk,</li> <li>a call centre,</li> <li>a technical support,</li> <li>a <a href=\"#relay-service\">relay service</a>,</li> <li>a training service.</li> </ul>"
+      "body": "<p>A support service can be</p><ul> <li>the feedback mechanism identified in the application's accessibility statement,</li> <li>a help desk,</li> <li>a call centre,</li> <li>a technical support,</li> <li>a <a href=\"#relay-service\">relay service</a>,</li> <li>a training service.</li> </ul>"
     },
     {
       "title": "Synchronised captions (media object)",
       "body": "<p>Text of audio information (a character's words, important noise to understand the action, etc.) present in a time-based medium and displayed synchronously with the flow of the multimedia object.</p><p><strong>Note 1:</strong> to differentiate between sound sources (different characters, voice-over, etc.), it is recommended that an appropriate mechanism be used (bracketing, italics, explicit announcement such as \"voice-over: ...\").</p><p><strong>Note 2:</strong> subtitling for translation should not be confused with captioning for the deaf and hard of hearing. Subtitling and captioning serve different purposes. Only the presence and relevance of captions for the deaf and hard of hearing will ensure compliance.</p>"
     },
     {
-      "title": "Navigation sequence",
-      "body": "<p>The order in which the keyboard focus moves (to the next element or to the previous element).</p><p><strong>Warning:</strong> when an element initiates a change in the screen (change of context, management of hidden zones, addition of content, management of form fields, etc.) it is necessary to activate the element initiating the change in order to test the consistency of the navigation sequence.</p>"
-    },
-    {
       "title": "Template",
-      "body": "<p>A template is a document format with predefined parameters. It is used to insert content edited by the author. A template has presentation, usage and technical parameters that are not visible.</p><p>A template may concern an entire page or screen (home page template, etc.) or specific types of content (forms, videos, etc.)</p><p>A set of templates is a group of templates that allow different formatting of the same element. For example</p><ul> <li>templates for the application's home screen;</li> <li>templates for screens containing interactive elements;</li> <li>templates for creating a PDF.</li> </ul>"
+      "body": "<p>A template is a document format with predefined parameters. It is used to insert content edited by the author. A template has presentation, usage and technical parameters that are not visible.</p><p>A template may concern an entire page or screen (home page template, etc.) or specific types of content (forms, pictures, videos, etc.)</p><p>A set of templates is a group of templates that allow different formatting of the same element. For example</p><ul> <li>templates for the application's home screen;</li> <li>templates for screens containing interactive elements;</li> <li>templates for creating a PDF.</li> </ul>"
     },
     {
       "title": "Test graphic element",
@@ -250,7 +298,7 @@
     },
     {
       "title": "Time-based media (audio, video and synchronised)",
-      "body": "<ul> <li>Time-based media audio-only: sound content (wave, MP3...).</li> <li>Time-based media video-only: moving or sequential images or photos.</li> <li>Synchronised time-based media: audio or video streams synchronised with another format to present information and/or including interactive temporal components. Time-based media can be viewed in 2 different ways: <ul> <li>as a downloadable file that can be viewed with external software;</li> <li>content embedded in the software and viewable from the interface.</li> </ul> </li> </ul><p>Time-based media can be broadcast in real time or played back asynchronously (pre-recorded media).</p>"
+      "body": "<ul> <li>Time-based media audio-only: sound content (Wav, MP3...).</li> <li>Time-based media video-only: moving or sequential images or photos.</li> <li>Synchronised time-based media: audio or video streams synchronised with another format to present information and/or including interactive temporal components. Time-based media can be viewed in 2 different ways: <ul> <li>as a downloadable file that can be viewed with external software;</li> <li>content embedded in the software and viewable from the interface.</li> </ul> </li> </ul><p>Time-based media can be broadcast in real time or played back asynchronously (pre-recorded media).</p><p><strong>Note 1:</strong> animated gifs and images animated by a script in the application are not considered to be temporal media.</p>"
     },
     {
       "title": "Time stamp",
@@ -266,7 +314,7 @@
     },
     {
       "title": "Transformation",
-      "body": "<p>Process managed automatically by the tool. There are two types of transformation:</p><ul> <li>content restructuring: transformation during which the input format (e.g. HTML, XML...) is the same as the output one, the restructuring only modifies elements of the markup. For example: linearising a table, dividing a document into several pages.</li> <li>content recoding: transformation during which the input format is different of the output one (e.g. HTML to XHTML, HTML to PDF). This applies in particular to editing zones that use a different syntax to that which will be used for public display.</li> </ul>"
+      "body": "<p>Process managed automatically by the editing tool. There are two types of transformation:</p><ul> <li>content restructuring: transformation during which the input format (e.g. HTML, XML...) is the same as the output one, the restructuring only modifies elements of the markup. For example: linearising a table, dividing a document into several pages.</li> <li>content recoding: transformation during which the input format is different of the output one (e.g. HTML to XHTML, HTML to PDF). This applies in particular to editing zones that use a different syntax to that which will be used for public display.</li> </ul>"
     },
     {
       "title": "Two-way voice communication application",
@@ -274,11 +322,15 @@
     },
     {
       "title": "User interface component",
-      "body": "<p>A user interface component is an element with which the user can interact, for example a button, a link or an input zone. Some components can be more complex, such as a menu, a dialogue window or a system of tabs. Finally, a user interface component can be based on elements native to the platform language or developed from scratch.</p>"
+      "body": "<p>A user interface component is an element with which the user can interact, for example a button, a link or an input zone. Some components can be more complex, such as a menu, a dialogue window or a system of tabs. Finally, a user interface component can be based on elements native to the platform language or developed from scratch.</p><p><strong>Note:</strong> Not all native HTML interface components are found in mobile application development languages. For example, radio buttons or checkboxes do not exist as such in applications developed for iOS. Developers will then need to use the most appropriate components available in development languages to fulfil a similar function. To reproduce what would be a list of radio buttons, it is possible, for example, to use lists of buttons associated with a selected or unselected state. Therefore, during screen reader tests, it is possible that the declared role does not correspond to the role displayed by the interface (for example, a button that looks like a radio button). Nevertheless, if the role and state of the component are relevant and accessible to assistive technologies, then the criterion will be considered compliant for this component.</p>"
     },
     {
       "title": "Viewing control (time-based media)",
       "body": "<p>Possibility for the user to control the viewing of time-based media using the keyboard and any pointing device, at least. The following points must be respected:</p><p>List of mandatory features for controlling consultation</p><ul> <li>The multimedia object must always have at least the following functions: play, pause or stop;</li> <li>If the multimedia object has sound, it must have a sound on/off function;</li> <li>If the multimedia object has audio description, it must have a function for controlling the activation and deactivation of audio description;</li> <li>If the multimedia object has closed captions, it must have functionality for controlling the activation and deactivation of closed captions.</li> </ul><p>Each function must be accessible via the keyboard and any pointing device (touch, screen reader, keyboard, mouse, etc.).</p><p>If the player does not allow a second audio track to be included for audio description, a link (or button) to an alternative video with audio description is a satisfactory alternative feature. The same applies to closed captions: if the video does not have closed captions that can be activated and deactivated, the presence of an alternative video with closed captions (available via a link or a button) is a satisfactory alternative.</p><p><strong>Note:</strong> If there is no sound in a time-based media, there is no point in adding a sound activation/deactivation feature. However, if this functionality is present and requires a text alternative to be understood by certain users, then it should be given one since the user is likely to access it and want to activate it.</p>"
+    },
+    {
+      "title": "Visible text",
+      "body": "<p>Text displayed as a visible text on the screen within a button or link.</p><p>Text displayed as a label for a form field.</p><p>This text can be text or an image containing text.</p>"
     },
     {
       "title": "Voice-based services",

@@ -1,9 +1,12 @@
 {{- define "main" -}}
 {{/* Vars */}}
 {{ $path := "" }}
-{{ with .File }}{{ $path = .Path }}{{ end }}
-{{- $patharray := split (path.Dir $path) "/" -}}
-{{- $project   := (partialCached "render/projectpath" . .) -}}
+{{- $meta         := (partialCached "utils/variables-init.html" $context $context) -}}
+{{- $lang         := $meta.lang -}}
+{{- $langurl      := $meta.langurl -}}
+{{- $patharray    := $meta.patharray -}}
+{{- $project      := $meta.project -}}
+{{- $Permalinklen := $meta.permalinkLen -}}
 {{- $path      := (partialCached "render/filepath" (dict "context" . "project" $project "type" "personas.json") $project "personas.json") -}}
 
 {{- if $project -}}

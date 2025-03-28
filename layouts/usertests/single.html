@@ -1,11 +1,15 @@
 {{- define "main" -}}
 {{/* Variables */}}
-{{ $path := "" }}
-{{ with .File }}{{ $path = .Path }}{{ end }}
-{{- $patharray := split (path.Dir $path) "/" -}}
 {{- $context   := . -}}
-{{- $project   :=  (partialCached "render/projectpath" $context $context) -}}
-{{- $path      := (partialCached "render/filepath" (dict "context" . "project" $project "type" "usertests") $project "usertests") -}}
+{{- $meta         := (partialCached "utils/variables-init.html" $context $context) -}}
+{{- $path         := $meta.path -}}
+{{- $lang         := $meta.lang -}}
+{{- $langurl      := $meta.langurl -}}
+{{- $patharray    := $meta.patharray -}}
+{{- $project      := $meta.project -}}
+{{- $projectPath  := $meta.projectPath -}}
+{{- $projectTitle := $meta.projectTitle -}}
+{{- $Permalinklen := $meta.permalinkLen -}}
 {{- $.Scratch.Set "auditfile" (readFile $path | transform.Unmarshal) -}}
 {{- $.Scratch.Set "userid" slice -}}
 {{- $.Scratch.Set "tasknumber" slice -}}

@@ -38,9 +38,10 @@
   {{ if ne $project "" }}
 
     {{/* Declare Variables */}}
-    {{ $context := . }}
-    {{ $ref     := $context.Site.Data.referential }}
-    {{ $path    := "" }}{{ with .File }}{{ $path = .Path }}{{ end }}
+    {{- $context := . }}
+    {{- $lang    := cond $context.Params.lang $context.Params.lang $context.Lang -}}
+    {{- $ref     := index $context.Site.Data.referential (string $lang) -}}
+    {{- $path    := "" }}{{ with .File }}{{ $path = .Path }}{{ end }}
 
     {{/* START Only page in audits folder */}}
     {{ if and (in (path.Base $path) "index.md") (not (in "audits/_index.md" $path)) (ne (len (split $path "/")) 4) }}
@@ -109,7 +110,8 @@
                     {{ $thematique      = (index (index $ref $type).topics (sub (int (delimit (first 1 (split $id ".")) "")) 1)) }}
                   {{ else }}
                     {{ $referential    := (partialCached "render/referential-version.html" (dict "context" $context "referential" "opquast") $context "opquast").guideline }}
-                    {{ $criteriafile   := (index (index (index $context.Site.Data $referential.name) $context.Lang)  (string $referential.version)).criteria.criteres }}
+                    {{ $criteriafile   := (partialCached "utils/lang/referential.html" (dict "context" $context "referential" $referential) $referential) -}}
+                    {{ $criteriafile   := $criteriafile.criteria.criteres }}
                     {{ $thematique      = (index (index (where $criteriafile "number" (float $id)) 0).thema 0).fr }}
                   {{ end }}
 

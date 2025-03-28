@@ -5,16 +5,22 @@
 {{/*
   MARK: Declare Variables
 */}}
-{{ $path            := ""    }}{{ with .File }}{{ $path = .Path }}{{ end }}
+{{ $path            := "" }}{{ with .File }}{{ $path = .Path }}{{ end }}
 {{ $pathadaptater   := .Path }}
+{{ $lang            := cond (eq (string (index $.Site.Languages 0)) (string (cond .Params.lang .Params.lang .Lang))) "" (cond .Params.lang .Params.lang .Lang) }}
+{{ $linklen         := cond (not $lang) (split (.RelPermalink) "/") ((split (.RelPermalink) "/") | symdiff (slice $lang)) }}
+{{ $project         := cond (eq (len $linklen) 1) "audits" (index $linklen 2) -}}
 
 {{ $projectpath :=
-    cond (not (partialCached "render/issimpleproject.html" "arg" "arg"))
-        (cond (eq (len (split (path.Dir $path) "/")) 1)
-          (cond (not $pathadaptater) "" (delimit (first 1 (after 2 (split (path.Dir $pathadaptater) "/"))) ""))
-          (replace (path.Dir $path) (printf "%s/" .Section) "")
+    cond (eq $path "_content.gotmpl")
+      $project
+      (cond (not (partialCached "render/issimpleproject.html" "arg" "arg"))
+          (cond (eq (len (split (path.Dir $path) "/")) 1)
+            (cond (not $pathadaptater) "" (delimit (first 1 (after 2 (split (path.Dir $pathadaptater) "/"))) ""))
+            (replace (path.Dir $path) (printf "%s/" .Section) "")
+          )
+          ""
         )
-        ""
 }}
 
 {{/* $projectpath := replace $projectpath "/" "" % */}}

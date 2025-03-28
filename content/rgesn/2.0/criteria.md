@@ -1,5 +1,5 @@
 ---
-title: Critères RGESN
+title: Critères RGESN 2.0
 menu:
   footer:
     name: "Critères RGESN"

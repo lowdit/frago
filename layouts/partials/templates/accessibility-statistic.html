@@ -5,10 +5,12 @@
 {{/*
   MARK: Declare Variables
 */}}
-{{ $context   := .context }}
-{{ $render    := .render }}
-{{ $name      := .name }}
-{{ $ref       := $context.Site.Data.referential }}
+{{- $context   := .context -}}
+{{- $data      := newScratch -}}
+{{- $render    := .render -}}
+{{- $name      := .name -}}
+{{- $lang      := cond $context.Params.lang $context.Params.lang $context.Lang -}}
+{{- $ref       := index $context.Site.Data.referential (string $lang) -}}
 
 {{- partialCached "utils/css.html" (dict "context" . "filefolder" "object" "filename" "tooltip") "tooltip" -}}
 
@@ -24,7 +26,7 @@
 
     <h1>Synthèse générale - {{ (index $ref $name).name }}</h1>
     {{- $referential   := (partialCached "render/referential-version.html" (dict "context" $context "project" "statistics" "referential" (index $ref $name).referential) (index $ref $name).referential).guideline -}}
-    
+
     {{/*
       MARK: Displaying statistics table for each main referential version
     */}}
@@ -40,8 +42,9 @@
         {{- $versionlongs  := cond (eq $cond 1) (index (last 1 (index ($referential.versionall) $versionlong)) 0) $versionlong -}}
         {{- $versionlongs  := cond (eq $cond 0) (index (last 1 (index (last 1 (sort $referential.versionall)) 0)) 0) $versionlongs -}}
 
-        {{- $criterialfile := (index (index (index $context.Site.Data $referential.name) $context.Lang)  (string $versionlongs)).criteria -}}
-        {{- $glossaire     :=  (printf "=\"%s%s%s/glossaire/$1\"" (site.BaseURL | default "/") $referential.name $versionlongs) -}}
+        {{- $criteriafile  := (partialCached "utils/lang/referential.html" (dict "context" $context "referential" $referential) $referential) -}}
+        {{- $criteriafile  := $criteriafile.criteria -}}
+        {{- $glossary     :=  (printf "=\"%s%s%s/glossary/$1\"" (site.BaseURL | default "/") $referential.name $versionlongs) -}}
         <div class="grid grid-4 align-items-center text-center lh-1 font-bigger">
           {{/* CALL Partial */}}
           {{- partialCached "components/scores/aggregate-small.html" (dict "value" . "type" (index $ref $name).name ) . $name -}}
@@ -51,7 +54,7 @@
           {{ template "tablethematique" (dict "value" . "range" .criteria "ref" $ref "name" $name) }}
         {{ end -}}
         {{/* CALL template */}}
-        {{ template "tablecriteria" (dict "all" .criteria.all "range" .criteria "name" $name "file" $criterialfile "glossaire" $glossaire) }}
+        {{ template "tablecriteria" (dict "all" .criteria.all "range" .criteria "name" $name "file" $criteriafile "glossary" $glossary) }}
         <hr>
       {{ end -}}
     {{ end -}}
@@ -65,8 +68,8 @@
   {{ $all            := .all       }}
   {{ $range          := .range     }}
   {{ $name           := .name      }}
-  {{ $criterialfile  := .file      }}
-  {{ $glossaire      := .glossaire }}
+  {{ $criteriafile  := .file      }}
+  {{ $glossary      := .glossary }}
   {{- if and $range.pourcentage80 $range.pourcentage50 $range.pourcentage30 $range.pourcentage00 -}}
   <h2>Tableau des statistiques de répartition de critères par taux</h2>
   <table>
@@ -117,7 +120,7 @@
         {{- if $cond -}}
         <tr style="--base-light: 105%;">
           <th>{{ $id }}</th>
-          <td class="text-left">{{- template "criterion" (dict "value" $id "type" $name "file" $criterialfile "glossaire" $glossaire) -}}</td>
+          <td class="text-left">{{- template "criterion" (dict "value" $id "type" $name "file" $criteriafile "glossary" $glossary) -}}</td>
           <td class="text-center" style="background:hsl(var(--base-green), 25%, calc(var(--base-light) - 10%))">
             {{- if gt (int (index ($range.conforme) $id)) 0 }}
             <div class="tooltip">
@@ -125,7 +128,7 @@
               <div class="tooltip-text">
                 <ul class="list-unstyled m-0 p-0">
                 {{ range (index ($range.conformewithname) $id) }}
-                  <li>{{ replace (. | truncate 30) " " "&nbsp;" | safeHTML }}</li>
+                  <li>{{ replace (. | truncate 50) " " "&nbsp;" | safeHTML }}</li>
                 {{ end }}
                 </ul>
               </div>
@@ -141,7 +144,7 @@
               <div class="tooltip-text">
                 <ul class="list-unstyled m-0 p-0">
                 {{ range (index ($range.nonapplicablewithname) $id) }}
-                  <li>{{ replace (. | truncate 30) " " "&nbsp;" | safeHTML  }}</li>
+                  <li>{{ replace (. | truncate 50) " " "&nbsp;" | safeHTML  }}</li>
                 {{ end }}
                 </ul>
               </div>
@@ -157,7 +160,7 @@
               <div class="tooltip-text">
                 <ul class="list-unstyled m-0 p-0">
                 {{ range (index ($range.nonconformewithname) $id) }}
-                  <li>{{ replace (. | truncate 30) " " "&nbsp;" | safeHTML  }}</li>
+                  <li>{{ replace (. | truncate 50) " " "&nbsp;" | safeHTML  }}</li>
                 {{ end }}
                 </ul>
               </div>
@@ -207,7 +210,7 @@
               <div class="tooltip-text">
                 <ul class="list-unstyled m-0 p-0">
                 {{ range (index ($range.thematiqueconformewithname) $id) }}
-                  <li>{{ replace (. | truncate 30) " " "&nbsp;" | safeHTML }}</li>
+                  <li>{{ replace (. | truncate 50) " " "&nbsp;" | safeHTML }}</li>
                 {{ end }}
                 </ul>
               </div>
@@ -223,7 +226,7 @@
               <div class="tooltip-text">
                 <ul class="list-unstyled m-0 p-0">
                 {{ range (index ($range.thematiquenonapplicablewithname) $id) }}
-                  <li>{{ replace (. | truncate 30) " " "&nbsp;" | safeHTML }}</li>
+                  <li>{{ replace (. | truncate 50) " " "&nbsp;" | safeHTML }}</li>
                 {{ end }}
                 </ul>
               </div>
@@ -239,7 +242,7 @@
               <div class="tooltip-text">
                 <ul class="list-unstyled m-0 p-0">
                 {{ range (index ($range.thematiquenonconformewithname) $id) }}
-                  <li>{{ replace (. | truncate 30) " " "&nbsp;" | safeHTML }}</li>
+                  <li>{{ replace (. | truncate 50) " " "&nbsp;" | safeHTML }}</li>
                 {{ end }}
                 </ul>
               </div>
@@ -262,10 +265,10 @@
 {{- define "criterion" -}}
     {{ $types     := .type }}
     {{ $value     := .value }}
-    {{ $glossaire := .glossaire }}
+    {{ $glossary := .glossary }}
     {{ if eq $types "accessibility" }}
       {{ $s := where .file.topics "number" "eq" (int (delimit (first 1 (split $value ".")) ""))}}
-      {{ partialCached "utils/replace/glossaire" (dict "link" $glossaire "value" (index (index $s 0).criteria (sub (int (delimit (last 1 (split .value ".")) "")) 1)).criterium.title) (index (index $s 0).criteria (sub (int (delimit (last 1 (split .value ".")) "")) 1)).criterium.title }}
+      {{ partialCached "utils/replace/glossary" (dict "link" $glossary "value" (index (index $s 0).criteria (sub (int (delimit (last 1 (split .value ".")) "")) 1)).criterium.title) (index (index $s 0).criteria (sub (int (delimit (last 1 (split .value ".")) "")) 1)).criterium.title }}
     {{ else if (eq $types "ecoconception")}}
       {{ with (index (where .file.criteres "id" $value) 0).critere }}
         {{ . }}

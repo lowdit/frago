@@ -1,14 +1,48 @@
 {{- if .Site.Menus.footer -}}
+{{- $lang         := cond .Params.lang .Params.lang .Lang -}}
+{{- $ref          := index .Site.Data.referential (string $lang) -}}
 <footer role="contentinfo" aria-label="Pied de page" tabindex="-1">
   <div class="fg-wrapper">
     <div class="text-center">
-      <div>
-        <ul class="list-unstyled list-inline">
-          {{- $currentPage := . -}}
-          {{- range .Site.Menus.footer -}}
-          <li>&nbsp;<a class="sidebar-nav-item" href="{{ .URL }}" title="{{ .Title }}">{{ .Name }}</a>&nbsp;</li>
+      <div class="grid">
+      {{- if and (gt (len .Site.Languages) 1) $.Params.lang }}
+        {{- range $id, $lang := after 1 .Site.Languages }}
+        {{- range $key0, $value0 := $ref -}}
+          {{- with (index (index $.Site.Data $value0.referential) (string $lang)) }}
+          {{- $name := cond (eq $value0.referential "rgaa") "accessibility" $value0.referential -}}
+          <div>
+          <h3 class="m-0">{{ (index $ref $name).name }}</h3>
+          {{- $len     := len . -}}
+          {{- $counter := cond (not .criteria) 1 2 -}}
+          {{- range $key1, $value1 := . }}
+            {{- if eq $counter $len }}
+            <ul class="list-unstyled">
+            {{- range $key2, $value2 := . }}
+              <li><a href="{{ (printf "/%s/%s/%s/%s" $lang $value0.referential $key1 $key2) }}">{{ (index (where ((readFile (printf "i18n/%s.yaml" (string $lang))) | transform.Unmarshal) "id" $key2) 0).translation.one }}</a></li>
+            {{- end -}}
+            </ul>
+            {{- end }}
+            {{- $counter = add $counter 1 -}}
+          {{- end }}
+          </div>
+          {{- end }}
           {{- end -}}
-        </ul>
+        {{- end -}}
+      {{- else -}}
+        {{- range $key, $value := $ref -}}
+        {{- $referential := .referential -}}
+        <div>
+        <h3 class="m-0">{{ .name }}</h3>
+          <ul class="list-unstyled">
+            {{- range $id, $value := $.Site.Menus.footer -}}
+              {{ if (intersect (slice $referential) (split .Page.Path "/")) }}
+              <li>&nbsp;<a class="sidebar-nav-item" href="{{ (cond $.Params.lang (printf "/%s" $lang) "") }}{{ .URL }}" title="{{ .Title }}">{{ .Name }}</a>&nbsp;</li>
+              {{- end -}}
+            {{- end }}
+          </ul>
+        </div>
+        {{- end -}}
+      {{- end }}
       </div>
     </div>
   </div>

@@ -6,7 +6,15 @@
   MARK: Declare Variables
 */}}
 {{- $context := . -}}
-{{- $.Store.Set "rangepages" (where .Site.Pages "Section" "audits") -}}
+{{- $data         := newScratch -}}
+{{- $meta         := (partialCached "utils/variables-init.html" $context $context) -}}
+{{- $lang         := $meta.lang -}}
+{{- $langurl      := $meta.langurl -}}
+{{- $project      := $meta.project -}}
+{{- $projectPath  := $meta.projectPath -}}
+{{- $projectTitle := $meta.projectTitle -}}
+
+{{- $.Store.Set "rangepages" (where .Site.AllPages "Section" "audits") -}}
 
 {{- if ($.Store.Get "rangepages") -}}
 
@@ -21,8 +29,8 @@
         <ul class="list-unstyled" role="navigation">
           <li class="enlarge-link card-inline card-shadow">
             <h2 class="h3">
-              <a class="link-text" href="{{ $context.Site.BaseURL | default "/" }}organism/accessibility/">
-                Accessibilité <small>Conformité</small>
+              <a class="link-text" href="{{ $context.Site.BaseURL | default "/" }}{{ $langurl }}organism/accessibility/">
+                Accessibilité <small>{{ i18n "compliance" }}</small>
               </a>
             </h2>
             <span class="flex flex-small flex-gap align-items-center text-center lh-1">
@@ -31,8 +39,8 @@
           </li>
           <li class="enlarge-link card-inline card-shadow">
             <h2 class="h3">
-              <a class="link-text" href="{{ $context.Site.BaseURL | default "/" }}organism/ecoconception/">
-                Éco-conception <small>Conformité</small>
+              <a class="link-text" href="{{ $context.Site.BaseURL | default "/" }}{{ $langurl }}organism/ecoconception/">
+                Éco-conception <small>{{ i18n "compliance" }}</small>
               </a>
             </h2>
             <span class="flex flex-small flex-gap align-items-center text-center lh-1">
@@ -41,7 +49,7 @@
           </li>
           <li class="enlarge-link card-inline card-shadow">
             <h2 class="h3">
-              <a class="link-text" href="{{ $context.Site.BaseURL | default "/" }}organism/opquast/">
+              <a class="link-text" href="{{ $context.Site.BaseURL | default "/" }}{{ $langurl }}organism/opquast/">
                 60 règles Opquast <small>Validité</small>
               </a>
             </h2>
@@ -51,8 +59,8 @@
           </li>
           <li class="enlarge-link card-inline card-shadow">
             <h2 class="h3">
-              <a class="link-text" href="{{ $context.Site.BaseURL | default "/" }}organism/publishing/">
-                Sobriété éditoriale <small>Conformité</small>
+              <a class="link-text" href="{{ $context.Site.BaseURL | default "/" }}{{ $langurl }}organism/publishing/">
+                Sobriété éditoriale <small>{{ i18n "compliance" }}</small>
               </a>
             </h2>
             <span class="flex flex-small flex-gap align-items-center text-center lh-1">
@@ -60,10 +68,10 @@
             </span>
           </li>
           <li class="enlarge-link card-inline card-shadow">
-            {{- partialCached "components/scores/greenit-small" (dict "context" $context "project" "") "" -}}
+            {{- partialCached "components/scores/greenit-small" (dict "context" $context "project" "" "langurl" $langurl) "" -}}
           </li>
           <li class="enlarge-link card-inline card-shadow">
-            {{- partialCached "components/scores/cigref-small" (dict "context" $context "project" "") "" -}}
+            {{- partialCached "components/scores/cigref-small" (dict "context" $context "project" "" "langurl" $langurl) "" -}}
           </li>
         </ul>
       {{- end -}}

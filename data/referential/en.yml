@@ -1,0 +1,118 @@
+accessibility:
+  name: RGAA
+  referential: rgaa
+  topics:
+    - "Images"
+    - "Frames"
+    - "Colours"
+    - "Multimedia"
+    - "Tables"
+    - "Links"
+    - "Scripts"
+    - "Mandatory elements"
+    - "Information structure"
+    - "Presentation of information"
+    - "Forms"
+    - "Navigation"
+    - "Consultation"
+    - "Documentation and accessibility features"
+    - "Editing tools"
+    - "Support services"
+    - "Real-time communication"
+raweb:
+  name: RAWeb
+  referential: raweb
+  topics:
+    - "Images"
+    - "Frames"
+    - "Colours"
+    - "Multimedia"
+    - "Tables"
+    - "Links"
+    - "Scripts"
+    - "Mandatory elements"
+    - "Information structure"
+    - "Presentation of information"
+    - "Forms"
+    - "Navigation"
+    - "Consultation"
+    - "Documentation and accessibility features"
+    - "Editing tools"
+    - "Support services"
+    - "Real-time communication"
+raam:
+  name: RAAM
+  referential: raam
+  topics:
+    - "Graphic elements"
+    - "Colours"
+    - "Multimedia"
+    - "Tables"
+    - "Interactive components"
+    - "Mandatory elements"
+    - "Information structure"
+    - "Presentation of information"
+    - "Forms"
+    - "Navigation"
+    - "Consultation"
+    - "Documentation and accessibility features"
+    - "Editing tools"
+    - "Support services"
+    - "Real-time communication"
+ecoconception:
+  name: RGESN
+  referential: rgesn
+  topics:
+    - Stratégie
+    - Spécifications
+    - Architecture
+    - UX/UI
+    - Contenus
+    - Frontend
+    - Backend
+    - Hébergement
+    - Algorithmie
+opquast:
+  name: Opquast
+  referential: opquast
+  topics:
+    - Contenus
+    - Données personnelles
+    - E-Commerce
+    - Formulaires
+    - Identification et contact
+    - Images et médias
+    - Internationalisation
+    - Liens
+    - Navigation
+    - Newsletter
+    - Présentation
+    - Sécurité
+    - Serveur et performances
+    - Structure et code
+publishing:
+  name: Édito
+  referential: publishing
+  topics:
+    - Parcours utilisateur
+    - Singularité de l’entreprise
+    - Contenus orientés utilisateur
+    - Qualité des textes
+    - Lisibilité du contenu
+    - 'Patrimoine éditorial '
+    - Efficacité
+    - Diffusion du contenu
+cigref:
+  name: Cigref
+  referential: cigref
+  topics:
+    - Impact environnemental
+    - Impact social & sociétal
+    - Gouvernance
+greenit:
+  name: GreenIT
+  referential: greenit
+  topics:
+    - Démarches transversales
+    - Utilisateur
+    - Entreprise

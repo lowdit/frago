@@ -5,4 +5,3 @@ menu:
     name: "Critères GreenIT"
     weight: 6
 ---
- 

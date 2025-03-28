@@ -5,13 +5,16 @@
 {{/*
   MARK: Declare Variables
 */}}
-{{- $data              := newScratch -}}
+{{- $data         := newScratch -}}
+{{- $meta         := (partialCached "utils/variables-init.html" . .) -}}
+{{- $lang         := $meta.lang -}}
+{{- $langurl      := $meta.langurl -}}
 {{- $.Scratch.Delete "allscores" -}}
 {{- $.Scratch.Delete "projectfolders" -}}
-{{- $.Store.Set      "rangepages" (where .Site.Pages "Section" "audits") -}}
+{{- $.Store.Set      "rangepages" (where .Site.AllPages "Section" "audits") -}}
 
 {{- if and ($.Store.Get "rangepages") (gt (len ($.Store.Get "rangepages")) 0) -}}
-  {{- $.Store.Set  "aggregates" (partialCached "render/aggregate-scores.html" (dict "pages" ($.Store.Get "rangepages")) ($.Store.Get "rangepages")) -}}
+  {{- $.Store.Set "aggregates" (partialCached "render/aggregate-scores.html" (dict "pages" ($.Store.Get "rangepages")) ($.Store.Get "rangepages")) -}}
   <section class="section text-center m-0">
     <div class="fg-wrapper">
 
@@ -51,7 +54,7 @@
 
             <li class="enlarge-link card-inline card-shadow">
                 <h2 id="{{ .Title | anchorize }}" class="font-normal font-bold">
-                  <a class="link-text" href="{{ .Permalink }}">{{ with .Title }}{{ . }}{{ else }}{{ $project }}{{ end }}</a>
+                  <a class="link-text" href="{{ cond (not $lang) "" (printf "/%s" $lang) }}{{ .RelPermalink }}">{{ with .Title }}{{ . }}{{ else }}{{ $project }}{{ end }}</a>
                 </h2>
                 {{- if or $accessibility $recommendation $lighthouse $opquast $ecoconception -}}
                 <div class="flex flex-gap flex-small align-items-center text-center lh-1">

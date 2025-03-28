@@ -9,19 +9,27 @@
 {{- $audit        := .audits -}}
 {{- $context      := .context -}}
 {{- $data         := newScratch -}}
-{{- $project      := (partialCached "render/projectpath" $context $context) -}}
-{{- $projectPath  := cond (fileExists (printf "audits/%s/index.md" ($project))) (printf "audits/%s/index.md" ($project)) (printf "audits/%s/_index.md" ($project)) -}}
-{{- $projectTitle := ($context.GetPage $projectPath).Title -}}
+{{- $meta         := (partialCached "utils/variables-init.html" $context $context) -}}
+{{- $lang         := $meta.lang -}}
+{{- $project      := $meta.project -}}
+{{- $lang         := $meta.lang -}}
+{{- $projectPath  := $meta.projectPath -}}
+{{- $projectTitle := $meta.projectTitle -}}
 
 {{- $envTitle     := (dict "desktop" "Ordinateur" "mobile" "Mobile") -}}
-{{- $ref          := $context.Site.Data.referential -}}
+{{- $ref          := index $context.Site.Data.referential (string $lang) -}}
 {{- $topics       := $ref.ecoconception.topics -}}
 
 {{/* START Determine the version of the audit from the context declaration */}}
 {{- $data.Set "audits"        (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "ecoconception" "datafilename" .context.Params.datafilename) $project "ecoconception" .context.Params.datafilename) -}}
 {{- $data.Set "auditscores"   (partialCached "render/meta-scores.html" (dict "context" $context "project" $project "type" "ecoconception") $context $project "ecoconception") -}}
 {{- $referential           := (index ($data.Get "auditscores").context ((index ($data.Get "audits") "auditfile-name"))).guidelines -}}
-{{- $criteriafile          := (index (index (index $context.Site.Data (string $referential.name)) $context.Lang) (string $referential.version)).criteria.criteres -}}
+
+
+{{ if $referential }}
+
+{{- $criteriafile          := cond (not (index (index (index $context.Site.Data $referential.name) $referential.lang) (string $referential.version))) (index (index (index $context.Site.Data $referential.name) "fr") (string $referential.version)) (index (index (index $context.Site.Data $referential.name) $context.Lang) (string $referential.version)) -}}
+{{- $criteriafile          := $criteriafile.criteria.criteres -}}
 {{/* END Determine the version of the audit form the context declaration */}}
 
 {{/* START Load the criteria file for the good audit version */}}
@@ -168,7 +176,8 @@
         {{ range $key, $value := $criteriafile }}
           {{- $b := dict -}}
           {{- $c := dict -}}
-          {{- $a := (index (where (index (index (index $context.Site.Data $referential.name) $context.Lang)  (string $referential.version)).declaration "id" .id) 0) }}
+          {{- $file := cond (not (index (index (index $context.Site.Data $referential.name) $referential.lang) (string $referential.version))) (index (index (index $context.Site.Data $referential.name) "fr") (string $referential.version)) (index (index (index $context.Site.Data $referential.name) $referential.lang) (string $referential.version)) -}}
+          {{- $a := (index (where $file.declaration "id" .id) 0) }}
           {{- if and ($data.Get "context").audit ($data.Get "context").audit.criteria -}}
             {{- $b = (index (where ($data.Get "context").audit.criteria "id" ($value.id)) 0)  }}
           {{- end -}}
@@ -230,5 +239,6 @@
     {{- end -}}
     {{/* END If "context" */}}
   {{- end -}}
+{{- end -}}
 {{- end -}}
 {{/* END If false */}}

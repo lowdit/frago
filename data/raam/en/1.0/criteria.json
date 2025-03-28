@@ -12,7 +12,7 @@
           "criterium": {
             "tests": {},
             "number": 1,
-            "title": "Is every [decorative graphic element](glossaire.md#decorative-graphic-element) [ignored by assistive technologies](glossaire.md#ignored-by-assistive-technologies)?",
+            "title": "Is every [decorative graphic element](glossary.md#decorative-graphic-element) [ignored by assistive technologies](glossary.md#ignored-by-assistive-technologies)?",
             "level": "A",
             "references": {
               "norm": [
@@ -25,7 +25,7 @@
           "criterium": {
             "tests": {},
             "number": 2,
-            "title": "Does each [graphic element conveying information](glossaire.md#graphic-element-conveying-information) have an alternative [accessible to assistive technologies](glossaire.md#accessible-to-assistive-technologies)?",
+            "title": "Does each [graphic element conveying information](glossary.md#graphic-element-conveying-information) have an alternative [accessible to assistive technologies](glossary.md#accessible-to-assistive-technologies)?",
             "level": "A",
             "references": {
               "norm": [
@@ -38,7 +38,7 @@
           "criterium": {
             "tests": {},
             "number": 3,
-            "title": "For each [graphic element conveying information](glossaire.md#graphic-element-conveying-information), is the alternative [accessible to assistive technologies](glossaire.md#accessible-to-assistive-technologies) relevant (excluding special cases)?",
+            "title": "For each [graphic element conveying information](glossary.md#graphic-element-conveying-information), is the alternative [accessible to assistive technologies](glossary.md#accessible-to-assistive-technologies) relevant (excluding special cases)?",
             "level": "A",
             "references": {
               "norm": [
@@ -51,7 +51,7 @@
           "criterium": {
             "tests": {},
             "number": 4,
-            "title": "For each [graphic element](glossaire.md#graphic-element) used as a [CAPTCHA](glossaire.md#captcha) or as a [test graphic element](glossaire.md#test-graphic-element), does the alternative rendered by the assistive technologies make it possible to identify the nature and function of the graphic element?",
+            "title": "For each [graphic element](glossary.md#graphic-element) used as a [CAPTCHA](glossary.md#captcha) or as a [test graphic element](glossary.md#test-graphic-element), does the alternative rendered by the assistive technologies make it possible to identify the nature and function of the graphic element?",
             "level": "A",
             "references": {
               "norm": [
@@ -70,7 +70,7 @@
               ]
             },
             "number": 5,
-            "title": "Does each [graphic element](glossaire.md#graphic-element) used as a [CAPTCHA](glossaire.md#captcha) have an alternative?",
+            "title": "Does each [graphic element](glossary.md#graphic-element) used as a [CAPTCHA](glossary.md#captcha) have an alternative?",
             "level": "A",
             "references": {
               "norm": [
@@ -90,7 +90,7 @@
               ]
             },
             "number": 6,
-            "title": "Does each [graphic element conveying information](glossaire.md#graphic-element-conveying-information) have, where necessary, a [detailed description](glossaire.md#detailed-description)?",
+            "title": "Does each [graphic element conveying information](glossary.md#graphic-element-conveying-information) have, where necessary, a [detailed description](glossary.md#detailed-description)?",
             "level": "A",
             "references": {
               "norm": [
@@ -103,7 +103,7 @@
           "criterium": {
             "tests": {},
             "number": 7,
-            "title": "For each [graphic element conveying information](glossaire.md#graphic-element-conveying-information) with a [detailed description](glossaire.md#detailed-description), is this description relevant?",
+            "title": "For each [graphic element conveying information](glossary.md#graphic-element-conveying-information) with a [detailed description](glossary.md#detailed-description), is this description relevant?",
             "level": "A",
             "references": {
               "norm": [
@@ -116,7 +116,7 @@
           "criterium": {
             "tests": {},
             "number": 8,
-            "title": "Each [text graphic element](glossaire.md#text-graphic-element) conveying information, in the absence of a [replacement mechanism](glossaire.md#replacement-mechanism), must, if possible, be replaced by [styled text](glossaire.md#styled-text). Is this rule respected (excluding special cases)?",
+            "title": "Each [text graphic element](glossary.md#text-graphic-element) conveying information, in the absence of a [replacement mechanism](glossary.md#replacement-mechanism), must, if possible, be replaced by [styled text](glossary.md#styled-text). Is this rule respected (excluding special cases)?",
             "level": "AA",
             "references": {
               "wcag": [
@@ -132,7 +132,7 @@
           "criterium": {
             "tests": {},
             "number": 9,
-            "title": "Is each [graphic element with legend](glossaire.md#graphic-element-with-legend) correctly rendered by assistive technologies?",
+            "title": "Is each [graphic element with legend](glossary.md#graphic-element-with-legend) correctly rendered by assistive technologies?",
             "level": "AA",
             "references": {
               "norm": [
@@ -152,11 +152,11 @@
               "1": [
                 "On each screen, does each element whose colour conveys information respect at least one of these conditions?",
                 "The information is not provided by colour alone;",
-                "A [replacement mechanism](glossaire.md#replacement-mechanism) allows the user to display an alternative to the colour."
+                "A [replacement mechanism](glossary.md#replacement-mechanism) allows the user to display an alternative to the colour."
               ]
             },
             "number": 1,
-            "title": "On each screen, [information must not be provided by colour alone](glossaire.md#information-provided-by-colour). Is this rule respected?",
+            "title": "On each screen, [information must not be provided by colour alone](glossary.md#information-provided-by-colour). Is this rule respected?",
             "level": "A",
             "references": {
               "wcag": [
@@ -175,12 +175,12 @@
             "tests": {
               "1": [
                 "For each text, does the contrast between the colour of the text and the colour of its background meet one of these conditions?",
-                "The contrast ratio between the text and its background is at least 4.5:1 for [normal text size](glossaire.md#contrast-text-size) and at least 3:1 for [large text size](glossaire.md#contrast-text-size);",
-                "A [replacement mechanism](glossaire.md#replacement-mechanism) allows the user to display [normal text size](glossaire.md#contrast-text-size) with a contrast ratio of at least 4.5:1 and [large-size text](glossaire.md#contrast-text-size) with a contrast ratio of at least 3:1."
+                "The contrast ratio between the text and its background is at least 4.5:1 for [normal text size](glossary.md#contrast-text-size) and at least 3:1 for [large text size](glossary.md#contrast-text-size);",
+                "A [replacement mechanism](glossary.md#replacement-mechanism) allows the user to display [normal text size](glossary.md#contrast-text-size) with a contrast ratio of at least 4.5:1 and [large-size text](glossary.md#contrast-text-size) with a contrast ratio of at least 3:1."
               ]
             },
             "number": 2,
-            "title": "On each screen, is the [contrast](glossaire.md#contrast) between the colour of the text and the colour of its background sufficiently high (excluding special cases)?",
+            "title": "On each screen, is the [contrast](glossary.md#contrast) between the colour of the text and the colour of its background sufficiently high (excluding special cases)?",
             "level": "AA",
             "references": {
               "norm": [
@@ -194,18 +194,18 @@
           "criterium": {
             "tests": {
               "1": [
-                "On each screen, does the contrast ratio between the colours of a [user interface component](glossaire.md#user-interface-component) in its various states and the [adjacent colours](glossaire.md#adjacent-colour) satisfy one of these conditions (excluding special cases)?",
+                "On each screen, does the contrast ratio between the colours of a [user interface component](glossary.md#user-interface-component) in its various states and the [adjacent colours](glossary.md#adjacent-colour) satisfy one of these conditions (excluding special cases)?",
                 "The contrast ratio is 3:1, at least;",
-                "A [replacement mechanism](glossaire.md#replacement-mechanism) is used to display the user interface component with a contrast ratio of at least 3:1."
+                "A [replacement mechanism](glossary.md#replacement-mechanism) is used to display the user interface component with a contrast ratio of at least 3:1."
               ],
               "2": [
-                "On each screen, does the contrast ratio of each colour required to understand a graphic element and the [adjacent colours](glossaire.md#adjacent-colour) meet one of these conditions (excluding special cases)?",
+                "On each screen, does the contrast ratio of each colour required to understand a graphic element and the [adjacent colours](glossary.md#adjacent-colour) meet one of these conditions (excluding special cases)?",
                 "The contrast ratio is 3:1, at least;",
-                "A [replacement mechanism](glossaire.md#replacement-mechanism) allows a contrast ratio of at least 3:1."
+                "A [replacement mechanism](glossary.md#replacement-mechanism) allows a contrast ratio of at least 3:1."
               ]
             },
             "number": 3,
-            "title": "On each screen, are the colours used in the [user interface components](glossaire.md#user-interface-component) and the graphic elements conveying information sufficiently contrasted (excluding special cases)?",
+            "title": "On each screen, are the colours used in the [user interface components](glossary.md#user-interface-component) and the graphic elements conveying information sufficiently contrasted (excluding special cases)?",
             "level": "AA",
             "references": {
               "norm": [
@@ -219,7 +219,7 @@
           "criterium": {
             "tests": {},
             "number": 4,
-            "title": "Is the contrast ratio of each [replacement mechanism for displaying a correct contrast ratio](glossaire.md#application-mechanism-for-displaying-a-correct-contrast-ratio) sufficiently high?",
+            "title": "Is the contrast ratio of each [replacement mechanism for displaying a correct contrast ratio](glossary.md#application-mechanism-for-displaying-a-correct-contrast-ratio) sufficiently high?",
             "level": "AA",
             "references": {
               "norm": [
@@ -239,7 +239,7 @@
           "criterium": {
             "tests": {},
             "number": 1,
-            "title": "Does each pre-recorded audio-only [time-based media](glossaire.md#time-based-media-audio-video-and-synchronised) have, where appropriate, a [clearly identifiable adjacent](glossaire.md#clearly-identifiable-adjacent) [transcript](glossaire.md#transcript-time-based-media) (excluding special cases)?",
+            "title": "Does each pre-recorded audio-only [time-based media](glossary.md#time-based-media-audio-video-and-synchronised) have, where appropriate, a [clearly identifiable adjacent](glossary.md#clearly-identifiable-adjacent) [transcript](glossary.md#transcript-time-based-media) (excluding special cases)?",
             "level": "A",
             "references": {
               "norm": [
@@ -253,7 +253,7 @@
           "criterium": {
             "tests": {},
             "number": 2,
-            "title": "For each pre-recorded audio-only [time-based media](glossaire.md#time-based-media-audio-video-and-synchronised) with a [transcript](glossaire.md#transcript-time-based-media), is this transcript relevant (excluding special cases)?",
+            "title": "For each pre-recorded audio-only [time-based media](glossary.md#time-based-media-audio-video-and-synchronised) with a [transcript](glossary.md#transcript-time-based-media), is this transcript relevant (excluding special cases)?",
             "level": "A",
             "references": {
               "wcag": [
@@ -270,14 +270,14 @@
             "tests": {
               "1": [
                 "Does each pre-recorded video-only time-based media satisfy, if necessary, one of these conditions (excluding special cases)?",
-                "There is a [clearly identifiable adjacent](glossaire.md#clearly-identifiable-adjacent) [alternative \"audio only\" version](glossaire.md#alternative-audio-only-version);",
-                "There is a [clearly identifiable adjacent](glossaire.md#clearly-identifiable-adjacent) accessible [transcript](glossaire.md#transcript-time-based-media);",
-                "There is a [synchronised audio description](glossaire.md#audio-description-time-based-media);",
-                "There is an alternative version with a [synchronised audio description](glossaire.md#audio-description-time-based-media) accessible via an adjacent component (a button or a link)."
+                "There is a [clearly identifiable adjacent](glossary.md#clearly-identifiable-adjacent) [alternative \"audio only\" version](glossary.md#alternative-audio-only-version);",
+                "There is a [clearly identifiable adjacent](glossary.md#clearly-identifiable-adjacent) accessible [transcript](glossary.md#transcript-time-based-media);",
+                "There is a [synchronised audio description](glossary.md#audio-description-time-based-media);",
+                "There is an alternative version with a [synchronised audio description](glossary.md#audio-description-time-based-media) accessible via an adjacent component (a button or a link)."
               ]
             },
             "number": 3,
-            "title": "Does each pre-recorded video-only [time-based media](glossaire.md#time-based-media-audio-video-and-synchronised) have, if necessary, an alternative (excluding special cases)?",
+            "title": "Does each pre-recorded video-only [time-based media](glossary.md#time-based-media-audio-video-and-synchronised) have, if necessary, an alternative (excluding special cases)?",
             "level": "A",
             "references": {
               "norm": [
@@ -292,13 +292,13 @@
             "tests": {
               "1": [
                 "Does each pre-recorded video-only time-based media meet one of these conditions?",
-                "The [transcript](glossaire.md#transcript-time-based-media) is relevant;",
-                "The [synchronised audio description](glossaire.md#audio-description-time-based-media) is relevant and correctly synchronised;",
-                "The [alternative version \"audio only\"](glossaire.md#alternative-audio-only-version) is relevant."
+                "The [transcript](glossary.md#transcript-time-based-media) is relevant;",
+                "The [synchronised audio description](glossary.md#audio-description-time-based-media) is relevant and correctly synchronised;",
+                "The [alternative version \"audio only\"](glossary.md#alternative-audio-only-version) is relevant."
               ]
             },
             "number": 4,
-            "title": "For each pre-recorded video-only [time-based media](glossaire.md#time-based-media-audio-video-and-synchronised) with an alternative, is the alternative relevant (excluding special cases)?",
+            "title": "For each pre-recorded video-only [time-based media](glossary.md#time-based-media-audio-video-and-synchronised) with an alternative, is the alternative relevant (excluding special cases)?",
             "level": "A",
             "references": {
               "norm": [
@@ -313,13 +313,13 @@
             "tests": {
               "1": [
                 "If necessary, does each pre-recorded synchronised time-based medium satisfy one of these conditions (excluding special cases)?",
-                "There is a [clearly identifiable adjacent](glossaire.md#clearly-identifiable-adjacent) accessible [transcript](glossaire.md#transcript-time-based-media);",
-                "There is a [synchronised audio description](glossaire.md#audio-description-time-based-media);",
-                "There is an alternative version with a [synchronised audio description](glossaire.md#audio-description-time-based-media) accessible via an adjacent component (a button or a link)."
+                "There is a [clearly identifiable adjacent](glossary.md#clearly-identifiable-adjacent) accessible [transcript](glossary.md#transcript-time-based-media);",
+                "There is a [synchronised audio description](glossary.md#audio-description-time-based-media);",
+                "There is an alternative version with a [synchronised audio description](glossary.md#audio-description-time-based-media) accessible via an adjacent component (a button or a link)."
               ]
             },
             "number": 5,
-            "title": "Does each pre-recorded synchronised [time-based media](glossaire.md#time-based-media-audio-video-and-synchronised) have, if necessary, an alternative (excluding special cases)?",
+            "title": "Does each pre-recorded synchronised [time-based media](glossary.md#time-based-media-audio-video-and-synchronised) have, if necessary, an alternative (excluding special cases)?",
             "level": "A",
             "references": {
               "wcag": [
@@ -341,7 +341,7 @@
               ]
             },
             "number": 6,
-            "title": "For each pre-recorded synchronised [time-based media](glossaire.md#time-based-media-audio-video-and-synchronised) with an alternative, is the alternative relevant (excluding special cases)?",
+            "title": "For each pre-recorded synchronised [time-based media](glossary.md#time-based-media-audio-video-and-synchronised) with an alternative, is the alternative relevant (excluding special cases)?",
             "level": "A",
             "references": {
               "wcag": [
@@ -358,7 +358,7 @@
           "criterium": {
             "tests": {},
             "number": 7,
-            "title": "Does each pre-recorded synchronised [time-based media](glossaire.md#time-based-media-audio-video-and-synchronised) have, where appropriate, [synchronised captions](glossaire.md#synchronised-captions-media-object) (excluding special cases)?",
+            "title": "Does each pre-recorded synchronised [time-based media](glossary.md#time-based-media-audio-video-and-synchronised) have, where appropriate, [synchronised captions](glossary.md#synchronised-captions-media-object) (excluding special cases)?",
             "level": "A",
             "references": {
               "wcag": [
@@ -380,7 +380,7 @@
               ]
             },
             "number": 8,
-            "title": "For each pre-recorded synchronised [time-based media](glossaire.md#time-based-media-audio-video-and-synchronised) with [synchronised captions](glossaire.md#synchronised-captions-media-object), are these relevant?",
+            "title": "For each pre-recorded synchronised [time-based media](glossary.md#time-based-media-audio-video-and-synchronised) with [synchronised captions](glossary.md#synchronised-captions-media-object), are these relevant?",
             "level": "A",
             "references": {
               "wcag": [
@@ -397,7 +397,7 @@
           "criterium": {
             "tests": {},
             "number": 9,
-            "title": "Does each pre-recorded [time-based media](glossaire.md#time-based-media-audio-video-and-synchronised) (video only or synchronised) have, where appropriate, a [synchronised audio description](glossaire.md#audio-description-time-based-media) (excluding special cases)?",
+            "title": "Does each pre-recorded [time-based media](glossary.md#time-based-media-audio-video-and-synchronised) (video only or synchronised) have, where appropriate, a [synchronised audio description](glossary.md#audio-description-time-based-media) (excluding special cases)?",
             "level": "AA",
             "references": {
               "wcag": [
@@ -419,7 +419,7 @@
               ]
             },
             "number": 10,
-            "title": "For each pre-recorded video-only or synchronised [time-based media](glossaire.md#time-based-media-audio-video-and-synchronised) with a [synchronised audio description](glossaire.md#audio-description-time-based-media), is the description relevant?",
+            "title": "For each pre-recorded video-only or synchronised [time-based media](glossary.md#time-based-media-audio-video-and-synchronised) with a [synchronised audio description](glossary.md#audio-description-time-based-media), is the description relevant?",
             "level": "AA",
             "references": {
               "wcag": [
@@ -436,7 +436,7 @@
           "criterium": {
             "tests": {},
             "number": 11,
-            "title": "For each pre-recorded [time-based media](glossaire.md#time-based-media-audio-video-and-synchronised), does the adjacent text content clearly identify the time-based media (excluding special cases)?",
+            "title": "For each pre-recorded [time-based media](glossary.md#time-based-media-audio-video-and-synchronised), does the adjacent text content clearly identify the time-based media (excluding special cases)?",
             "level": "A",
             "references": {
               "norm": [
@@ -456,7 +456,7 @@
               ]
             },
             "number": 12,
-            "title": "Is each automatically triggered sound sequence [controllable](glossaire.md#control-automatically-triggered-sound) by the user?",
+            "title": "Is each automatically triggered sound sequence [controllable](glossary.md#control-automatically-triggered-sound) by the user?",
             "level": "A",
             "references": {
               "norm": [
@@ -469,7 +469,7 @@
           "criterium": {
             "tests": {},
             "number": 13,
-            "title": "Does each [time-based media](glossaire.md#time-based-media-audio-video-and-synchronised) have, where necessary, the [viewing control features](glossaire.md#viewing-control-time-based-media)?",
+            "title": "Does each [time-based media](glossary.md#time-based-media-audio-video-and-synchronised) have, where necessary, the [viewing control features](glossary.md#viewing-control-time-based-media)?",
             "level": "A",
             "references": {
               "wcag": [
@@ -493,7 +493,7 @@
               ]
             },
             "number": 14,
-            "title": "For each [time-based media](glossaire.md#time-based-media-audio-video-and-synchronised), are alternative control features presented at the same level as other [primary control](glossaire.md#primary-control-of-a-time-based-media) features?",
+            "title": "For each [time-based media](glossary.md#time-based-media-audio-video-and-synchronised), are alternative control features presented at the same level as other [primary control](glossary.md#primary-control-of-a-time-based-media) features?",
             "level": "AA",
             "references": {
               "norm": [
@@ -510,11 +510,11 @@
                 "The captions are present;",
                 "The captions can be displayed;",
                 "The captions are correctly synchronised;",
-                "The [key features of captions](glossaire.md#key-features-of-captions) are preserved."
+                "The [key features of captions](glossary.md#key-features-of-captions) are preserved."
               ]
             },
             "number": 15,
-            "title": "For each feature that transmits, converts or records pre-recorded synchronised [time-based media](glossaire.md#time-based-media-audio-video-and-synchronised) that has a captions track, at the end of the process, are the captions correctly preserved?",
+            "title": "For each feature that transmits, converts or records pre-recorded synchronised [time-based media](glossary.md#time-based-media-audio-video-and-synchronised) that has a captions track, at the end of the process, are the captions correctly preserved?",
             "level": "AA",
             "references": {
               "norm": [
@@ -535,7 +535,7 @@
               ]
             },
             "number": 16,
-            "title": "For each feature that transmits, converts or records a [time-based media](glossaire.md#time-based-media-audio-video-and-synchronised) pre-recorded with a [synchronised audio description](glossaire.md#audio-description-time-based-media), at the end of the process, is the audio description correctly preserved?",
+            "title": "For each feature that transmits, converts or records a [time-based media](glossary.md#time-based-media-audio-video-and-synchronised) pre-recorded with a [synchronised audio description](glossary.md#audio-description-time-based-media), at the end of the process, is the audio description correctly preserved?",
             "level": "AA",
             "references": {
               "norm": [
@@ -549,7 +549,7 @@
           "criterium": {
             "tests": {},
             "number": 17,
-            "title": "For each pre-recorded [time-based media](glossaire.md#time-based-media-audio-video-and-synchronised), is the presentation of captions controllable by the user (excluding special cases)?",
+            "title": "For each pre-recorded [time-based media](glossary.md#time-based-media-audio-video-and-synchronised), is the presentation of captions controllable by the user (excluding special cases)?",
             "level": "AA",
             "references": {
               "norm": [
@@ -569,7 +569,7 @@
               ]
             },
             "number": 18,
-            "title": "For each [pre-recorded synchronised time-based media](glossaire.md#time-based-media-audio-video-and-synchronised) that has [synchronised subtitles](glossaire.md#synchronised-captions-media-object), can these be, if necessary, vocalised (excluding special cases)?",
+            "title": "For each [pre-recorded synchronised time-based media](glossary.md#time-based-media-audio-video-and-synchronised) that has [synchronised subtitles](glossary.md#synchronised-captions-media-object), can these be, if necessary, vocalised (excluding special cases)?",
             "level": "AA",
             "references": {
               "norm": [
@@ -587,7 +587,7 @@
           "criterium": {
             "tests": {},
             "number": 1,
-            "title": "Does each [complex data table](glossaire.md#complex-data-table) have a [summary](glossaire.md#summary-of-table)?",
+            "title": "Does each [complex data table](glossary.md#complex-data-table) have a [summary](glossary.md#summary-of-table)?",
             "level": "A",
             "references": {
               "wcag": [
@@ -604,7 +604,7 @@
           "criterium": {
             "tests": {},
             "number": 2,
-            "title": "For each [complex data table](glossaire.md#complex-data-table) with a [summary](glossaire.md#summary-of-table), is the summary relevant?",
+            "title": "For each [complex data table](glossary.md#complex-data-table) with a [summary](glossary.md#summary-of-table), is the summary relevant?",
             "level": "A",
             "references": {
               "wcag": [
@@ -621,7 +621,7 @@
           "criterium": {
             "tests": {},
             "number": 3,
-            "title": "Does each [data table](glossaire.md#data-table) have a [title](glossaire.md#data-table-title)?",
+            "title": "Does each [data table](glossary.md#data-table) have a [title](glossary.md#data-table-title)?",
             "level": "A",
             "references": {
               "wcag": [
@@ -638,7 +638,7 @@
           "criterium": {
             "tests": {},
             "number": 4,
-            "title": "For each [data table](glossaire.md#data-table) with a [title](glossaire.md#data-table-title), is the title relevant?",
+            "title": "For each [data table](glossary.md#data-table) with a [title](glossary.md#data-table-title), is the title relevant?",
             "level": "A",
             "references": {
               "wcag": [
@@ -655,7 +655,7 @@
           "criterium": {
             "tests": {},
             "number": 5,
-            "title": "For each [data table](glossaire.md#data-table), are the row and column headings correctly linked to the data cells?",
+            "title": "For each [data table](glossary.md#data-table), are the row and column headings correctly linked to the data cells?",
             "level": "A",
             "references": {
               "wcag": [
@@ -679,8 +679,8 @@
             "tests": {
               "1": [
                 "Does each user interface component meet one of these conditions, if necessary?",
-                "[The name, role, value, properties and changes of state](glossaire.md#name-role-value-properties-and-changes-of-state) are [accessible to assistive technologies](glossaire.md#accessible-to-assistive-technologies) via an accessibility API;",
-                "A [clearly identifiable adjacent](glossaire.md#clearly-identifiable-adjacent) alternative compatible with an accessibility API provides access to the same accessibility features."
+                "[The name, role, value, properties and changes of state](glossary.md#name-role-value-properties-and-changes-of-state) are [accessible to assistive technologies](glossary.md#accessible-to-assistive-technologies) via an accessibility API;",
+                "A [clearly identifiable adjacent](glossary.md#clearly-identifiable-adjacent) alternative compatible with an accessibility API provides access to the same accessibility features."
               ],
               "2": [
                 "Does each user interface component meet these conditions (excluding special cases)?",
@@ -692,7 +692,7 @@
               ]
             },
             "number": 1,
-            "title": "Is each [user interface component](glossaire.md#user-interface-component), if necessary, [compatible with assistive technologies](glossaire.md#compatible-with-assistive-technologies) (excluding special cases)?",
+            "title": "Is each [user interface component](glossary.md#user-interface-component), if necessary, [compatible with assistive technologies](glossary.md#compatible-with-assistive-technologies) (excluding special cases)?",
             "level": "A",
             "references": {
               "wcag": [
@@ -722,7 +722,7 @@
           "criterium": {
             "tests": {},
             "number": 2,
-            "title": "Is every [user interface component](glossaire.md#user-interface-component) [accessible and operable by keyboard and any pointing device](glossaire.md#accessible-and-operable-by-keyboard-and-any-pointing-device) (excluding special cases)?",
+            "title": "Is every [user interface component](glossary.md#user-interface-component) [accessible and operable by keyboard and any pointing device](glossary.md#accessible-and-operable-by-keyboard-and-any-pointing-device) (excluding special cases)?",
             "level": "A",
             "references": {
               "wcag": [
@@ -754,7 +754,7 @@
               ]
             },
             "number": 3,
-            "title": "Does each [change of context](glossaire.md#changes-of-context) meet one of these conditions?",
+            "title": "Does each [change of context](glossary.md#changes-of-context) meet one of these conditions?",
             "level": "A",
             "references": {
               "wcag": [
@@ -772,7 +772,7 @@
           "criterium": {
             "tests": {},
             "number": 4,
-            "title": "On each screen, are the [status messages](glossaire.md#status-message) correctly rendered by assistive technologies?",
+            "title": "On each screen, are the [status messages](glossary.md#status-message) correctly rendered by assistive technologies?",
             "level": "AA",
             "references": {
               "wcag": [
@@ -796,7 +796,7 @@
               ]
             },
             "number": 5,
-            "title": "Is each state of a [toggle control](glossaire.md#toggle-control) presented to the user perceptible?",
+            "title": "Is each state of a [toggle control](glossary.md#toggle-control) presented to the user perceptible?",
             "level": "A",
             "references": {
               "norm": [
@@ -828,7 +828,7 @@
           "criterium": {
             "tests": {},
             "number": 2,
-            "title": "On each screen, interface elements must not be used [only for layout purposes](glossaire.md#only-for-layout-purposes). Is this rule respected?",
+            "title": "On each screen, interface elements must not be used [only for layout purposes](glossary.md#only-for-layout-purposes). Is this rule respected?",
             "level": "A",
             "references": {
               "wcag": [
@@ -941,7 +941,7 @@
           "criterium": {
             "tests": {},
             "number": 3,
-            "title": "On each screen, does each [component in a text environment whose nature is not obvious](glossaire.md#component-whose-nature-is-not-obvious) have a contrast ratio greater than or equal to 3:1 in relation to the surrounding text?",
+            "title": "On each screen, does each [component in a text environment whose nature is not obvious](glossary.md#component-whose-nature-is-not-obvious) have a contrast ratio greater than or equal to 3:1 in relation to the surrounding text?",
             "level": "A",
             "references": {
               "wcag": [
@@ -957,7 +957,7 @@
           "criterium": {
             "tests": {},
             "number": 4,
-            "title": "On each screen, for each [component in a text environment whose nature is not obvious](glossaire.md#component-whose-nature-is-not-obvious), is there an indication other than colour to indicate when focused and hovered with the mouse?",
+            "title": "On each screen, for each [component in a text environment whose nature is not obvious](glossary.md#component-whose-nature-is-not-obvious), is there an indication other than colour to indicate when focused and hovered with the mouse?",
             "level": "A",
             "references": {
               "wcag": [
@@ -973,7 +973,7 @@
           "criterium": {
             "tests": {},
             "number": 5,
-            "title": "On each screen, for each element receiving the focus, is the [focus](glossaire.md#when-focused) visible?",
+            "title": "On each screen, for each element receiving the focus, is the [focus](glossary.md#when-focused) visible?",
             "level": "A",
             "references": {
               "wcag": [
@@ -992,7 +992,7 @@
           "criterium": {
             "tests": {},
             "number": 6,
-            "title": "On each screen, information must not be conveyed solely by [shape, size or location](glossaire.md#indication-conveyed-by-shape-size-or-location). Is this rule respected?",
+            "title": "On each screen, information must not be conveyed solely by [shape, size or location](glossary.md#indication-conveyed-by-shape-size-or-location). Is this rule respected?",
             "level": "A",
             "references": {
               "wcag": [
@@ -1023,7 +1023,7 @@
               ]
             },
             "number": 7,
-            "title": "On each screen, is the additional content that appears when the focus is set or when a [user interface component](glossaire.md#user-interface-component) is hovered over controllable by the user (excluding special cases)?",
+            "title": "On each screen, is the additional content that appears when the focus is set or when a [user interface component](glossary.md#user-interface-component) is hovered over controllable by the user (excluding special cases)?",
             "level": "AA",
             "references": {
               "wcag": [
@@ -1110,7 +1110,7 @@
           "criterium": {
             "tests": {},
             "number": 4,
-            "title": "Are each field label and its associated field [located next to each other](glossaire.md#label-and-field-located-next-to-each-other)?",
+            "title": "Are each field label and its associated field [located next to each other](glossary.md#label-and-field-located-next-to-each-other)?",
             "level": "A",
             "references": {
               "wcag": [
@@ -1158,7 +1158,7 @@
               ]
             },
             "number": 6,
-            "title": "In each form, are the [related form controls](glossaire.md#related-form-controls) identified, if necessary?",
+            "title": "In each form, are the [related form controls](glossary.md#related-form-controls) identified, if necessary?",
             "level": "A",
             "references": {
               "wcag": [
@@ -1248,7 +1248,7 @@
               ]
             },
             "number": 10,
-            "title": "In each form, is the [error management](glossaire.md#error-management-form) accompanied, if necessary, by suggestions of expected data types, formats or values?",
+            "title": "In each form, is the [error management](glossary.md#error-management-form) accompanied, if necessary, by suggestions of expected data types, formats or values?",
             "level": "AA",
             "references": {
               "wcag": [
@@ -1281,12 +1281,12 @@
             "tests": {
               "1": [
                 "Does each field that expects personal data from the user respect these conditions?",
-                "The [appropriate native platform controls](glossaire.md#native-platform-controls) are presented to the user;",
+                "The [appropriate native platform controls](glossary.md#native-platform-controls) are presented to the user;",
                 "The field is compatible with an auto-fill functionality."
               ]
             },
             "number": 12,
-            "title": "For each field that expects [personal user data](glossaire.md#personal-user-data), is input facilitated?",
+            "title": "For each field that expects [personal user data](glossary.md#personal-user-data), is input facilitated?",
             "level": "AA",
             "references": {
               "wcag": [
@@ -1307,7 +1307,7 @@
           "criterium": {
             "tests": {},
             "number": 1,
-            "title": "On each screen, is the [navigation sequence](glossaire.md#navigation-sequence) [consistent](glossaire.md#consistent-reading-sequence)?",
+            "title": "On each screen, is the [navigation sequence](glossary.md#navigation-sequence) [consistent](glossary.md#consistent-reading-sequence)?",
             "level": "A",
             "references": {
               "wcag": [
@@ -1323,7 +1323,7 @@
           "criterium": {
             "tests": {},
             "number": 2,
-            "title": "On each screen, is the reading sequence by assistive technologies [consistent](glossaire.md#consistent-reading-sequence)?",
+            "title": "On each screen, is the reading sequence by assistive technologies [consistent](glossary.md#consistent-reading-sequence)?",
             "level": "A",
             "references": {
               "wcag": [
@@ -1348,7 +1348,7 @@
               ]
             },
             "number": 3,
-            "title": "On each screen, the navigation must not contain any [keyboard traps](glossaire.md#keyboard-trap). Is this rule respected?",
+            "title": "On each screen, the navigation must not contain any [keyboard traps](glossary.md#keyboard-trap). Is this rule respected?",
             "level": "A",
             "references": {
               "wcag": [
@@ -1373,7 +1373,7 @@
               ]
             },
             "number": 4,
-            "title": "On each screen, are [keyboard shortcuts](glossaire.md#keyboard-shortcut) using only one key (upper or lower case letter, punctuation, number or symbol) controllable by the user?",
+            "title": "On each screen, are [keyboard shortcuts](glossary.md#keyboard-shortcut) using only one key (upper or lower case letter, punctuation, number or symbol) controllable by the user?",
             "level": "A",
             "references": {
               "wcag": [
@@ -1402,7 +1402,7 @@
               ]
             },
             "number": 1,
-            "title": "For each screen, does the user have control over each [time limit modifying content](glossaire.md#refresh-process) (excluding special cases)?",
+            "title": "For each screen, does the user have control over each [time limit modifying content](glossary.md#refresh-process) (excluding special cases)?",
             "level": "A",
             "references": {
               "wcag": [
@@ -1450,7 +1450,7 @@
               ]
             },
             "number": 3,
-            "title": "On each screen, does each office document available for download have, if necessary, an [accessible version](glossaire.md#accessible-version) (excluding special cases)?",
+            "title": "On each screen, does each office document available for download have, if necessary, an [accessible version](glossary.md#accessible-version) (excluding special cases)?",
             "level": "A",
             "references": {
               "wcag": [
@@ -1472,7 +1472,7 @@
           "criterium": {
             "tests": {},
             "number": 4,
-            "title": "For each office document with an [accessible version](glossaire.md#accessible-version), does this version offer the same information (excluding special cases)?",
+            "title": "For each office document with an [accessible version](glossary.md#accessible-version), does this version offer the same information (excluding special cases)?",
             "level": "A",
             "references": {
               "wcag": [
@@ -1532,7 +1532,7 @@
               ]
             },
             "number": 7,
-            "title": "On each screen, are [sudden change in brightness or blinking effects](glossaire.md#sudden-change-in-brightness-or-blinking-effect) used correctly?",
+            "title": "On each screen, are [sudden change in brightness or blinking effects](glossary.md#sudden-change-in-brightness-or-blinking-effect) used correctly?",
             "level": "A",
             "references": {
               "norm": [
@@ -1553,7 +1553,7 @@
               ]
             },
             "number": 8,
-            "title": "On each screen, is each moving or blinking content [controllable](glossaire.md#control-moving-or-blinking-content) by the user?",
+            "title": "On each screen, is each moving or blinking content [controllable](glossary.md#control-moving-or-blinking-content) by the user?",
             "level": "A",
             "references": {
               "wcag": [
@@ -1590,7 +1590,7 @@
           "criterium": {
             "tests": {},
             "number": 10,
-            "title": "On each screen, are the features that can be activated using a [complex gesture](glossaire.md#complex-and-simple-gestures) able to be activated using a [simple gesture](glossaire.md#complex-and-simple-gestures) (excluding special cases)?",
+            "title": "On each screen, are the features that can be activated using a [complex gesture](glossary.md#complex-and-simple-gestures) able to be activated using a [simple gesture](glossary.md#complex-and-simple-gestures) (excluding special cases)?",
             "level": "A",
             "references": {
               "wcag": [
@@ -1624,7 +1624,7 @@
                 "On each screen, do actions triggered using a pointing device on a single point on the screen meet one of these conditions (excluding special cases)?",
                 "The action is triggered when the pointing device is released;",
                 "The action is triggered when the pointing device is pressed (down-event) and then cancelled when the pointing device is released (up-event);",
-                "The [action is complex](glossaire.md#complex-action) and a mechanism is available to abort (before completion of the action) or cancel (after completion) the execution of the action."
+                "The [action is complex](glossary.md#complex-action) and a mechanism is available to abort (before completion of the action) or cancel (after completion) the execution of the action."
               ]
             },
             "number": 12,
@@ -1667,7 +1667,7 @@
           "criterium": {
             "tests": {},
             "number": 14,
-            "title": "For each document conversion feature, is the [accessibility information](glossaire.md#accessibility-information) available in the source document retained in the destination document (excluding special cases)?",
+            "title": "For each document conversion feature, is the [accessibility information](glossary.md#accessibility-information) available in the source document retained in the destination document (excluding special cases)?",
             "level": "AA",
             "references": {
               "norm": [
@@ -1686,7 +1686,7 @@
               ]
             },
             "number": 15,
-            "title": "Is an alternative method available for each identification or control functionality of the application that relies on the use of [biological characteristics](glossaire.md#biological-characteristics) of the user?",
+            "title": "Is an alternative method available for each identification or control functionality of the application that relies on the use of [biological characteristics](glossary.md#biological-characteristics) of the user?",
             "level": "A",
             "references": {
               "norm": [
@@ -1705,7 +1705,7 @@
               ]
             },
             "number": 16,
-            "title": "For each application that incorporates [key repeat](glossaire.md#key-repeat) functionality, is the repeat adjustable (excluding special cases)?",
+            "title": "For each application that incorporates [key repeat](glossary.md#key-repeat) functionality, is the repeat adjustable (excluding special cases)?",
             "level": "A",
             "references": {
               "norm": [
@@ -1730,7 +1730,7 @@
               ]
             },
             "number": 1,
-            "title": "Does the application documentation describe the [accessibility features](glossaire.md#accessibility-feature) of the application and their use?",
+            "title": "Does the application documentation describe the [accessibility features](glossary.md#accessibility-feature) of the application and their use?",
             "level": "AA",
             "references": {
               "norm": [
@@ -1743,7 +1743,7 @@
           "criterium": {
             "tests": {},
             "number": 2,
-            "title": "For each [accessibility feature](glossaire.md#accessibility-feature) described in the documentation, the entire path that enables it to be activated meets the accessibility needs of the users who require it. Is this rule respected (excluding special cases)?",
+            "title": "For each [accessibility feature](glossary.md#accessibility-feature) described in the documentation, the entire path that enables it to be activated meets the accessibility needs of the users who require it. Is this rule respected (excluding special cases)?",
             "level": "A",
             "references": {
               "norm": [
@@ -1788,7 +1788,7 @@
           "criterium": {
             "tests": {},
             "number": 1,
-            "title": "Can the [editing tool](glossaire.md#editing-tool) be used to define the [accessibility information](glossaire.md#accessibility-information) required to create compliant content?",
+            "title": "Can the [editing tool](glossary.md#editing-tool) be used to define the [accessibility information](glossary.md#accessibility-information) required to create compliant content?",
             "level": "A",
             "references": {
               "norm": [
@@ -1802,7 +1802,7 @@
           "criterium": {
             "tests": {},
             "number": 2,
-            "title": "Does the [editing tool](glossaire.md#editing-tool) provide help with creating accessible content?",
+            "title": "Does the [editing tool](glossary.md#editing-tool) provide help with creating accessible content?",
             "level": "A",
             "references": {
               "norm": [
@@ -1816,7 +1816,7 @@
           "criterium": {
             "tests": {},
             "number": 3,
-            "title": "Is the content generated by each content [transformation](glossaire.md#transformation) accessible (excluding special cases)?",
+            "title": "Is the content generated by each content [transformation](glossary.md#transformation) accessible (excluding special cases)?",
             "level": "A",
             "references": {
               "norm": [
@@ -1844,7 +1844,7 @@
           "criterium": {
             "tests": {},
             "number": 5,
-            "title": "For each set of [templates](glossaire.md#template), at least one template meets the requirements of the [RAWeb](../raweb1/criteres.html). Is this rule respected?",
+            "title": "For each set of [templates](glossary.md#template), at least one template meets the requirements of the [RAWeb](../raweb1/criteres.html). Is this rule respected?",
             "level": "A",
             "references": {
               "norm": [
@@ -1858,7 +1858,7 @@
           "criterium": {
             "tests": {},
             "number": 6,
-            "title": "Is each [template](glossaire.md#template) that enables the RAWeb requirements to be met clearly identifiable?",
+            "title": "Is each [template](glossary.md#template) that enables the RAWeb requirements to be met clearly identifiable?",
             "level": "A",
             "references": {
               "norm": [
@@ -1877,7 +1877,7 @@
           "criterium": {
             "tests": {},
             "number": 1,
-            "title": "Does each [support service](glossaire.md#support-services) provide information relating to the [accessibility features](glossaire.md#accessibility-feature) of the application described in the documentation?",
+            "title": "Does each [support service](glossary.md#support-services) provide information relating to the [accessibility features](glossary.md#accessibility-feature) of the application described in the documentation?",
             "level": "AA",
             "references": {
               "norm": [
@@ -1890,7 +1890,7 @@
           "criterium": {
             "tests": {},
             "number": 2,
-            "title": "The [support service](glossaire.md#support-services) meets the communication needs of people with disabilities directly or through [a relay service](glossaire.md#relay-service). Is this rule respected?",
+            "title": "The [support service](glossary.md#support-services) meets the communication needs of people with disabilities directly or through [a relay service](glossary.md#relay-service). Is this rule respected?",
             "level": "A",
             "references": {
               "norm": [
@@ -1908,7 +1908,7 @@
           "criterium": {
             "tests": {},
             "number": 1,
-            "title": "For each [two-way voice communication application](glossaire.md#two-way-voice-communication-application), is the application capable of encoding and decoding this communication with a frequency range whose upper limit is at least 7,000 Hz?",
+            "title": "For each [two-way voice communication application](glossary.md#two-way-voice-communication-application), is the application capable of encoding and decoding this communication with a frequency range whose upper limit is at least 7,000 Hz?",
             "level": "A",
             "references": {
               "norm": [
@@ -1927,7 +1927,7 @@
               ]
             },
             "number": 2,
-            "title": "Does each application that supports [two-way voice communication](glossaire.md#two-way-voice-communication-application) have [real-time text communication](glossaire.md#real-time-text-communication) functionality?",
+            "title": "Does each application that supports [two-way voice communication](glossary.md#two-way-voice-communication-application) have [real-time text communication](glossary.md#real-time-text-communication) functionality?",
             "level": "A",
             "references": {
               "norm": [
@@ -1940,7 +1940,7 @@
           "criterium": {
             "tests": {},
             "number": 3,
-            "title": "For each application that allows [two-way voice communication](glossaire.md#two-way-voice-communication-application) and [real-time text](glossaire.md#real-time-text-communication), are both modes usable simultaneously?",
+            "title": "For each application that allows [two-way voice communication](glossary.md#two-way-voice-communication-application) and [real-time text](glossary.md#real-time-text-communication), are both modes usable simultaneously?",
             "level": "A",
             "references": {
               "norm": [
@@ -1962,7 +1962,7 @@
               ]
             },
             "number": 4,
-            "title": "For each [real-time text communication](glossaire.md#real-time-text-communication) functionality, can the messages be identified (excluding special cases)?",
+            "title": "For each [real-time text communication](glossary.md#real-time-text-communication) functionality, can the messages be identified (excluding special cases)?",
             "level": "A",
             "references": {
               "norm": [
@@ -1984,7 +1984,7 @@
               ]
             },
             "number": 5,
-            "title": "For each [two-way voice communication application](glossaire.md#two-way-voice-communication-application), is a visual indicator of oral activity present?",
+            "title": "For each [two-way voice communication application](glossary.md#two-way-voice-communication-application), is a visual indicator of oral activity present?",
             "level": "A",
             "references": {
               "norm": [
@@ -1998,7 +1998,7 @@
           "criterium": {
             "tests": {},
             "number": 6,
-            "title": "Does each [real-time text communication](glossaire.md#real-time-text-communication) application that can interact with other [real-time text communication](glossaire.md#real-time-text-communication) applications comply with the interoperability rules in force?",
+            "title": "Does each [real-time text communication](glossary.md#real-time-text-communication) application that can interact with other [real-time text communication](glossary.md#real-time-text-communication) applications comply with the interoperability rules in force?",
             "level": "A",
             "references": {
               "norm": [
@@ -2011,7 +2011,7 @@
           "criterium": {
             "tests": {},
             "number": 7,
-            "title": "For each application that supports [real-time text (RTT) communication](glossaire.md#real-time-text-communication), the transmission delay for each [input unit](glossaire.md#input-unit) is 500ms or less. Is this rule respected?",
+            "title": "For each application that supports [real-time text (RTT) communication](glossary.md#real-time-text-communication), the transmission delay for each [input unit](glossary.md#input-unit) is 500ms or less. Is this rule respected?",
             "level": "AA",
             "references": {
               "norm": [
@@ -2043,7 +2043,7 @@
           "criterium": {
             "tests": {},
             "number": 9,
-            "title": "For each [two-way voice communication](glossaire.md#two-way-voice-communication-application) application that provides caller identification, is there a way to present this identification for sign language users?",
+            "title": "For each [two-way voice communication](glossary.md#two-way-voice-communication-application) application that provides caller identification, is there a way to present this identification for sign language users?",
             "level": "A",
             "references": {
               "norm": [
@@ -2056,7 +2056,7 @@
           "criterium": {
             "tests": {},
             "number": 10,
-            "title": "For each [two-way voice communication](glossaire.md#two-way-voice-communication-application) application that has [voice-based services](glossaire.md#voice-based-services), are these services usable without the need to listen or speak?",
+            "title": "For each [two-way voice communication](glossary.md#two-way-voice-communication-application) application that has [voice-based services](glossary.md#voice-based-services), are these services usable without the need to listen or speak?",
             "level": "A",
             "references": {
               "norm": [
@@ -2070,13 +2070,13 @@
             "tests": {
               "1": [
                 "For each two-way voice communication application that has real-time video, are the following conditions met?",
-                "The video resolution is at least [QVGA](glossaire.md#qvga);",
+                "The video resolution is at least [QVGA](glossary.md#qvga);",
                 "The frame rate is at least 20 frames per second;",
                 "The lag between video and speech must not exceed 100ms."
               ]
             },
             "number": 11,
-            "title": "For each [two-way voice communication application](glossaire.md#two-way-voice-communication-application) that has real-time video, is the quality of the video sufficient?",
+            "title": "For each [two-way voice communication application](glossary.md#two-way-voice-communication-application) that has real-time video, is the quality of the video sufficient?",
             "level": "AA",
             "references": {
               "norm": [

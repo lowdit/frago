@@ -1,5 +1,5 @@
 ---
-title: Glossaire RAAM 1.0
+title: Glossaire RAAM 1.1
 type: glossary
 menu:
   footer:

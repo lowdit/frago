@@ -6,12 +6,15 @@
   MARK: Declare Variables
 */}}
 {{- $context      := .context -}}
-{{- $Type         := .type -}}
-{{- $path := "" }}{{ with $context.File }}{{ $path = .Path }}{{ end }}
-{{- $project      := partialCached "render/projectpath" $context $context -}}
 {{- $data         := newScratch -}}
-{{- $projectPath  := cond (fileExists (printf "audits/%s/index.md" ($project))) (printf "audits/%s/index.md" ($project)) (printf "audits/%s/_index.md" ($project)) -}}
-{{- $projectTitle := ($context.GetPage $projectPath).Title -}}
+{{- $Type         := .type -}}
+{{  $meta         := (partialCached "utils/variables-init.html" $context $context) }}
+{{- $path         := $meta.path }}
+{{- $project      := $meta.project -}}
+{{- $lang         := $meta.lang -}}
+{{- $projectPath  := $meta.projectPath -}}
+{{- $projectTitle := $meta.projectTitle -}}
+
 
 {{- $data.Set "pageslist" "" -}}
 {{- $data.Set "scores"    "" -}}
@@ -61,12 +64,13 @@
     {{/* START Test if audit name is named */}}
 
     {{ if and (ne $referential.name "any") $referential }}
-      {{- $data.Set "criteriafile" (index (index (index $.context.Site.Data $referential.name) $referential.lang) (string $referential.version)).criteria.topics -}}
+      {{- $criteriafile := (cond (not (index (index (index $.context.Site.Data $referential.name) $.context.Lang) (string $referential.version))) (index (index (index $.context.Site.Data $referential.name) "fr") (string $referential.version)) (index (index (index $.context.Site.Data $referential.name) $.context.Lang) (string $referential.version))) -}}
+      {{- $data.Set "criteriafile" $criteriafile.criteria.topics -}}
 
       {{/* Load the glossary file for the good audit version */}}
-      {{- $data.Set "glossaire" (printf "=\"%s%s%s/glossaire/$1\"" (site.BaseURL | default "/") $referential.name $referential.version) -}}
+      {{- $data.Set "glossary" (printf "=\"%s%s%s%s/glossary/$1\"" (site.BaseURL | default "/") $referential.name $lang $referential.version) -}}
 
-      {{- if $project -}}<p>← <a href="{{ site.BaseURL | default "/" }}{{- with $project -}}{{ printf "audits/%s/" (urlize .) }}{{- end -}}" class="link-more link-back" aria-label="Retour à la page {{ ($context.GetPage $project).Title }}">Retour à la page projet</a></p>{{- end -}}
+      {{- if $project -}}<p>← <a href="{{ site.BaseURL | default "/" }}{{ (cond $lang (printf "%s/" $lang) "") }}{{- with $project -}}{{ printf "audits/%s/" (urlize .) }}{{- end -}}" class="link-more link-back" aria-label="Retour à la page {{ ($context.GetPage $project).Title }}">Retour à la page projet</a></p>{{- end -}}
       <h1>Audit Accessibilité{{ with $projectTitle }}<small> pour {{ partialCached "utils/isURL.html" (dict "context" $context "projectTitle" $projectTitle) $projectTitle }}</small>{{ end }}</h1>
 
       {{/* START Display page note if exists */}}
@@ -133,7 +137,7 @@
 
         <h2 class="text-center">Scores{{- with ($data.Get "scores").scores.criteria -}}&nbsp;-&nbsp;{{- .total -}}&nbsp;critères{{ end }}</h2>
         <time class="text-center" datetime="{{ ($data.Get "date").Format "2006-01-02T15:04:05Z07:00" | safeHTML }}">Le {{ ($data.Get "date").Day }} {{ index $.context.Site.Data.month (printf "%d" ($data.Get "date").Month) }} {{ ($data.Get "date").Year }}</time>
-
+  
         <p class="text-center"><a href="{{ $context.Path }}/declaration/" aria-label="Accéder à la déclaration de {{ ($context.GetPage $project).Title }}">Accéder à la déclaration</a></p>
 
         <h3 class="mb-0">Conformité globale selon les critères {{/* if le ($data.Get "scores").scores.compliance "75" }} {{ if and (ne ($data.Get "scores").scores.criteria.nonconforme 0) (ne ($data.Get "scores").scores.criteria.conforme 0) }}<small>({{ sub ((div (mul (add (len ($data.Get "scores").criteria.conforme) (($data.Get "scores").scores.criteria.nonconforme) ) 75) 100)) (len ($data.Get "scores").criteria.conforme) }}</b> critères pour atteindre 75%)</small>{{ end }}{{ end */}}</h3>
@@ -350,23 +354,23 @@
         {{- $criterium := (index (index $s 0).criteria (sub (int ($criteria)) 1)) -}}
         {{- $criterium := $criterium.criterium.title -}}
         <p><em>
-          {{- partialCached "utils/replace/glossaire" (dict "link" ($data.Get "glossaire") "value" $criterium) $criterium }}
+          {{- partialCached "utils/replace/glossary" (dict "link" ($data.Get "glossary") "value" $criterium) $criterium }}
           {{ if not $criterium }}Le numéro du critère ne correspond pas au référentiel.{{ end }}
         </em></p>
       {{- else if eq ($data.Get "auditmethodology") 3 }}
         {{- range $idx, $value := ((index (index $s 0).criteria (sub (int ($criteria)) 1)).criterium).tests -}}
           {{- if eq $idx (string ($tests)) -}}
             {{- if reflect.IsSlice . -}}
-              <p><em>{{- partialCached "utils/replace/glossaire" (dict "link" ($data.Get "glossaire") "value" (index . 0)) (index . 0)}}</em><br></p>
+              <p><em>{{- partialCached "utils/replace/glossary" (dict "link" ($data.Get "glossary") "value" (index . 0)) (index . 0)}}</em><br></p>
             {{- if (after 1 .) -}}
               <ol>
                 {{- range after 1 . }}
-                <li>{{- partialCached "utils/replace/glossaire" (dict "link" ($data.Get "glossaire") "value" .) . }}</li>
+                <li>{{- partialCached "utils/replace/glossary" (dict "link" ($data.Get "glossary") "value" .) . }}</li>
                 {{ end -}}
               </ol>
             {{- end -}}
           {{- else -}}
-            <p><em>{{ (replaceRE "=\"#" ($data.Get "glossaire") (. | markdownify) 100) | safeHTML }}</em></p>
+            <p><em>{{ (replaceRE "=\"#" ($data.Get "glossary") (. | markdownify) 100) | safeHTML }}</em></p>
           {{- end -}}
         {{- end -}}
       {{- end -}}

@@ -46,11 +46,16 @@
     {{- $thematiques := float (index (split $key ".") 0) -}}
     {{- $criteria    := float (index (split $key ".") 1) -}}
     <p><strong>Critère {{ $thematiques }}.{{ $criteria }}</strong><br/>
-    {{- $s := where ((index (index $context.Site.Data $auditname) $context.Lang).criteria.topics) "number" "eq" (float (index (split $key ".") 0)) -}}
-    {{- if ge (len $s) 1 -}}
-      {{- $content := (index (index $s 0).criteria (sub (int ($criteria)) 1)).criterium.title -}}
-      <em>{{ replaceRE "\\[(.*?)\\]\\(.*?\\)" "$1" $content | markdownify }}</em>
-      </br>
+    {{- $criteriafile := cond (not (index (index $context.Site.Data $auditname) $context.Lang)) (index (index $context.Site.Data $auditname) "fr") (index (index $context.Site.Data $auditname) $context.Lang) -}}
+    {{- if $criteriafile.criteria.topics }}
+      {{- $s := where $criteriafile.criteria.topics "number" "eq" $thematiques -}}
+      {{- if and $s (ge (len $s) 1) -}}
+        {{- $content := (index (index $s 0).criteria (sub (int ($criteria)) 1)).criterium.title -}}
+        <em>{{ replaceRE "\\[(.*?)\\]\\(.*?\\)" "$1" $content | markdownify }}</em>
+        </br>
+      {{- end -}}
+    {{- else -}}
+      {{- warnf "%s %s" ((printf "/data/%s/%s/criteria.json" $auditname $context.Lang )) "is missing" -}}
     {{- end -}}
     {{- with ($data.Get "criterion") -}}
     {{ with (index . (printf "%v.%v" $thematiques $criteria)) }}

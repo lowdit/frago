@@ -1,5 +1,4 @@
 baseURL = "/"
-paginate = "10"
 
 title = "Observatoire Accessibilité"
 
@@ -9,6 +8,8 @@ defaultContentLanguageInSubdir = false
 enableInlineShortcodes = true
 removePathAccents = true
 enableGitInfo = true
+
+ignoreLogs = ['warning-goldmark-raw-html']
 
 disableKinds = ["RSS", "sitemap", "taxonomy", "taxonomyTerm"]
 

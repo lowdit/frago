@@ -1,30 +1,102 @@
+{{/*
+  MARK: Glossary
+*/}}
 {{- define "main" -}}
   {{- partialCached "utils/css.html" (dict "context" . "filefolder" "base" "filename" "layout" "inline" "true") "layout" -}}
   {{- partialCached "utils/css.html" (dict "context" . "filefolder" "base" "filename" "main" "inline" "true") "main" -}}
-  {{ $path := "" }}
-  {{ with .File }}{{ $path = .Path }}{{ end }}
-  {{- $patharray := split (path.Dir $path) "/" -}}
+  {{- partialCached "utils/css.html" (dict "context" . "filefolder" "element" "filename" "definitionlists") "definitionlists" }}
+  {{- partialCached "utils/css.html" (dict "context" . "filefolder" "element" "filename" "codeformatting") "codeformatting" }}
 
-  {{- $referential := (partialCached "render/referential-version.html" (dict "context" . "referential" "rgaa") . "rgaa").guideline -}}
-  {{- $.Store.Set "criteriafile" (index (index $.Site.Data $referential.name) (string $referential.version)).glossary -}}
+  {{/*
+    MARK: Declare Variables
+  */}}
+  {{- $path := "" -}}
+  {{- with .File }}{{ $path = .Path }}{{ end }}
+  {{- $path        := cond (eq $path "_content.gotmpl") (string .Path) $path -}}
+  {{- $patharray   := split (path.Dir $path) "/" -}}
+  {{- $lang        := cond .Params.lang .Params.lang .Lang -}}
+  {{- $refname     := (lower (index (split (string (replace $path "/en/" "")) "/") 0)) -}}
+  {{- $referential := (partialCached "render/referential-version.html" (dict "context" . "referential" $refname "lang" .Params.lang) . "rgaa" .Params.lang).guideline -}}
+  {{- $.Store.Set "file" (partialCached "utils/lang/referential.html" (dict "context" . "referential" $referential) $referential) -}}
+  {{- $.Store.Set "criteriafile" ($.Store.Get "file").glossary -}}
 
-  {{ partialCached "utils/css.html" (dict "context" . "filefolder" "element" "filename" "definitionlists") "definitionlists" }}
-  {{ partialCached "utils/css.html" (dict "context" . "filefolder" "element" "filename" "codeformatting") "codeformatting" }}
   <article class="fg-wrapper narrow">
+  {{ if gt (len .Site.Languages) 1 }}
+      <nav>
+      <ul class="list-unstyled">
+      {{- range $id, $langloop := after 1 .Site.Languages }}
+        {{ if (index (index (index $.Site.Data $referential.name) (string $langloop) ) (string (substr $referential.version 0 3))) }}
+          {{ $pathfile := printf "/%s/%s/%s/%s" $langloop $referential.name (substr $referential.version 0 3) $.File }}
+          {{- if ne (string $langloop) $lang -}}
+          <li><a href="{{ $pathfile }}">Version {{ $langloop }}</a></li>
+          {{- end -}}
+        {{- end -}}
+      {{- end -}}
+      {{ if ne (string (index .Site.Languages 0)) (string $lang) }}
+        <li><a href="{{ substr $path 3 }}">Version {{ $.Lang }}</a></li>
+      {{ end }}
+      </ul>
+      </nav>
+    {{- end -}}
   <h1>{{ .Title }}</h1>
     {{- $.Store.Set "anchor" slice -}}
-    {{- if and (ge $referential.version "4.1.1") (gt (len $referential.version) 4) -}}
-      {{- range $key, $value := ($.Store.Get "criteriafile") -}}
+    {{/*
+      MARK: After RGAA 4.1.1 or RAWeb or RAAM
+    */}}
+    {{- if (and (eq $referential.version "4.0") (eq $referential.name "rgaa")) -}}
+      {{- range $key, $value := ($.Store.Get "file").glossary -}}
         {{- range $value -}}
+        <h2>{{ .section }}</h2>
+        <dl>
+          {{- range .dl -}}
+            <dt id="{{ .dt | replaceRE "'" "-" | replaceRE "[èéêë]" "e" | replaceRE "[àáâãäå]" "a" | replaceRE "[ìíîï]" "i" | replaceRE "[òóôõö]" "o" | replaceRE "[ùúûü]" "u" | replaceRE "[æ]" "ae" | replaceRE "[/œ]" "oe" | anchorize }}">{{ .dt }}</dt>
+            <dd>
+              {{- range .dd -}}
+                {{- if reflect.IsMap . -}}
+                    {{- range . -}}
+                    <ul>
+                    {{- range . -}}
+                    {{- if reflect.IsMap . -}}
+                      <li>
+                        {{- range . -}}
+                        <ul>
+                          {{- range . -}}
+                            <li>
+                            {{ . | markdownify }}
+                            </li>
+                          {{- end -}}
+                        </ul>
+                        {{- end -}}
+                      </li>
+                    {{- else -}}
+                      <li>{{ . | markdownify }}</li>
+                    {{- end -}}
+                    {{- end -}}
+                    </ul>
+                    {{- end -}}
+                {{- else -}}
+                  <p>{{ . | markdownify }}</p>
+                {{- end -}}
+              {{- end -}}
+            </dd>
+          {{- end -}}
+        </dl>
+        {{- end -}}
+      {{- end -}}
+    {{ else }}
+    {{- range $key, $value := ($.Store.Get "criteriafile") -}}
+        {{- range $value -}}
+          {{ if .title }}
           {{- $.Store.Add "anchor" (upper (slicestr (urlize .title) 0 1)) -}}
+          {{ else }}
+          {{ warnf "Problem with the condition"  }}
+          {{ end }}
         {{ end -}}
       {{ end -}}
       {{- $.Store.Set "anchorcurrent" "" -}}
-      {{- range (uniq ($.Store.Get "anchor")) -}}
-
-      {{- end -}}
       {{- range $key, $value := ($.Store.Get "criteriafile") -}}
         {{- range $value -}}
+        {{ if .title }}
           {{- if ne (upper (slicestr (urlize .title) 0 1)) ($.Store.Get "anchorcurrent") -}}
           <h2>{{ (upper (slicestr (urlize .title) 0 1)) }}</h2>
           {{- end -}}
@@ -32,48 +104,8 @@
             <h3 id="{{ .title | replaceRE "'" "-" | replaceRE "[èéêë]" "e" | replaceRE "[àáâãäå]" "a" | replaceRE "[ìíîï]" "i" | replaceRE "[òóôõö]" "o" | replaceRE "[ùúûü]" "u" | replaceRE "[æ]" "ae" | replaceRE "[/œ]" "oe" | anchorize }}">{{ .title }}</h3>
             {{ .body | replaceRE "https://accessibilite.numerique.gouv.fr/methode/criteres-et-tests/" $reflink | replaceRE "#(\\d*)\\.(\\d*)" "#$1-$2" | safeHTML }}
           {{- $.Store.Set "anchorcurrent" (slicestr .title 0 1) -}}
-        {{- end -}}
-      {{- end -}}
-    {{- else -}}
-    {{- range $key, $value := (index (index $.Site.Data $referential.name) (string $referential.version)).glossary -}}
-      {{- range $value -}}
-      <h2>{{ .section }}</h2>
-      <dl>
-        {{- range .dl -}}
-          <dt id="{{ .dt | replaceRE "'" "-" | replaceRE "[èéêë]" "e" | replaceRE "[àáâãäå]" "a" | replaceRE "[ìíîï]" "i" | replaceRE "[òóôõö]" "o" | replaceRE "[ùúûü]" "u" | replaceRE "[æ]" "ae" | replaceRE "[/œ]" "oe" | anchorize }}">{{ .dt }}</dt>
-          <dd>
-            {{- range .dd -}}
-              {{- if reflect.IsMap . -}}
-                  {{- range . -}}
-                  <ul>
-                  {{- range . -}}
-                  {{- if reflect.IsMap . -}}
-                    <li>
-                      {{- range . -}}
-                      <ul>
-                        {{- range . -}}
-                          <li>
-                          {{ . | markdownify }}
-                          </li>
-                        {{- end -}}
-                      </ul>
-                      {{- end -}}
-                    </li>
-                  {{- else -}}
-                    <li>{{ . | markdownify }}</li>
-                  {{- end -}}
-                  {{- end -}}
-                  </ul>
-                  {{- end -}}
-              {{- else -}}
-                <p>{{ . | markdownify }}</p>
-              {{- end -}}
-            {{- end -}}
-          </dd>
-        {{- end -}}
-      </dl>
+        {{- end -}}{{- end -}}
       {{- end -}}
       {{- end -}}
-    {{- end -}}
   </article>
 {{- end -}}
