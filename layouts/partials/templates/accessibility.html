@@ -65,7 +65,7 @@
       {{- $data.Set "criteriafile" (index (index $.context.Site.Data $referential.name) (string $referential.version)).criteria.topics -}}
 
       {{/* Load the glossary file for the good audit version */}}
-      {{- $data.Set "glossaire" (printf "=\"%s%s%s/glossaire/$1\"" (site.BaseURL | default "/") $referential.name $referential.version) -}}
+      {{- $data.Set "glossaire" (printf "=\"%s%s/%s/glossaire/$1\"" (site.BaseURL | default "/") $referential.name $referential.version) -}}
 
       {{- if $project -}}<p>← <a href="{{ site.BaseURL | default "/" }}{{- with $project -}}{{ printf "audits/%s/" (urlize .) }}{{- end -}}" class="link-more link-back" aria-label="Retour à la page {{ ($context.GetPage $project).Title }}">Retour à la page projet</a></p>{{- end -}}
       <h1>Audit Accessibilité{{ with $projectTitle }}<small> pour {{ partialCached "utils/isURL.html" (dict "context" $context "projectTitle" $projectTitle) $projectTitle }}</small>{{ end }}</h1>
