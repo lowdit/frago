@@ -74,7 +74,7 @@
                   {{/* If Recommendation exists */}}
                   {{- if $recommendation -}}
                     {{ $auditfile := (index (partialCached "render/lastfile.html" (dict "context" . "project" $project "type" "recommendation") $project "recommendation") "auditfile-path") }}
-                    <p class="mb-0">{{- partialCached "components/scores/quality-small" (dict "context" . "counter" (partialCached "render/recommendation" (dict "context" . "project" $project "auditfile" $auditfile) $auditfile)) $project -}}</p>
+                    <p class="mb-0">{{- partialCached "components/scores/recommendations-small" (dict "context" . "counter" (partialCached "render/recommendation" (dict "context" . "project" $project "auditfile" $auditfile) $auditfile)) $project -}}</p>
                   {{- end -}}
 
                   {{/* If Performance exists */}}

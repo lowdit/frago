@@ -62,7 +62,7 @@
                 {{/* If Recommendation exists */}}
                 {{- if $recommendation -}}
                   {{ $auditfile := (index (partialCached "render/lastfile.html" (dict "context" . "project" $project "type" "recommendation") $project "recommendation") "auditfile-path") }}
-                  {{ $data.Add "recommendation" (partialCached "render/quality" (dict "context" . "project" $project "auditfile" $auditfile) $auditfile).total }}
+                  {{ $data.Add "recommendation" (partialCached "render/recommendations" (dict "context" . "project" $project "auditfile" $auditfile) $auditfile).total }}
                 {{- end -}}
               {{- end -}}
 

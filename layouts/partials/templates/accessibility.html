@@ -8,7 +8,7 @@
 {{- $context      := .context -}}
 {{- $data         := newScratch -}}
 {{- $Type         := .type -}}
-{{  $meta         := (partialCached "utils/variables-init.html" $context $context) }}
+{{- $meta         := (partialCached "utils/variables-init.html" $context $context) }}
 {{- $path         := $meta.path }}
 {{- $project      := $meta.project -}}
 {{- $lang         := $meta.lang -}}
@@ -64,13 +64,14 @@
     {{/* START Test if audit name is named */}}
 
     {{ if and (ne $referential.name "any") $referential }}
-      {{- $criteriafile := (cond (not (index (index (index $.context.Site.Data $referential.name) $.context.Lang) (string $referential.version))) (index (index (index $.context.Site.Data $referential.name) "fr") (string $referential.version)) (index (index (index $.context.Site.Data $referential.name) $.context.Lang) (string $referential.version))) -}}
+      {{- $criteriafile := (cond (not (index (index (index $.context.Site.Data $referential.name) $meta.lang) (string $referential.version))) (index (index (index $.context.Site.Data $referential.name) "fr") (string $referential.version)) (index (index (index $.context.Site.Data $referential.name) $meta.lang) (string $referential.version))) -}}
       {{- $data.Set "criteriafile" $criteriafile.criteria.topics -}}
 
       {{/* Load the glossary file for the good audit version */}}
-      {{- $data.Set "glossary" (printf "=\"%s%s%s%s/glossary/$1\"" (site.BaseURL | default "/") $referential.name $lang $referential.version) -}}
 
-      {{- if $project -}}<p>← <a href="{{ site.BaseURL | default "/" }}{{ (cond $lang (printf "%s/" $lang) "") }}{{- with $project -}}{{ printf "audits/%s/" (urlize .) }}{{- end -}}" class="link-more link-back" aria-label="Retour à la page {{ ($context.GetPage $project).Title }}">Retour à la page projet</a></p>{{- end -}}
+      {{- $data.Set "glossary" (printf "=\"%s%s%s/%s/glossary/$1\"" (site.BaseURL | default "/") (cond $lang (printf "%s/" $lang) "") $referential.name $referential.versionshort) -}}
+
+      {{- if $project -}}<p>← <a href="{{ site.BaseURL | default "/" }}{{ (cond $lang (printf "%s/" $lang) "") }}{{- with $project -}}{{ printf "audits/%s/" (urlize .) }}{{- end -}}" class="link-more link-back" aria-label="{{ i18n "nav-back-page" .  }} {{ ($context.GetPage $project).Title }}">{{ i18n "nav-back-project" .  }}</a></p>{{- end -}}
       <h1>Audit Accessibilité{{ with $projectTitle }}<small> pour {{ partialCached "utils/isURL.html" (dict "context" $context "projectTitle" $projectTitle) $projectTitle }}</small>{{ end }}</h1>
 
       {{/* START Display page note if exists */}}
@@ -121,26 +122,26 @@
             "background:#fff",
             "color: #000"
           ].join(" ;");
-          console.group('%cCritères par type: ', 'font-size: 12px;');
-          console.log('%cCritères C %c %c{{ len ($data.Get "scores").criteria.conforme      }}%c \n{{ range $key, $value := ($data.Get "scores").criteria.conforme      }}{{ $key }}, {{ end }}',Background,BackgroundWhite,BackgroundRed,BackgroundWhite)
-          console.log('%cCritères NC%c %c{{ len ($data.Get "scores").criteria.nonconforme   }}%c \n{{ range $key, $value := ($data.Get "scores").criteria.nonconforme   }}{{ $key }}, {{ end }}',Background,BackgroundWhite,BackgroundRed,BackgroundWhite)
-          console.log('%cCritères NA%c %c{{ len ($data.Get "scores").criteria.nonapplicable }}%c \n{{ range $key, $value := ($data.Get "scores").criteria.nonapplicable }}{{ $key }}, {{ end }}',Background,BackgroundWhite,BackgroundRed,BackgroundWhite)
-          console.log('%cCritères NT%c %c{{ len ($data.Get "scores").criteria.nonteste      }}%c \n{{ range $key, $value := ($data.Get "scores").criteria.nonteste      }}{{ $key }}, {{ end }}',Background,BackgroundWhite,BackgroundRed,BackgroundWhite)
+          console.group('%c{{ i18n "text-fail" 2 }} par type: ', 'font-size: 12px;');
+          console.log('%c{{ i18n "text-fail" 2 }} C %c %c{{ len ($data.Get "scores").criteria.conforme      }}%c \n{{ range $key, $value := ($data.Get "scores").criteria.conforme      }}{{ $key }}, {{ end }}',Background,BackgroundWhite,BackgroundRed,BackgroundWhite)
+          console.log('%c{{ i18n "text-fail" 2 }} NC%c %c{{ len ($data.Get "scores").criteria.nonconforme   }}%c \n{{ range $key, $value := ($data.Get "scores").criteria.nonconforme   }}{{ $key }}, {{ end }}',Background,BackgroundWhite,BackgroundRed,BackgroundWhite)
+          console.log('%c{{ i18n "text-fail" 2 }} NA%c %c{{ len ($data.Get "scores").criteria.nonapplicable }}%c \n{{ range $key, $value := ($data.Get "scores").criteria.nonapplicable }}{{ $key }}, {{ end }}',Background,BackgroundWhite,BackgroundRed,BackgroundWhite)
+          console.log('%c{{ i18n "text-fail" 2 }} NT%c %c{{ len ($data.Get "scores").criteria.nonteste      }}%c \n{{ range $key, $value := ($data.Get "scores").criteria.nonteste      }}{{ $key }}, {{ end }}',Background,BackgroundWhite,BackgroundRed,BackgroundWhite)
           console.groupEnd();
-          console.group('%cCritères non testés: ', 'font-size: 12px;');
-          console.log('%cCritères  25%c {{ with ($data.Get "criterecontrol25")  }}{{ delimit ($data.Get "criterecontrol25") ", "  }}{{ else }}aucun{{ end }}',Background,BackgroundWhite)
-          console.log('%cCritères  50%c {{ with ($data.Get "criterecontrol50")  }}{{ delimit ($data.Get "criterecontrol50") ", "  }}{{ else }}aucun{{ end }}',Background,BackgroundWhite)
-          console.log('%cCritères  81%c {{ with ($data.Get "criterecontrol81")  }}{{ delimit ($data.Get "criterecontrol81") ", "  }}{{ else }}aucun{{ end }}',Background,BackgroundWhite)
-          console.log('%cCritères 106%c {{ with ($data.Get "criterecontrol106") }}{{ delimit ($data.Get "criterecontrol106") ", " }}{{ else }}aucun{{ end }}',Background,BackgroundWhite)
+          console.group('%c{{ i18n "text-fail" 2 }} non testés: ', 'font-size: 12px;');
+          console.log('%c{{ i18n "text-fail" 2 }}  25%c {{ with ($data.Get "criterecontrol25")  }}{{ delimit ($data.Get "criterecontrol25") ", "  }}{{ else }}aucun{{ end }}',Background,BackgroundWhite)
+          console.log('%c{{ i18n "text-fail" 2 }}  50%c {{ with ($data.Get "criterecontrol50")  }}{{ delimit ($data.Get "criterecontrol50") ", "  }}{{ else }}aucun{{ end }}',Background,BackgroundWhite)
+          console.log('%c{{ i18n "text-fail" 2 }}  81%c {{ with ($data.Get "criterecontrol81")  }}{{ delimit ($data.Get "criterecontrol81") ", "  }}{{ else }}aucun{{ end }}',Background,BackgroundWhite)
+          console.log('%c{{ i18n "text-fail" 2 }} 106%c {{ with ($data.Get "criterecontrol106") }}{{ delimit ($data.Get "criterecontrol106") ", " }}{{ else }}aucun{{ end }}',Background,BackgroundWhite)
           console.groupEnd();
         </script>
 
-        <h2 class="text-center">Scores{{- with ($data.Get "scores").scores.criteria -}}&nbsp;-&nbsp;{{- .total -}}&nbsp;critères{{ end }}</h2>
+        <h2 class="text-center">Scores{{- with ($data.Get "scores").scores.criteria -}}&nbsp;-&nbsp;{{- .total -}}&nbsp;{{ i18n "text-fail" 2 }}{{ end }}</h2>
         <time class="text-center" datetime="{{ ($data.Get "date").Format "2006-01-02T15:04:05Z07:00" | safeHTML }}">Le {{ ($data.Get "date").Day }} {{ index $.context.Site.Data.month (printf "%d" ($data.Get "date").Month) }} {{ ($data.Get "date").Year }}</time>
-  
+
         <p class="text-center"><a href="{{ $context.Path }}/declaration/" aria-label="Accéder à la déclaration de {{ ($context.GetPage $project).Title }}">Accéder à la déclaration</a></p>
 
-        <h3 class="mb-0">Conformité globale selon les critères {{/* if le ($data.Get "scores").scores.compliance "75" }} {{ if and (ne ($data.Get "scores").scores.criteria.nonconforme 0) (ne ($data.Get "scores").scores.criteria.conforme 0) }}<small>({{ sub ((div (mul (add (len ($data.Get "scores").criteria.conforme) (($data.Get "scores").scores.criteria.nonconforme) ) 75) 100)) (len ($data.Get "scores").criteria.conforme) }}</b> critères pour atteindre 75%)</small>{{ end }}{{ end */}}</h3>
+        <h3 class="mb-0">{{ i18n "title-compliance-global" }} {{/* if le ($data.Get "scores").scores.compliance "75" }} {{ if and (ne ($data.Get "scores").scores.criteria.nonconforme 0) (ne ($data.Get "scores").scores.criteria.conforme 0) }}<small>({{ sub ((div (mul (add (len ($data.Get "scores").criteria.conforme) (($data.Get "scores").scores.criteria.nonconforme) ) 75) 100)) (len ($data.Get "scores").criteria.conforme) }}</b> critères pour atteindre 75%)</small>{{ end }}{{ end */}}</h3>
         {{/* Call accessibility scores partial */}}
         {{- partialCached "components/scores/accessibility" (dict "context" $context "score" ($data.Get "scores").scores "name" $Type) ($data.Get "scores") "accessibility" -}}
         {{/* Call accessibility number of criteria partial */}}
@@ -185,11 +186,11 @@
 
       {{/* START If several page tested */}}
       {{- if and (gt (len ($data.Get "pageslist")) 1) -}}
-      <h2>Liste des pages auditées</h2>
+      <h2>{{ i18n "title-pages-audited" }}</h2>
       {{/* Create a anchors menu with audited pages */}}
       {{ partialCached "utils/css.html" (dict "context" . "filefolder" "element" "filename" "tableofcontents") "tableofcontents" }}
       <div class="tableofcontents">
-        <h3>Accéder aux pages auditées</h3>
+        <h3>{{ i18n "title-page-access" }}</h3>
         <nav>
           <ul role="list">
             <li><a href="#pagesall">Anomalies sur toutes les pages</a></li>
@@ -217,7 +218,7 @@
 
         {{/* Range map errors sort by RGAA order - on all pages */}}
         {{- if and (gt (len ($data.Get "pageslist")) 1) -}}
-        <h3 id="pagesall" class="small-caps">Anomalies présentes sur toutes les pages</h3>
+        <h3 id="pagesall" class="small-caps">{{ i18n "title-issues-pages-all" }}</h3>
         {{- else -}}
         <h3>Anomalies</h3>
         {{- end -}}
@@ -243,7 +244,7 @@
         {{/* START :: If several page tested */}}
         {{- if and (gt (len ($data.Get "pageslist")) 1) -}}
           {{/* Range map errors sort by RGAA order - on specifics pages */}}
-          <h3 class="small-caps">Anomalies présentes sur les pages spécifiques</h3>
+          <h3 class="small-caps">{{ i18n "title-issues-pages-some" }}</h3>
           {{/* START :: Display errors presents on specific pages */}}
           {{- range $id, $value := ($data.Get "pageslist") -}}
             {{- $data.Set "text" 0 -}}
@@ -279,7 +280,7 @@
         {{- if gt (len ($data.Get "pageslist")) 0 -}}
         {{/* Range map errors sort by RGAA order - on all pages */}}
         {{ if ne (len ($data.Get "scores").criteria.nonconforme) 0 }}
-        <h3 id="criteria-nonconforme">Tous les critères non conformes du site</h3>
+        <h3 id="criteria-nonconforme">{{ i18n "title-criteria-fail" . }}</h3>
         {{ partialCached "templates/validity.html" (dict "context" $context "audit" ($data.Get "audits") "score" ($data.Get "scores")) "accessibility" ($data.Get "scores").criteria }}
         {{ end }}
         {{- end -}}
@@ -304,17 +305,18 @@
 {{- end -}}
 
 {{- define "description" -}}
-  {{- $value := .value -}}
-  {{- $data := .data -}}
-  {{- $indication := .indication -}}
-  {{- $content := (index (split $indication "|") 0) -}}
-  {{- $comment := (uniq ((split $indication "|") | symdiff (slice $content))) -}}
+  {{- $value          := .value -}}
+  {{- $data           := .data -}}
+  {{- $indication     := .indication -}}
+  {{- $content        := (index (split $indication "|") 0) -}}
+  {{- $comment        := (uniq ((split $indication "|") | symdiff (slice $content))) -}}
   {{- $condcontentlen := gt (len (split $indication "|")) 1 -}}
-  {{- $condcontentnc := (eq $content "nc") -}}
-  {{- $condcontentc := (eq $content "c") -}}
-  {{- $thematiques := delimit (first 1 (split (index $value 0) ".")) "" -}}
-  {{- $criteria := index $value 1 -}}
-  {{- $tests := index $value 2 -}}
+  {{- $condcontentnc  := (eq $content "nc") -}}
+  {{- $condcontentc   := (eq $content "c") -}}
+  {{- $thematiques    := delimit (first 1 (split (index $value 0) ".")) "" -}}
+  {{- $criteria       := index $value 1 -}}
+  {{- $tests          := index $value 2 -}}
+
   {{- if or $condcontentlen $condcontentnc -}}
   {{- if ($data.Get "criteriafile") -}}
     {{- $data.Set "counterallpages" 1 -}}

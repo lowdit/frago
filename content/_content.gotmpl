@@ -131,12 +131,12 @@
           {{ end }}
           {{ if gt (len $.Site.Languages) 1 }}
             {{ range $id, $lang := after 1 $.Site.Languages }}
-              {{- $params := dict "lang" (string $lang) }}
+              {{- $params := dict "lang" (string $lang) "langsss" (string $lang) }}
                 {{ $page := dict
                   "kind" "page"
                   "path" (printf "%s/audits/%s/%s" $lang $name $ref)
                   "title" $ref
-                  "type" $ref
+                  "type" "audits"
                   "params" $params
                 }}
                 {{ $.AddPage $page }}

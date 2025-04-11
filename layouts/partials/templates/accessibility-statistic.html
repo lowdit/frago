@@ -22,9 +22,9 @@
     }
   </style>
   <article class="fg-wrapper">
-    <p>← <a href="{{ $context.Site.BaseURL | default "/" }}organism" class="link-more link-back">Retour à la page organisme</a></p>
+    <p>← <a href="{{ $context.Site.BaseURL | default "/" }}organism" class="link-more link-back">{{ i18n "nav-back-organism" .  }}</a></p>
 
-    <h1>Synthèse générale - {{ (index $ref $name).name }}</h1>
+    <h1>{{ i18n "text-report" . }} - {{ (index $ref $name).name }}</h1>
     {{- $referential   := (partialCached "render/referential-version.html" (dict "context" $context "project" "statistics" "referential" (index $ref $name).referential) (index $ref $name).referential).guideline -}}
 
     {{/*
@@ -99,7 +99,7 @@
       <tr>
         <th>Critères</th>
         <th class="text-left">Description</th>
-        <th width="100px">Conforme</th>
+        <th width="100px">{{ i18n "text-compliant" . }}</th>
         <th width="100px">Non applicable</th>
         <th width="100px">Non conforme</th>
         <th width="100px">{{ i18n "compliance" }}</th>
@@ -191,9 +191,9 @@
     <thead>
       <tr>
         <th class="text-left">Thématique</th>
-        <th width="100px">Conforme</th>
-        <th width="100px">Non applicable</th>
-        <th width="100px">Non conforme</th>
+        <th width="100px">{{ i18n "text-compliant" . }}</th>
+        <th width="100px">{{ i18n "text-none" . }}</th>
+        <th width="100px">{{ i18n "text-fail" . }}</th>
         <th width="100px">{{ i18n "compliance" }}</th>
       </tr>
     </thead>

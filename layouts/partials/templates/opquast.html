@@ -37,8 +37,8 @@
     {{- end -}}
   {{/* END Test if the csv file has a good name : YYYY-MM-DD.csv */}}
 
-  {{- if $project -}}<p>← <a href="{{ site.BaseURL | default "/" }}{{ (cond $lang (printf "%s/" $lang) "") }}{{- with $project -}}{{ printf "audits/%s/" (urlize .) }}{{- end -}}" class="link-more link-back" aria-label="Retour à la page {{ ($context.GetPage $project).Title }}">Retour à la page projet</a></p>{{- end -}}
-  <h1 class="lh-0">Synthèse 60 règles d’impact Opquast{{ with $projectTitle }}<small> pour {{ partialCached "utils/isURL.html" (dict "context" $context "projectTitle" $projectTitle) $projectTitle }}</small>{{ end }}</h1>
+  {{- if $project -}}<p>← <a href="{{ site.BaseURL | default "/" }}{{ (cond $lang (printf "%s/" $lang) "") }}{{- with $project -}}{{ printf "audits/%s/" (urlize .) }}{{- end -}}" class="link-more link-back" aria-label="{{ i18n "nav-back-page" .  }} {{ ($context.GetPage $project).Title }}">{{ i18n "nav-back-project" .  }}</a></p>{{- end -}}
+  <h1 class="lh-0">{{ i18n "text-report" . }} 60 règles d’impact Opquast{{ with $projectTitle }}<small> pour {{ partialCached "utils/isURL.html" (dict "context" $context "projectTitle" $projectTitle) $projectTitle }}</small>{{ end }}</h1>
 
 
   {{/* START Display page note if exists */}}
@@ -59,7 +59,7 @@
     <time class="text-center" datetime="{{ ($data.Get "date").Format "2006-01-02T15:04:05Z07:00" | safeHTML }}">Le {{ ($data.Get "date").Day }} {{ index $.context.Site.Data.month (printf "%d" ($data.Get "date").Month) }} {{ ($data.Get "date").Year }}</time>
 
     {{- if not ($data.Get "scores").isempty }}
-      <h3 class="mb-0">Conformité globale selon les règles</h3>
+      <h3 class="mb-0">{{ i18n "title-compliance-global" }}</h3>
       {{- if or ($data.Get "scores").scores.compliance (eq ($data.Get "scores").scores.compliance 0) -}}
         {{- $conforme := ($data.Get "scores").scores -}}
         {{- partialCached "components/scores/accessibility" (dict "context" . "score" $conforme "name" "Opquast") $conforme -}}
@@ -70,8 +70,8 @@
           {{- range $key, $value := . -}}
             {{ $id := (int (delimit (last 1 (split $key ".")) "")) }}
             {{ with (index (where $criteriafile "number" $id) 0) }}
-            <h4>Règle #{{ $id }} - {{ .description.fr }}</h4>
-            {{ with .explanation }}<strong>Descriptif :</strong> <p>{{ .fr | markdownify  }}</p>{{ end }}
+            <h4>Règle #{{ $id }} - {{ index .description $meta.langtrue }}</h4>
+            {{ with .explanation }}<strong>Descriptif :</strong> <p>{{ index . $meta.langtrue | markdownify  }}</p>{{ end }}
             {{ end }}
             {{- if gt (len (split . "|")) 1 -}}
             <div class="note">
@@ -116,7 +116,7 @@
         {{- end -}}
 
       {{- else -}}
-        <p>L’audit de conformité est en cours.</p>
+        <p>{{ i18n "message-report-started" . }}</p>
       {{- end -}}
       {{- else -}}
       <hr>

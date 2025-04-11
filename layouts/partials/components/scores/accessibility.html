@@ -13,7 +13,7 @@
 
 <div class="scores mb-1">
     <ul class="flex flex-gap flex-wrap">
-      <li class="counter text-center good"><span><b>{{- $score }}%</b><br>Critères conformes</span></li>
-      <li class="counter text-center bad"><span><b>{{- add (sub 100 $score) $correction -}}%</b><br>Critères non conformes</span></li>
+      <li class="counter text-center good"><span><b>{{- $score }}%</b><br>{{ i18n "text-criteria" 2 }} {{ i18n "text-compliant" 2 }}</span></li>
+      <li class="counter text-center bad"><span><b>{{- add (sub 100 $score) $correction -}}%</b><br>{{ i18n "text-criteria" 2 }} {{ i18n "text-fail" 2 }}</span></li>
     </ul>
 </div>

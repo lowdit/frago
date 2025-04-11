@@ -27,7 +27,7 @@
   */}}
   <article class="fg-wrapper narrow">
     {{ (partialCached "navigations/nav-alternativeslanguages.html" (dict "context" . "path" $path "lang" $lang "referential" $referential) $path) }}
-    <h1>Critères {{ replace ($referential.name | upper) "RGAA" "RGAA "}}</h1>
+    <h1>{{ i18n "text-fail" 2 }} {{ replace ($referential.name | upper) "RGAA" "RGAA "}}</h1>
     {{- with ($.Store.Get "file").criterias.licence }}<p class="mt-1-minus"><strong>License :</strong> {{ . }}</p>{{ end }}
     {{ partialCached "utils/css.html" (dict "context" . "filefolder" "element" "filename" "tableofcontents") "tableofcontents" }}
     <div class="tableofcontents">

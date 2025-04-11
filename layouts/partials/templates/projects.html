@@ -24,7 +24,6 @@
 
 {{- if and (ne $project "audits") (ne $path "audits") (ne $project "") -}}
 <section class="fg-wrapper narrow">
-    <h1 class="text-center">{{ .Title }}</h1>
     {{/* Load lasts file */}}
     {{- $.Store.Set "accessibility-Exists" false -}}
     {{- $.Store.Set "raweb-Exists"         false -}}
@@ -119,7 +118,7 @@
                 yRegions: [{ label: "", start: 0, end: 100 }]
             }
             const chartaccessibility = new frappe.Chart("#chartaccessibility", {
-                title: "Taux de conformité dans le temps (en %)",
+                title: "Taux de conformité dans le temps (%)",
                 data: dataaccessibility,
                 type: 'bar',
                 height: 400,
@@ -146,21 +145,22 @@
         {{ $pagequality        := (printf "/content/audits/%s/quality.md" ($project | anchorize)) }}
         {{ $pagerecommendation := (printf "/content/audits/%s/recommendation.md" ($project | anchorize)) }}
         {{ $pageauditpath      := cond (fileExists $pagerecommendation) ($pagerecommendation) (cond (fileExists $pagequality) ($pagequality) false) -}}
+
         {{- if $pageauditpath -}}
-        <small> - <a href="{{ $context.Site.BaseURL | default "/" }}{{ $langurl }}{{ replace (replace (replace $pageauditpath ".md" "/") "/content/" "") "//" "/" }}" aria-label="Accéder au rapport de recommandations">Accéder au rapport</a></small>
+        <small> - <a href="{{ $context.Site.BaseURL | default "/" }}{{ $langurl }}{{ replace (replace (replace $pageauditpath ".md" "/") "/content/" "") "//" "/" }}" aria-label="{{ i18n "link-access-report" }} de recommandations">{{ i18n "link-access-report" }}</a></small>
         {{- else -}}
           {{ with ($context.GetPage (printf "/audits/%s/%s/" $project "recommendation")) }}
-            <small> - <a href="{{ $langurl }}{{ .Permalink }}" aria-label="Accéder au rapport {{ i18n "recommendation" . | humanize }}">Accéder au rapport</a></small>
+            <small> - <a href="{{ $context.Site.BaseURL }}{{ $langurl }}{{ .RelPermalink }}" aria-label="{{ i18n "link-access-report" }} {{ i18n "recommendation" . | humanize }}">{{ i18n "link-access-report" }}</a></small>
           {{ else }}
             {{- with (first 1 (where (where $OutputFormats "MediaType.Type" "eq" "text/html") "Format.BaseName" "eq" "recommendation")) -}}
               {{- $AuditLink := cond (in $project (index . 0).Permalink) (index . 0).Permalink (printf "%saudits/%s%s%s.html" ($context.Site.BaseURL | default "/") $langurl (cond (not $project) "" (printf "%s/" (urlize $project))) (index . 0).Format.BaseName) -}}
-              <small> - <a href="{{ $AuditLink }}" aria-label="Accéder au rapport de recommandations">Accéder au rapport</a></small>
+              <small> - <a href="{{ $AuditLink }}" aria-label="{{ i18n "link-access-report" }} de recommandations">{{ i18n "link-access-report" }}</a></small>
             {{- end -}}
           {{- end -}}
         {{- end -}}
       </h3>
       {{- with index (partialCached "render/lastfile.html" (dict "context" . "project" $project "type" "recommendation") $project "recommendation") "auditfile-path" -}}
-        {{- partialCached "components/scores/quality" (dict "context" $context "counter" (partialCached "render/recommendation" (dict "context" $context "project" $project "auditfile" .) .)) $context (partialCached "render/recommendation" (dict "context" $context "project" $project "auditfile" .) .) -}}
+        {{- partialCached "components/scores/recommendations" (dict "context" $context "counter" (partialCached "render/recommendation" (dict "context" $context "project" $project "auditfile" .) .)) $context (partialCached "render/recommendation" (dict "context" $context "project" $project "auditfile" .) .) -}}
       {{- end -}}
     {{- end -}}
     {{/* START - If several recommendations files */}}
@@ -197,7 +197,7 @@
           <h3 class="m-0">
             Recommandations
             <small> -
-              <a href="{{ .Site.BaseURL | default "/" }}{{ printf "%s/quality.html" (path.Dir $path) }}" aria-label="Accéder au rapport de recommandations">Accéder au rapport</a>
+              <a href="{{ $context.Site.BaseURL | default "/" }}{{ printf "%s/quality.html" (path.Dir $path) }}" aria-label="{{ i18n "link-access-report" }} de recommandations">{{ i18n "link-access-report" }}</a>
             </small>
           </h3>
           <br>
@@ -211,14 +211,14 @@
       <h3 class="m-0">Performances
         {{ $pageauditpath := (printf "/content/audits/%s/performance.md" ($project | anchorize)) }}
         {{- if (fileExists $pageauditpath) -}}
-          <small>- <a href="{{ $context.Site.BaseURL | default "/" }}{{ $langurl }}{{ replace (replace (replace $pageauditpath ".md" "/") "/content/" "") "//" "/" }}" aria-label="Accéder au rapport de performance">Accéder au rapport</a></small>
+          <small>- <a href="{{ $context.Site.BaseURL | default "/" }}{{ $langurl }}{{ replace (replace (replace $pageauditpath ".md" "/") "/content/" "") "//" "/" }}" aria-label="{{ i18n "link-access-report" }} de performance">{{ i18n "link-access-report" }}</a></small>
         {{- else -}}
           {{ with ($context.GetPage (printf "/audits/%s/%s/" $project "performance")) }}
-            <small> - <a href="{{ $langurl }}{{ .Permalink }}" aria-label="Accéder au rapport {{ i18n "performance" . | humanize }}">Accéder au rapport</a></small>
+            <small> - <a href="{{ $context.Site.BaseURL}}{{ $langurl }}{{ .RelPermalink }}" aria-label="{{ i18n "link-access-report" }} {{ i18n "performance" . | humanize }}">{{ i18n "link-access-report" }}</a></small>
           {{ else }}
             {{ with (first 1 (where (where $OutputFormats "MediaType.Type" "eq" "text/html") "Format.BaseName" "eq" "performance")) }}
               {{- $AuditLink := cond (in $project (index . 0).Permalink) (index . 0).Permalink (printf "%saudits/%s%s%s.html" ($context.Site.BaseURL | default "/") $langurl (cond (not $project) "" (printf "%s/" (urlize $project))) (index . 0).Format.BaseName) -}}
-              <small>- <a href="{{ $AuditLink }}" aria-label="Accéder au rapport de performance">Accéder au rapport</a></small>
+              <small>- <a href="{{ $AuditLink }}" aria-label="{{ i18n "link-access-report" }} de performance">{{ i18n "link-access-report" }}</a></small>
             {{ end }}
           {{ end }}
         {{- end -}}
@@ -280,14 +280,14 @@
       <h3 class="m-0">Ecoindex
         {{- $pageauditpath := (printf "/content/audits/%s/ecoindex.md" ($project | anchorize)) -}}
         {{- if (fileExists $pageauditpath) -}}
-          <small>- <a href="{{ $context.Site.BaseURL | default "/" }}{{ replace (replace (replace $pageauditpath ".md" "/") "/content/" "") "//" "/" }}" aria-label="Accéder au rapport ecoindex">Accéder au rapport</a></small>
+          <small>- <a href="{{ $context.Site.BaseURL | default "/" }}{{ replace (replace (replace $pageauditpath ".md" "/") "/content/" "") "//" "/" }}" aria-label="{{ i18n "link-access-report" }} ecoindex">{{ i18n "link-access-report" }}</a></small>
         {{- else -}}
           {{- with ($context.GetPage (printf "/audits/%s/%s/" $project "ecoindex")) }}
-            <small> - <a href="{{ $langurl }}{{ .Permalink }}" aria-label="Accéder au rapport {{ i18n "ecoindex" . | humanize }}">Accéder au rapport</a></small>
+            <small> - <a href="{{ $context.Site.BaseURL}}{{ $langurl }}{{ .RelPermalink }}" aria-label="{{ i18n "link-access-report" }} {{ i18n "ecoindex" . | humanize }}">{{ i18n "link-access-report" }}</a></small>
           {{- else }}
             {{ with (first 1 (where (where $OutputFormats "MediaType.Type" "eq" "text/html") "Format.BaseName" "eq" "ecoindex")) }}
               {{- $AuditLink := cond (in $project (index . 0).Permalink) (index . 0).Permalink (printf "%saudits/%s%s%s.html" ($context.Site.BaseURL | default "/") $langurl (cond (not $project) "" (printf "%s/" (urlize $project))) (index . 0).Format.BaseName) -}}
-              <small>- <a href="{{ $AuditLink }}" aria-label="Accéder au rapport ecoindex">Accéder au rapport</a></small>
+              <small>- <a href="{{ $AuditLink }}" aria-label="{{ i18n "link-access-report" }} ecoindex">{{ i18n "link-access-report" }}</a></small>
             {{ end -}}
           {{ end -}}
         {{- end -}}
@@ -320,10 +320,10 @@
             {{- if $map.scores.compliance -}}
               {{ $pageauditpath := (printf "/content/audits/%s/accessibility.md" ($project | urlize)) }}
               {{- if (fileExists $pageauditpath) -}}
-                <small>- <a href="{{ $context.Site.BaseURL | default "/" }}{{ replace (replace (replace $pageauditpath ".md" "/") "/content/" "") "//" "/" }}" aria-label="Accéder au rapport d’accessibilité">Accéder au rapport</a></small>
+                <small>- <a href="{{ $context.Site.BaseURL | default "/" }}{{ replace (replace (replace $pageauditpath ".md" "/") "/content/" "") "//" "/" }}" aria-label="{{ i18n "link-access-report" }} d’accessibilité">{{ i18n "link-access-report" }}</a></small>
               {{- else }}
                 {{- with (first 1 (where (where $.OutputFormats "MediaType.Type" "eq" "text/html") "Format.BaseName" "eq" "accessibility")) }}
-                  <small>- <a href="{{ (index . 0).Permalink }}" aria-label="Accéder au rapport d’accessibilité">Accéder au rapport</a></small>
+                  <small>- <a href="{{ (index . 0).Permalink }}" aria-label="{{ i18n "link-access-report" }} d’accessibilité">{{ i18n "link-access-report" }}</a></small>
                 {{ end }}
               {{- end -}}
             {{- end -}}
@@ -410,14 +410,14 @@
     {{- if or $audit.scores.compliance (eq $audit.scores.compliance 0) -}}
       {{- $pageauditpath := (printf "/content/audits/%s/%s.md" ($project | urlize) $value) -}}
       {{- if (fileExists $pageauditpath) -}}
-        <small> - <a href="{{ $context.Site.BaseURL | default "/" }}{{ $langurl }}{{ urlize (replace (replace (replace $pageauditpath ".md" "/") "/content/" "") "//" "/") }}" aria-label="Accéder au rapport d’accessibilité">Accéder au rapport</a></small>
+        <small> - <a href="{{ $context.Site.BaseURL | default "/" }}{{ $langurl }}{{ urlize (replace (replace (replace $pageauditpath ".md" "/") "/content/" "") "//" "/") }}" aria-label="{{ i18n "link-access-report" }} d’accessibilité">{{ i18n "link-access-report" }}</a></small>
       {{- else -}}
         {{ with ($context.GetPage (printf "/audits/%s/%s/" $project $value)) }}
-          <small> - <a href="{{ $langurl }}{{ .RelPermalink }}" aria-label="Accéder au rapport {{ i18n $value . | humanize }}">Accéder au rapport</a></small>
+          <small> - <a href="{{ $context.Site.BaseURL }}{{ $langurl }}{{ .RelPermalink }}" aria-label="{{ i18n "link-access-report" }} {{ i18n $value . | humanize }}">{{ i18n "link-access-report" }}</a></small>
         {{ else }}
           {{- with (first 1 (where (where $OutputFormats "MediaType.Type" "eq" "text/html") "Format.BaseName" "eq" $value)) }}
             {{- $AuditLink := cond (in $project (index . 0).Permalink) (index . 0).Permalink (printf "%saudits/%s%s%s.html" ($context.Site.BaseURL | default "/") $langurl (cond (not $project) "" (printf "%s/" (urlize $project))) (index . 0).Format.BaseName) -}}
-            <small> - <a href="{{ $AuditLink }}" aria-label="Accéder au rapport {{ i18n $value . | humanize }}">Accéder au rapport</a></small>
+            <small> - <a href="{{ $AuditLink }}" aria-label="{{ i18n "link-access-report" }} {{ i18n $value . | humanize }}">{{ i18n "link-access-report" }}</a></small>
           {{- end -}}
         {{ end }}
       {{- end -}}
@@ -427,6 +427,6 @@
     {{- $conforme := $audit.scores -}}
     {{- partialCached (printf "components/scores/%s" "accessibility") (dict "context" . "score" $conforme "name" $value ) $conforme -}}
   {{- else -}}
-    <p>L’audit de conformité est en cours.</p>
+    <p>{{ i18n "message-report-started" . }}</p>
   {{- end -}}
 {{- end -}}

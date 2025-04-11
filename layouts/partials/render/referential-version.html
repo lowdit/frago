@@ -64,6 +64,7 @@
       "name"                ($data.Get "name")
       "lang"                ($criteriafilecond)
       "version"             ($data.Get "version")
+      "versionshort"        ( printf "%s.%s" (index (split ($data.Get "version") ".") 0) (index (split ($data.Get "version") ".") 1))
       "versionmajor"        (index (split ($data.Get "version") ".") 0)
       "versionall"          ($data.Get "versionall")
     )

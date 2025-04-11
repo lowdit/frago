@@ -12,8 +12,6 @@
   translation:
     one: Méthodologie
     other: Méthodologies
-- id: criteria
-  translation: "Critères"
 - id: accessibility
   translation: "Accessibilité"
 - id: raweb
@@ -44,12 +42,66 @@
   translation: Découvrir les autres catégories
 - id: nav-anchor
   translation: Accéder aux thématiques
+- id: nav-back-page
+  translation: Retour à la page
+- id: nav-back-project
+  translation: Retour à la page projet
+- id: nav-back-organism
+  translation: Retour à la page organisme
 - id: promise-title
   translation: Une bibliothèque de contenus
 - id: promise-text
   translation: pour améliorer les résultats de l'enseignement et de l'apprentissage dans la région nord du Ghana
+- id: title-compliance-global
+  translation: Conformité globale selon les critères
 - id: title-related-content
   translation: Contenus similaires
+- id: title-pages-audited
+  translation: Liste des pages auditées
+- id: title-page-access
+  translation: Accéder aux pages auditées
+- id: title-issues-pages-all
+  translation: Anomalies présentes sur toutes les pages
+- id: title-issues-pages-some
+  translation: Anomalies présentes sur les pages spécifiques
+- id: title-criteria-fail
+  translation: Tous les critères non conformes du site
+- id: title-list-digitalservices
+  translation: Tous les critères non conformes du site
+- id: criteria
+  translation: "Critères"
+- id: text-indicators
+  translation: Liste des indicateurs
+- id: text-report
+  translation: Synthèse
+- id: text-report-audit
+  translation: Synthèse d’audit
+- id: text-report-general
+  translation: Synthèse d’audit
+- id: text-for
+  translation: Pour
+- id: text-criteria
+  translation:
+    one: Critère
+    other: Critères
+- id: text-compliant
+  translation:
+    one: Conforme
+    other: Conformes
+- id: text-fail
+  translation:
+    one: Non conforme
+    other: Non conformes
+- id: text-none
+  translation:
+    one: Non applicable
+    other: Non applicables
+- id: text-context
+  translation:
+    one: Contexte
+    other: Contextes
+- id: link-access-report
+  translation: Accéder au rapport
 - id: link-access-more
   translation: Voir plus
 - id: link-access-content
@@ -90,6 +142,10 @@
   translation: "Your browser does not support the audio tag."
 - id: message-not-found
   translation: "Page non trouvée"
+- id: message-fail-found
+  translation: "L’audit de conformité est en cours."
+- id: message-report-started
+  translation: "Aucune non conformité n’a été relevée dans l’audit."
 - id: "languages"
   translation:
     one: Langue
@@ -116,8 +172,6 @@
   translation: Envoyer
 - id: contact-us
   translation: Nous contacter
-- id: indicators
-  translation: Liste des indicateurs
 - id: compliance
   translation:
     one: Conformité

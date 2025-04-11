@@ -12,7 +12,7 @@
 {{- $projectTitle := cond (or (in .Permalink "audits/") (in .Permalink "services/")) (.GetPage $projectPath).Title .Site.Title -}}
 {{- $pageTitle    := cond (or (in .Permalink "audits/") (in .Permalink "services/")) "" .Title -}}
 
-{{- $.Scratch.Set "pretitle" (cond (or (in .Permalink "audits/") (in .Permalink "services/")) "Synthèse" "Suivi de conformité") -}}
+{{- $.Scratch.Set "pretitle" (cond (or (in .Permalink "audits/") (in .Permalink "services/")) (i18n "text-report" .) "Suivi de conformité") -}}
 {{- $.Scratch.Set "audit" "" -}}
 {{- $.Store.Set "type" "Page" -}}
 {{- $alternate  := where (where .OutputFormats "Permalink" "eq" .Permalink) "Rel" "eq" "alternate" -}}

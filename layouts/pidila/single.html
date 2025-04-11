@@ -6,7 +6,7 @@
   {{- $.Store.Set "criteriafile" ($.Store.Get "file").criteria.criterias -}}
 
   <article class="fg-wrapper narrow">
-    <h1>Critères {{ replace ($referential.name | upper) "RGAA" "RGAA "}}</h1>
+    <h1>{{ i18n "text-fail" 2 }} {{ replace ($referential.name | upper) "RGAA" "RGAA "}}</h1>
     {{ partialCached "elements/content.html" .Content .Content }}
 
     {{- range $key1, $value := ($.Store.Get "criteriafile") -}}

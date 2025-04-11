@@ -25,7 +25,7 @@
       {{- partialCached "utils/css.html" (dict "context" $context "filefolder" "object" "filename" "card") "card" -}}
 
       {{- if gt (len ($.Store.Get "aggregates").accessibility.all) 0 }}
-      <h2 class="lh-0">{{ i18n "indicators" }}<br><small>Pour {{ (len ($.Store.Get "aggregates").accessibility.all) }} services</small></h2>
+      <h2 class="lh-0">{{ i18n "text-indicators" }}<br><small>{{ (len ($.Store.Get "aggregates").accessibility.all) }} services</small></h2>
         <ul class="list-unstyled" role="navigation">
           <li class="enlarge-link card-inline card-shadow">
             <h2 class="h3">

@@ -40,12 +40,66 @@
   translation: "View the other categories"
 - id: nav-anchor
   translation: "Discover the thematics"
+- id: nav-back-page
+  translation: Back to page
+- id: nav-back-project
+  translation: Back to project page
+- id: nav-back-organism
+  translation: Back to organization page
 - id: promise-title
   translation: "Content library"
 - id: promise-text
   translation: "Improving teaching and learning outcomes in the Northern region of Ghana"
+- id: title-compliance-global
+  translation: Global Compliance
 - id: title-related-content
-  translation: "related content"
+  translation: Related content
+- id: title-pages-audited
+  translation: List of audited pages
+- id: title-page-access
+  translation: Access audited pages
+- id: title-issues-pages-all
+  translation: Anomalies present on all pages
+- id: title-issues-pages-some
+  translation: Anomalies present on specific pages
+- id: title-criteria-fail
+  translation: All non-compliant site criteria
+- id: title-list-digitalservices
+  translation: All non-compliant site criteria
+- id: criteria
+  translation: “Criteria
+- id: text-indicators
+  translation: List of indicators
+- id: text-report
+  translation: Summary
+- id: text-report-audit
+  translation: Audit summary
+- id: text-report-general
+  translation: Audit summary
+- id: text-for
+  translation: Pour
+- id: text-criteria
+  translation:
+    one: Criteria
+    other: Criteria
+- id: text-compliant
+  translation:
+    one: Compliant
+    other: Conform
+- id: text-fail
+  translation:
+    one: Non-conforming
+    other: Non-conforming
+- id: text-none
+  translation:
+    one: Not applicable
+    other: Not applicable
+- id: text-context
+  translation:
+    one: Context
+    other: Contexts
+- id: link-access-report
+  translation: Access the report
 - id: link-access-more
   translation: "See more"
 - id: link-access-content
@@ -108,4 +162,7 @@
   translation: "send"
 - id: contact-us
   translation: "Contact Us"
-
+- id: compliance
+  translation :
+    one : Compliance
+    other : Compliance

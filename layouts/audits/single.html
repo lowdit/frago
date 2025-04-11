@@ -36,13 +36,13 @@
     {{- if eq (len (intersect (slice .Title) $reflist)) 1 -}}
       {{- $Type := cond (eq .Title "raweb") "accessibility" .Title -}}
       {{- $Type := cond (eq $Type "raam") "accessibility" $Type -}}
-      {{- $partial := (partialCached (printf "templates/%s.html" $Type) (dict "context" $context "type" .Title) $context .Title) -}}
+      {{- $partial := (partialCached (printf "templates/%s.html" $Type) (dict "context" $context "type" .Title) $context .Title $meta.lang) -}}
       {{- partialCached "elements/content.html" $partial $partial -}}
     {{- else if eq .Title "greenit" -}}
-      {{- $partial := (partialCached "templates/greenit.html" (dict "context" $context) $context) -}}
+      {{- $partial := (partialCached "templates/greenit.html" (dict "context" $context) $context $meta.lang) -}}
       {{- partialCached "elements/content.html" $partial $partial -}}
     {{- else if eq .Title "cigref" -}}
-      {{- $partial := (partialCached "templates/cigref.html" (dict "context" $context) $context) -}}
+      {{- $partial := (partialCached "templates/cigref.html" (dict "context" $context) $context $meta.lang) -}}
       {{- partialCached "elements/content.html" $partial $partial -}}
     {{- end -}}
     {{- if eq .Title "declaration" -}}

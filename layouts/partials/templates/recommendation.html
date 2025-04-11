@@ -62,7 +62,7 @@
 {{- else -}}
   <article class="fg-wrapper narrow audit">
   {{- if $project -}}
-  <p>← <a href="{{ site.BaseURL | default "/" }}{{ (cond $lang (printf "%s/" $lang) "") }}{{- with $project -}}{{ printf "audits/%s/" (urlize .) }}{{- end -}}" class="link-more link-back" aria-label="Retour à la page {{ ($context.GetPage $project).Title }}">Retour à la page projet</a></p>
+  <p>← <a href="{{ site.BaseURL | default "/" }}{{ (cond $lang (printf "%s/" $lang) "") }}{{- with $project -}}{{ printf "audits/%s/" (urlize .) }}{{- end -}}" class="link-more link-back" aria-label="{{ i18n "nav-back-page" .  }} {{ ($context.GetPage $project).Title }}">{{ i18n "nav-back-project" .  }}</a></p>
   {{- end -}}
   <h1 class="lh-0">Recommandations {{ with $projectTitle }}<small> pour {{ partialCached "utils/isURL.html" (dict "context" $context "projectTitle" $projectTitle) $projectTitle }}</small>{{ end }}</h1>
   {{/* START Display page note if exists */}}
@@ -83,7 +83,7 @@
     {{- $pathimage := (partialCached "render/rootpath-assets" (dict "context" . "project" $project "type" "recommendation" "auditfilename" ($data.Get "auditfile-name")) $project) }}
 
     {{- with index (partialCached "render/lastfile.html" (dict "context" $context "project" $project "type" "recommendation") $project "recommendation") "auditfile-path" -}}
-      {{- partial "components/scores/quality" (dict "context" $context "counter" (partialCached "render/recommendation" (dict "context" $context "project" $project "auditfile" .) .)) -}}
+      {{- partial "components/scores/recommendations" (dict "context" $context "counter" (partialCached "render/recommendation" (dict "context" $context "project" $project "auditfile" .) .)) -}}
     {{- end -}}
 
     {{/* START :: Display page content if exists */}}
@@ -143,7 +143,7 @@
     {{- with ($data.Get "auditfile") -}}
     {{ partialCached "utils/css.html" (dict "context" . "filefolder" "element" "filename" "tableofcontents") "tableofcontents" }}
     <div class="tableofcontents page-break" {{ if eq (len (index . 0).pages) 1 }}hidden{{ end }}>
-    <h2>Accéder aux pages auditées</h2>
+    <h2>{{ i18n "title-page-access" }}</h2>
       <ul>
       {{- range ($data.Get "auditfile") -}}
         {{/* Range first level */}}
@@ -220,7 +220,7 @@
       console.groupEnd();
     </script>
 
-    <h2 {{ if eq (len .) 1 }}hidden{{ end }}>Liste des pages auditées</h2>
+    <h2 {{ if eq (len .) 1 }}hidden{{ end }}>{{ i18n "title-pages-audited" }}</h2>
 
     {{/* START - List of all pages */}}
     {{- range ($data.Get "auditfile") -}}
