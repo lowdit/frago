@@ -1039,7 +1039,7 @@ criteria:
       - setting a pre-selected option for the user, often in the form of a pre-checked box, in an effort to entice them to accept something they may not have chosen deliberately; 
       - show a countdown timer for a special offer, but every time the countdown reaches zero, it starts again, creating a false sense of urgency. 
       
-      The [Designers Ethiques](https://beta.designersethiques.org/thematique-design-persuasif/concevoir-sans-dark-patterns/1-introduction) Association's guide can also help identify and correct any misleading elements of the user interface.
+      The [Designers Ethiques](https://designersethiques.org/en/topics/persuasive-design/designing-without-dark-patterns) Association's guide can also help identify and correct any misleading elements of the user interface.
     control: |
       Do not include dark patterns in the service's design and perform a regular assessment of the user interface to detect the presence of manipulative processes. This assessment should take into account the work of the European Commission (including the Guidelines issued pursuant to Article 25 of Regulation 2022/2065). 
       

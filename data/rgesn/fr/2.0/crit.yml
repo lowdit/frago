@@ -874,7 +874,7 @@ criteria:
       - Définition d’une option présélectionnée pour l'utilisateur, souvent sous la forme d'une case pré-cochée, dans le but de l'inciter à accepter quelque chose qu'il n'aurait peut-être pas choisi délibérément ;
       - Affichage un compte à rebours pour une offre spéciale, mais chaque fois que le compte à rebours atteint zéro, il recommence, créant une fausse urgence.
 
-      Le guide de l’association [Designers Éthiques](https://beta.designersethiques.org/thematique-design-persuasif/concevoir-sans-dark-patterns/1-introduction) peut également aider à repérer et corriger les éventuels éléments trompeurs de l’interface utilisateur.
+      Le guide de l’association [Designers Éthiques](https://designersethiques.org/fr/thematiques/design-persuasif/concevoir-sans-dark-patterns/) peut également aider à repérer et corriger les éventuels éléments trompeurs de l’interface utilisateur.
     control: |-
       Ne pas inclure de dark patterns dans le design du service et effectuer une évaluation régulière de l'interface utilisateur pour détecter et prévenir leur présence. Cette évaluation doit prendre en compte les travaux de la Commission européenne (y compris les lignes directrices publiées en application de l’article 25 du règlement 2022/2065).
 

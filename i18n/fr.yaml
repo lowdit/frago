@@ -191,6 +191,6 @@
 - id: rgesn-priority
   translation: "Niveau de priorité "
 - id: rgesn-target
-  translation: S’applique :"
+  translation: "S’applique "
 - id: rgesn-occupations
   translation: "Métiers concernés "
