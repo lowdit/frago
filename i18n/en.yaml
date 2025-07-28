@@ -166,3 +166,21 @@
   translation :
     one : Compliance
     other : Compliance
+- id: rgesn-topics
+  translation: "Stages"
+- id: rgesn-goals
+  translation: "Goal"
+- id: rgesn-control
+  translation: "Testing and monitoring methods"
+- id: rgesn-implementation
+  translation: "Implementation"
+- id: rgesn-ressources
+  translation: "To find out more"
+- id: rgesn-difficulty
+  translation: "Level of difficulty"
+- id: rgesn-priority
+  translation: Level of priority"
+- id: rgesn-target
+  translation: "Target"
+- id: rgesn-occupations
+  translation: "Occupations concerned"

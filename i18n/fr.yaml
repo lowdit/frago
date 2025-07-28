@@ -176,3 +176,21 @@
   translation:
     one: Conformité
     other: Conformités
+- id: rgesn-topics
+  translation: "Thématiques"
+- id: rgesn-goals
+  translation: "Objectif"
+- id: rgesn-control
+  translation: "Moyen de test ou de contrôle"
+- id: rgesn-implementation
+  translation: "Mise en œuvre"
+- id: rgesn-ressources
+  translation: "Pour aller plus loin"
+- id: rgesn-difficulty
+  translation: "Niveau de difficulté "
+- id: rgesn-priority
+  translation: "Niveau de priorité "
+- id: rgesn-target
+  translation: S’applique :"
+- id: rgesn-occupations
+  translation: "Métiers concernés "

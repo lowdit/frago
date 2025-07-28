@@ -12,10 +12,10 @@
   {{/* Use the audit last version */}}
   {{- $referential    := (partialCached "render/referential-version.html" (dict "context" . "referential" "rgesn") . ).guideline -}}
   {{- $.Store.Set "file" (partialCached "utils/lang/referential.html" (dict "context" . "referential" $referential) $referential) -}}
-  {{- $criteriafile   := ($.Store.Get "file").criteria.criteres -}}
+  {{- $criteriafile   := ($.Store.Get "file").criteria.criteria -}}
 
   {{- if eq $referential.version "2.0" }}
-  {{- $criteriafile   = ($.Store.Get "file").crit.criteres -}}
+  {{- $criteriafile   = ($.Store.Get "file").crit.criteria -}}
   {{ end -}}
 
     <article class="fg-wrapper narrow">
@@ -24,19 +24,19 @@
 
       {{- if $criteriafile -}}
 
-        {{- $.Scratch.Set "thematique" slice -}}
-        {{- $.Scratch.Set "metier" slice -}}
-        {{- $.Scratch.Set "difficulte" slice -}}
+        {{- $.Scratch.Set "topic" slice -}}
+        {{- $.Scratch.Set "occupations" slice -}}
+        {{- $.Scratch.Set "difficulty" slice -}}
         {{- $thematiqueCounter := 1 -}}
         {{- range $key1, $value1 := $criteriafile -}}
-          {{- $.Scratch.Add "metier" .metiers -}}
-          {{ range .metiers }}
-            {{ $.Scratch.Add (printf "metiers%s" .) 1 }}
-            {{ $.Scratch.SetInMap "metiers" (string .) (dict "name" (string .) "criteria" (string $key1) "score" (int ($.Scratch.Get (printf "metiers%s" .)))) }}
+          {{- $.Scratch.Add "occupations" .occupations -}}
+          {{ range .occupations }}
+            {{ $.Scratch.Add (printf "occupations%s" .) 1 }}
+            {{ $.Scratch.SetInMap "occupation" (string .) (dict "name" (string .) "criteria" (string $key1) "score" (int ($.Scratch.Get (printf "occupations%s" .)))) }}
           {{ end }}
           {{- $thematique := int (index (first 1 (split .id ".")) 0) -}}
           {{- if eq $thematique $thematiqueCounter -}}
-            {{- $.Scratch.Add "thematique" .thematique -}}
+            {{- $.Scratch.Add "topic" .topic -}}
             {{- $thematiqueCounter = add $thematiqueCounter 1 -}}
           {{ end }}
         {{- end -}}
@@ -48,11 +48,11 @@
           {{ end }}
           <hr>
           {{ range (where (where $criteriafile "difficulte" "Moyen") "priorite" "Prioritaire") }}
-            {{ .id }} - {{ .critere }}<br>
+            {{ .id }} - {{ .criterion }}<br>
           {{ end }}
           <hr>
           {{ range (where (where $criteriafile "difficulte" "Faible") "priorite" "Prioritaire") }}
-            {{ .id }} - {{ .critere }}<br>
+            {{ .id }} - {{ .criterion }}<br>
           {{ end }}
           <hr>
           {{ with ($.Scratch.Get "metiers") }}
@@ -60,7 +60,7 @@
               {{ .name }} : {{ .score }}<br>
             {{ end }}
           {{ end }}
-          {{ with ($.Scratch.Get "difficulte") }}
+          {{ with ($.Scratch.Get "difficulty") }}
             {{ . }}<hr>
           {{ end }}
         {{- end -}}
@@ -69,49 +69,64 @@
 
         {{ partialCached "utils/css.html" (dict "context" . "filefolder" "element" "filename" "tableofcontents") "tableofcontents" }}
         <div class="tableofcontents">
-          <h2>Thématiques</h2>
+          <h2>{{ i18n "rgesn-topics" . }}</h2>
           <ol>
           {{/* Range all topics for anchors menu */}}
-          {{- range $key1, $value1 := $.Scratch.Get "thematique" -}}
+          {{- range $key1, $value1 := $.Scratch.Get "topic" -}}
             <li><a href="#{{ . | urlize }}">{{ . }}</a></li>
           {{- end -}}
           </ol>
         </div>
 
         {{/* Range all topics */}}
-        {{- range $key1, $value1 := $.Scratch.Get "thematique" -}}
+        {{- range $key1, $value1 := $.Scratch.Get "topic" -}}
           <h2 id="{{ . | urlize }}" >{{ . }}</h2>
           {{- if (eq $referential.version "2.0") }}
-              {{ (index (where ($.Store.Get "file").crit.thematiques "nom" .) 0).description }}
+              {{ (index (where ($.Store.Get "file").crit.topics "nom" .) 0).description }}
           {{ end -}}
-          {{- range $key2, $value2 := where $criteriafile "thematique" . -}}
-            <h3 id="{{ add $key1 1 }}.{{ add $key2 1 }}" >#{{ add $key1 1 }}.{{ add $key2 1 }} - {{ .critere }}</h3>
-            {{ if or .difficulte .priorite }}
+          {{- range $key2, $value2 := where $criteriafile "topic" . -}}
+            <h3 id="{{ add $key1 1 }}.{{ add $key2 1 }}" >#{{ add $key1 1 }}.{{ add $key2 1 }} - {{ .criterion }}</h3>
+            {{ if or .difficulty .priority }}
             <p class="b-bottom pb-2">
-              {{ with .difficulte }}<strong>Niveau de difficulté :</strong> {{ . }}{{ end }}<br>
-              {{ with .priorite }}<strong>Niveau de priorité :</strong> {{ . }}{{ end }}<br>
-              {{ with .application }}<strong>S’applique :</strong> {{ . }}{{ end }}<br>
-              {{ with .metiers }}<strong>Métiers concernés :</strong> {{ delimit . ", " }}{{ end }}
+              {{ with .difficulty }}<strong>{{ i18n "rgesn-difficulty" . }}:</strong> {{ . }}{{ end }}<br>
+              {{ with .priority }}<strong>{{ i18n "rgesn-priority" . }}:</strong> {{ . }}{{ end }}<br>
+              {{ with .target }}<strong>{{ i18n "rgesn-target" . }}:</strong> {{ . }}{{ end }}<br>
+              {{ with .occupations }}<strong>{{ i18n "rgesn-occupations" . }}:</strong> {{ delimit . ", " }}{{ end }}
             </p>
             {{ end }}
             <div>
-              <h4>Objectif</h4>
+              <h4>{{ i18n "rgesn-goals" . }}</h4>
               <p>
-                <strong>{{ .objectif | markdownify }}</strong>
+                <strong>{{ .goal | markdownify }}</strong>
               </p>
             </div>
             <div>
-              <h4>Mise en œuvre</h4>
-              <p>{{ .miseEnOeuvre | markdownify }}</p>
+              <h4>{{ i18n "rgesn-implementation" . }}</h4>
+              {{- $markdown := .implementation | markdownify }}
+              {{ if not (findRE "<[h|p][^>]*>" $markdown ) }}
+                  <p>{{ $markdown }}</p>
+              {{ else }}
+                  {{ $markdown }}
+              {{ end }}
             </div>
             <div class="note">
-              <h4 class="m-0">Moyen de test ou de contrôle</h4>
-              <p>{{ .controle | markdownify }}</p>
+              <h4 class="m-0">{{ i18n "rgesn-control" . }}</h4>
+              {{- $markdown := .control | markdownify }}
+              {{ if not (findRE "<[h|p][^>]*>" $markdown ) }}
+                  <p>{{ $markdown }}</p>
+              {{ else }}
+                  {{ $markdown }}
+              {{ end }}
             </div>
             {{- with .source }}
             <div>
-              <h4 class="m-0">Pour aller plus loin</h4>
-              <p>{{ . | markdownify }}</p>
+              <h4 class="m-0">{{ i18n "rgesn-resssources" . }}</h4>
+              {{- $markdown := . | markdownify }}
+              {{ if not (findRE "<[h|p][^>]*>" $markdown ) }}
+                  <p>{{ $markdown }}</p>
+              {{ else }}
+                  {{ $markdown }}
+              {{ end }}
             </div>
             {{ end -}}
             <hr>

@@ -1,6 +1,7 @@
 {{- define "main" -}}
 {{/* Vars */}}
 {{ $path := "" }}
+{{- $context       := . -}}
 {{- $meta         := (partialCached "utils/variables-init.html" $context $context) -}}
 {{- $lang         := $meta.lang -}}
 {{- $langurl      := $meta.langurl -}}
