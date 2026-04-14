@@ -50,12 +50,21 @@ main:focus {
     outline: max(1px, 0.1em) dashed var(--color-primary);
     outline-offset: 0.15em;
   }
+
   @media (prefers-reduced-motion: no-preference) {
     :focus-visible {
       transition: outline-offset .25s ease;
       outline-offset: 5px;
     }
-}
+  }
+
+  [tabindex="-1"]:focus {
+    outline: none;
+  }
+
+  [tabindex="-1"]:focus-visible {
+    outline: 2px solid var(--color-focus);
+  }
 }
 
 /* Chunk rendering for all but the first article */

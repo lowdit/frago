@@ -59,7 +59,7 @@
     */}}
     {{ $page := dict
       "kind" "section"
-      "path" (printf "%s/audits/" $lang)
+      "path" (printf "%s/audits" $lang)
       "title" ""
       "type" "audits"
       "params" $params
@@ -67,7 +67,7 @@
     {{ $.AddPage $page }}
     {{ $page := dict
       "kind" "section"
-      "path" (printf "%s/" $lang)
+      "path" (printf "%s" $lang)
       "title" ""
       "type" "home"
       "params" $params
@@ -88,7 +88,7 @@
           {{- $params := dict "lang" (string $lang) }}
           {{ $page := dict
             "kind" "section"
-            "path" (printf "%s/audits/%s/" $lang $name)
+            "path" (printf "%s/audits/%s" $lang $name)
             "title" ""
             "type" "audits"
             "params" $params

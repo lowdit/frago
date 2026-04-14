@@ -1,27 +1,25 @@
 cascade:
-  _merge: deep
-cascade:
-- _target:
-    path: /audits/**/*
-    type: audits
-  outputs:
-    - html
-    - json
-    - declaration
-    - declarationeco
-- _target:
-    path: /audits/**/**
-    type: audits
-  outputs:
-    - html
-    - json
-    - declaration
-    - declarationeco
-    - accessibility
-    - raweb
-    - raam
-    - ecoconception
-    - opquast
-    - publishing
-    - recommendation
-    - performance
+  - target:
+      path: /audits/**/*
+      type: audits
+    outputs:
+      - html
+      - json
+      - declaration
+      - declarationeco
+  - target:
+      path: /audits/**/**
+      type: audits
+    outputs:
+      - html
+      - json
+      - declaration
+      - declarationeco
+      - accessibility
+      - raweb
+      - raam
+      - ecoconception
+      - opquast
+      - publishing
+      - recommendation
+      - performance

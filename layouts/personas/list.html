@@ -1,13 +1,13 @@
 {{- define "main" -}}
 {{/* Vars */}}
 {{ $path := "" }}
-{{- $meta         := (partialCached "utils/variables-init.html" $context $context) -}}
+{{- $meta         := (partialCached "utils/variables-init.html" . .) -}}
 {{- $lang         := $meta.lang -}}
 {{- $langurl      := $meta.langurl -}}
 {{- $patharray    := $meta.patharray -}}
 {{- $project      := $meta.project -}}
 {{- $Permalinklen := $meta.permalinkLen -}}
-{{- $path      := (partialCached "render/filepath" (dict "context" . "project" $project "type" "personas.json") $project "personas.json") -}}
+{{- $path         := (partialCached "render/filepath" (dict "context" . "project" $project "type" "personas.json") $project "personas.json") -}}
 
 {{- if $project -}}
 <div class="fg-wrapper">
