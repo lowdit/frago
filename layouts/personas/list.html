@@ -1,7 +1,8 @@
 {{- define "main" -}}
 {{/* Vars */}}
 {{ $path := "" }}
-{{- $meta         := (partialCached "utils/variables-init.html" . .) -}}
+{{- $context       := . -}}
+{{- $meta         := (partialCached "utils/variables-init.html" $context $context) -}}
 {{- $lang         := $meta.lang -}}
 {{- $langurl      := $meta.langurl -}}
 {{- $patharray    := $meta.patharray -}}
