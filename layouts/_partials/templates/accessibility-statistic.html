@@ -10,7 +10,7 @@
 {{- $render    := .render -}}
 {{- $name      := .name -}}
 {{- $lang      := cond $context.Params.lang $context.Params.lang $context.Lang -}}
-{{- $ref       := index $context.Site.Data.referential (string $lang) -}}
+{{- $ref       := index hugo.Data.referential (string $lang) -}}
 
 {{- partialCached "utils/css.html" (dict "context" . "filefolder" "object" "filename" "tooltip") "tooltip" -}}
 
@@ -270,7 +270,7 @@
       {{ $s := where .file.topics "number" "eq" (int (delimit (first 1 (split $value ".")) ""))}}
       {{ partialCached "utils/replace/glossary" (dict "link" $glossary "value" (index (index $s 0).criteria (sub (int (delimit (last 1 (split .value ".")) "")) 1)).criterium.title) (index (index $s 0).criteria (sub (int (delimit (last 1 (split .value ".")) "")) 1)).criterium.title }}
     {{ else if (eq $types "ecoconception")}}
-      {{ with (index (where .file.criteres "id" $value) 0).critere }}
+      {{ with (index (where .file.criteria "id" $value) 0).criteria }}
         {{ . }}
       {{ else}}
         <b>There is a problem with a context declaration for an audit or a bad sheet</b>

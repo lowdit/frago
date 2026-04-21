@@ -1,8 +1,6 @@
 ---
 title: Accueil Audits
 outputs:
-  _merge: deep
-outputs:
   - html
   - json
 disableKinds:

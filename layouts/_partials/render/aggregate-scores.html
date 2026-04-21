@@ -40,7 +40,7 @@
     {{/* Declare Variables */}}
     {{- $context := . }}
     {{- $lang    := cond $context.Params.lang $context.Params.lang $context.Lang -}}
-    {{- $ref     := index $context.Site.Data.referential (string $lang) -}}
+    {{- $ref     := index hugo.Data.referential (string $lang) -}}
     {{- $path    := "" }}{{ with .File }}{{ $path = .Path }}{{ end }}
 
     {{/* START Only page in audits folder */}}

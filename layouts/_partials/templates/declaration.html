@@ -15,7 +15,7 @@
 {{- $lang         := $meta.lang -}}
 {{- $projectPath  := $meta.projectPath -}}
 {{- $projectTitle := $meta.projectTitle -}}
-{{- $ref          := index $context.Site.Data.referential (string $lang) -}}
+{{- $ref          := index hugo.Data.referential (string $lang) -}}
 
 {{- $referential              := (partialCached "render/referential-version.html" (dict "context" $context "referential" (index $ref "accessibility").referential) $context (index $ref "accessibility").referential).guideline -}}
 {{- $data.Set "contextmain"   (partialCached "render/context.html" (dict "context" $context "project" $project "type" "accessibility") $project "accessibility") -}}
@@ -97,7 +97,7 @@
       <h3>Résultats des tests</h3>
       {{/* START If criteria */}}
       {{- if ($data.Get "scores").criteria -}}
-        <p>L’audit de conformité{{ with (time $date) }}, du {{ .Day }} {{ index $context.Site.Data.month (printf "%d" .Month) }} {{ .Year }}, {{ end }}{{ with .condition }}réalisé par {{ . }}{{ end }} révèle que :</p>
+        <p>L’audit de conformité{{ with (time $date) }}, du {{ .Day }} {{ index hugo.Data.month (printf "%d" .Month) }} {{ .Year }}, {{ end }}{{ with .condition }}réalisé par {{ . }}{{ end }} révèle que :</p>
         <ul>
           {{- with partialCached "render/externals" (dict "context" $context "project" $project "auditfile" ($data.Get "auditpath-csv")) $context $project ($data.Get "auditpath-csv") -}}
           {{- $map := . -}}
@@ -133,7 +133,7 @@
         <h2>Établissement de cette déclaration d’accessibilité</h2>
         {{/* START If "context" */}}
         {{ with ($data.Get "context") }}
-          <p>Cette déclaration a été établie le <time datetime="{{ (time $date).Format "2006-01-02T15:04:05Z07:00" | safeHTML }}">{{ (time $date).Day }} {{ index $context.Site.Data.month (printf "%d" (time $date).Month) }} {{ (time $date).Year }}</time>.</p>
+          <p>Cette déclaration a été établie le <time datetime="{{ (time $date).Format "2006-01-02T15:04:05Z07:00" | safeHTML }}">{{ (time $date).Day }} {{ index hugo.Data.month (printf "%d" (time $date).Month) }} {{ (time $date).Year }}</time>.</p>
           {{/* START If audit */}}
           {{ with ($data.Get "context").audit }}
             <h3>Technologies utilisées</h3>

@@ -38,11 +38,11 @@
   MARK: Loop over all directories in a guidelines for finding all versions of this guideline
 */}}
 {{ $criteriafilecond := cond
-  (not (index (index $context.Site.Data (trim $referential " ")) $lang))
+  (not (index (index hugo.Data (trim $referential " ")) $lang))
   "fr"
   $lang
 -}}
-{{ range $key, $value := (index (index $context.Site.Data (trim $referential " ")) $criteriafilecond) }}
+{{ range $key, $value := (index (index hugo.Data (trim $referential " ")) $criteriafilecond) }}
   {{ if in $key "." }}
     {{ if ne $versionallarray (slicestr $key 0 3) }}{{ $data.Set "versionallarray" slice }}{{ end }}
     {{ $data.Add "versionallarray" $key }}

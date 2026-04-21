@@ -21,7 +21,7 @@
 */}}
 {{ if gt (len .Site.Languages) 1 }}
   {{ range $id, $lang := after 1 .Site.Languages }}
-    {{- $ref    := index $.Site.Data.referential (string $lang) -}}
+    {{- $ref    := index hugo.Data.referential (string $lang) -}}
     {{- $params := dict "lang" (string $lang) }}
     {{- range $key0, $value0 := $ref -}}
       {{/*
@@ -36,7 +36,7 @@
       {{/*
         Pages
       */}}
-      {{- range $key1, $value1 := (index (index $.Site.Data $value0.referential) (string $lang)) -}}
+      {{- range $key1, $value1 := (index (index hugo.Data $value0.referential) (string $lang)) -}}
         {{ range $key2, $value2 := . }}
           {{- $Type   := cond (eq . "raweb") "rgaa" $value0.referential -}}
           {{- $Type   := cond (eq $Type "raam") "rgaa" $Type -}}
@@ -209,7 +209,7 @@
   {{ range $reflist }}
     {{- $page := dict
       "kind" "section"
-      "path" (printf "organism/%s/" .)
+      "path" (printf "organism/%s" .)
       "title" .
     -}}
 

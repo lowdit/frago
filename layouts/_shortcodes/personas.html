@@ -3,12 +3,15 @@
 {{- partialCached "utils/css.html" (dict "context" . "filefolder" "object" "filename" "card") "card" -}}
 {{- end -}}
 {{- $filepath      := (partialCached "render/filepath" (dict "context" . "project" $project "type" "personas.json") $project "personas.json") -}}
+{{- $file := (printf "static/%s/personas.json" $project) -}}
 {{- if fileExists $filepath -}}
+{{- if fileExists $file -}}
 <div class="flex grid">
-{{- range (getJSON (printf "static/%s/personas.json" $project)) -}}
+{{- range $file -}}
   {{ partialCached "components/personas/template.html" (dict "context" . "pages" $.Site "project" $project) . }}
 {{- end -}}
 </div>
+{{- end -}}
 {{- else -}}
 <p>Le fichier {{ (printf "`%s`" $filepath) | markdownify }} est manquant.</p>
 {{- end -}}

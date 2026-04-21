@@ -9,7 +9,7 @@
 
 {{- if .counter.LCP -}}
   <div class="scores mb-1">
-    <ul class="flex flex-gap flex-wrap">
+    <ul class="flex flex-gap flex-wrap list-unstyled">
       <li class="counter text-center {{ .counter.speedindexclass }}"><span>Page chargée<br><b>{{ div (.counter.LCP) 1000 | lang.FormatNumberCustom 1 }}s</b></span></li>
       <li class="counter text-center"><span>Poids de la page<br><b>{{ .counter.pageweight | lang.FormatNumberCustom 0 }}kb</b></span></li>
       <li class="counter text-center"><span>Éléments sur la page<br><b>{{ .counter.domsize | lang.FormatNumberCustom 0 }}</b></span></li>
@@ -19,7 +19,7 @@
   {{- if not (index (partialCached "render/lastfile.html" (dict "context" . "project" $project "type" "ecoindex") $project "ecoindex") "auditfile-path") -}}
     <h3 class="m-0">Écoindex</h3>
     <div class="scores mb-1">
-      <ul class="flex flex-gap flex-wrap">
+      <ul class="flex flex-gap flex-wrap list-unstyled">
         <li class="counter text-center {{ .counter.ecoindexclass }}"><span>Score<br><b>{{ .counter.ecoindex }}</b></span></li>
         <li class="counter text-center"><span>Eau (cl)<br><b>{{ .counter.eau | lang.FormatNumberCustom 2 }}</b></span></li>
         <li class="counter text-center"><span>GES (gCO2e)<br><b>{{ .counter.co2 | lang.FormatNumberCustom 2 }}</b></span></li>

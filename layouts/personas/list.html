@@ -37,7 +37,7 @@
     <div>
       <h2 {{ with .Params.slug }} class="icon {{ . }}"{{ end }}><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
       <p class="d-block">
-        {{- if .Date -}}<time datetime="{{ .Date.Format "2006-01-02T15:04:05Z07:00" | safeHTML }}">{{ .Date.Day }} {{ index $.Site.Data.month (printf "%d" .Date.Month) }} {{ .Date.Year }}</time>{{ end }}
+        {{- if .Date -}}<time datetime="{{ .Date.Format "2006-01-02T15:04:05Z07:00" | safeHTML }}">{{ .Date.Day }} {{ index hugo.Data.month (printf "%d" .Date.Month) }} {{ .Date.Year }}</time>{{ end }}
         {{ if $.Store.Get "hassection" }}{{ if lt (len (split ($.Store.Get "linksingle") "/")) 4 }} pour <a href="{{ $.Site.BaseURL | default "/" }}{{ index (last 3 (split (delimit (split .RelPermalink "/") "," "") ",")) 0 }}/{{ index (last 2 (split (delimit (split .RelPermalink "/") "," "") ",")) 0 }}/">{{ index (last 2 (split (delimit (split .RelPermalink "/") "," "") ",")) 0 }}</a>{{ end }}{{ end }}
       </p>
       <p>{{ .Params.summary }}</p>

@@ -13,7 +13,7 @@
 {{- $projectPath   := $meta.projectPath -}}
 {{- $projectTitle  := $meta.projectTitle -}}
 {{- $data.Set "context"  . -}}
-{{- $context.Store.Set "criteriafilepidila" (index $context.Site.Data.pidila "fr") -}}
+{{- $context.Store.Set "criteriafilepidila" (index hugo.Data.pidila "fr") -}}
 
 {{ partialCached "utils/css.html" (dict "context" $.context "filefolder" "object" "filename" "summary") "summary" }}
 
@@ -286,7 +286,7 @@
               {{ end -}}
               {{- if .criterion }}
               {{- range (split (replace .criterion " " "") ",") }}
-                {{- $criteriafile := cond (not (index (index (index $.context.Site.Data $referential.name) $.context.Lang) (string $referential.version))) (index (index (index $.context.Site.Data $referential.name) "fr") (string $referential.version)) (index (index (index $.context.Site.Data $referential.name) $.context.Lang) (string $referential.version)) -}}
+                {{- $criteriafile := cond (not (index (index (index $.contexthugo.Data $referential.name) $.context.Lang) (string $referential.version))) (index (index (index $.contexthugo.Data $referential.name) "fr") (string $referential.version)) (index (index (index $.contexthugo.Data $referential.name) $.context.Lang) (string $referential.version)) -}}
                 {{- $criteriafile := $criteriafile.criteria.topics -}}
                 {{- $thematiques  := index (split . ".") 0 -}}
                 {{- $criteria     := index (split . ".") 1 -}}

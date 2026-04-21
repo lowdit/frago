@@ -143,7 +143,7 @@
   {{- end -}}{{- end -}}{{- end -}}
   {{- with ($.Scratch.Get "isCSS") -}}
   {{- range . }}
-  <link rel="stylesheet" href="{{ $.Site.BaseURL | default "/" }}assets/css/{{ .Name }}" media="print" onload="this.media='all'" />
+  <link rel="stylesheet" href="{{ $.Site.BaseURL | default "/" }}assets/css/{{ .Name }}" {{/* media="print" onload="this.media='all'" */}}/>
   <noscript>
     <link rel="stylesheet" href="{{ $.Site.BaseURL | default "/" }}assets/css/{{ .Name }}" media="screen">
   </noscript>

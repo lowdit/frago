@@ -64,7 +64,7 @@
     {{/* START Test if audit name is named */}}
 
     {{ if and (ne $referential.name "any") $referential }}
-      {{- $criteriafile := (cond (not (index (index (index $.context.Site.Data $referential.name) $meta.lang) (string $referential.version))) (index (index (index $.context.Site.Data $referential.name) "fr") (string $referential.version)) (index (index (index $.context.Site.Data $referential.name) $meta.lang) (string $referential.version))) -}}
+      {{- $criteriafile := (cond (not (index (index (index $.contexthugo.Data $referential.name) $meta.lang) (string $referential.version))) (index (index (index $.contexthugo.Data $referential.name) "fr") (string $referential.version)) (index (index (index $.contexthugo.Data $referential.name) $meta.lang) (string $referential.version))) -}}
       {{- $data.Set "criteriafile" $criteriafile.criteria.topics -}}
 
       {{/* Load the glossary file for the good audit version */}}
@@ -90,7 +90,7 @@
         {{/* Create an array with all pages */}}
         {{- $data.Set "pageslist" (index (partialCached "render/methodology.html" (dict "context" $context "auditfile" ($data.Get "auditfile-csv")) ($data.Get "auditfile-csv")) "pageslist") -}}
         {{/* Control which tests are made for each type of audit :: this is an help for knowing witch tests are missing */}}
-        {{- $.Store.Set "testfile" $context.Site.Data.rgaa.tests }}
+        {{- $.Store.Set "testfile" hugo.Data.rgaa.tests }}
         {{- range $auditname, $audit := ($.Store.Get "testfile") -}}
           {{- $data.Set (printf "criterecontrol%s" (string $auditname)) slice -}}
           {{- range $id, $criterium := index ($.Store.Get "testfile") $auditname -}}
@@ -137,7 +137,7 @@
         </script>
 
         <h2 class="text-center">Scores{{- with ($data.Get "scores").scores.criteria -}}&nbsp;-&nbsp;{{- .total -}}&nbsp;{{ i18n "text-fail" 2 }}{{ end }}</h2>
-        <time class="text-center" datetime="{{ ($data.Get "date").Format "2006-01-02T15:04:05Z07:00" | safeHTML }}">Le {{ ($data.Get "date").Day }} {{ index $.context.Site.Data.month (printf "%d" ($data.Get "date").Month) }} {{ ($data.Get "date").Year }}</time>
+        <time class="text-center" datetime="{{ ($data.Get "date").Format "2006-01-02T15:04:05Z07:00" | safeHTML }}">Le {{ ($data.Get "date").Day }} {{ index $.contexthugo.Data.month (printf "%d" ($data.Get "date").Month) }} {{ ($data.Get "date").Year }}</time>
 
         <p class="text-center"><a href="{{ $context.Path }}/declaration/" aria-label="Accéder à la déclaration de {{ ($context.GetPage $project).Title }}">Accéder à la déclaration</a></p>
 

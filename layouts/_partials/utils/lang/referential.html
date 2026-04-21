@@ -2,9 +2,9 @@
 {{ $referential := .referential }}
 
 {{ $result := cond
-    (not (index (index (index $.Site.Data $referential.name) $referential.lang) (string $referential.version)))
-    (index (index (index $.Site.Data $referential.name) "fr") (string $referential.version))
-    (index (index (index $.Site.Data $referential.name) $referential.lang) (string $referential.version))
+    (not (index (index (index hugo.Data $referential.name) $referential.lang) (string $referential.version)))
+    (index (index (index hugo.Data $referential.name) "fr") (string $referential.version))
+    (index (index (index hugo.Data $referential.name) $referential.lang) (string $referential.version))
 }}
 
 {{ return $result }}

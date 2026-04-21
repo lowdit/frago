@@ -9,7 +9,7 @@
   {{- $projectPath  := $meta.projectPath -}}
   {{- $projectTitle := $meta.projectTitle -}}
   {{- $Permalinklen := $meta.permalinkLen -}}
-  {{- $ref          := index $context.Site.Data.referential (string $lang) -}}
+  {{- $ref          := index hugo.Data.referential (string $lang) -}}
   {{- $reflist      := (slice "accessibility" "raweb" "raam" "ecoconception" "opquast" "publishing") }}
 
   {{ if eq (len $patharray) 3 }}

@@ -10,7 +10,7 @@
 {{- $scores        := .scores    -}}
 {{- $auditfile     := .auditfile -}}
 {{- $lang          := cond $context.Params.lang $context.Params.lang $context.Lang -}}
-{{- $ref           := index $context.Site.Data.referential (string $lang) -}}
+{{- $ref           := index hugo.Data.referential (string $lang) -}}
 {{- $time          := now.UnixMilli -}}
 {{- $timepartial   := now.UnixMilli -}}
 

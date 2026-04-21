@@ -99,7 +99,7 @@
               {{- range $id, $value := . -}}
               <tr>
                 {{- $date := index ($.Store.Get "accessibility-all-name") (string $id) -}}
-                <th>{{ (time $date).Day }} {{ index $.Site.Data.month (printf "%d" (time $date).Month) }} {{ (time $date).Year }}</th>
+                <th>{{ (time $date).Day }} {{ index hugo.Data.month (printf "%d" (time $date).Month) }} {{ (time $date).Year }}</th>
                 <td>{{- .scores.compliance -}} %</td>
               </tr>
               {{- end -}}
@@ -108,7 +108,7 @@
         </div>
         <script>
             const dataaccessibility = {
-                labels: [{{- range $id, $value := ($.Store.Get "accessibility-all-name") -}}{{ if ne $id "0" }},{{ end }}"{{ (time $value).Day }} {{ index $.Site.Data.month (printf "%d" (time $value).Month) }} {{ (time $value).Year }}"{{- end -}}],
+                labels: [{{- range $id, $value := ($.Store.Get "accessibility-all-name") -}}{{ if ne $id "0" }},{{ end }}"{{ (time $value).Day }} {{ index hugo.Data.month (printf "%d" (time $value).Month) }} {{ (time $value).Year }}"{{- end -}}],
                 datasets: [
                   {
                     name: "Conformité",
@@ -172,7 +172,7 @@
         <div id="chartrecommendation"></div>
           <script>
               const datarecommendation = {
-                  labels: [{{- range $id, $value := ($.Store.Get "renderrecommendation") -}}{{ if ne $id "0" }},{{ end }}"{{ (time $value.date).Day }} {{ index $.Site.Data.month (printf "%d" (time $value.date).Month) }} {{ (time $value.date).Year }}"{{- end -}}],
+                  labels: [{{- range $id, $value := ($.Store.Get "renderrecommendation") -}}{{ if ne $id "0" }},{{ end }}"{{ (time $value.date).Day }} {{ index hugo.Data.month (printf "%d" (time $value.date).Month) }} {{ (time $value.date).Year }}"{{- end -}}],
                   datasets: [
                     {
                       name: "Erreurs",
@@ -247,7 +247,7 @@
         <div id="chartperformance"></div>
           <script>
               const dataperformance = {
-                  labels: [{{- range $id, $value := $lasfiledate -}}{{ if ne $id "0" }},{{ end }}"{{ (time $value).Day }} {{ index $.Site.Data.month (printf "%d" (time $value).Month) }} {{ (time $value).Year }}"{{- end -}}],
+                  labels: [{{- range $id, $value := $lasfiledate -}}{{ if ne $id "0" }},{{ end }}"{{ (time $value).Day }} {{ index hugo.Data.month (printf "%d" (time $value).Month) }} {{ (time $value).Year }}"{{- end -}}],
                   datasets: [
                     {
                       name: "Erreurs",
@@ -354,9 +354,9 @@
           <td>
             {{- with (trim . " ") -}}
             {{- if findRE "(\\d{2})-(\\d{2})" . }}
-            De {{ index $.Site.Data.month (string (float (index (split . "-") 0))) }} à {{ index $.Site.Data.month (string (float (index (split . "-") 1))) }} {{ (string (now.Format "2006")) -}}
+            De {{ index hugo.Data.month (string (float (index (split . "-") 0))) }} à {{ index hugo.Data.month (string (float (index (split . "-") 1))) }} {{ (string (now.Format "2006")) -}}
             {{- else if (findRE "(\\d{2})/(\\d{2})" .) }}
-            le {{ (float (index (split . "/") 0)) }} {{ index $.Site.Data.month (string (float (index (split . "/") 1))) }} {{ (string (now.Format "2006")) -}}
+            le {{ (float (index (split . "/") 0)) }} {{ index hugo.Data.month (string (float (index (split . "/") 1))) }} {{ (string (now.Format "2006")) -}}
             {{- else -}}
             {{ . }}
             {{- end -}}

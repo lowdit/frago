@@ -47,7 +47,7 @@
     {{- $thematiques := float (index (split $key ".") 0) -}}
     {{- $criteria    := float (index (split $key ".") 1) -}}
     <p><strong>Critère {{ $thematiques }}.{{ $criteria }}</strong><br/>
-    {{- $criteriafile := cond (not (index (index $context.Site.Data $auditname) $meta.lang)) (index (index $context.Site.Data $auditname) "fr") (index (index $context.Site.Data $auditname) $meta.lang) -}}
+    {{- $criteriafile := cond (not (index (index hugo.Data $auditname) $meta.lang)) (index (index hugo.Data $auditname) "fr") (index (index hugo.Data $auditname) $meta.lang) -}}
     {{- if $criteriafile.criteria.topics }}
       {{- $s := where $criteriafile.criteria.topics "number" "eq" $thematiques -}}
       {{- if and $s (ge (len $s) 1) -}}

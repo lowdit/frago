@@ -15,7 +15,7 @@
   {{- $refname        := (lower (index (split (string (replace $path "/en/" "")) "/") 0)) -}}
   {{- $referential    := (partialCached "render/referential-version.html" (dict "context" $ "referential" $refname "lang" .Params.lang) . $refname).guideline -}}
   {{- $lang           := cond .Params.lang .Params.lang .Lang -}}
-  {{- $ref            := index .Site.Data.referential (string $lang) -}}
+  {{- $ref            := index hugo.Data.referential (string $lang) -}}
   {{- $glossary       := printf "=\"/%s/%s/%s/glossary/$1\"" $lang $referential.name $referential.version -}}
   {{- $.Store.Set "file" (partialCached "utils/lang/referential.html" (dict "context" . "referential" $referential) $referential) -}}
   {{- $criteriafile   := ($.Store.Get "file").criteria.topics -}}
@@ -43,7 +43,7 @@
     {{/*
       MARK: Load list of tests for filtering view
     */}}
-    {{- $.Store.Set "testfile" .Site.Data.rgaa.tests }}
+    {{- $.Store.Set "testfile" hugo.Data.rgaa.tests }}
     {{- $auditquick         := index ($.Store.Get "testfile") "25" -}}
     {{- $auditcomplementary := index ($.Store.Get "testfile") "50" -}}
     {{- $auditnecessary     := index ($.Store.Get "testfile") "81" -}}

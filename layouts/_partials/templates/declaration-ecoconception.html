@@ -17,7 +17,7 @@
 {{- $projectTitle := $meta.projectTitle -}}
 
 {{- $envTitle     := (dict "desktop" "Ordinateur" "mobile" "Mobile") -}}
-{{- $ref          := index $context.Site.Data.referential (string $lang) -}}
+{{- $ref          := index hugo.Data.referential (string $lang) -}}
 {{- $topics       := $ref.ecoconception.topics -}}
 
 {{/* START Determine the version of the audit from the context declaration */}}
@@ -28,7 +28,7 @@
 
 {{ if $referential }}
 
-{{- $criteriafile          := cond (not (index (index (index $context.Site.Data $referential.name) $referential.lang) (string $referential.version))) (index (index (index $context.Site.Data $referential.name) "fr") (string $referential.version)) (index (index (index $context.Site.Data $referential.name) $context.Lang) (string $referential.version)) -}}
+{{- $criteriafile          := cond (not (index (index (index hugo.Data $referential.name) $referential.lang) (string $referential.version))) (index (index (index hugo.Data $referential.name) "fr") (string $referential.version)) (index (index (index hugo.Data $referential.name) $context.Lang) (string $referential.version)) -}}
 {{- $criteriafile          := $criteriafile.criteria.criteres -}}
 {{/* END Determine the version of the audit form the context declaration */}}
 
@@ -97,7 +97,7 @@
 
         <p>
           Le site{{- with ($data.Get "context").website }} {{ partialCached "utils/isURL.html" (dict "context" $context "projectTitle" .) . }}{{ end }} est en conformité partielle avec le Référentiel Général d’Écoconception des Services Numériques version bêta du 19 octobre 2021.
-          L’audit de conformité{{ with $context.Params.ecoconception.audit.company }}, réalisé par la société {{ . }}, {{ end }}{{ with (time $date) }} le {{ .Day }} {{ index $context.Site.Data.month (printf "%d" .Month) }} {{ .Year }}{{ end }}, révèle que {{ .compliance }} % des critères du référentiel sont respectés.
+          L’audit de conformité{{ with $context.Params.ecoconception.audit.company }}, réalisé par la société {{ . }}, {{ end }}{{ with (time $date) }} le {{ .Day }} {{ index hugo.Data.month (printf "%d" .Month) }} {{ .Year }}{{ end }}, révèle que {{ .compliance }} % des critères du référentiel sont respectés.
         </p>
 
         <p>Ce pourcentage correspond, sur {{ .criteria.total }} testés, à :</p>
@@ -133,10 +133,10 @@
 
         {{ with ($data.Get "scores").scores }}
         <p>
-          L’audit de conformité{{ with $context.Params.ecoconception.audit.company }}, réalisé par la société {{ . }}, {{ end }}{{ with (time $date) }} le {{ .Day }} {{ index $context.Site.Data.month (printf "%d" .Month) }} {{ .Year }}{{ end }}, révèle que <strong>{{ .compliance }}%</strong> des critères du référentiel sont respectés{{- with ($data.Get "context").website }} pour le site {{ partialCached "utils/isURL.html" (dict "context" $context "projectTitle" .) . }}{{ end }}.
+          L’audit de conformité{{ with $context.Params.ecoconception.audit.company }}, réalisé par la société {{ . }}, {{ end }}{{ with (time $date) }} le {{ .Day }} {{ index hugo.Data.month (printf "%d" .Month) }} {{ .Year }}{{ end }}, révèle que <strong>{{ .compliance }}%</strong> des critères du référentiel sont respectés{{- with ($data.Get "context").website }} pour le site {{ partialCached "utils/isURL.html" (dict "context" $context "projectTitle" .) . }}{{ end }}.
         </p>
         <p>
-          {{- if $auditbefore }} Le dernier audit{{ with time ($data.Get "scorebefore").date }} du {{ .Day }} {{ index $context.Site.Data.month (printf "%d" .Month) }} {{ .Year }}{{ end }} présentait un score de <strong>{{ ($data.Get "scorebefore").scores.compliance }}%</strong>.{{ end -}}
+          {{- if $auditbefore }} Le dernier audit{{ with time ($data.Get "scorebefore").date }} du {{ .Day }} {{ index hugo.Data.month (printf "%d" .Month) }} {{ .Year }}{{ end }} présentait un score de <strong>{{ ($data.Get "scorebefore").scores.compliance }}%</strong>.{{ end -}}
         </p>
         {{- end -}}
 
@@ -176,7 +176,7 @@
         {{ range $key, $value := $criteriafile }}
           {{- $b := dict -}}
           {{- $c := dict -}}
-          {{- $file := cond (not (index (index (index $context.Site.Data $referential.name) $referential.lang) (string $referential.version))) (index (index (index $context.Site.Data $referential.name) "fr") (string $referential.version)) (index (index (index $context.Site.Data $referential.name) $referential.lang) (string $referential.version)) -}}
+          {{- $file := cond (not (index (index (index hugo.Data $referential.name) $referential.lang) (string $referential.version))) (index (index (index hugo.Data $referential.name) "fr") (string $referential.version)) (index (index (index hugo.Data $referential.name) $referential.lang) (string $referential.version)) -}}
           {{- $a := (index (where $file.declaration "id" .id) 0) }}
           {{- if and ($data.Get "context").audit ($data.Get "context").audit.criteria -}}
             {{- $b = (index (where ($data.Get "context").audit.criteria "id" ($value.id)) 0)  }}

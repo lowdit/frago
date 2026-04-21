@@ -28,7 +28,7 @@
   {{- $data.Set "auditscore"    (partialCached "render/meta-scores.html" (dict "context" $context "project" $project "type" "ecoconception") $project "ecoconception") -}}
   {{- $referential    := (index ($data.Get "auditscore").context ((index ($data.Get "audits") "auditfile-name"))).guidelines -}}
   {{- $criteriafile   := (partialCached "utils/lang/referential.html" (dict "context" $context "referential" $referential) $referential) -}}
-  {{- $criteriafile   := $criteriafile.criteria.criteres }}
+  {{- $criteriafile   := $criteriafile.criteria.criteria }}
   {{- $data.Set "auditfile-csv" (readFile ($data.Get "auditpath-csv") | transform.Unmarshal (dict "delimiter" ",")) -}}
   {{- $data.Set "scores" (partialCached "render/ecoconception.html" (dict "context" "ecospage" "auditfile" ($data.Get "auditpath-csv") "referential" $referential) ($data.Get "auditpath-csv") ) -}}
 
@@ -54,7 +54,7 @@
   {{/* END Display page note if exists */}}
   {{- if and ($data.Get "auditfile-csv") (ne ($data.Get "scores").isempty 0) -}}
     <h2 class="text-center">Scores{{- with ($data.Get "scores").scores.criteria -}}&nbsp;-&nbsp;{{- .total -}}&nbsp;critères{{ end }} - {{ upper $referential.name }} {{ $referential.version }}</h2>
-    <time class="text-center" datetime="{{ ($data.Get "date").Format "2006-01-02T15:04:05Z07:00" | safeHTML }}">Le {{ ($data.Get "date").Day }} {{ index $.context.Site.Data.month (printf "%d" ($data.Get "date").Month) }} {{ ($data.Get "date").Year }}</time>
+    <time class="text-center" datetime="{{ ($data.Get "date").Format "2006-01-02T15:04:05Z07:00" | safeHTML }}">Le {{ ($data.Get "date").Day }} {{ index $.contexthugo.Data.month (printf "%d" ($data.Get "date").Month) }} {{ ($data.Get "date").Year }}</time>
     <p class="text-center"><a href="{{ $context.Path }}/declaration-ecoconception/" aria-label="Accéder à la déclaration de {{ ($context.GetPage $project).Title }}">Accéder à la déclaration</a></p>
       {{- if not ($data.Get "scores").isempty }}
         <h3 class="mb-0">{{ i18n "title-compliance-global" }}</h3>
@@ -64,10 +64,11 @@
           {{- partialCached "components/scores/criteria" (dict "context" $context "criteria" ($data.Get "scores").criteria) ($data.Get "scores").criteria -}}
           {{- if ge $referential.versionmajor 2 -}}
             {{- range (slice "Prioritaire" "Modéré" "Recommandé") }}
-              {{ $priorite := . }}
+              {{- $priorite := . }}
               <h3>Dans les critères "{{ $priorite }}"</h3>
               {{- range (slice "non conforme" "non applicable" "non teste") }}
               {{- $value := . -}}
+              {{- if $criteriafile }}
               {{- with (index ($data.Get "scores").criteria ((replace . " " "") )) -}}
                 <h4 id="criteria-{{ $value }}">Tous les critères "{{ humanize $value }}"</h4>
                   {{- range $key, $value := . -}}
@@ -93,6 +94,7 @@
                   {{- end -}}
                   {{- end -}}
               {{- end -}}
+              {{- end -}}
             {{ end -}}
             {{ end -}}
           {{ else }}
@@ -101,7 +103,7 @@
             {{- range $key, $value := . -}}
               <p>
                 <strong>Critère {{ $key }}</strong><br>
-                <em>{{ (index (where $criteriafile "id" $key) 0).critere }}</em>
+                <em>{{ (index (where $criteriafile "id" $key) 0).criteria }}</em>
               </p>
               {{- if gt (len (split . "|")) 1 -}}
               <div class="note">

@@ -48,7 +48,7 @@
       stroke-width: 0.1px;
     }
   </style>
-  <h1>{{ (index (index $.Site.Data $referential.name) (string $referential.version)).criteria.title | safeHTML }}</h1>
+  <h1>{{ (index (index hugo.Data $referential.name) (string $referential.version)).criteria.title | safeHTML }}</h1>
   {{- with ($.Store.Get "file").criteria.licence }}<p class="mt-1-minus"><strong>License :</strong> {{ . }}</p>{{ end }}
 
   {{ $data.Set "counterthematique" 0 }}

@@ -6,7 +6,7 @@
   <nav>
   <ul class="list-unstyled">
   {{- range $id, $langloop := after 1 $context.Site.Languages }}
-    {{ if (index (index (index $context.Site.Data $referential.name) (string $langloop) ) (string (substr $referential.version 0 3))) }}
+    {{ if (index (index (index hugo.Data $referential.name) (string $langloop) ) (string (substr $referential.version 0 3))) }}
       {{ $pathfile := printf "/%s/%s/%s/%s" $langloop $referential.name (substr $referential.version 0 3) $context.File }}
       {{- if ne (string $langloop) $lang -}}
       <li><a href="{{ $pathfile }}">Version {{ $langloop }}</a></li>
