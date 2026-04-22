@@ -1,5 +1,5 @@
 <nav class="nav nav-language">
-  {{- range .Site.Languages -}}
+  {{- range hugo.Languages -}}
   <button onclick="i18next.changeLanguage('{{ . }}')" class="button-translation">{{- . -}}</button>
   {{- end -}}
   {{- if .IsTranslated -}}

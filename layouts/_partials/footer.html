@@ -5,8 +5,8 @@
   <div class="fg-wrapper">
     <div class="text-center">
       <div class="grid">
-      {{- if and (gt (len .Site.Languages) 1) $.Params.lang }}
-        {{- range $id, $lang := after 1 .Site.Languages }}
+      {{- if and (gt (len hugo.Languages) 1) $.Params.lang }}
+        {{- range $id, $lang := after 1 hugo.Languages }}
         {{- range $key0, $value0 := $ref -}}
           {{- with (index (index hugo.Data $value0.referential) (string $lang)) }}
           {{- $name := cond (eq $value0.referential "rgaa") "accessibility" $value0.referential -}}
