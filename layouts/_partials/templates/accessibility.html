@@ -212,8 +212,7 @@
       </div>
       {{- end -}}
       {{/* END Display page content if exists */}}
-
-      {{- if ne ($data.Get "scores").scores.criteria.nonconforme 0 }}
+      {{- if and (ne ($data.Get "scores").scores.criteria.nonconforme 0) ($data.Get "pageslist") }}
         <h2>Par ordre des critères du référentiel {{ upper ($data.Get "scores").scores.auditname }}</h2>
 
         {{/* Range map errors sort by RGAA order - on all pages */}}
@@ -285,7 +284,8 @@
         {{ end }}
         {{- end -}}
         {{/* END If several page tested */}}
-
+      {{- else }}
+        <p>Le fichier d’audit semble présent, mais pour le moment, l’audit n’est pas commencé.</p>
       {{- end -}}
       </article>
       {{- else -}}
