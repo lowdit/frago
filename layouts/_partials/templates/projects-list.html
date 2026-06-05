@@ -12,9 +12,7 @@
 {{- $.Scratch.Delete "allscores" -}}
 {{- $.Scratch.Delete "projectfolders" -}}
 
-{{- range hugo.Sites -}}
-{{- $.Store.Set      "rangepages" (where .Pages "Section" "audits") -}}
-{{- end -}}
+{{- $.Store.Set "rangepages" (where .Site.AllPages "Section" "audits") -}}
 
 {{- if and ($.Store.Get "rangepages") (gt (len ($.Store.Get "rangepages")) 0) -}}
   {{- $.Store.Set "aggregates" (partialCached "render/aggregate-scores.html" (dict "pages" ($.Store.Get "rangepages")) ($.Store.Get "rangepages")) -}}
