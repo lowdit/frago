@@ -413,7 +413,7 @@
         <small> - <a href="{{ $context.Site.BaseURL | default "/" }}{{ $langurl }}{{ urlize (replace (replace (replace $pageauditpath ".md" "/") "/content/" "") "//" "/") }}" aria-label="{{ i18n "link-access-report" }} d’accessibilité">{{ i18n "link-access-report" }}</a></small>
       {{- else -}}
         {{ with ($context.GetPage (printf "/audits/%s/%s/" $project $value)) }}
-          <small> - <a href="{{ $context.Site.BaseURL | default "/" }}{{ $langurl }}{{ .RelPermalink }}" aria-label="{{ i18n "link-access-report" }} {{ i18n $value . | humanize }}">{{ i18n "link-access-report" }}</a></small>
+          <small> - <a href="{{ $context.Site.BaseURL }}{{ $lang }}{{ .RelPermalink }}" aria-label="{{ i18n "link-access-report" }} {{ i18n $value . | humanize }}">{{ i18n "link-access-report" }}</a></small>
         {{ else }}
           {{- with (first 1 (where (where $OutputFormats "MediaType.Type" "eq" "text/html") "Format.BaseName" "eq" $value)) }}
             {{- $AuditLink := cond (in $project (index . 0).Permalink) (index . 0).Permalink (printf "%saudits/%s%s%s.html" ($context.Site.BaseURL | default "/") $langurl (cond (not $project) "" (printf "%s/" (urlize $project))) (index . 0).Format.BaseName) -}}
