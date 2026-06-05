@@ -2,7 +2,7 @@ baseURL = "/"
 
 title = "Observatoire Accessibilité"
 
-languageCode = "fr-FR"
+locale ="fr-FR"
 defaultContentLanguage = "fr"
 defaultContentLanguageInSubdir = false
 enableInlineShortcodes = true

@@ -14,7 +14,9 @@
 {{- $projectPath  := $meta.projectPath -}}
 {{- $projectTitle := $meta.projectTitle -}}
 
-{{- $.Store.Set "rangepages" (where .Site.AllPages "Section" "audits") -}}
+{{- range hugo.Sites -}}
+{{- $.Store.Set      "rangepages" (where .Pages "Section" "audits") -}}
+{{- end -}}
 
 {{- if ($.Store.Get "rangepages") -}}
 

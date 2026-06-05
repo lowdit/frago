@@ -21,7 +21,9 @@
 */}}
 {{ if gt (len .Site.Languages) 1 }}
   {{ range $id, $lang := after 1 .Site.Languages }}
+    {{ warnf "lang %s" ($lang) }}
     {{- $ref    := index hugo.Data.referential (string $lang) -}}
+    
     {{- $params := dict "lang" (string $lang) }}
     {{- range $key0, $value0 := $ref -}}
       {{/*

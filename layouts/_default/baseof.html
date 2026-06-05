@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 {{/* General variables */}}
-<html lang="{{ cond (not .Params.lang) (.Site.LanguageCode | default "fr") .Params.lang }}" dir="ltr" class="no-js">
+<html lang="{{ cond (not .Params.lang) (.Site.Language.Locale | default "fr") .Params.lang }}" dir="ltr" class="no-js">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -19,7 +19,7 @@
   <link rel="manifest" href="{{ $.Site.BaseURL | default "/" }}manifest.json">
   {{- if .IsTranslated -}}
     {{- range .Translations -}}
-    <link rel="alternate" hreflang="{{ .Language.Lang }}" href="{{ .Permalink }}" title="{{ .Language.LanguageName }}">
+    <link rel="alternate" hreflang="{{ .Language.Lang }}" href="{{ .Permalink }}" title="{{ .Language.Label }}">
     {{- end -}}
   {{- end -}}
   <meta name="robots" content="noindex, nofollow">
