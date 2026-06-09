@@ -14,12 +14,12 @@
 
 {{- if $greenit.date -}}
 {{- with $greenit -}}
-  <h2 class="h3">
+  <h2 class="h3 font-normal">
     <a class="link-text" href="{{ $context.Site.BaseURL | default "/" }}{{ $langurl }}organism/greenit">
       GreenIT <small>Les 74 bonnes pratiques</small>
     </a>
   </h2>
-  <div class="flex flex-small flex-gap align-items-center text-center lh-1">
+  <div class="flex flex-small flex-gap align-items-center text-center lh-1 font-smaller">
     <p class="mb-0">
       <span class="text-center d-block">
         {{- if (ne .isempty 0) -}}
@@ -36,10 +36,10 @@
   </div>
 {{- end -}}
 {{ else }}
-  <h2 class="h3">
+  <h2 class="h3 font-normal">
       GreenIT <small>Les 74 bonnes pratiques</small>
   </h2>
-  <div class="flex flex-small flex-gap align-items-center text-center lh-1">
+  <div class="flex flex-small flex-gap align-items-center text-center lh-1 font-smaller">
     <p class="mb-0">
       Aucun d’audit GreenIT Présent
     </p>

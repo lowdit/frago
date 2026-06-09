@@ -12,6 +12,8 @@
 {{ $Permalinklen := cond (not $lang) (split (.RelPermalink) "/") ((split (.RelPermalink) "/") | symdiff (slice $lang)) -}}
 {{ $Permalinklen := cond (not $Relpermalink) slice (cond (not $lang) (split ($Relpermalink) "/") ((split ($Relpermalink) "/") | symdiff (slice $lang))) -}}
 
+{{ warnf "%s" (string (cond .Params.lang .Params.lang .Lang)) }}
+
 {{ return (dict
     "context"        .
     "path"           $path

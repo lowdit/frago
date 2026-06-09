@@ -15,7 +15,7 @@
 {{- $lang         := $meta.lang -}}
 {{- $projectPath  := $meta.projectPath -}}
 {{- $projectTitle := $meta.projectTitle -}}
-{{- $ref          := index hugo.Data.referential (string $lang) -}}
+{{- $ref          := index hugo.Data.referential (string $context.Lang) -}}
 
 {{- $referential              := (partialCached "render/referential-version.html" (dict "context" $context "referential" (index $ref "accessibility").referential) $context (index $ref "accessibility").referential).guideline -}}
 {{- $data.Set "contextmain"   (partialCached "render/context.html" (dict "context" $context "project" $project "type" "accessibility") $project "accessibility") -}}
@@ -39,6 +39,7 @@
 
   {{ with ($data.Get "contextmain") }}
     {{- $contextlast := cond (not (index . $date)) (index (last 1 (sort .)) 0) (index . $date) -}}
+    
     {{- $data.Set "organisation"  (cond (not $contextlast.organisation) (cond (not $context.Params.organisation) (cond (not $context.Site.Params.organisation) "" $context.Site.Params.organisation) $context.Params.organisation) $contextlast.organisation) -}}
 
     {{- $data.Set "strategy"      (cond (ne $context.Params.accessibility.strategy "") $context.Params.accessibility.strategy (cond (ne $context.Site.Params.strategy "") $context.Site.Params.strategy "")) -}}
@@ -73,7 +74,7 @@
       {{ end }}
       {{/* END If "organisation" */}}
       <h2>État de conformité</h2>
-      <p>
+      <p>Le service numérique 
         {{- with .website }}
           {{ partialCached "utils/isURL.html" (dict "context" $context "projectTitle" .) . }}
             {{ else }}
@@ -128,7 +129,7 @@
       {{/* START If criteria */}}
       {{- with ($data.Get "scores").criteria -}}
         {{- $score := . -}}
-        <h2>{{ i18n "text-fail" 2 }} {{ i18n "text-fail" 2 }}</h2>
+        <h2>{{ i18n "text-fail" 2 }}</h2>
         {{ partialCached "templates/validity.html" (dict "context" $context "audit" $audit "score" ($data.Get "scores")) ($data.Get "scores") }}
         <h2>Établissement de cette déclaration d’accessibilité</h2>
         {{/* START If "context" */}}

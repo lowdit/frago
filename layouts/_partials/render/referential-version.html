@@ -9,14 +9,14 @@
 {{ $referential    := trim .referential " " }}
 {{ $Type           := trim (cond (not .Type) "" .Type) " " }}
 {{ $data           := newScratch }}
-{{- $meta         := (partialCached "utils/variables-init.html" $context $context) -}}
-{{- $lang         := $meta.lang -}}
-{{- $langurl      := $meta.langurl -}}
-{{- $patharray    := $meta.patharray -}}
-{{- $project      := $meta.project -}}
-{{- $projectPath  := $meta.projectPath -}}
-{{- $projectTitle := $meta.projectTitle -}}
-{{- $Permalinklen := $meta.permalinkLen -}}
+{{ $meta           := (partialCached "utils/variables-init.html" $context $context) }}
+{{ $lang           := $meta.lang }}
+{{ $langurl        := $meta.langurl }}
+{{ $patharray      := $meta.patharray }}
+{{ $project        := $meta.project }}
+{{ $projectPath    := $meta.projectPath }}
+{{ $projectTitle   := $meta.projectTitle }}
+{{ $Permalinklen   := $meta.permalinkLen }}
 {{ $patharray      := (symdiff (split ($context.RelPermalink) "/") (slice ""))}}
 
 {{ if (and (eq $referential "any") (or (eq $Type "accessibility") (eq $Type "ecoconception"))) }}

@@ -54,7 +54,7 @@
             {{- $ecoindex          := fileExists (printf "/%s/ecoindex/" $projectFolders) -}}
 
             <li class="enlarge-link card-inline card-shadow">
-                <h2 id="{{ .Title | anchorize }}" class="font-normal font-bold">
+                <h2 id="{{ .Title | anchorize }}" class="font-normal">
                   <a class="link-text" href="{{ cond (not $lang) "" (printf "/%s" $lang) }}{{ .RelPermalink }}">{{ with .Title }}{{ . }}{{ else }}{{ $project }}{{ end }}</a>
                 </h2>
                 {{- if or $accessibility $recommendation $lighthouse $opquast $ecoconception -}}

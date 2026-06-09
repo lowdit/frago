@@ -57,6 +57,8 @@
         {{ template "tablecriteria" (dict "all" .criteria.all "range" .criteria "name" $name "file" $criteriafile "glossary" $glossary) }}
         <hr>
       {{ end -}}
+    {{ else }}
+        <p>Aucun audit sur ce sujet</p>
     {{ end -}}
   </article>
 {{- end -}}

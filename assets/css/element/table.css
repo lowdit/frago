@@ -50,7 +50,9 @@ table tr:last-child {
 
 table th,
 table td {
+  font-size: 1em;
   padding: 5px 10px;
+  vertical-align: middle;
 }
 
 table td {

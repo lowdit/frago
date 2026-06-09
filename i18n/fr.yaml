@@ -90,8 +90,8 @@
     other: Conformes
 - id: text-fail
   translation:
-    one: Non conforme
-    other: Non conformes
+    one: Non-conforme
+    other: Non-conforme
 - id: text-none
   translation:
     one: Non applicable

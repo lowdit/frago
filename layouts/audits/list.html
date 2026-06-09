@@ -87,6 +87,9 @@
         {{- $partialprojects := (partialCached "templates/projects.html" $context $context) -}}
         {{- partialCached "elements/content.html" $partialprojects $partialprojects -}}
       {{- end -}}
+      {{- if (fileExists "content/organism/_index.md") -}}
+        <p class="text-center wrapper"><a href="{{ .Site.BaseURL | default "/" }}organism">Accéder à la page de l’organisme</a></p>
+      {{- end -}}
     {{- else -}}
       {{- $partialdashboard := (partialCached "templates/dashboard.html" $context $context) -}}
       {{- partialCached "elements/content.html" $partialdashboard $partialdashboard -}}
