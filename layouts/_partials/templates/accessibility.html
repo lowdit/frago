@@ -61,10 +61,11 @@
     {{- $referential := (index ($data.Get "context") (index ($data.Get "audits") "auditfile-name")).guidelines -}}
 
     {{/* START Test if audit name is named */}}
-
     {{ if and (ne $referential.name "any") $referential }}
-      {{- $criteriafile := (cond (not (index (index (index $.contexthugo.Data $referential.name) $meta.lang) (string $referential.version))) (index (index (index $.contexthugo.Data $referential.name) "fr") (string $referential.version)) (index (index (index $.contexthugo.Data $referential.name) $meta.lang) (string $referential.version))) -}}
+      {{- $criteriafile := (cond (not (index (index (index hugo.Data $referential.name) $context.Lang) (string $referential.version))) (index (index (index hugo.Data $referential.name) "fr") (string $referential.version)) (index (index (index hugo.Data $referential.name) $context.Lang) (string $referential.version))) -}}
       {{- $data.Set "criteriafile" $criteriafile.criteria.topics -}}
+      {{/* Control which tests are made for each type of audit :: this is an help for knowing witch tests are missing */}}
+      {{- $testfile := hugo.Data.rgaa.tests }}
 
       {{/* Load the glossary file for the good audit version */}}
 
@@ -83,21 +84,18 @@
 
       {{/* START Test if audit file exists */}}
       {{- if and ($data.Get "auditfile-csv") (ne ($data.Get "scores").isempty 0) -}}
-
         {{/* Find if the audit file is by criteria or by tests */}}
         {{- $data.Set "auditmethodology" (index (partialCached "render/methodology.html" (dict "context" $context "auditfile" ($data.Get "auditfile-csv")) $context ($data.Get "auditfile-csv")) "methodology") -}}
         {{/* Create an array with all pages */}}
         {{- $data.Set "pageslist" (index (partialCached "render/methodology.html" (dict "context" $context "auditfile" ($data.Get "auditfile-csv")) ($data.Get "auditfile-csv")) "pageslist") -}}
-        {{/* Control which tests are made for each type of audit :: this is an help for knowing witch tests are missing */}}
-        {{- $.Store.Set "testfile" hugo.Data.rgaa.tests }}
-        {{- range $auditname, $audit := ($.Store.Get "testfile") -}}
+        {{- range $auditname, $audit := $testfile -}}
           {{- $data.Set (printf "criterecontrol%s" (string $auditname)) slice -}}
-          {{- range $id, $criterium := index ($.Store.Get "testfile") $auditname -}}
-            {{- range $key, $value := ($data.Get "scores").criteria.total -}}
+          {{- range $id, $criterium := index $testfile $auditname -}}
+            {{- range $key, $value := ($data.Get "scores").criteria.all -}}
               {{- if eq $criterium $key -}}{{ $data.Add (printf "criterecontrol%s" (string $auditname)) $key }}{{- end -}}
             {{- end -}}
           {{- end -}}
-          {{- $data.Set (printf "criterecontrol%s" (string $auditname)) ((($data.Get (printf "criterecontrol%s" (string $auditname))) | symdiff (index ($.Store.Get "testfile") $auditname))) -}}
+          {{- $data.Set (printf "criterecontrol%s" (string $auditname)) ((($data.Get (printf "criterecontrol%s" (string $auditname))) | symdiff (index $testfile $auditname))) -}}
         {{- end -}}
 
         {{/*
@@ -107,7 +105,7 @@
           let Background = [
             "padding: 2px",
             "font-weight:bold",
-            "background: #222",
+            "background: transparent",
             "color: #fff"
           ].join(" ;");
           let BackgroundRed = [
@@ -121,21 +119,21 @@
             "background:#fff",
             "color: #000"
           ].join(" ;");
-          console.group('%c{{ i18n "text-fail" 2 }} par type: ', 'font-size: 12px;');
-          console.log('%c{{ i18n "text-fail" 2 }} C %c %c{{ len ($data.Get "scores").criteria.conforme      }}%c \n{{ range $key, $value := ($data.Get "scores").criteria.conforme      }}{{ $key }}, {{ end }}',Background,BackgroundWhite,BackgroundRed,BackgroundWhite)
-          console.log('%c{{ i18n "text-fail" 2 }} NC%c %c{{ len ($data.Get "scores").criteria.nonconforme   }}%c \n{{ range $key, $value := ($data.Get "scores").criteria.nonconforme   }}{{ $key }}, {{ end }}',Background,BackgroundWhite,BackgroundRed,BackgroundWhite)
-          console.log('%c{{ i18n "text-fail" 2 }} NA%c %c{{ len ($data.Get "scores").criteria.nonapplicable }}%c \n{{ range $key, $value := ($data.Get "scores").criteria.nonapplicable }}{{ $key }}, {{ end }}',Background,BackgroundWhite,BackgroundRed,BackgroundWhite)
-          console.log('%c{{ i18n "text-fail" 2 }} NT%c %c{{ len ($data.Get "scores").criteria.nonteste      }}%c \n{{ range $key, $value := ($data.Get "scores").criteria.nonteste      }}{{ $key }}, {{ end }}',Background,BackgroundWhite,BackgroundRed,BackgroundWhite)
+          console.group('%c{{ i18n "criteria" 2 }} par type: ', 'font-size: 12px;');
+          console.log('%c{{ i18n "criteria" 2 }} C %c %c{{ with ($data.Get "scores") }}{{ len .criteria.conforme      }}%c \n{{ if .criteria.conforme      }}{{ range $key, $value := .criteria.conforme      }}{{ $key }}, {{ end }}{{ else }}aucun{{ end }}{{ end }}',Background,BackgroundWhite,BackgroundRed,BackgroundWhite)
+          console.log('%c{{ i18n "criteria" 2 }} NC%c %c{{ with ($data.Get "scores") }}{{ len .criteria.nonconforme   }}%c \n{{ if .criteria.nonconforme   }}{{ range $key, $value := .criteria.nonconforme   }}{{ $key }}, {{ end }}{{ else }}aucun{{ end }}{{ end }}',Background,BackgroundWhite,BackgroundRed,BackgroundWhite)
+          console.log('%c{{ i18n "criteria" 2 }} NA%c %c{{ with ($data.Get "scores") }}{{ len .criteria.nonapplicable }}%c \n{{ if .criteria.nonapplicable }}{{ range $key, $value := .criteria.nonapplicable }}{{ $key }}, {{ end }}{{ else }}aucun{{ end }}{{ end }}',Background,BackgroundWhite,BackgroundRed,BackgroundWhite)
+          console.log('%c{{ i18n "criteria" 2 }} NT%c %c{{ with ($data.Get "scores") }}{{ len .criteria.nonteste      }}%c \n{{ if .criteria.nonteste      }}{{ range $key, $value := .criteria.nonteste      }}{{ $key }}, {{ end }}{{ else }}aucun{{ end }}{{ end }}',Background,BackgroundWhite,BackgroundRed,BackgroundWhite)
           console.groupEnd();
-          console.group('%c{{ i18n "text-fail" 2 }} non testés: ', 'font-size: 12px;');
-          console.log('%c{{ i18n "text-fail" 2 }}  25%c {{ with ($data.Get "criterecontrol25")  }}{{ delimit ($data.Get "criterecontrol25") ", "  }}{{ else }}aucun{{ end }}',Background,BackgroundWhite)
-          console.log('%c{{ i18n "text-fail" 2 }}  50%c {{ with ($data.Get "criterecontrol50")  }}{{ delimit ($data.Get "criterecontrol50") ", "  }}{{ else }}aucun{{ end }}',Background,BackgroundWhite)
-          console.log('%c{{ i18n "text-fail" 2 }}  81%c {{ with ($data.Get "criterecontrol81")  }}{{ delimit ($data.Get "criterecontrol81") ", "  }}{{ else }}aucun{{ end }}',Background,BackgroundWhite)
-          console.log('%c{{ i18n "text-fail" 2 }} 106%c {{ with ($data.Get "criterecontrol106") }}{{ delimit ($data.Get "criterecontrol106") ", " }}{{ else }}aucun{{ end }}',Background,BackgroundWhite)
+          console.group('%c{{ i18n "criteria" 2 }} non testés: ', 'font-size: 12px;');
+          console.log('%c{{ i18n "criteria" 2 }} 25\n%c{{ with ($data.Get "criterecontrol25")  }}{{ delimit ($data.Get "criterecontrol25") ", " ", and "}}{{ else }}aucun{{ end }}',Background,BackgroundWhite)
+          console.log('%c{{ i18n "criteria" 2 }} 50\n%c{{ with ($data.Get "criterecontrol50")  }}{{ delimit ($data.Get "criterecontrol50") ", " ", and "}}{{ else }}aucun{{ end }}',Background,BackgroundWhite)
+          console.log('%c{{ i18n "criteria" 2 }} 81\n%c{{ with ($data.Get "criterecontrol81")  }}{{ delimit ($data.Get "criterecontrol81") ", " ", and "}}{{ else }}aucun{{ end }}',Background,BackgroundWhite)
+          console.log('%c{{ i18n "criteria" 2 }} 106\n%c{{ with ($data.Get "criterecontrol106") }}{{ delimit ($data.Get "criterecontrol106") ", " ", and "}}{{ else }}aucun{{ end }}',Background,BackgroundWhite)
           console.groupEnd();
         </script>
 
-        <h2 class="text-center">Scores{{- with ($data.Get "scores").scores.criteria -}}&nbsp;-&nbsp;{{- .total -}}&nbsp;{{ i18n "text-fail" 2 }}{{ end }}</h2>
+        <h2 class="text-center">Scores{{- with ($data.Get "scores").scores.criteria -}}&nbsp;-&nbsp;{{- .total -}}&nbsp;{{ i18n "text-criteria" 2 }}{{ end }}</h2>
         <time class="text-center" datetime="{{ ($data.Get "date").Format "2006-01-02T15:04:05Z07:00" | safeHTML }}">Le {{ ($data.Get "date").Day }} {{ index hugo.Data.month (printf "%d" ($data.Get "date").Month) }} {{ ($data.Get "date").Year }}</time>
 
         <p class="text-center"><a href="{{ $context.Path }}/declaration/" aria-label="Accéder à la déclaration de {{ ($context.GetPage $project).Title }}">Accéder à la déclaration</a></p>
@@ -264,7 +262,7 @@
               {{- if eq ($data.Get "is-page-error") 0 -}}
               <p>Aucune erreur spécifique sur cette page.</p>
               {{- end -}}
-              {{- if eq (len $condPageConformeExists) ($data.Get "scores").scores.criteria.conforme }}
+              {{- if and (eq (len $condPageConformeExists) ($data.Get "scores").scores.criteria.conforme) (eq ($data.Get "scores").scores.criteria.nonconforme 0) }}
                 <p>Aucune erreur sur cette page.</p>
               {{- end -}}
               {{- if ne (add (int $id) 1) (len ($data.Get "pageslist")) -}}<hr class="divider-strong">{{- end -}}
@@ -310,8 +308,8 @@
   {{- $content        := (index (split $indication "|") 0) -}}
   {{- $comment        := (uniq ((split $indication "|") | symdiff (slice $content))) -}}
   {{- $condcontentlen := gt (len (split $indication "|")) 1 -}}
-  {{- $condcontentnc  := (eq $content "nc") -}}
-  {{- $condcontentc   := (eq $content "c") -}}
+  {{- $condcontentnc  := (eq (lower $content) "nc") -}}
+  {{- $condcontentc   := (eq (lower $content) "c") -}}
   {{- $thematiques    := delimit (first 1 (split (index $value 0) ".")) "" -}}
   {{- $criteria       := index $value 1 -}}
   {{- $tests          := index $value 2 -}}

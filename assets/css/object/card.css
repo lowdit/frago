@@ -71,7 +71,7 @@
   background: var(--background-color-grey-dark);
 }
 
-.card-inline:active {
+.card-inline:has(a):active {
   background: var(--background-color-grey-verydark);
 }
 

@@ -14,9 +14,11 @@
   {{- $path           := cond (eq $path "_content.gotmpl") (string .Path) $path -}}
   {{- $refname        := (lower (index (split (string (replace $path "/en/" "")) "/") 0)) -}}
   {{- $referential    := (partialCached "render/referential-version.html" (dict "context" $ "referential" $refname "lang" .Params.lang) . $refname).guideline -}}
+  {{- $meta           := (partialCached "utils/variables-init.html" . .) -}}
   {{- $lang           := cond .Params.lang .Params.lang .Lang -}}
+  {{- $langurl        := $meta.langurl -}}
   {{- $ref            := index hugo.Data.referential (string $lang) -}}
-  {{- $glossary       := printf "=\"/%s/%s/%s/glossary/$1\"" $lang $referential.name $referential.version -}}
+  {{- $glossary       := printf "=\"/%s%s/%s/glossary/$1\"" $langurl $referential.name $referential.versionshort -}}
   {{- $.Store.Set "file" (partialCached "utils/lang/referential.html" (dict "context" . "referential" $referential) $referential) -}}
   {{- $criteriafile   := ($.Store.Get "file").criteria.topics -}}
   {{- $name := cond (eq $referential.name "rgaa") "accessibility" $referential.name -}}

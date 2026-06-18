@@ -286,7 +286,7 @@
               {{ end -}}
               {{- if .criterion }}
               {{- range (split (replace .criterion " " "") ",") }}
-                {{- $criteriafile := cond (not (index (index (index $.contexthugo.Data $referential.name) $.context.Lang) (string $referential.version))) (index (index (index $.contexthugo.Data $referential.name) "fr") (string $referential.version)) (index (index (index $.contexthugo.Data $referential.name) $.context.Lang) (string $referential.version)) -}}
+                {{- $criteriafile := cond (not (index (index (index hugo.Data $referential.name) $.context.Lang) (string $referential.version))) (index (index (index hugo.Data $referential.name) "fr") (string $referential.version)) (index (index (index hugo.Data $referential.name) $.context.Lang) (string $referential.version)) -}}
                 {{- $criteriafile := $criteriafile.criteria.topics -}}
                 {{- $thematiques  := index (split . ".") 0 -}}
                 {{- $criteria     := index (split . ".") 1 -}}

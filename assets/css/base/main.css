@@ -269,8 +269,10 @@ footer a {
 
 .badge {
   display: inline-block;
-  padding: 0.2em 0.3em;
+  padding: 0.25em 0.3em 0.1em;
+  line-height: 1;
   font-size: 60%;
+  font-weight: normal;
   color: var(--color-grey-verylight);
   border-radius: 5px;
   vertical-align: middle;
