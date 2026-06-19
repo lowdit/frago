@@ -17,37 +17,43 @@
 
   {{/* Build a map with all csv files AND a a map with dates */}}
   {{ if fileExists "content/plans/actions" }}
-      {{ range $id, $value := (readDir "content/plans/actions") }}
-        {{ $data.Add "datesAction" (string (first 4 .Name)) }}
-        {{ $data.SetInMap (printf "actions-%s" (string (first 4 .Name))) (string $id) (printf "content/plans/actions/%s" .Name) }}
-      {{ end }}
+    {{ range $id, $value := (readDir "content/plans/actions") }}
+      {{ $data.Add "datesAction" (string (first 4 .Name)) }}
+      {{ $data.SetInMap (printf "actions-%s" (string (first 4 .Name))) (string $id) (printf "content/plans/actions/%s" .Name) }}
+    {{ end }}
   {{ end }}
 
   {{/* START Loop over date AND next over csv files */}}
   {{ range (uniq ($data.Get "datesAction")) }}
-    {{ $date := . }}
+    {{ $date      := . }}
+    {{ $increment := 1 }}
     {{ $data.Set (printf "listDate-%s" $date) slice }}
     {{ $data.Set (printf "slice-%s" $date) dict }}
     {{/* Feed an array with all action in a file */}}
     {{ if ($data.Get (printf "actions-%s" .)) }}
       {{ range $id, $value := ($data.Get (printf "actions-%s" .)) }}
         {{ if (not (in . "false")) }}
-          {{ $data.Set (printf "slice-%s" $date) (merge ($data.Get (printf "slice-%s" $date)) (dict (string $id) (index (after 1 (readFile . | transform.Unmarshal (dict "delimiter" ",") )) 0))) }}
+          {{ range $index, $line := (after 1 (readFile . | transform.Unmarshal (dict "delimiter" ","))) }}
+             {{ $data.Set (printf "slice-%s" $date) (merge ($data.Get (printf "slice-%s" $date)) (dict (string $increment) .)) }}
+             {{ $increment = add $increment 1 }}
+          {{ end }}
           {{ $data.Add (printf "listDates-%s" $date) (slice (((os.Stat .).ModTime).Format "02/01/2006")) }}
         {{ end }}
       {{ end }}
       {{/* Feed a map where key is the date */}}
       {{ $data.SetInMap (printf "listActions-%s" $date) "Opérations diverses" ($data.Get (printf "slice-%s" $date)) }}
+      {{ $data.SetInMap (printf "listActions1-%s" $date) "Opérations diverses" ($data.Get (printf "slice-%s" $date)) }}
       {{/* Feed final map */}}
-      {{ $data.SetInMap "allDates"   (printf "%s" $date) ($data.Get (printf "listDates-%s" $date)) }}
-      {{ $data.SetInMap "allActions" (printf "%s" $date) ($data.Get (printf "listActions-%s" $date)) }}
+      {{ $data.SetInMap "allDates"      (printf "%s" $date) ($data.Get (printf "listDates-%s" $date)) }}
+      {{ $data.SetInMap "allActions"    (printf "%s" $date) ($data.Get (printf "listActions-%s" $date)) }}
+      {{ $data.SetInMap "globalActions" (printf "%s" $date) ($data.Get (printf "listActions1-%s" $date)) }}
     {{ end }}
   {{ end }}
   {{/* END Loop over general actions */}}
 
   {{/* START Loop over services actions */}}
-  {{ with (where $.Site.RegularPages "Section" "audits") }}
-    {{ range . }}
+  {{ with (where $.Site.Pages "Section" "audits") }}
+    {{ range . }}{{ if eq .Kind "section" }}
       {{ $title    := .Title }}
       {{ $project  := partialCached "render/projectpath" . . }}
       {{ $lastfile := partialCached "render/lastfile.html" (dict "context" . "project" $project "type" "actions") $project "actions" }}
@@ -69,21 +75,25 @@
             {{/* Feed a map where key is the date */}}
             {{ $data.Add      (printf "listDates-%s" $date) (slice (((os.Stat .).ModTime).Format "02/01/2006")) }}
             {{ $data.SetInMap (printf "listActions-%s" $date) (printf "%s" $title) ($data.Get (printf "%s%s" $title $date)) }}
+            {{ $data.SetInMap (printf "listActions2-%s" $date) (printf "%s" $title) ($data.Get (printf "%s%s" $title $date)) }}
             {{/* Feed final map */}}
-            {{ $data.SetInMap "allDates"   (printf "%s" $date) ($data.Get (printf "listDates-%s" $date)) }}
-            {{ $data.SetInMap "allActions" (printf "%s" $date) ($data.Get (printf "listActions-%s" $date)) }}
+            {{ $data.SetInMap "allDates"       (printf "%s" $date) ($data.Get (printf "listDates-%s" $date)) }}
+            {{ $data.SetInMap "allActions"     (printf "%s" $date) ($data.Get (printf "listActions-%s" $date)) }}
+            {{ $data.SetInMap "projectActions" (printf "%s" $date) ($data.Get (printf "listActions2-%s" $date)) }}
           {{/*- end -*/}}
           {{ end }}
         {{ end }}
       {{ end }}
-    {{ end }}
+    {{ end }}{{ end }}
     {{/* END Loop over services actions */}}
   {{ end }}
   {{/* END Loop over all actions */}}
 
 {{ return
   (dict
-    "actions" ($data.Get "allActions")
-    "dates"   ($data.Get "allDates")
+    "actions"        ($data.Get "allActions")
+    "globalactions"  ($data.Get "globalActions")
+    "projectActions" ($data.Get "projectActions")
+    "dates"          ($data.Get "allDates")
   )
 }}

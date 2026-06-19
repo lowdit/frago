@@ -79,7 +79,7 @@
     {{ end }}
     </div>
     {{- if and (ne $project "audits") (not (partialCached "render/issimpleproject.html" "arg" "arg")) -}}
-      {{- if and (not (in (path.Base $path) "index.md"))  (not (in (path.Base $path) "_content.gotmpl")) -}}
+      {{- if and (not (in (path.Base $path) "index.md")) (not (in (path.Base $path) "_content.gotmpl")) -}}
         <article class="fg-wrapper narrow">
           {{ partialCached "elements/content.html" .Content .Content }}
         </article>

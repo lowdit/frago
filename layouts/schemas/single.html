@@ -3,8 +3,14 @@ Schéma Pluriannuel
 {{- end -}}
 {{- define "main" -}}
 {{- $path     := "" }}{{ with .File }}{{ $path = .Path }}{{ end }}
-{{- $file     := (index (last 1 (where $.Site.RegularPages "Section" "schemas")) 0) -}}
-{{- $pathfile := "" }}{{ with $file.File }}{{ $pathfile = .Path }}{{ end }}
+{{- partialCached "utils/css.html" (dict "context" . "filefolder" "overgo/config/" "filename" "colors" "inline" "true") "colors" -}}
+{{- partialCached "utils/css.html" (dict "context" . "filefolder" "overgo/config/" "filename" "typography" "inline" "true") "typography" -}}
+{{- partialCached "utils/css.html" (dict "context" . "filefolder" "overgo/tool/" "filename" "utilities" "inline" "true") "utilities" -}}
+{{- partialCached "utils/css.html" (dict "context" . "filefolder" "base" "filename" "layout" "inline" "true") "layout" -}}
+{{- partialCached "utils/css.html" (dict "context" . "filefolder" "base" "filename" "main" "inline" "true") "main" -}}
+{{- partialCached "utils/css.html" (dict "context" . "filefolder" "element" "filename" "table") "table" -}}
+{{- $file         := (index (last 1 (where $.Site.RegularPages "Section" "schemas")) 0) -}}
+{{- $pathfile     := "" }}{{ with $file.File }}{{ $pathfile = .Path }}{{ end }}
 {{- $path         := cond (eq $path "schema.md") $pathfile $path -}}
 {{- $organisation := cond (not .Params.organisation) .Site.Params.organisation .Params.organisation -}}
 {{- $contact      := cond (not .Params.contacts) .Site.Params.contacts .Params.contacts -}}
@@ -16,7 +22,6 @@ Schéma Pluriannuel
 {{- $teamNumber   := .Params.team.number -}}
 {{- $webNumber    := cond (not .Params.website.number) (len (where .Site.RegularPages "Section" "audits")) (.Params.website.number) -}}
 {{- $appNumber    := cond (not .Params.application.number) "" (.Params.application.number) -}}
-{{- partialCached "utils/css.html" (dict "context" . "filefolder" "element" "filename" "table") "table" -}}
 <article class="fg-wrapper narrow">
     {{- if eq (getenv "HUGO_ENV") "dev" -}}
     <div hidden>
@@ -254,7 +259,7 @@ Schéma Pluriannuel
         <tr>
           <td>{{ .Title }}</td>
           <td class="text-center">Site web</td>
-          <td class="text-center">{{ with (partialCached "render/context.html" (dict "context" . "project" (partialCached "render/projectpath" . .)) (partialCached "render/projectpath" . .)).website }}{{ . }}{{ else }}NA{{- end -}}</td>
+          <td class="text-center">{{ with (partialCached "render/context.html" (dict "context" . "project" (partialCached "render/projectpath" . .)) .) }}{{ (index (last 1 (sort .)) 0).website }}{{ else }}NA{{- end -}}</td>
         </tr>
       {{- end -}}
     {{ end -}}

@@ -8,41 +8,137 @@
 {{- $path := "" }}{{ with .File }}{{ $path = .Path }}{{ end }}
 {{- $pagedate := replace (path.Base $path) (path.Ext $path) "" -}}
 {{- $kind     := .Kind -}}
+{{- $data     := newScratch -}}
 
 {{/* START Write table with all actions */}}
-{{- with (partialCached "render/actions.html" .) -}}
-<table>
+{{- with (partialCached "render/actions.html" . .) -}}
+
+{{ range $key, $value := (index (index . "globalactions") $pagedate) }}
+  {{ range . }}
+    {{ $data.Set (string (index . 0)) slice }}
+  {{ end }}
+  {{ range $id, $value := . }}
+    {{ $data.SetInMap (printf "ss%s" (index . 0)) (string $id) $value }}
+    {{ $data.SetInMap "actions" (string (index . 0)) ($data.Get (printf "ss%s" (index . 0))) }}
+  {{ end }}
+{{ end }}
+
+{{ range $key, $value := $data.Get "actions" }}
+  <h4>{{ $key }}</h4>
+  <table>
   <thead>
     <tr>
-      <th class="text-left">Démarches</th>
-      <th class="text-left">Type</th>
+      <th class="text-left">Service</th>
+      <th>Type</th>
       <th>Action</th>
       <th>Détails</th>
       <th>Avancement</th>
     </tr>
   </thead>
   <tbody>
-  {{- range $key, $value := (index (index . "actions") $pagedate) }}
+  {{- range $key, $value := . }}
+      {{- template "table" (dict "key" "" "value" .) }}
+  {{- end -}}
+  </tbody>
+</table>
+{{ end }}
+<hr>
+<h3 hidden>Actions générales</h3>
+<table hidden>
+  <thead>
+    <tr>
+      <th class="text-left">Service</th>
+      <th>Type</th>
+      <th>Action</th>
+      <th>Détails</th>
+      <th>Avancement</th>
+    </tr>
+  </thead>
+  <tbody>
+  {{- range $key, $value := (index (index . "globalactions") $pagedate) }}
       {{- range . -}}
-      <tr>
-        <td>{{ $key }}</td>
-        {{- range . -}}
-        <td>
-          {{- with . -}}
-          {{- if findRE "(\\d{2})-(\\d{2})" . }}
-          De {{ index hugo.Data.month (string (float (index (split . "-") 0))) }} à {{ index hugo.Data.month (string (float (index (split . "-") 1))) }} {{ (string (now.Format "2006")) -}}
-          {{- else if (findRE "(\\d{2})/(\\d{2})" .) }}
-          le {{ (float (index (split . "/") 0)) }} {{ index hugo.Data.month (string (float (index (split . "/") 1))) }} {{ (string (now.Format "2006")) -}}
-          {{- else -}}
-          {{ . }}
-          {{- end -}}
-          {{- end -}}
-        </td>
-        {{- end -}}
-        </tr>
+        {{- template "table" (dict "key" "" "value" .) }}
+      {{- end -}}
+  {{ end -}}
+  </tbody>
+</table>
+
+<h3>Actions spécifiques aux services numériques</h3>
+<table>
+  <thead>
+    <tr>
+      <th class="text-left">Démarches</th>
+      <th>Type</th>
+      <th>Action</th>
+      <th>Détails</th>
+      <th>Avancement</th>
+    </tr>
+  </thead>
+  <tbody>
+  {{- range $key, $value := (index (index . "projectActions") $pagedate) }}
+      {{- range . -}}
+        {{- template "table" (dict "key" $key "value" .) }}
       {{- end -}}
   {{ end -}}
   </tbody>
 </table>
 {{- end -}}
 {{/* END Write table with all actions */}}
+
+{{ define "table" }}
+  {{- $key := .key }}
+  {{- $value := .value }}
+  <tr>
+    {{ with $key }}<th class="text-left"><b>{{ . }}</b></th>{{ end }}
+    {{- range $id, $value := $value -}}
+    {{ if and (eq $id 0) (not $key) }}<th class="text-left"><b>{{ else }}<td>{{ end }}
+      {{- with . -}}
+      {{- $cell := . -}}
+      {{- $regex1 := (findRE "(\\d{2})-(\\d{2})" .) }}
+      {{- $regex2 := (findRE "(\\d{2})/(\\d{2})" .) }}
+      {{- $regex3 := (findRE "((\\d{2})/(\\d{2})/(\\d{4}))" .) }}
+      {{- $first := "" }}
+      {{- $last  := "" }}
+      {{- with $regex1 }}
+      {{- $sub := split (index (index (findRESubmatch "(.*)(\\d{2})-(\\d{2})(.*)" $cell) 0) 0) " " -}}
+      {{- range $id, $value := $sub }}
+        {{- if (eq $id 0) }}
+          {{- $first = cond (and (eq $id 0) (eq . (index $regex1 0))) "" . }}
+        {{ end -}}
+        {{ $last = cond (eq . (index $regex1 0)) "" . }}
+      {{ end -}}
+      {{ $first }}
+      de {{ index hugo.Data.month (string (float (index (split (index . 0) "-") 0))) }} à {{ index hugo.Data.month (string (float (index (split (index . 0) "-") 1))) }} {{ (string (now.Format "2006")) -}}
+      &nbsp;{{ $last }}
+      {{- end -}} 
+      {{- if $regex3 }}
+      {{- $sub := split (index (index (findRESubmatch "(.*)((\\d{2})/(\\d{2})/(\\d{4}))(.*)" $cell) 0) 0) " " -}}
+      {{- range $id, $value := $sub }}
+        {{- if (eq $id 0) }}
+          {{- $first = cond (and (eq $id 0) (eq . (index $regex3 0))) "" . }}
+        {{ end -}}
+        {{ $last = cond (eq . (index $regex3 0)) "" . }}
+      {{ end -}}
+      {{ $first }}
+      le {{ (float (index (split (index $regex3 0) "/") 0)) }} {{ index hugo.Data.month (string (float (index (split (index $regex3 0) "/") 1))) }} {{ string (float ((index (split (index $regex3 0) "/") 2))) -}}
+      {{ $last }}
+      {{- else if $regex2 -}}
+      {{- $sub := split (index (index (findRESubmatch "(.*)(\\d{2})/(\\d{2})(.*)" $cell) 0) 0) " " -}}
+      {{- range $id, $value := $sub }}
+        {{- if (eq $id 0) }}
+          {{- $first = cond (and (eq $id 0) (eq . (index $regex2 0))) "" . }}
+        {{ end -}}
+        {{ $last = cond (eq . (index $regex2 0)) "" . }}
+      {{ end -}}
+      {{ $first }}
+      le {{ (float (index (split (index $regex2 0) "/") 0)) }} {{ index hugo.Data.month (string (float (index (split (index $regex2 0) "/") 1))) }} {{ (string (now.Format "2006")) -}}
+      {{ $last }}
+      {{- end -}}
+      {{ if and (not $regex1) (not $regex2) }}
+      {{ . }}
+      {{- end -}}
+      {{- end -}}
+    {{if and (eq $id 0) (not $key) }}</b></th>{{ else }}</td>{{ end }}
+    {{- end -}}
+  </tr>
+{{ end }}

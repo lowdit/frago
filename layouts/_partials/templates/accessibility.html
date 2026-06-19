@@ -16,7 +16,7 @@
 {{- $projectTitle := $meta.projectTitle -}}
 
 {{- $data.Set "pageslist" "" -}}
-{{- $data.Set "scores"    "" -}}
+{{- $data.Set "scores"   "" -}}
 
 {{ if and (in "/audits/_index.md" $path) (not (partialCached "render/issimpleproject.html" "arg" "arg")) }}
   <section class="fg-wrapper">
