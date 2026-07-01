@@ -37,7 +37,7 @@
   {{- $data.Set "scores" (partialCached "render/accessibility.html" (dict "context" $context "auditfile" ($data.Get "auditpath-csv")) ($data.Get "auditpath-csv")) -}}
   {{- $date := (string (index $audit "auditfile-name")) -}}
 
-  {{ with ($data.Get "contextmain") }}
+  {{- with ($data.Get "contextmain") }}
     {{- $contextlast := cond (not (index . $date)) (index (last 1 (sort .)) 0) (index . $date) -}}
     
     {{- $data.Set "organisation"  (cond (not $contextlast.organisation) (cond (not $context.Params.organisation) (cond (not $context.Site.Params.organisation) "" $context.Site.Params.organisation) $context.Params.organisation) $contextlast.organisation) -}}
@@ -57,6 +57,8 @@
   {{/* START If "context" */}}
 
   {{- with ($data.Get "context") -}}
+
+
     <h1 id="declaration">Déclaration d’accessibilité RGAA</h1>
     <section>
       {{/* START If "organisation" */}}
@@ -71,6 +73,9 @@
         </ul>
         {{- end -}}
         {{- with .website -}}<p>Cette déclaration d’accessibilité s’applique à {{ partialCached "utils/isURL.html" (dict "context" $context "projectTitle" .) . }}.</p>{{ end }}
+        {{ with .note }}
+          {{ . | markdownify }}
+        {{ end }}
       {{ end }}
       {{/* END If "organisation" */}}
       <h2>État de conformité</h2>
@@ -98,7 +103,7 @@
       <h3>Résultats des tests</h3>
       {{/* START If criteria */}}
       {{- if ($data.Get "scores").criteria -}}
-        <p>L’audit de conformité{{ with (time $date) }}, du {{ .Day }} {{ index hugo.Data.month (printf "%d" .Month) }} {{ .Year }}, {{ end }}{{ with .condition }}réalisé par {{ . }}{{ end }} révèle que :</p>
+        <p>L’audit de conformité{{ with (time $date) }}, du {{ .Day }} {{ index hugo.Data.month (printf "%d" .Month) }} {{ .Year }}, {{ end }}{{ with ($data.Get "context").audit}}{{ with .condition }}réalisé par <b>{{ . }}</b>{{ end }}{{ end }} révèle que :</p>
         <ul>
           {{- with partialCached "render/externals" (dict "context" $context "project" $project "auditfile" ($data.Get "auditpath-csv")) $context $project ($data.Get "auditpath-csv") -}}
           {{- $map := . -}}
