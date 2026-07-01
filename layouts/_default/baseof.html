@@ -144,16 +144,20 @@
   {{- with ($.Scratch.Get "isCSS") -}}
   {{- range . }}
   <link rel="stylesheet" href="{{ $.Site.BaseURL | default "/" }}assets/css/{{ .Name }}" {{/* media="print" onload="this.media='all'" */}}/>
+  {{/*
   <noscript>
     <link rel="stylesheet" href="{{ $.Site.BaseURL | default "/" }}assets/css/{{ .Name }}" media="screen">
   </noscript>
+  */}}
   {{- end -}}
   {{- else -}}
   <link rel="preload" href="{{ $.Site.BaseURL | default "/" }}assets/css/fonts.css" as="style">
-  <link rel="stylesheet" href="{{ $.Site.BaseURL | default "/" }}assets/css/fonts.css" media="print" onload="this.media='all'" />
+  <link rel="stylesheet" href="{{ $.Site.BaseURL | default "/" }}assets/css/fonts.css" {{/* media="print" onload="this.media='all'" */}} />
+  {{/*
   <noscript>
     <link rel="stylesheet" href="{{ $.Site.BaseURL | default "/" }}assets/css/fonts.css" media="screen">
   </noscript>
   {{- end -}}
+  */}}
 </body>
 </html>
